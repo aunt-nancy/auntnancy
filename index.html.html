@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AuntNancy.org — Foster Care Resources</title>
+<meta name="description" content="Free tools, real answers, and local resources for foster youth, foster parents, kinship caregivers, and social workers.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0c0a08;--gold:#C8923A;--gold-lt:#E4BE78;
+  --cream:#F5F0E6;--warm:#FAF7F0;--warm-dk:#1e1a14;
+  --sage:#2A6649;--sage-lt:#3d8f63;--navy:#19375A;
+  --plum:#582A68;--rust:#883618;
+  --border:#DDD5C5;--muted:#8a7e6e;--text:#201a14;--r:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--warm);color:var(--text);overflow-x:hidden}
+h1,h2,h3,h4,h5{font-family:'Cormorant Garamond',serif}
+a{text-decoration:none;color:inherit;cursor:pointer}
+img{max-width:100%}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes shimmer{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0);background:#444}30%{transform:translateY(-5px);background:var(--gold)}}
+.fu{animation:fadeUp .6s ease both}.fu2{animation:fadeUp .6s .1s ease both}.fu3{animation:fadeUp .6s .2s ease both}
+/* CRISIS */
+.crisis{background:#180606;padding:7px 48px;display:flex;justify-content:center;flex-wrap:wrap;border-bottom:1px solid #280a0a}
+.crisis p{font-size:11px;color:white;letter-spacing:.04em;line-height:1.8;text-align:center;font-weight:700}
+.crisis strong{color:white;font-weight:800}
+.crisis-sep{color:#5a2020;padding:0 6px;font-weight:400}
+/* HEADER */
+.site-header{position:sticky;top:0;z-index:200;background:var(--ink);box-shadow:0 2px 20px rgba(0,0,0,.4)}
+.util-row{background:#080604;padding:5px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #161210}
+.geo-wrap{display:flex;align-items:center;gap:8px}
+.geo-spinner{width:11px;height:11px;border:2px solid #1e2e1e;border-top-color:var(--sage);border-radius:50%;animation:spin .8s linear infinite}
+.geo-loading{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
+.geo-pill{display:none;align-items:center;gap:6px;cursor:pointer}
+.geo-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2.5s infinite;flex-shrink:0}
+.geo-place{font-size:11px;color:#a0d4b0;font-weight:500}
+.geo-change{font-size:10px;color:#444;border-bottom:1px dashed #333;cursor:pointer;margin-left:2px}
+.geo-change:hover{color:var(--gold-lt)}
+.util-right{display:flex;align-items:center;gap:10px}
+.lang-wrap{position:relative}
+.lang-btn{display:flex;align-items:center;gap:5px;cursor:pointer;font-size:11px;color:#666;padding:3px 9px;border-radius:3px;border:1px solid #1e1a12}
+.lang-btn:hover{border-color:var(--gold);color:var(--gold-lt)}
+.lang-dd{display:none;position:absolute;top:calc(100% + 5px);right:0;background:#181410;border:1px solid #2e2818;border-radius:var(--r);min-width:210px;z-index:400;box-shadow:0 12px 40px rgba(0,0,0,.6);overflow:hidden}
+.lang-dd.open{display:block;animation:slideDown .18s ease}
+.lang-opt{display:flex;align-items:center;gap:9px;padding:8px 13px;cursor:pointer;border-bottom:1px solid #1e1a12;font-size:12px;color:#bbb}
+.lang-opt:last-child{border-bottom:none}
+.lang-opt:hover,.lang-opt.act{background:rgba(200,146,58,.1);color:var(--gold-lt)}
+.lang-native{font-size:10px;color:#555;margin-left:auto}
+.util-auth{display:flex;align-items:center;gap:7px}
+.util-signin{font-size:11px;color:#777;cursor:pointer}
+.util-signin:hover{color:var(--gold-lt)}
+.util-sep{color:#2a2418;font-size:11px}
+.util-signup{font-size:11px;font-weight:700;color:var(--gold);cursor:pointer}
+.util-avatar{display:none;align-items:center;gap:7px;cursor:pointer;position:relative}
+.av-circle{width:26px;height:26px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink);flex-shrink:0}
+.av-name{font-size:11px;color:#aaa}
+.av-dd{display:none;position:absolute;top:calc(100% + 7px);right:0;background:#181410;border:1px solid #2e2818;border-radius:var(--r);min-width:170px;z-index:400;box-shadow:0 12px 40px rgba(0,0,0,.6);overflow:hidden}
+.util-avatar:hover .av-dd{display:block;animation:slideDown .18s ease}
+.av-dd-hd{padding:10px 14px;border-bottom:1px solid #201c14}
+.av-dd-name{font-size:12px;color:white;font-weight:600}
+.av-dd-email{font-size:10px;color:#555;margin-top:1px}
+.av-item{display:flex;align-items:center;gap:8px;padding:9px 14px;cursor:pointer;font-size:12px;color:#bbb;border-bottom:1px solid #1e1a12}
+.av-item:last-child{border-bottom:none}
+.av-item:hover{background:rgba(255,255,255,.04);color:white}
+.av-item.danger{color:#e07070}
+/* NAV ROW */
+.nav-row{padding:0 48px;display:flex;align-items:center;height:56px;border-bottom:1px solid #1e1a12}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:white;letter-spacing:.08em;flex-shrink:0;margin-right:28px;cursor:pointer}
+.nav-logo em{color:var(--gold);font-style:normal}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1}
+.nav-link{padding:6px 13px;border-radius:4px;font-size:13px;color:#999;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;border:none;background:none;font-family:'DM Sans',sans-serif}
+.nav-link:hover{color:white;background:rgba(255,255,255,.05)}
+.nav-link.on{color:white;background:rgba(255,255,255,.07);border-bottom:2px solid var(--gold)}
+.nav-ask{background:var(--gold);color:var(--ink)!important;padding:7px 16px;border-radius:4px;font-weight:700!important;margin-left:auto;flex-shrink:0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-ask:hover{background:var(--gold-lt)}
+/* ROLE ROW */
+.role-row{padding:0 48px;display:flex;align-items:stretch;height:40px;background:#100e0a;border-bottom:1px solid #2a2218}
+.role-label{font-size:10px;color:#444;letter-spacing:.12em;text-transform:uppercase;align-self:center;margin-right:14px;flex-shrink:0;font-weight:600}
+.role-tabs{display:flex;align-items:stretch;gap:0}
+.role-tab{display:flex;align-items:center;gap:7px;padding:0 15px;font-size:13px;color:#666;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .2s}
+.role-tab:hover{color:#ccc;background:rgba(255,255,255,.03)}
+.role-tab.on{color:white}
+.role-tab.youth.on{border-bottom-color:var(--sage);color:#74c69d}
+.role-tab.parent.on{border-bottom-color:var(--navy);color:#7eb8f7}
+.role-tab.kinship.on{border-bottom-color:var(--rust);color:#f4a56a}
+.role-tab.worker.on{border-bottom-color:var(--plum);color:#c49edf}
+.role-tab.all.on{border-bottom-color:var(--gold);color:var(--gold-lt)}
+.role-right{margin-left:auto;display:flex;align-items:center}
+.loc-chip{font-size:11px;color:#a0d4b0;cursor:pointer;padding:0 4px}
+.loc-chip:hover{color:var(--gold-lt)}
+/* MODALS */
+.overlay{display:none;position:fixed;inset:0;z-index:700;background:rgba(8,6,4,.88);align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal-box{background:#111009;border:1px solid #2e2818;border-radius:14px;width:440px;max-width:94vw;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.8);animation:fadeUp .25s ease}
+.modal-hd{background:linear-gradient(135deg,#1a1208,#0e0c08);padding:28px 34px 20px;border-bottom:1px solid #1e1810;position:relative}
+.modal-hd h3{font-size:28px;color:white;margin-bottom:4px}
+.modal-hd p{font-size:12.5px;color:#666;line-height:1.6}
+.modal-close{position:absolute;top:14px;right:16px;font-size:17px;color:#444;cursor:pointer;background:none;border:none;font-family:inherit}
+.modal-close:hover{color:#aaa}
+.modal-body{padding:24px 34px 30px}
+.auth-tabs{display:flex;margin-bottom:18px;border-radius:5px;overflow:hidden;border:1px solid #2a2418;background:#0a0806}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:600;cursor:pointer;color:#666;border:none;background:transparent;font-family:'DM Sans',sans-serif;transition:all .2s}
+.auth-tab.on{background:var(--gold);color:var(--ink)}
+.auth-panel{display:none}
+.auth-panel.on{display:block;animation:fadeIn .2s ease}
+.af{margin-bottom:11px}
+.af label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#555;margin-bottom:5px}
+.af input,.af select{width:100%;padding:10px 13px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:13px}
+.af input:focus,.af select:focus{outline:none;border-color:var(--gold)}
+.af-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:4px}
+.role-opt{padding:9px 10px;border-radius:5px;cursor:pointer;border:1px solid #2a2418;background:#0a0806;text-align:center;transition:all .2s}
+.role-opt.on{border-color:var(--gold);background:rgba(200,146,58,.08)}
+.role-ico{font-size:18px;margin-bottom:3px}
+.role-lbl{font-size:11px;color:#bbb;font-weight:500}
+.role-opt.on .role-lbl{color:var(--gold-lt)}
+.terms-row{display:flex;align-items:flex-start;gap:9px;margin:12px 0}
+.terms-cb{width:15px;height:15px;accent-color:var(--gold);flex-shrink:0;margin-top:2px;cursor:pointer}
+.terms-txt{font-size:11px;color:#555;line-height:1.6}
+.terms-txt a{color:var(--gold)}
+.auth-msg{padding:9px 13px;border-radius:5px;font-size:12px;margin-bottom:14px;display:none;line-height:1.5}
+.auth-msg.error{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.25);color:#e07070}
+.auth-msg.success{background:rgba(42,102,73,.12);border:1px solid rgba(42,102,73,.25);color:#7ac49a}
+.auth-msg.show{display:block;animation:fadeUp .2s ease}
+.pw-strength{height:3px;border-radius:2px;margin-top:5px;background:#1a1610}
+.pw-bar{height:100%;border-radius:2px;transition:all .3s;width:0}
+.pw-lbl{font-size:10px;color:#444;margin-top:3px}
+.auth-btn{width:100%;padding:12px;border-radius:5px;background:var(--gold);color:var(--ink);border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px}
+.auth-btn:hover{background:var(--gold-lt)}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:14px 0}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#1e1810}
+.auth-divider span{font-size:11px;color:#444}
+.auth-alt{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.auth-alt-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border-radius:5px;border:1px solid #2a2418;background:#0a0806;font-size:12px;color:#bbb;cursor:pointer;font-family:'DM Sans',sans-serif}
+.auth-alt-btn:hover{color:white}
+.auth-footer{margin-top:14px;text-align:center;font-size:12px;color:#555}
+.auth-footer a{color:var(--gold);cursor:pointer}
+.loc-modal-inner{padding:24px 32px 28px}
+.loc-modal-inner h3{font-size:24px;color:white;margin-bottom:4px}
+.loc-modal-inner p{font-size:12.5px;color:#666;margin-bottom:18px;line-height:1.6}
+.mi{margin-bottom:11px}
+.mi label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#555;margin-bottom:5px}
+.mi select,.mi input{width:100%;padding:10px 13px;background:#0e0c0a;border:1px solid #3a3020;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:13px}
+.mi select:focus,.mi input:focus{outline:none;border-color:var(--gold)}
+.modal-btns{display:flex;gap:9px;margin-top:16px}
+.modal-save{flex:1;background:var(--gold);color:var(--ink);border:none;padding:11px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.modal-cancel{background:transparent;border:1px solid #2a2218;color:#777;padding:11px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+/* PAGES */
+.page{display:none}.page.on{display:block;animation:fadeIn .3s ease}
+/* SHARED */
+.eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block}
+.container{max-width:1200px;margin:0 auto;padding:0 48px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-gold{background:var(--gold);color:var(--ink)}.btn-gold:hover{background:var(--gold-lt)}
+.btn-dark{background:var(--ink);color:white}
+.btn-outline{border:1px solid rgba(255,255,255,.25);color:white;background:transparent}.btn-outline:hover{background:rgba(255,255,255,.07)}
+.section{padding:52px 0}
+.ph-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.ph-img{width:100%;border-radius:var(--r);object-fit:cover;height:320px;opacity:.7}
+.role-accent{height:4px;border-radius:2px;width:40px;margin-bottom:16px}
+.rph1{font-size:50px;color:white;line-height:1.0;margin-bottom:11px}
+.rpp{font-size:14px;color:rgba(255,255,255,.55);line-height:1.8;font-weight:300;margin-bottom:22px;max-width:480px}
+.ph-btns{display:flex;gap:12px;flex-wrap:wrap}
+.stats-row{display:flex;gap:0;padding:22px 0;border-top:1px solid rgba(255,255,255,.08);margin-top:20px}
+.stat{padding:0 26px 0 0;border-right:1px solid rgba(255,255,255,.07)}
+.stat:first-child{padding-left:0}.stat:last-child{border-right:none}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1}
+.stat-lbl{font-size:11px;color:rgba(255,255,255,.4);margin-top:3px;line-height:1.4}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .22s}
+.card:hover{box-shadow:0 6px 20px rgba(0,0,0,.1);transform:translateY(-2px)}
+.card-pad{padding:20px 22px}
+.card-tag{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 9px;border-radius:9px;display:inline-block;margin-bottom:8px}
+.card-title{font-size:18px;color:var(--ink);margin-bottom:6px;line-height:1.25}
+.card-body{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:10px}
+.card-strategy{background:rgba(42,102,73,.06);border:1px solid rgba(42,102,73,.14);border-radius:5px;padding:9px 12px;font-size:12px;color:var(--sage);line-height:1.55;margin-top:8px}
+.card-foot{padding:11px 22px;background:var(--cream);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.res-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .2s}
+.res-card:hover{border-color:var(--gold);box-shadow:0 3px 10px rgba(0,0,0,.07);transform:translateX(3px)}
+.rc-t{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px}
+.rc-s{font-size:11px;color:var(--muted)}
+.rc-arr{color:var(--gold);font-size:14px;flex-shrink:0}
+.needs{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.need{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--text);line-height:1.5}
+.nd{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.qcard{background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px;border-left:3px solid var(--gold)}
+.qcard-text{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink);line-height:1.55;margin-bottom:9px;font-style:italic}
+.qcard-attr{font-size:11px;color:var(--muted);font-weight:600}
+.qcard-loc{color:var(--gold)}
+/* TEMPLATES */
+.tpl-card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .22s;position:relative}
+.tpl-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.1);border-color:var(--gold);transform:translateY(-2px)}
+.tpl-top{padding:18px 20px 14px}
+.tpl-tr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.tpl-title{font-size:18px;color:var(--ink);margin-bottom:5px;line-height:1.2}
+.tpl-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:9px}
+.tpl-cite{font-size:10.5px;color:#aaa;font-family:monospace;background:var(--cream);padding:3px 8px;border-radius:3px;display:inline-block}
+.tpl-foot{padding:12px 20px;background:var(--cream);border-top:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.tpl-btn{padding:7px 14px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
+.tpl-dl{background:var(--ink);color:white}.tpl-dl:hover{background:#1a1410}
+.tpl-ul{background:var(--gold);color:var(--ink)}.tpl-ul:hover{background:var(--gold-lt)}
+.tpl-fmt{font-size:10.5px;color:var(--muted);margin-left:auto}
+.tpl-lock-ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(250,247,240,.65);backdrop-filter:blur(3px);opacity:0;transition:opacity .2s}
+.tpl-card.locked:hover .tpl-lock-ov{opacity:1}
+/* HOME */
+.home-hero{background:var(--ink);min-height:82vh;display:grid;grid-template-columns:58% 42%;overflow:hidden}
+.home-l{padding:64px 52px 64px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;z-index:2}
+.home-r{position:relative;overflow:hidden}
+.home-r img{width:100%;height:100%;object-fit:cover;object-position:center 15%;opacity:.92}
+.home-r::before{content:'';position:absolute;top:0;bottom:0;left:0;width:50px;z-index:1;background:linear-gradient(to right,var(--ink),transparent)}
+.home-r::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;z-index:1;background:linear-gradient(to top,var(--ink),transparent)}
+.home-h1{font-size:64px;color:white;line-height:.97;margin-bottom:18px;font-weight:700}
+.home-h1 em{color:var(--gold);font-style:italic;display:block}
+.home-sub{font-size:15px;color:rgba(255,255,255,.6);line-height:1.8;max-width:400px;margin-bottom:30px;font-weight:300}
+.home-btns{display:flex;gap:11px;margin-bottom:44px;flex-wrap:wrap}
+.role-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:38px 0}
+.role-card{background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.role-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.role-card.y::after{background:var(--sage)}.role-card.p::after{background:var(--navy)}
+.role-card.k::after{background:var(--rust)}.role-card.w::after{background:var(--plum)}
+.role-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.role-card:hover::after{transform:scaleX(1)}
+.rc-ico{font-size:30px;margin-bottom:11px}
+.rc-title{font-size:20px;color:var(--ink);margin-bottom:5px}
+.rc-desc{font-size:12.5px;color:var(--muted);line-height:1.65;margin-bottom:13px}
+.rc-link{font-size:12px;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:4px}
+/* LOCAL */
+.local-sec{background:var(--warm-dk);padding:44px 0}
+.local-h{font-size:34px;color:white;margin-bottom:3px}
+.local-sub{font-size:13px;color:#555;margin-bottom:18px}
+.agency-bar{display:flex;align-items:center;gap:11px;background:rgba(42,102,73,.12);border:1px solid rgba(42,102,73,.2);border-radius:6px;padding:11px 16px;margin-bottom:15px;flex-wrap:wrap}
+.ab-name{font-size:13px;color:#a0d4b0;font-weight:600}
+.ab-phone{font-size:12px;color:var(--gold-lt);margin-left:auto}
+.local-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lc-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:14px 16px;cursor:pointer;transition:all .2s}
+.lc-card:hover{background:rgba(255,255,255,.08);border-color:rgba(200,146,58,.3);transform:translateY(-2px)}
+.lc-tag{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.lc-title{font-size:14px;font-weight:600;color:white;margin-bottom:3px;line-height:1.3}
+.lc-sub{font-size:11.5px;color:#555}
+/* RESEARCH */
+.rs-strip{background:var(--navy);padding:44px 0}
+.rs-inner{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:180px 1fr;gap:48px;align-items:center}
+.rs-num{font-family:'Cormorant Garamond',serif;font-size:66px;font-weight:700;color:var(--gold);line-height:1}
+.rs-lbl{font-size:13px;color:rgba(255,255,255,.4);line-height:1.7;margin-top:6px}
+.rs-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.rs-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:14px;cursor:pointer}
+.rs-card:hover{background:rgba(255,255,255,.09);border-color:rgba(200,146,58,.3)}
+.rs-src{font-size:9px;color:#7eb8f7;letter-spacing:.13em;text-transform:uppercase;margin-bottom:5px;font-weight:700}
+.rs-title{font-size:13px;color:white;line-height:1.4}
+/* ROLE HERO BGs */
+.rhy{background:linear-gradient(150deg,#061210,#0a1e14,#0e2818)}
+.rhp{background:linear-gradient(150deg,#060a10,#0a1020,#0e1830)}
+.rhk{background:linear-gradient(150deg,#100806,#1a0e08,#221408)}
+.rhw{background:linear-gradient(150deg,#080610,#100a1a,#180e24)}
+/* VAULT */
+.vault-hero{background:linear-gradient(150deg,#0e0a06,#1a1008,#201408);padding:52px 0;position:relative;overflow:hidden}
+.vault-hero::after{content:'"';position:absolute;right:-20px;top:-20px;font-family:'Cormorant Garamond',serif;font-size:240px;color:rgba(200,146,58,.04);line-height:1;pointer-events:none}
+.vault-gate{background:var(--warm-dk);border-bottom:2px solid var(--gold);padding:14px 48px}
+.vg-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.vg-text{font-size:13px;color:var(--gold-lt);flex:1}
+.vg-text strong{color:white}
+.vg-btns{display:flex;gap:7px}
+.vg-btn{padding:7px 16px;border-radius:4px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif}
+.vg-p{background:var(--gold);color:var(--ink)}.vg-g{background:transparent;border:1px solid #3a3020;color:#aaa}
+.vault-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:26px;padding-top:36px}
+.vf-btn{padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif}
+.vf-btn.on{background:var(--ink);color:var(--gold-lt);border-color:var(--ink)}
+/* EDUCATION */
+.edu-hero{background:linear-gradient(150deg,#0a0e06,#0e1a08,#142010);padding:52px 0;position:relative;overflow:hidden}
+.edu-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:18px;font-size:11px;font-weight:700}
+.edu-badge.live{background:rgba(116,198,157,.15);border:1px solid rgba(116,198,157,.3);color:#74c69d}
+.edu-badge.ai{background:rgba(200,146,58,.12);border:1px solid rgba(200,146,58,.25);color:var(--gold-lt)}
+.edu-pulse{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+.edu-sched{background:var(--cream);border-radius:var(--r);border:1px solid var(--border);padding:18px 24px;margin-bottom:24px;display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.sched-item{display:flex;align-items:center;gap:7px}
+.sched-dot{width:7px;height:7px;border-radius:50%}
+.sched-lbl{font-size:12px;color:var(--ink);font-weight:600}
+.sched-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.edu-tabs{background:white;border-bottom:2px solid var(--border);display:flex;margin:0 -48px;padding:0 48px;position:sticky;top:156px;z-index:90}
+.edu-tab{padding:14px 17px;border:none;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.edu-tab.on{color:var(--sage);border-bottom-color:var(--sage)}
+.edu-section{display:none;padding-top:30px}
+.edu-section.on{display:block;animation:fadeIn .3s ease}
+.edu-sec-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.edu-sec-title{font-size:32px;color:var(--ink)}
+.edu-sec-title em{color:var(--sage);font-style:italic}
+.edu-refresh{font-size:11px;color:var(--sage);cursor:pointer;border-bottom:1px dashed rgba(42,102,73,.4)}
+.edu-highlight{background:var(--ink);border-radius:var(--r);padding:30px 34px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+.edu-hl-ey{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:8px}
+.edu-hl-h{font-size:28px;color:white;line-height:1.1;margin-bottom:10px}
+.edu-hl-p{font-size:13.5px;color:rgba(255,255,255,.55);line-height:1.7;font-weight:300}
+.edu-hl-strat{margin-top:14px;background:rgba(116,198,157,.08);border:1px solid rgba(116,198,157,.18);border-radius:6px;padding:12px 15px}
+.edu-hl-sl{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#74c69d;margin-bottom:4px}
+.edu-hl-st{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6}
+.edu-hl-meta{display:flex;flex-direction:column;gap:12px}
+.edu-hl-stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:14px 16px}
+.edu-hl-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:#74c69d;line-height:1}
+.edu-hl-lbl{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px}
+.edu-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 20px;gap:14px}
+.edu-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--sage);border-radius:50%;animation:spin .9s linear infinite}
+.edu-ai-b{display:inline-flex;align-items:center;gap:5px;background:rgba(200,146,58,.08);border:1px solid rgba(200,146,58,.16);border-radius:10px;padding:3px 9px;font-size:10px;color:var(--gold-lt);font-weight:600;margin-top:7px}
+/* DASHBOARD */
+.dash-hero{background:linear-gradient(150deg,var(--ink),#100c06,#180e08);padding:36px 0;border-bottom:1px solid #1e1810}
+.dash-hero-in{max-width:1200px;margin:0 auto;padding:0 48px;display:flex;align-items:center;gap:20px}
+.dash-av{width:56px;height:56px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--ink);flex-shrink:0;border:3px solid rgba(200,146,58,.25)}
+.dash-wlc{font-size:11px;color:#555;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+.dash-nm{font-size:28px;color:white;line-height:1;margin-bottom:3px}
+.dash-rb{display:inline-flex;align-items:center;gap:5px;background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.18);border-radius:10px;padding:3px 10px;font-size:11px;color:var(--gold-lt);font-weight:700}
+.dash-meta{margin-left:auto;text-align:right}
+.dash-since{font-size:11px;color:#444;margin-bottom:3px}
+.dash-loc{font-size:12px;color:#a0d4b0}
+.dash-body{padding:36px 0;background:var(--warm)}
+.dash-in{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start}
+.dash-nav{background:white;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:14px}
+.dash-ni{display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--cream);font-size:13px;color:var(--muted);border-left:3px solid transparent;transition:all .2s}
+.dash-ni:last-child{border-bottom:none}
+.dash-ni:hover{color:var(--ink);background:var(--warm)}
+.dash-ni.on{color:var(--ink);font-weight:600;border-left-color:var(--gold);background:var(--warm)}
+.dp{display:none}.dp.on{display:block;animation:fadeIn .25s ease}
+.dp-title{font-size:26px;color:var(--ink);margin-bottom:4px}
+.dp-sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.6}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.ds{background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
+.ds-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);line-height:1}
+.ds-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+.dl-list{display:flex;flex-direction:column;gap:9px}
+.dl-item{background:white;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.dl-ico{font-size:18px;flex-shrink:0}
+.dl-t{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:1px}
+.dl-s{font-size:11px;color:var(--muted)}
+.dl-btn{margin-left:auto;padding:5px 12px;border-radius:4px;background:var(--cream);border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;flex-shrink:0}
+.dl-btn:hover{border-color:var(--gold);color:var(--ink)}
+.prof-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.prof-save{margin-top:16px;background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+/* COMING SOON */
+.cs{min-height:100vh;background:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 48px;position:relative;overflow:hidden}
+.cs-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,146,58,.07) 0%,transparent 70%);animation:pulse 4s ease-in-out infinite;pointer-events:none}
+.cs-t{font-size:72px;color:white;line-height:.95;position:relative;z-index:1}
+.cs-t.g{color:var(--gold)}
+.cs-st{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:var(--gold-lt);margin-bottom:18px;position:relative;z-index:1}
+.cs-d{font-size:14px;color:#777;max-width:460px;line-height:1.8;margin-bottom:28px;position:relative;z-index:1;font-weight:300}
+.cs-journals{display:flex;gap:13px;margin-bottom:28px;position:relative;z-index:1}
+.cs-j{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:var(--r);padding:20px;width:180px;text-align:center}
+.cs-j-ico{font-size:38px;margin-bottom:7px}
+.cs-j-n{font-size:15px;color:white;margin-bottom:2px}
+.cs-j-a{font-size:11px;color:#666;margin-bottom:8px}
+.cs-j-p{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--gold)}
+.cs-notify{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:24px 30px;max-width:400px;width:100%;position:relative;z-index:1}
+.cs-notify h4{font-size:18px;color:white;margin-bottom:5px}
+.cs-notify p{font-size:12px;color:#666;margin-bottom:13px;line-height:1.6}
+.cs-row{display:flex;gap:7px}
+.cs-inp{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:4px;padding:9px 12px;color:white;font-family:'DM Sans',sans-serif;font-size:12px}
+.cs-inp::placeholder{color:#444}
+.cs-inp:focus{outline:none;border-color:var(--gold)}
+.cs-nbtn{background:var(--gold);color:var(--ink);border:none;padding:9px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer}
+/* FEEDBACK */
+.fb-hero{background:linear-gradient(150deg,#0c0a08,#160e04,#1e1208);padding:52px 0}
+.fb-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.fb-form-card{background:white;border-radius:var(--r);border:1px solid var(--border);padding:30px}
+.fb-form-card h3{font-size:24px;color:var(--ink);margin-bottom:4px}
+.fb-form-card>p{font-size:12.5px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--warm)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--gold);background:white}
+.fg textarea{height:80px;resize:vertical}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fb-submit{width:100%;background:var(--gold);color:var(--ink);border:none;padding:12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+/* CHAT WIDGET */
+.aan-float{position:fixed;bottom:22px;right:22px;width:56px;height:56px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;box-shadow:0 4px 18px rgba(200,146,58,.4);display:flex;align-items:center;justify-content:center;font-size:24px;z-index:700}
+.aan-float.hidden{display:none}
+.aan-widget{position:fixed;bottom:22px;right:22px;width:400px;max-width:96vw;height:580px;max-height:88vh;background:#111009;border:1px solid #2e2818;border-radius:14px;box-shadow:0 24px 70px rgba(0,0,0,.7);display:none;flex-direction:column;z-index:800}
+.aan-widget.open{display:flex;animation:fadeUp .28s ease}
+.aan-hd{background:linear-gradient(135deg,#1a1208,#0e0c08);padding:16px 18px;border-bottom:1px solid #1e1810;border-radius:14px 14px 0 0;display:flex;align-items:center;gap:11px}
+.aan-av{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aan-hd-name{font-family:'Cormorant Garamond',serif;font-size:17px;color:white;line-height:1}
+.aan-status{font-size:10.5px;color:#74c69d;display:flex;align-items:center;gap:4px;margin-top:1px}
+.aan-sdot{width:5px;height:5px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+.aan-x{margin-left:auto;background:none;border:none;color:#555;font-size:17px;cursor:pointer;padding:4px 7px;font-family:inherit}
+.aan-modes{display:flex;gap:5px;padding:8px 14px;border-bottom:1px solid #1a1610;background:#0e0c0a;overflow-x:auto}
+.aan-mode{padding:4px 11px;border-radius:11px;border:1px solid #2a2418;background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;color:#777;cursor:pointer;white-space:nowrap}
+.aan-mode.on{background:rgba(200,146,58,.1);border-color:var(--gold);color:var(--gold-lt)}
+.aan-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.aan-msgs::-webkit-scrollbar{width:3px}
+.aan-msgs::-webkit-scrollbar-thumb{background:#2a2418;border-radius:2px}
+.aan-msg{max-width:86%;animation:fadeUp .3s ease}
+.aan-msg.user{align-self:flex-end}
+.aan-msg.ai{align-self:flex-start}
+.aan-bubble{padding:10px 13px;border-radius:11px;font-size:13px;line-height:1.6}
+.aan-msg.user .aan-bubble{background:var(--gold);color:var(--ink);border-radius:11px 11px 2px 11px;font-weight:500}
+.aan-msg.ai .aan-bubble{background:#1a1610;border:1px solid #2a2418;color:#ddd;border-radius:2px 11px 11px 11px}
+.aan-msg.ai .aan-bubble strong{color:var(--gold-lt)}
+.aan-typing{align-self:flex-start}
+.aan-typing .aan-bubble{display:flex;gap:4px;align-items:center;padding:13px 14px}
+.aan-dot{width:6px;height:6px;border-radius:50%;background:#444;animation:typingDot 1.2s ease-in-out infinite}
+.aan-dot:nth-child(2){animation-delay:.2s}.aan-dot:nth-child(3){animation-delay:.4s}
+.aan-qrow{display:flex;gap:5px;padding:7px 14px;overflow-x:auto;border-top:1px solid #1a1610}
+.aan-qrow::-webkit-scrollbar{display:none}
+.aan-qbtn{padding:5px 11px;border-radius:11px;border:1px solid #2a2418;background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;color:#777;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.aan-qbtn:hover{border-color:var(--gold);color:var(--gold-lt)}
+.aan-input-row{padding:10px 12px;border-top:1px solid #1e1810;display:flex;gap:7px;align-items:flex-end}
+.aan-input{flex:1;background:#0e0c0a;border:1px solid #2a2418;border-radius:9px;padding:9px 13px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:13px;resize:none;max-height:90px;min-height:38px;line-height:1.5}
+.aan-input:focus{outline:none;border-color:var(--gold)}
+.aan-input::placeholder{color:#444}
+.aan-send{width:38px;height:38px;border-radius:9px;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.aan-send:hover{background:var(--gold-lt)}
+.aan-send:disabled{opacity:.4;cursor:not-allowed}
+.aan-disc{padding:5px 14px 9px;font-size:9.5px;color:#444;text-align:center;line-height:1.5}
+/* PLACEMENT TRACKER */
+.pl-card{background:white;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px;transition:box-shadow .2s}
+.pl-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.pl-hd{display:flex;align-items:center;gap:14px;padding:16px 20px;border-bottom:1px solid var(--cream);cursor:pointer}
+.pl-av{width:42px;height:42px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:var(--ink);flex-shrink:0}
+.pl-name{font-size:18px;color:var(--ink);line-height:1}
+.pl-since{font-size:11px;color:var(--muted);margin-top:2px}
+.pl-badges{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.pl-badge{padding:3px 9px;border-radius:9px;font-size:10px;font-weight:700;border:1px solid}
+.pl-badge.ok{background:rgba(42,102,73,.08);border-color:rgba(42,102,73,.2);color:var(--sage)}
+.pl-badge.warn{background:rgba(136,54,24,.08);border-color:rgba(136,54,24,.2);color:var(--rust)}
+.pl-badge.pend{background:rgba(200,146,58,.08);border-color:rgba(200,146,58,.2);color:#b07820}
+.pl-body{display:none;padding:18px 20px}
+.pl-body.open{display:block;animation:fadeIn .2s ease}
+.pl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.pl-field{background:var(--warm);border-radius:6px;padding:10px 13px}
+.pl-fl{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pl-fv{font-size:13px;color:var(--ink);font-weight:500;line-height:1.4}
+.pl-docs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pl-doc{padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;background:rgba(42,102,73,.08);border:1px solid rgba(42,102,73,.18);color:var(--sage)}
+.pl-doc.missing{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.15);color:#c0392b}
+.pl-notes-box{background:var(--cream);border-radius:6px;padding:12px 14px;font-size:13px;color:var(--text);line-height:1.65;margin-bottom:14px;white-space:pre-wrap}
+.pl-actions{display:flex;gap:8px;flex-wrap:wrap}
+.pl-act-btn{padding:7px 14px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;border:1px solid var(--border);background:white;color:var(--muted)}
+.pl-act-btn:hover{border-color:var(--gold);color:var(--ink)}
+.pl-act-btn.danger{border-color:#c0392b;color:#c0392b}
+.pl-act-btn.danger:hover{background:#c0392b;color:white}
+.pl-empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.pl-empty-ico{font-size:48px;margin-bottom:12px;opacity:.4}
+.pl-empty h3{font-size:22px;color:var(--ink);margin-bottom:6px}
+.pl-empty p{font-size:13px;line-height:1.6;max-width:300px;margin:0 auto 18px}
+.pl-timeline{border-left:2px solid var(--border);padding-left:16px;margin-bottom:14px}
+.pl-tl-item{position:relative;margin-bottom:10px;font-size:12.5px;color:var(--text);line-height:1.5}
+.pl-tl-item::before{content:'';position:absolute;left:-21px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--gold);border:2px solid white}
+.pl-tl-date{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:1px}
+/* FOOTER */
+.footer{background:var(--ink);padding:44px 0 0}
+.ft-in{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:38px;margin-bottom:38px}
+.ft-logo{font-family:'Cormorant Garamond',serif;font-size:22px;color:white;margin-bottom:8px}
+.ft-logo em{color:var(--gold);font-style:normal}
+.ft-blurb{font-size:12px;color:#555;line-height:1.8;max-width:220px}
+.ft-col h5{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-family:'DM Sans',sans-serif;font-weight:700}
+.ft-col a{display:block;font-size:12px;color:#666;margin-bottom:6px;cursor:pointer}
+.ft-col a:hover{color:white}
+.ft-mis{max-width:1200px;margin:0 auto;padding:14px 48px;border-top:1px solid #1e1a12;text-align:center}
+.ft-mis p{font-size:11px;color:#444;line-height:1.7}
+.ft-mis strong{color:var(--gold-lt)}
+.ft-bot{background:#050403;padding:11px 48px;display:flex;justify-content:space-between}
+.ft-bot span{font-size:10.5px;color:#333}
+</style>
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authOverlay">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div style="font-size:13px;color:var(--gold-lt);letter-spacing:.1em;margin-bottom:11px;font-family:'Cormorant Garamond',serif">AUNT<em style="color:var(--gold);font-style:normal">NANCY</em>.ORG</div>
+      <h3 id="authTitle">Welcome back.</h3><p id="authSub">Sign in to access your templates.</p>
+      <button class="modal-close" onclick="closeAuth()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="auth-tabs">
+        <button class="auth-tab on" id="tabSignin" onclick="switchTab('signin')">Sign In</button>
+        <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+      </div>
+      <div class="auth-msg" id="authMsg"></div>
+      <div class="auth-panel on" id="panelSignin">
+        <div class="af"><label>Email</label><input type="email" id="si-email" placeholder="you@email.com"></div>
+        <div class="af"><label>Password</label><input type="password" id="si-pw" placeholder="••••••••"><div style="text-align:right;margin-top:5px"><a onclick="showForgot()" style="font-size:11px;color:var(--gold)">Forgot password?</a></div></div>
+        <button class="auth-btn" onclick="doSignIn()">Sign In</button>
+        <div class="auth-divider"><span>or</span></div>
+        <div class="auth-alt">
+          <button class="auth-alt-btn" onclick="demoLogin()">🎭 Demo Account</button>
+          <button class="auth-alt-btn" onclick="demoLoginW()">📋 CSW Demo</button>
+        </div>
+        <div class="auth-footer">No account? <a onclick="switchTab('signup')">Create one free →</a></div>
+      </div>
+      <div class="auth-panel" id="panelSignup">
+        <div class="af-row">
+          <div class="af"><label>First Name</label><input type="text" id="su-first" placeholder="First"></div>
+          <div class="af"><label>Last Name</label><input type="text" id="su-last" placeholder="Last"></div>
+        </div>
+        <div class="af"><label>Email</label><input type="email" id="su-email" placeholder="you@email.com"></div>
+        <div class="af"><label>Password</label><input type="password" id="su-pw" placeholder="At least 8 characters" oninput="checkPW(this.value)"><div class="pw-strength"><div class="pw-bar" id="pwBar"></div></div><div class="pw-lbl" id="pwLbl">Enter a password</div></div>
+        <div class="af"><label>I am a...</label>
+          <div class="role-grid">
+            <div class="role-opt on" data-role="youth" onclick="pickRole(this)"><div class="role-ico">👧</div><div class="role-lbl">Foster Youth</div></div>
+            <div class="role-opt" data-role="parent" onclick="pickRole(this)"><div class="role-ico">🏠</div><div class="role-lbl">Foster Parent</div></div>
+            <div class="role-opt" data-role="kinship" onclick="pickRole(this)"><div class="role-ico">👵</div><div class="role-lbl">Kinship Caregiver</div></div>
+            <div class="role-opt" data-role="worker" onclick="pickRole(this)"><div class="role-ico">📋</div><div class="role-lbl">Social Worker</div></div>
+          </div>
+        </div>
+        <div class="af-row">
+          <div class="af"><label>State</label><select id="su-state"><option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option><option value="IL">Illinois</option><option value="WA">Washington</option><option value="Other">Other</option></select></div>
+          <div class="af"><label>City</label><input type="text" id="su-city" placeholder="e.g. Los Angeles"></div>
+        </div>
+        <div class="terms-row"><input type="checkbox" class="terms-cb" id="termsCb"><div class="terms-txt">I agree to the <a>Terms of Service</a> and <a>Privacy Policy</a>. Resources are always free.</div></div>
+        <button class="auth-btn" onclick="doSignUp()">Create Free Account →</button>
+        <div class="auth-footer">Have an account? <a onclick="switchTab('signin')">Sign in →</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATION MODAL -->
+<div class="overlay" id="locOverlay">
+  <div class="modal-box">
+    <div class="loc-modal-inner">
+      <h3>Change Location</h3><p>Resources update to match your area.</p>
+      <div class="mi"><label>State</label><select id="ms"><option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option><option value="IL">Illinois</option><option value="WA">Washington</option><option value="Other">Other</option></select></div>
+      <div class="mi"><label>County</label><input type="text" id="mc" value="Los Angeles County"></div>
+      <div class="mi"><label>City</label><input type="text" id="mci" value="Los Angeles"></div>
+      <div class="modal-btns">
+        <button class="modal-save" onclick="saveLocation()">Save Location →</button>
+        <button class="modal-cancel" onclick="closeLocModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CRISIS BAR -->
+<div class="crisis" role="alert">
+  <p><strong>Crisis Text:</strong> Text HOME to 741741<span class="crisis-sep">·</span><strong>988 Lifeline:</strong> 988<span class="crisis-sep">·</span><strong>Runaway:</strong> 1-800-786-2929<span class="crisis-sep">·</span><strong>Trevor Project:</strong> 1-866-488-7386<span class="crisis-sep">·</span><strong id="emLbl">DCFS Emergency (LA):</strong> <span id="emPhone">1-800-540-4000</span></p>
+</div>
+
+<!-- SITE HEADER -->
+<header class="site-header">
+  <div class="util-row">
+    <div class="geo-wrap">
+      <div class="geo-loading" id="geoLoad"><div class="geo-spinner"></div><span>Detecting…</span></div>
+      <div class="geo-pill" id="geoPill" onclick="openLocModal()"><div class="geo-dot"></div><span class="geo-place" id="geoPlace">Los Angeles, California</span><span class="geo-change">· change</span></div>
+    </div>
+    <div class="util-right">
+      <div class="lang-wrap">
+        <div class="lang-btn" id="langBtn" onclick="toggleLang()"><span id="langFlag">🇺🇸</span><span id="langLbl">English</span><span style="color:#444;font-size:9px">▾</span><div class="lang-dd" id="langDd"></div></div>
+      </div>
+      <div class="util-auth" id="utilAuth">
+        <span class="util-signin" onclick="openAuth('signin')">Sign In</span>
+        <span class="util-sep">|</span>
+        <span class="util-signup" onclick="openAuth('signup')">Create Account</span>
+      </div>
+      <div class="util-avatar" id="utilAvatar">
+        <div class="av-circle" id="avCircle">?</div>
+        <span class="av-name" id="avName">…</span>
+        <span style="color:#444;font-size:9px">▾</span>
+        <div class="av-dd">
+          <div class="av-dd-hd"><div class="av-dd-name" id="avDdName">—</div><div class="av-dd-email" id="avDdEmail">—</div></div>
+          <div class="av-item" onclick="go('dashboard')"><span>🏠</span>My Dashboard</div>
+          <div class="av-item" onclick="go('vault')"><span>✉️</span>My Templates</div>
+          <div class="av-item" onclick="go('dashboard');showDP('profile')"><span>👤</span>Profile</div>
+          <div class="av-item danger" onclick="doSignOut()"><span>🚪</span>Sign Out</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-row">
+    <div class="nav-logo" onclick="go('home')">AUNT<em>NANCY</em>.ORG</div>
+    <div class="nav-links">
+      <button class="nav-link on" onclick="go('home',this)">Home</button>
+      <button class="nav-link" onclick="go('vault',this)">Letter Vault</button>
+      <button class="nav-link" onclick="go('education',this)">📚 Education</button>
+      <button class="nav-link" onclick="go('products',this)">Products</button>
+      <button class="nav-link" onclick="go('feedback',this)">Feedback</button>
+    </div>
+    <button class="nav-ask" onclick="openAAN()">💬 Ask Aunt Nancy</button>
+  </div>
+  <div class="role-row">
+    <span class="role-label">I am a</span>
+    <div class="role-tabs">
+      <button class="role-tab all on" onclick="go('home',this)" data-role="all"><span>🌐</span>Everyone</button>
+      <button class="role-tab youth" onclick="go('youth',this)" data-role="youth"><span>👧</span>Foster Youth</button>
+      <button class="role-tab parent" onclick="go('parent',this)" data-role="parent"><span>🏠</span>Foster Parent</button>
+      <button class="role-tab kinship" onclick="go('kinship',this)" data-role="kinship"><span>👵</span>Kinship Caregiver</button>
+      <button class="role-tab worker" onclick="go('worker',this)" data-role="worker"><span>📋</span>Social Worker</button>
+    </div>
+    <div class="role-right"><span class="loc-chip" onclick="openLocModal()">📍 <span id="lcPlace">Los Angeles, CA</span> ›</span></div>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div class="page on" id="page-home">
+  <section class="home-hero">
+    <div class="home-l">
+      <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.18);border-radius:20px;padding:4px 13px;font-size:10.5px;color:var(--gold-lt);margin-bottom:16px" class="fu">💛 Free Forever · No Jargon · Real Answers</div>
+      <h1 class="home-h1 fu2">She shows up.<em>Every time.</em></h1>
+      <p class="home-sub fu3">Free tools, real answers, and local resources for everyone navigating the foster care system — from first placement to aging out.</p>
+      <div class="home-btns fu">
+        <a class="btn btn-gold" onclick="go('vault')">Access Letter Vault</a>
+        <a class="btn btn-outline" onclick="openAAN()">Ask Aunt Nancy</a>
+      </div>
+      <div class="stats-row fu">
+        <div class="stat"><div class="stat-num">391K+</div><div class="stat-lbl">Youth in US<br>foster care</div></div>
+        <div class="stat"><div class="stat-num">50</div><div class="stat-lbl">States with<br>local resources</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Free tools &<br>templates</div></div>
+      </div>
+    </div>
+    <div class="home-r"><img src="IMG_2932.jpeg" alt="The Aunt Nancys" loading="eager"></div>
+  </section>
+  <section style="background:var(--cream);padding:44px 0">
+    <div class="container">
+      <span class="eyebrow">Choose Your Path</span>
+      <h2 style="font-size:36px;color:var(--ink);margin-bottom:0">Who are you here for?</h2>
+      <div class="role-cards">
+        <div class="role-card y" onclick="go('youth')"><div class="rc-ico">👧</div><h3 class="rc-title">Foster Youth</h3><p class="rc-desc">Your rights, your future, real answers. Ages 12–21.</p><div class="rc-link">Youth Hub <span>→</span></div></div>
+        <div class="role-card p" onclick="go('parent')"><div class="rc-ico">🏠</div><h3 class="rc-title">Foster Parents</h3><p class="rc-desc">Letters, checklists, enrollment guides — ready to use.</p><div class="rc-link">Foster Parent Hub <span>→</span></div></div>
+        <div class="role-card k" onclick="go('kinship')"><div class="rc-ico">👵</div><h3 class="rc-title">Kinship Caregivers</h3><p class="rc-desc">You stepped up. Here's the support you deserve.</p><div class="rc-link">Kinship Hub <span>→</span></div></div>
+        <div class="role-card w" onclick="go('worker')"><div class="rc-ico">📋</div><h3 class="rc-title">Social Workers</h3><p class="rc-desc">Screening tools, BIRP logs, trackers — all free.</p><div class="rc-link">Worker Hub <span>→</span></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="local-sec">
+    <div class="container">
+      <h2 class="local-h" id="localH">Los Angeles, California</h2>
+      <p class="local-sub" id="localSub">Resources specific to your area</p>
+      <div class="agency-bar"><span style="font-size:15px">🏛️</span><span class="ab-name" id="agName">DCFS — Los Angeles County</span><span class="ab-phone" id="agPhone">📞 1-800-540-4000</span></div>
+      <div class="local-grid" id="localGrid"></div>
+    </div>
+  </section>
+  <div class="rs-strip">
+    <div class="rs-inner">
+      <div><div class="rs-num">20K</div><div class="rs-lbl">youth age out of US foster care each year without support</div></div>
+      <div class="rs-cards">
+        <div class="rs-card"><div class="rs-src">Annie E. Casey · 2025</div><div class="rs-title">Extended care states see 34% better housing stability at age 21</div></div>
+        <div class="rs-card"><div class="rs-src">CDC · 2025</div><div class="rs-title">ACEs prevalence in child welfare youth — updated estimates</div></div>
+        <div class="rs-card"><div class="rs-src">UCLA Luskin · 2025</div><div class="rs-title">CA foster youth housing outcomes at 24 — 5yr study</div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer" id="ft-home"></footer>
+</div>
+
+<!-- FOSTER YOUTH PAGE -->
+<div class="page" id="page-youth">
+  <div class="rhy" style="padding:52px 0">
+    <div class="container">
+      <div class="ph-split">
+        <div>
+          <div class="role-accent" style="background:var(--sage)"></div>
+          <span class="eyebrow" style="color:#74c69d">Foster Youth · Ages 12–21</span>
+          <h1 class="rph1">This space is<br><em style="color:#74c69d;font-style:italic">for you.</em></h1>
+          <p class="rpp">You didn't choose this system — but you deserve straight answers about what you're owed, where you can go, and who has your back.</p>
+          <div class="ph-btns">
+            <a class="btn btn-gold" onclick="go('vault')">Get Letter Templates</a>
+            <a class="btn btn-outline" onclick="openAAN();setAanMode('youth')">Ask Aunt Nancy</a>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-num">AB 12</div><div class="stat-lbl">Stay in care<br>past 18</div></div>
+            <div class="stat"><div class="stat-num">$5K</div><div class="stat-lbl">ETV grants<br>per year</div></div>
+            <div class="stat"><div class="stat-num">Age 26</div><div class="stat-lbl">Medi-Cal<br>continues</div></div>
+          </div>
+        </div>
+        <img src="IMG_2932.jpeg" alt="Foster youth support" class="ph-img">
+      </div>
+    </div>
+  </div>
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:40px;align-items:start">
+        <div>
+          <span class="eyebrow">Your Rights</span>
+          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">Know what you're owed.</h2>
+          <ul class="needs">
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>Your rights under WIC §16001.9 — in plain language</li>
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>AB 12 — how to stay in care past 18 in California</li>
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>ETV grants, Cal Grant B, Chafee — money made for you</li>
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>Ask Aunt Nancy — private, no judgment, 24/7</li>
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>Medi-Cal continues to age 26 — how to keep it</li>
+            <li class="need"><div class="nd" style="background:var(--sage)"></div>THP-Plus housing after aging out</li>
+          </ul>
+          <a class="btn btn-gold" onclick="go('vault')">Access Free Templates →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="res-card"><div><div class="rc-t">Your Rights — WIC §16001.9</div><div class="rc-s">Plain-language guide · Free PDF</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">AB 12: Staying Past 18 in California</div><div class="rc-s">NMD & extended care</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">College & Financial Aid for Foster Youth</div><div class="rc-s">ETV, Chafee, Cal Grant+</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">AB 12 / NMD Request Letter</div><div class="rc-s">Free template · WIC §11403</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Medi-Cal to Age 26</div><div class="rc-s">How to keep your coverage</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Ask Aunt Nancy — Youth Mode</div><div class="rc-s">Private · 24/7 · No judgment</div></div><span class="rc-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">What Youth Are Saying</span>
+      <div class="grid-3">
+        <div class="qcard"><div class="qcard-text">"Didn't know I could stay past 18. I'm 19 and still in AB 12 because of this page."</div><div class="qcard-attr">Marcus T. · <span class="qcard-loc">Oakland, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"Asked Aunt Nancy about my rights at 3am and got a real answer. Game changer."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Los Angeles, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"Finally understood what Chafee money is and how to apply."</div><div class="qcard-attr">Destiny R. · <span class="qcard-loc">San Diego, CA</span></div></div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-youth"></footer>
+</div>
+
+<!-- FOSTER PARENTS PAGE -->
+<div class="page" id="page-parent">
+  <div class="rhp" style="padding:52px 0">
+    <div class="container">
+      <div class="ph-split">
+        <div>
+          <div class="role-accent" style="background:var(--navy)"></div>
+          <span class="eyebrow" style="color:#7eb8f7">Foster Parents</span>
+          <h1 class="rph1">You showed up.<br><em style="color:#7eb8f7;font-style:italic">We'll show up for you.</em></h1>
+          <p class="rpp">The letters, checklists, and guides DCFS never handed you at placement — policy-cited, fill-in, and ready when you need them.</p>
+          <div class="ph-btns">
+            <a class="btn btn-gold" onclick="go('vault')">Get Letter Templates</a>
+            <a class="btn btn-outline" onclick="openAAN();setAanMode('foster-parent')">Ask Aunt Nancy</a>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Letter<br>templates</div></div>
+            <div class="stat"><div class="stat-num">72h</div><div class="stat-lbl">Placement<br>checklist</div></div>
+            <div class="stat"><div class="stat-num">Free</div><div class="stat-lbl">Always<br>free</div></div>
+          </div>
+        </div>
+        <img src="IMG_2932.jpeg" alt="Foster parent support" class="ph-img">
+      </div>
+    </div>
+  </div>
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:40px;align-items:start">
+        <div>
+          <span class="eyebrow">Tools & Letters</span>
+          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">What you weren't given at placement.</h2>
+          <ul class="needs">
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>First 24/48/72-hour placement checklist</li>
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>Clothing allowance and emergency benefit letters</li>
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>McKinney-Vento school enrollment rights</li>
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>Trauma-informed parenting — practical, not textbook</li>
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>Respite care resources by county</li>
+            <li class="need"><div class="nd" style="background:var(--navy)"></div>School transportation reimbursement request</li>
+          </ul>
+          <a class="btn" style="background:var(--navy);color:white" onclick="go('vault')">Access Letter Vault →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="res-card"><div><div class="rc-t">Placement Day Checklist — 72 Hours</div><div class="rc-s">Printable · Step-by-step · Free</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Clothing Allowance Request Letter</div><div class="rc-s">DCFS Policy 0900-506.10</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">McKinney-Vento School Enrollment</div><div class="rc-s">Ed. Code §48853.5</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Emergency Benefit Request Letter</div><div class="rc-s">WIC §11460 · CSW/SCSW addressed</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Placement Intake Tracker</div><div class="rc-s">Interactive · Printable · Free</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card" onclick="go('education')"><div><div class="rc-t">📚 Parent Education Hub</div><div class="rc-s">AI-powered · Updated daily</div></div><span class="rc-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">What Foster Parents Are Saying</span>
+      <div class="grid-3">
+        <div class="qcard"><div class="qcard-text">"Found the clothing allowance letter. DCFS approved it in 3 days."</div><div class="qcard-attr">Sarah M. · <span class="qcard-loc">Los Angeles, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"The 72-hour checklist covered everything I didn't know to ask."</div><div class="qcard-attr">Keisha B. · <span class="qcard-loc">Compton, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"Had a new placement at 10pm. Aunt Nancy helped me figure out school enrollment by morning."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Inglewood, CA</span></div></div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-parent"></footer>
+</div>
+
+<!-- KINSHIP PAGE -->
+<div class="page" id="page-kinship">
+  <div class="rhk" style="padding:52px 0">
+    <div class="container">
+      <div class="ph-split">
+        <div>
+          <div class="role-accent" style="background:var(--rust)"></div>
+          <span class="eyebrow" style="color:#f4a56a">Kinship Caregivers</span>
+          <h1 class="rph1">You didn't sign up.<br><em style="color:#f4a56a;font-style:italic">You stepped up.</em></h1>
+          <p class="rpp">Kinship caregivers carry the weight of family, DCFS, and the courts — often without the same support as licensed foster parents. That ends here.</p>
+          <div class="ph-btns">
+            <a class="btn btn-gold" onclick="go('vault')">Get Letter Templates</a>
+            <a class="btn btn-outline" onclick="openAAN();setAanMode('kinship')">Ask Aunt Nancy</a>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-num">47%</div><div class="stat-lbl">Youth placed<br>with relatives</div></div>
+            <div class="stat"><div class="stat-num">Less</div><div class="stat-lbl">Support vs<br>licensed</div></div>
+            <div class="stat"><div class="stat-num">More</div><div class="stat-lbl">Than you<br>were told</div></div>
+          </div>
+        </div>
+        <img src="IMG_2932.jpeg" alt="Kinship caregiver support" class="ph-img">
+      </div>
+    </div>
+  </div>
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:40px;align-items:start">
+        <div>
+          <span class="eyebrow">Kinship Resources</span>
+          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">Benefits nobody told you about.</h2>
+          <ul class="needs">
+            <li class="need"><div class="nd" style="background:var(--rust)"></div>Licensed vs. unlicensed kinship — what the difference means</li>
+            <li class="need"><div class="nd" style="background:var(--rust)"></div>Benefits you qualify for but were never told about</li>
+            <li class="need"><div class="nd" style="background:var(--rust)"></div>Legal guardianship vs. custody — explained plainly</li>
+            <li class="need"><div class="nd" style="background:var(--rust)"></div>How to navigate DCFS as a family member</li>
+            <li class="need"><div class="nd" style="background:var(--rust)"></div>Path to becoming licensed — what it takes and why it matters</li>
+          </ul>
+          <a class="btn" style="background:var(--rust);color:white" onclick="go('vault')">Access Resources →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="res-card"><div><div class="rc-t">Licensed vs. Unlicensed Kinship Guide</div><div class="rc-s">Benefits comparison · Free PDF</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Kinship Benefits You May Be Missing</div><div class="rc-s">DCFS policy-aligned</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Guardianship vs. Custody Explainer</div><div class="rc-s">Plain language · WIC citations</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">CSW / SCSW Benefit Request Letter</div><div class="rc-s">Policy-cited · Fill-in template</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Who to Call at DCFS — and When</div><div class="rc-s">LA County guide · Printable</div></div><span class="rc-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">What Kinship Caregivers Are Saying</span>
+      <div class="grid-3">
+        <div class="qcard"><div class="qcard-text">"I'm grandma raising my grandkids through DCFS. Found kinship licensing here."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"Nobody at DCFS told me what I was entitled to. This site did in 10 minutes."</div><div class="qcard-attr">Rosa M. · <span class="qcard-loc">East LA, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"The guardianship vs. custody explainer was the clearest thing I've ever read."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">San Bernardino, CA</span></div></div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-kinship"></footer>
+</div>
+
+<!-- SOCIAL WORKERS PAGE -->
+<div class="page" id="page-worker">
+  <div class="rhw" style="padding:52px 0">
+    <div class="container">
+      <div class="ph-split">
+        <div>
+          <div class="role-accent" style="background:var(--plum)"></div>
+          <span class="eyebrow" style="color:#c49edf">Social Workers & Advocates</span>
+          <h1 class="rph1">Tools that work<br><em style="color:#c49edf;font-style:italic">as hard as you do.</em></h1>
+          <p class="rpp">Policy-aligned, clinically grounded, printable tools organized so you can find what you need fast — no paywall, no bad UX.</p>
+          <div class="ph-btns">
+            <a class="btn btn-gold" onclick="go('vault')">Access All Tools</a>
+            <a class="btn btn-outline" onclick="openAAN();setAanMode('worker')">Ask Aunt Nancy</a>
+          </div>
+          <div class="stats-row">
+            <div class="stat"><div class="stat-num">8+</div><div class="stat-lbl">Screening<br>instruments</div></div>
+            <div class="stat"><div class="stat-num">BIRP</div><div class="stat-lbl">Daily log<br>tool</div></div>
+            <div class="stat"><div class="stat-num">SCI</div><div class="stat-lbl">Auto-scoring<br>tracker</div></div>
+          </div>
+        </div>
+        <img src="IMG_2932.jpeg" alt="Social worker tools" class="ph-img">
+      </div>
+    </div>
+  </div>
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:40px;align-items:start">
+        <div>
+          <span class="eyebrow">Clinical Tools</span>
+          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">Everything you need. Free.</h2>
+          <ul class="needs">
+            <li class="need"><div class="nd" style="background:var(--plum)"></div>Full screening library: PHQ-A, SCARED, CRAFFT, GAD-7, C-SSRS, PCL-5, HEEADSSS, ACEs</li>
+            <li class="need"><div class="nd" style="background:var(--plum)"></div>SCI Level 2/3 placement criteria tracker — auto-scores</li>
+            <li class="need"><div class="nd" style="background:var(--plum)"></div>BIRP daily log — digital and print-ready</li>
+            <li class="need"><div class="nd" style="background:var(--plum)"></div>DCFS policy quick-reference with policy numbers</li>
+            <li class="need"><div class="nd" style="background:var(--plum)"></div>Full placement intake tracker with printable export</li>
+          </ul>
+          <a class="btn" style="background:var(--plum);color:white" onclick="go('vault')">Professional Hub →</a>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="res-card"><div><div class="rc-t">Screening Booklet — Ages 8–11</div><div class="rc-s">8 instruments · Printable · Free</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Screening Booklet — Ages 12–21</div><div class="rc-s">Full clinical suite · Free</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">BIRP Daily Log — Interactive</div><div class="rc-s">Browser · Printable · Free</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">SCI Level 2/3 Tracker</div><div class="rc-s">Auto-scoring · Summary tab</div></div><span class="rc-arr">→</span></div>
+          <div class="res-card"><div><div class="rc-t">Policy Quick-Reference Card</div><div class="rc-s">DCFS · Ed. Code · WIC</div></div><span class="rc-arr">→</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">What Social Workers Are Saying</span>
+      <div class="grid-3">
+        <div class="qcard"><div class="qcard-text">"The BIRP log and SCI tracker are now part of every placement decision I make."</div><div class="qcard-attr">Denise R. · <span class="qcard-loc">San Diego County, CA</span></div></div>
+        <div class="qcard"><div class="qcard-text">"Finally a policy reference I can pull up on my phone during a home visit."</div><div class="qcard-attr">James T. · <span class="qcard-loc">LA County DCFS</span></div></div>
+        <div class="qcard"><div class="qcard-text">"The screening booklets print clean and the families actually understand them."</div><div class="qcard-attr">Anonymous CSW · <span class="qcard-loc">Orange County, CA</span></div></div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-worker"></footer>
+</div>
+
+<!-- LETTER VAULT -->
+<div class="page" id="page-vault">
+  <div class="vault-hero">
+    <div class="container">
+      <span class="eyebrow">Template Library</span>
+      <h1 style="font-size:50px;color:white;line-height:1.0;margin-bottom:10px">The Letter <em style="color:var(--gold);font-style:italic">Vault.</em></h1>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.8;font-weight:300;margin-bottom:20px">Policy-cited, fill-in letter templates — free with a free account.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:18px;font-size:11px;font-weight:700;background:rgba(42,102,73,.15);border:1px solid rgba(42,102,73,.3);color:#7ac49a">✓ Free to access</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:18px;font-size:11px;font-weight:700;background:rgba(200,146,58,.12);border:1px solid rgba(200,146,58,.25);color:var(--gold-lt)">🔐 Account required to download</span>
+      </div>
+    </div>
+  </div>
+  <div class="vault-gate" id="vaultGate" style="display:none">
+    <div class="vg-in"><span style="font-size:18px">🔐</span><div class="vg-text"><strong>Free account required</strong> to download templates. 60 seconds to create.</div><div class="vg-btns"><button class="vg-btn vg-p" onclick="openAuth('signup')">Create Free Account</button><button class="vg-btn vg-g" onclick="openAuth('signin')">Sign In</button></div></div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="vault-filters">
+        <button class="vf-btn on" onclick="filterTpl('all',this)">All Templates</button>
+        <button class="vf-btn" onclick="filterTpl('benefits',this)">Benefits & Allowances</button>
+        <button class="vf-btn" onclick="filterTpl('education',this)">School Enrollment</button>
+        <button class="vf-btn" onclick="filterTpl('placement',this)">Placement Tools</button>
+        <button class="vf-btn" onclick="filterTpl('advocacy',this)">Advocacy Letters</button>
+      </div>
+      <div class="grid-3" id="tplGrid"></div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-vault"></footer>
+</div>
+
+<!-- EDUCATION PAGE -->
+<div class="page" id="page-education">
+  <div class="edu-hero">
+    <div class="container">
+      <span class="eyebrow" style="color:#74c69d">AI-Powered · Updates Automatically</span>
+      <h1 style="font-size:50px;color:white;line-height:1.0;margin-bottom:10px">Parent Education<br><em style="color:#74c69d;font-style:italic">That Never Goes Stale.</em></h1>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:520px;line-height:1.8;font-weight:300;margin-bottom:18px">Curated by Claude AI — local updates, state policy, federal law, research, and strategies for foster parents and caregivers.</p>
+      <div style="display:flex;gap:9px;flex-wrap:wrap">
+        <span class="edu-badge live"><span class="edu-pulse"></span>Live updates</span>
+        <span class="edu-badge ai">✨ Claude AI</span>
+        <span class="edu-badge live" style="background:rgba(200,146,58,.12);border-color:rgba(200,146,58,.3);color:var(--gold-lt)">📍 Localized</span>
+      </div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="edu-sched" id="eduSched"></div>
+      <div class="edu-tabs">
+        <button class="edu-tab on" data-edu="local" onclick="loadEdu('local')">📍 Local</button>
+        <button class="edu-tab" data-edu="state" onclick="loadEdu('state')">🏛️ State</button>
+        <button class="edu-tab" data-edu="federal" onclick="loadEdu('federal')">🇺🇸 Federal</button>
+        <button class="edu-tab" data-edu="trends" onclick="loadEdu('trends')">📈 Trends</button>
+        <button class="edu-tab" data-edu="studies" onclick="loadEdu('studies')">🔬 Research</button>
+        <button class="edu-tab" data-edu="strategies" onclick="loadEdu('strategies')">💡 Strategies</button>
+      </div>
+      <div class="edu-section on" id="edu-local"></div>
+      <div class="edu-section" id="edu-state"></div>
+      <div class="edu-section" id="edu-federal"></div>
+      <div class="edu-section" id="edu-trends"></div>
+      <div class="edu-section" id="edu-studies"></div>
+      <div class="edu-section" id="edu-strategies"></div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-edu"></footer>
+</div>
+
+<!-- PRODUCTS -->
+<div class="page" id="page-products">
+  <div class="cs">
+    <div class="cs-glow"></div>
+    <div style="font-size:50px;margin-bottom:18px;animation:shimmer 3s ease-in-out infinite;position:relative;z-index:1">💛</div>
+    <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;position:relative;z-index:1">AuntNancy.org × Lellie</div>
+    <h1 class="cs-t">Coming</h1><h1 class="cs-t g">Soon</h1>
+    <div class="cs-st">Products & Services</div>
+    <p class="cs-d">Every journal purchase funds free resources for foster youth, families, and social workers.</p>
+    <div class="cs-journals">
+      <div class="cs-j"><div class="cs-j-ico">📓</div><div class="cs-j-n">This Is My Story</div><div class="cs-j-a">Ages 12–17 · Teen</div><div class="cs-j-p">$14.99</div></div>
+      <div class="cs-j"><div class="cs-j-ico">📒</div><div class="cs-j-n">My Little Story</div><div class="cs-j-a">Ages 6–11 · Kids</div><div class="cs-j-p">$12.99</div></div>
+    </div>
+    <div class="cs-notify">
+      <h4>Be the first to know.</h4>
+      <p>Notify me when the products page launches.</p>
+      <div class="cs-row"><input class="cs-inp" type="email" placeholder="your@email.com"><button class="cs-nbtn" onclick="this.textContent='✓ Done!';this.style.background='var(--sage-lt)'">Notify Me →</button></div>
+    </div>
+    <div style="margin-top:22px;position:relative;z-index:1"><a href="https://lellie.com" class="btn btn-gold" style="font-size:14px;padding:12px 28px">Shop at Lellie.com →</a></div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div class="page" id="page-feedback">
+  <div class="fb-hero">
+    <div class="container">
+      <span class="eyebrow">Your Voice Shapes This Site</span>
+      <h1 style="font-size:50px;color:white;line-height:1.0;margin-bottom:11px">Tell us what you<br><em style="color:var(--gold);font-style:italic">actually</em> need.</h1>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.8;font-weight:300">Every piece of feedback shapes what gets built next.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="fb-grid">
+        <div class="fb-form-card">
+          <h3>Share Your Experience</h3>
+          <p>Takes 2 minutes. Your city and county help us build better local resources.</p>
+          <div class="fg"><label>I am a...</label><select><option>Foster Youth</option><option>Former Foster Youth</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option><option>Other</option></select></div>
+          <div class="fg-row"><div class="fg"><label>State</label><select><option>California</option><option>Texas</option><option>New York</option><option>Florida</option><option>Other</option></select></div><div class="fg"><label>County</label><input type="text" placeholder="e.g. Los Angeles County"></div></div>
+          <div class="fg"><label>City</label><input type="text" placeholder="e.g. Compton, Inglewood…"></div>
+          <div class="fg"><label>Your Feedback</label><textarea placeholder="What helped? What's missing?"></textarea></div>
+          <div class="fg"><label>Resources you'd like added</label><input type="text" placeholder="e.g. Riverside County contacts…"></div>
+          <div class="fg"><label>Name (optional)</label><input type="text" placeholder="First name or anonymous"></div>
+          <div class="fg"><label>Email (optional)</label><input type="email" placeholder="We'll notify you when we add your request"></div>
+          <button class="fb-submit" onclick="this.textContent='✓ Submitted — thank you';this.style.background='var(--sage)';this.disabled=true">Submit Feedback →</button>
+        </div>
+        <div>
+          <h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">What People Are Saying</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Real feedback from across the country.</p>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div class="qcard"><div class="qcard-text">"Found the clothing allowance letter. DCFS approved in 3 days."</div><div class="qcard-attr">Sarah M. · <span class="qcard-loc">Los Angeles, CA</span></div></div>
+            <div class="qcard"><div class="qcard-text">"Didn't know I could stay past 18. I'm 19 and still in AB 12."</div><div class="qcard-attr">Marcus T. · <span class="qcard-loc">Oakland, CA</span></div></div>
+            <div class="qcard"><div class="qcard-text">"The BIRP log and SCI tracker are part of every placement decision I make."</div><div class="qcard-attr">Denise R. · <span class="qcard-loc">San Diego, CA</span></div></div>
+            <div class="qcard" style="border-left-color:var(--rust)"><div class="qcard-text">"Found kinship licensing benefits here. Nobody at DCFS told me."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-feedback"></footer>
+</div>
+
+<!-- DASHBOARD -->
+<div class="page" id="page-dashboard">
+  <div class="dash-hero">
+    <div class="dash-hero-in">
+      <div class="dash-av" id="dashAv">?</div>
+      <div>
+        <div class="dash-wlc">Welcome back</div>
+        <h2 class="dash-nm" id="dashName">—</h2>
+        <span class="dash-rb" id="dashRole">—</span>
+      </div>
+      <div class="dash-meta">
+        <div class="dash-since" id="dashSince">Member since —</div>
+        <div class="dash-loc" id="dashLoc">📍 —</div>
+      </div>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-in">
+      <div>
+        <div class="dash-nav">
+          <div class="dash-ni on" onclick="showDP('overview',this)"><span>🏠</span>Overview</div>
+          <div class="dash-ni" onclick="showDP('placements',this)"><span>👶</span>Placements</div>
+          <div class="dash-ni" onclick="showDP('templates',this)"><span>✉️</span>My Templates</div>
+          <div class="dash-ni" onclick="showDP('saved',this)"><span>🔖</span>Saved Items</div>
+          <div class="dash-ni" onclick="showDP('profile',this)"><span>👤</span>Profile</div>
+          <div class="dash-ni" onclick="showDP('settings',this)"><span>⚙️</span>Settings</div>
+        </div>
+        <div style="background:rgba(200,146,58,.07);border:1px solid rgba(200,146,58,.16);border-radius:var(--r);padding:14px;text-align:center">
+          <div style="font-size:20px;margin-bottom:5px">📓</div>
+          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">Support the mission</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">Journal purchases keep all tools free.</div>
+          <a href="https://lellie.com" style="display:block;background:var(--gold);color:var(--ink);padding:7px;border-radius:4px;font-size:12px;font-weight:700;text-align:center">Shop Lellie.com →</a>
+        </div>
+      </div>
+      <div>
+        <div class="dp on" id="dp-overview">
+          <h2 class="dp-title">Dashboard</h2>
+          <p class="dp-sub" id="dpSub">Your resources and saved items.</p>
+          <div class="dash-stats">
+            <div class="ds"><div class="ds-num" id="statDl">0</div><div class="ds-lbl">Downloaded</div></div>
+            <div class="ds"><div class="ds-num" id="statSv">0</div><div class="ds-lbl">Saved</div></div>
+            <div class="ds"><div class="ds-num" id="statPl">0</div><div class="ds-lbl">Placements</div></div>
+            <div class="ds"><div class="ds-num">100%</div><div class="ds-lbl">Free</div></div>
+          </div>
+          <h4 style="font-size:18px;color:var(--ink);margin-bottom:12px">Recent Downloads</h4>
+          <div class="dl-list" id="recentList"></div>
+          <h4 style="font-size:18px;color:var(--ink);margin:20px 0 12px">Quick Access</h4>
+          <div class="grid-2" style="gap:11px">
+            <div onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;display:flex;align-items:center;gap:11px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:22px">👶</span><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Placement Tracker</div><div style="font-size:11px;color:var(--muted)" id="plQuickLbl">Track children in your home</div></div></div>
+            <div onclick="go('vault')" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;display:flex;align-items:center;gap:11px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:22px">✉️</span><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Browse Templates</div><div style="font-size:11px;color:var(--muted)">9 ready</div></div></div>
+            <div onclick="go('education')" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;display:flex;align-items:center;gap:11px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:22px">📚</span><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Parent Education</div><div style="font-size:11px;color:var(--muted)">AI-powered · Today</div></div></div>
+            <div onclick="openAAN()" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;cursor:pointer;display:flex;align-items:center;gap:11px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:22px">💬</span><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Ask Aunt Nancy</div><div style="font-size:11px;color:var(--muted)">24/7 foster care advisor</div></div></div>
+          </div>
+        </div>
+        <div class="dp" id="dp-placements">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+            <h2 class="dp-title">Placement Tracker</h2>
+            <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:8px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">+ Add Placement</button>
+          </div>
+          <p class="dp-sub">Track each child in your home — private to your device.</p>
+
+          <!-- ADD / EDIT FORM -->
+          <div id="placementForm" style="display:none;background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:22px">
+            <h3 style="font-size:20px;color:var(--ink);margin-bottom:16px" id="pfTitle">New Placement</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div class="af"><label>Child's First Name</label><input type="text" id="pf-name" placeholder="First name only"></div>
+              <div class="af"><label>Date of Birth</label><input type="date" id="pf-dob"></div>
+              <div class="af"><label>Placement Date</label><input type="date" id="pf-date"></div>
+              <div class="af"><label>Child's Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
+              <div class="af"><label>School / Grade</label><input type="text" id="pf-school" placeholder="e.g. 75th Street Elementary · 3rd grade"></div>
+              <div class="af"><label>School Enrolled?</label><select id="pf-enrolled"><option value="">Select…</option><option value="yes">Yes — enrolled</option><option value="pending">Pending enrollment</option><option value="no">Not yet</option><option value="na">Not school age</option></select></div>
+              <div class="af"><label>CSW Name</label><input type="text" id="pf-csw" placeholder="Assigned social worker"></div>
+              <div class="af"><label>CSW Phone</label><input type="tel" id="pf-cswph" placeholder="Direct phone number"></div>
+              <div class="af"><label>SCSW Name</label><input type="text" id="pf-scsw" placeholder="Supervising social worker"></div>
+              <div class="af"><label>SCSW Phone</label><input type="tel" id="pf-scswph" placeholder="Direct phone number"></div>
+              <div class="af"><label>DCFS Case Number</label><input type="text" id="pf-case" placeholder="Optional"></div>
+              <div class="af"><label>Court Date</label><input type="date" id="pf-court"></div>
+            </div>
+            <div class="af" style="margin-top:4px"><label>Clothing Allowance Status</label><select id="pf-clothing"><option value="">Select…</option><option value="requested">Letter sent — awaiting approval</option><option value="approved">Approved</option><option value="received">Received</option><option value="not-requested">Not yet requested</option></select></div>
+            <div class="af"><label>Emergency Benefit Status</label><select id="pf-ebenefit"><option value="">Select…</option><option value="requested">Requested</option><option value="approved">Approved</option><option value="received">Received</option><option value="not-requested">Not yet requested</option></select></div>
+            <div class="af"><label>Medi-Cal Status</label><select id="pf-medi"><option value="">Select…</option><option value="active">Active</option><option value="pending">Pending</option><option value="issue">Issue — follow up needed</option><option value="unknown">Unknown</option></select></div>
+            <div class="af"><label>CASA / Attorney</label><input type="text" id="pf-casa" placeholder="Name and contact"></div>
+            <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="Anything important to track — behaviors, medical, upcoming appointments…"></textarea></div>
+            <div class="af"><label>Documents Received</label>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px" id="docChecks">
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-birth" style="accent-color:var(--gold)"> Birth Certificate</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-ss" style="accent-color:var(--gold)"> Social Security Card</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-immun" style="accent-color:var(--gold)"> Immunization Records</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-medi" style="accent-color:var(--gold)"> Medi-Cal Card</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-school" style="accent-color:var(--gold)"> School Records</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-iep" style="accent-color:var(--gold)"> IEP (if applicable)</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-court" style="accent-color:var(--gold)"> Court Orders</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-isp" style="accent-color:var(--gold)"> ISP / Case Plan</label>
+                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-health" style="accent-color:var(--gold)"> Health Passport</label>
+              </div>
+            </div>
+            <div style="display:flex;gap:9px;margin-top:16px">
+              <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
+              <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+              <button onclick="printPlacement()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-left:auto">🖨 Print</button>
+            </div>
+          </div>
+
+          <!-- PLACEMENT LIST -->
+          <div id="placementList"></div>
+        </div>
+          <h2 class="dp-title">My Templates</h2>
+          <p class="dp-sub">Templates you've downloaded.</p>
+          <div class="dl-list" id="dlList"></div>
+          <div style="margin-top:18px"><button class="btn btn-gold" onclick="go('vault')" style="font-size:12.5px">Browse All Templates →</button></div>
+        </div>
+        <div class="dp" id="dp-saved">
+          <h2 class="dp-title">Saved Items</h2>
+          <p class="dp-sub">Your bookmarked resources.</p>
+          <div class="grid-2" id="savedGrid"></div>
+        </div>
+        <div class="dp" id="dp-profile">
+          <h2 class="dp-title">Profile</h2>
+          <p class="dp-sub">Update your information.</p>
+          <div class="prof-grid">
+            <div class="af"><label>First Name</label><input type="text" id="pf-first"></div>
+            <div class="af"><label>Last Name</label><input type="text" id="pf-last"></div>
+            <div class="af"><label>Email</label><input type="email" id="pf-email"></div>
+            <div class="af"><label>Role</label><select id="pf-role"><option value="youth">Foster Youth</option><option value="parent">Foster Parent</option><option value="kinship">Kinship Caregiver</option><option value="worker">Social Worker</option></select></div>
+            <div class="af"><label>State</label><select id="pf-state"><option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option></select></div>
+            <div class="af"><label>City</label><input type="text" id="pf-city"></div>
+          </div>
+          <div class="af" style="margin-top:4px"><label>Agency / Organization</label><input type="text" id="pf-org" placeholder="e.g. LA County DCFS"></div>
+          <button class="prof-save" onclick="saveProfile()">Save Changes →</button>
+          <div class="auth-msg" id="profMsg" style="margin-top:12px"></div>
+        </div>
+        <div class="dp" id="dp-settings">
+          <h2 class="dp-title">Settings</h2>
+          <p class="dp-sub">Manage preferences.</p>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Email notifications</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">New templates</div></div><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
+            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Policy update alerts</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">DCFS policy changes</div></div><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
+            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Research digest</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">Monthly</div></div><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
+          </div>
+          <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border)">
+            <h4 style="font-size:17px;color:var(--ink);margin-bottom:10px">Account</h4>
+            <button onclick="doSignOut()" style="background:transparent;border:1px solid #c0392b;color:#c0392b;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Sign Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer" id="ft-dash"></footer>
+</div>
+
+<!-- ASK AUNT NANCY FLOAT -->
+<button class="aan-float" id="aanFloat" onclick="openAAN()">💬</button>
+
+<!-- ASK AUNT NANCY WIDGET -->
+<div class="aan-widget" id="aanWidget">
+  <div class="aan-hd">
+    <div class="aan-av">👵</div>
+    <div><div class="aan-hd-name">Aunt Nancy</div><div class="aan-status"><span class="aan-sdot"></span>Online · Foster care specialist</div></div>
+    <button class="aan-x" onclick="closeAAN()">✕</button>
+  </div>
+  <div class="aan-modes">
+    <button class="aan-mode on" data-m="foster-parent" onclick="setAanMode('foster-parent')">🏠 Foster Parent</button>
+    <button class="aan-mode" data-m="youth" onclick="setAanMode('youth')">👧 Foster Youth</button>
+    <button class="aan-mode" data-m="kinship" onclick="setAanMode('kinship')">👵 Kinship</button>
+    <button class="aan-mode" data-m="worker" onclick="setAanMode('worker')">📋 Social Worker</button>
+  </div>
+  <div class="aan-msgs" id="aanMsgs"></div>
+  <div class="aan-qrow" id="aanQrow"></div>
+  <div class="aan-input-row">
+    <textarea class="aan-input" id="aanInput" placeholder="Ask anything about foster care…" rows="1"></textarea>
+    <button class="aan-send" id="aanSend" onclick="sendAAN()">↑</button>
+  </div>
+  <div class="aan-disc">Aunt Nancy provides general information, not legal advice. Emergencies: 1-800-540-4000</div>
+</div>
+
+<script>
+// ══ LOCATION DB ══
+const DB={
+  CA:{city:'Los Angeles',state:'California',stateCode:'CA',county:'Los Angeles County',agency:'DCFS — Los Angeles County Dept. of Children & Family Services',phone:'1-800-540-4000',em:'DCFS Emergency (LA)',resources:[{tag:'Benefits',title:'Clothing Allowance Request Letter',sub:'DCFS Policy 0900-506.10'},{tag:'Education',title:'LAUSD McKinney-Vento Enrollment',sub:'Ed. Code §48853.5'},{tag:'Extended Care',title:'AB 12 / NMD Program — LA County',sub:'Extended care to age 21'},{tag:'College',title:'Cal Grant B — Foster Youth Priority',sub:'CA Student Aid Commission'},{tag:'Housing',title:'THP-Plus Housing — LA County',sub:'Transitional Housing Plus'},{tag:'Tools',title:'SCI Level 2/3 Placement Tracker',sub:'Interactive · CA criteria'}]},
+  TX:{city:'Dallas',state:'Texas',stateCode:'TX',county:'Dallas County',agency:'TX DFPS',phone:'1-800-252-5400',em:'DFPS Emergency (TX)',resources:[{tag:'Benefits',title:'Texas Foster Care Clothing Allowance',sub:'DFPS Policy · TX rates'},{tag:'Education',title:'McKinney-Vento Texas Enrollment',sub:'42 U.S.C. §11432'},{tag:'Extended Care',title:'Texas Transitional Living Services',sub:'Ages 18–21 · Chafee'},{tag:'College',title:'Tuition Waiver — Texas Foster Youth',sub:'State schools · Free under 26'},{tag:'Housing',title:'Texas ILP Housing Assistance',sub:'ILP · Ages 16–21'},{tag:'Tools',title:'Screening Instruments Library',sub:'PHQ-A, SCARED, CRAFFT, ACEs'}]},
+  NY:{city:'New York City',state:'New York',stateCode:'NY',county:'New York County',agency:'NYC ACS',phone:'1-800-342-3720',em:'ACS Emergency (NYC)',resources:[{tag:'Benefits',title:'NYC Foster Care Clothing Allowance',sub:'ACS Policy'},{tag:'Education',title:'NYC DOE Foster Youth Enrollment',sub:'McKinney-Vento · NYC'},{tag:'Extended Care',title:'NY Bridges to Health Program',sub:'Ages 18–21'},{tag:'College',title:'NY TAP Grant — Foster Youth',sub:'CUNY/SUNY · Full aid'},{tag:'Housing',title:'NYC Foster Youth Housing',sub:'ACS housing'},{tag:'Support',title:'FCCA — Foster Care Alumni NYC',sub:'NYC peer support'}]},
+  FL:{city:'Miami',state:'Florida',stateCode:'FL',county:'Miami-Dade County',agency:'FL DCF',phone:'1-800-962-2873',em:'DCF Emergency (FL)',resources:[{tag:'Benefits',title:'Florida Foster Care Clothing Allowance',sub:'DCF Policy'},{tag:'Education',title:'Florida School Stability',sub:'McKinney-Vento · FL'},{tag:'Extended Care',title:'Road to Independence Program',sub:'Ages 18–23 stipend'},{tag:'College',title:'Florida Tuition Exemption',sub:'Free to age 28'},{tag:'Housing',title:'Florida ILP Housing',sub:'ILP referrals'},{tag:'Tools',title:'BIRP Daily Log',sub:'Browser · printable'}]},
+  WA:{city:'Seattle',state:'Washington',stateCode:'WA',county:'King County',agency:'WA DCYF',phone:'1-800-633-8599',em:'DCYF Emergency (WA)',resources:[{tag:'Benefits',title:'Washington Foster Care Rates',sub:'DCYF rates'},{tag:'Education',title:'WA School Stability',sub:'McKinney-Vento · WA'},{tag:'Extended Care',title:'WA Extended Foster Care',sub:'ILS · Ages 18–21'},{tag:'College',title:'Washington College Grant',sub:'Full tuition'},{tag:'Housing',title:'WA Transitional Living',sub:'King Co. · DCYF'},{tag:'Tools',title:'Placement Intake Tracker',sub:'Interactive · WA'}]},
+};
+let loc={...DB.CA};
+
+// ══ TEMPLATES ══
+const TEMPLATES=[
+  {id:'t1',cat:'benefits',title:'Clothing Allowance Request',desc:'Formal request citing DCFS policy thresholds and placement date.',cite:'DCFS Policy 0900-506.10',audience:'Foster Parents',locked:true,icon:'👕'},
+  {id:'t2',cat:'benefits',title:'Emergency Benefit Request Letter',desc:'Request for emergency benefits addressed to CSW and SCSW.',cite:'WIC §11460 · DCFS Policy',audience:'Foster Parents',locked:true,icon:'🆘'},
+  {id:'t3',cat:'education',title:'McKinney-Vento School Enrollment',desc:'Enrollment letter for immediate enrollment without delay.',cite:'Ed. Code §48853.5',audience:'Foster Parents · Youth',locked:true,icon:'🏫'},
+  {id:'t4',cat:'education',title:'LAUSD Enrollment Dispute Letter',desc:'Formal dispute letter to LAUSD Office of General Counsel.',cite:'Ed. Code §48853.5 · McKinney-Vento',audience:'Foster Parents',locked:true,icon:'📝'},
+  {id:'t5',cat:'placement',title:'Placement Intake Checklist',desc:'72-hour placement arrival checklist covering docs, enrollment, health, and benefits.',cite:'DCFS Placement Policy',audience:'Foster Parents',locked:false,icon:'✅'},
+  {id:'t6',cat:'placement',title:'SCI Level 2/3 Criteria Tracker',desc:'Interactive scoring tool for Specialized Care Increment criteria.',cite:'DCFS SCM Policy',audience:'Social Workers',locked:false,icon:'📊'},
+  {id:'t7',cat:'placement',title:'BIRP Daily Log Template',desc:'Behavior, Intervention, Response, Plan daily documentation log.',cite:'Clinical Documentation',audience:'Social Workers',locked:false,icon:'📋'},
+  {id:'t8',cat:'advocacy',title:'CSW / SCSW Benefit Request Letter',desc:'Direct letter to CSW and SCSW requesting benefits with policy citations.',cite:'DCFS Policy · WIC',audience:'Foster Parents · Kinship',locked:true,icon:'✉️'},
+  {id:'t9',cat:'advocacy',title:'AB 12 / NMD Request Letter',desc:'Letter requesting Non-Minor Dependent extended foster care under AB 12.',cite:'WIC §11403 · AB 12',audience:'Foster Youth',locked:true,icon:'🎓'},
+];
+const CC={benefits:{bg:'rgba(136,54,24,.08)',c:'#883618'},education:{bg:'rgba(25,55,90,.08)',c:'#19375A'},placement:{bg:'rgba(42,102,73,.08)',c:'#2A6649'},advocacy:{bg:'rgba(88,42,104,.08)',c:'#582A68'}};
+
+// ══ EDUCATION ══
+const EDU={
+  local:{icon:'📍',color:'var(--sage)',prompt:(l)=>`Generate 6 current education cards for foster parents in ${l.city}, ${l.state} (${l.county}). Cover local DCFS updates, county programs, court processes, local support groups, school district policies, and housing resources. JSON only: [{title,summary,strategy,source,tag}]`},
+  state:{icon:'🏛️',color:'var(--navy)',prompt:(l)=>`Generate 6 state-level education cards for foster parents in ${l.state}. Cover AB 12/NMD, state budget impacts, statewide training, caregiver support, LGBTQ+ protections. JSON only: [{title,summary,strategy,source,tag}]`},
+  federal:{icon:'🇺🇸',color:'var(--plum)',prompt:()=>`Generate 6 federal foster care education cards. Cover Title IV-E, FFPSA, Chafee, McKinney-Vento, federal court decisions. JSON only: [{title,summary,strategy,source,tag}]`},
+  trends:{icon:'📈',color:'var(--rust)',prompt:()=>`Generate 6 current foster care trends for foster parents. Cover trauma-informed care, normalcy standards, sibling placement, youth voice, technology, alumni outcomes. JSON only: [{title,summary,strategy,source,tag}]`},
+  studies:{icon:'🔬',color:'var(--sage)',prompt:()=>`Generate 6 recent research findings from Annie E. Casey, UCLA, Harvard, Child Trends, Chapin Hall, CDC. Focus on attachment, educational stability, mental health, placement stability. JSON only: [{title,summary,strategy,source,tag}]`},
+  strategies:{icon:'💡',color:'var(--gold)',prompt:()=>`Generate 6 evidence-based strategies for foster parents: de-escalation, educational support, transition prep, bio family visits, self-care, system advocacy. JSON only: [{title,summary,strategy,source,tag}]`},
+};
+let eduCache={};
+
+async function loadEdu(tab){
+  document.querySelectorAll('.edu-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.edu-section').forEach(s=>s.classList.remove('on'));
+  document.querySelector(`[data-edu="${tab}"]`)?.classList.add('on');
+  const sec=document.getElementById('edu-'+tab);
+  if(sec) sec.classList.add('on');
+  const ck=tab+'_'+loc.stateCode;
+  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<3600000){renderEdu(tab,eduCache[ck].data);return;}
+  if(sec) sec.innerHTML=`<div class="edu-loading"><div class="edu-spinner"></div><div style="font-size:13.5px;color:var(--muted);text-align:center;max-width:300px;line-height:1.6">Claude AI is researching the latest ${tab} updates for ${loc.city}, ${loc.state}…<div class="edu-ai-b">✨ Powered by Claude AI</div></div></div>`;
+  try{
+    const topic=EDU[tab];
+    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'You are a foster care education specialist. Respond with valid JSON only — no markdown, no backticks, no explanation. Return a JSON array of exactly 6 objects.',messages:[{role:'user',content:topic.prompt(loc)}]})});
+    const data=await res.json();
+    const text=data.content?.[0]?.text||'[]';
+    const cards=JSON.parse(text.replace(/```json|```/g,'').trim());
+    eduCache[ck]={data:cards,ts:Date.now()};
+    renderEdu(tab,cards);
+  }catch(e){
+    if(sec) sec.innerHTML=`<div class="edu-loading"><div style="font-size:28px">⚠️</div><div style="font-size:13px;color:var(--muted)">Couldn't load content. <span style="color:var(--sage);cursor:pointer;border-bottom:1px dashed" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">Try again →</span></div></div>`;
+  }
+}
+
+function renderEdu(tab,cards){
+  const sec=document.getElementById('edu-'+tab);
+  if(!sec||!cards?.length) return;
+  const topic=EDU[tab];
+  const now=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const feat=cards[0];const grid=cards.slice(1);
+  const ck=tab+'_'+loc.stateCode;
+  const tabLabel=tab.charAt(0).toUpperCase()+tab.slice(1);
+  sec.innerHTML=`
+    <div class="edu-sec-hd">
+      <div><span class="eyebrow">${topic.icon} ${tabLabel}</span><h2 class="edu-sec-title">Latest <em>${tabLabel}</em> Updates</h2></div>
+      <div style="text-align:right"><div style="font-size:11px;color:var(--muted)">Updated ${now}</div><span class="edu-refresh" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">↻ Refresh</span></div>
+    </div>
+    <div class="edu-highlight">
+      <div>
+        <div class="edu-hl-ey">Featured Insight</div>
+        <h3 class="edu-hl-h">${feat.title}</h3>
+        <p class="edu-hl-p">${feat.summary}</p>
+        ${feat.strategy?`<div class="edu-hl-strat"><div class="edu-hl-sl">Strategy for Foster Parents</div><div class="edu-hl-st">${feat.strategy}</div></div>`:''}
+      </div>
+      <div class="edu-hl-meta">
+        <div class="edu-hl-stat"><div class="edu-hl-num">${topic.icon}</div><div class="edu-hl-lbl">${tabLabel} Resource</div></div>
+        <div class="edu-hl-stat"><div style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.5">${feat.source||'Current Research'}</div><div class="edu-hl-lbl">Source</div></div>
+        <div class="edu-hl-stat"><div style="font-size:12.5px;color:rgba(255,255,255,.55)">${now}</div><div class="edu-hl-lbl">Generated</div></div>
+      </div>
+    </div>
+    <div class="grid-3">
+      ${grid.map(c=>`<div class="card"><div class="card-pad"><span class="card-tag" style="background:rgba(42,102,73,.08);color:${topic.color}">${c.tag||tabLabel}</span><h3 class="card-title">${c.title}</h3><p class="card-body">${c.summary}</p>${c.strategy?`<div class="card-strategy"><strong>Strategy:</strong> ${c.strategy}</div>`:''}</div><div class="card-foot"><span>${c.source||'Research'}</span><span>${now}</span></div></div>`).join('')}
+    </div>`;
+}
+
+// ══ TEMPLATES RENDER ══
+let tplFilter='all';
+function renderTemplates(filter){
+  if(filter) tplFilter=filter;
+  const grid=document.getElementById('tplGrid');
+  if(!grid) return;
+  const list=tplFilter==='all'?TEMPLATES:TEMPLATES.filter(t=>t.cat===tplFilter);
+  const li=!!currentUser;
+  grid.innerHTML=list.map(t=>{
+    const locked=t.locked&&!li;
+    const dl=li&&currentUser.downloads?.includes(t.id);
+    const cc=CC[t.cat]||{bg:'rgba(42,102,73,.08)',c:'var(--sage)'};
+    return `<div class="tpl-card${locked?' locked':''}">
+      <div class="tpl-top">
+        <div class="tpl-tr"><span class="card-tag" style="background:${cc.bg};color:${cc.c}">${t.cat}</span><span style="font-size:13px">${locked?'🔒':dl?'✅':'🔓'}</span></div>
+        <h3 class="tpl-title">${t.icon} ${t.title}</h3>
+        <p class="tpl-desc">${t.desc}</p>
+        <code class="tpl-cite">${t.cite}</code>
+      </div>
+      <div class="tpl-foot">
+        ${locked?`<button class="tpl-btn tpl-ul" onclick="openAuth('signup')">🔐 Sign Up to Download</button>`:`<button class="tpl-btn tpl-dl" onclick="dlTpl('${t.id}','${t.title}')">⬇ Download</button>`}
+        <span class="tpl-fmt">${t.audience}</span>
+      </div>
+      ${locked?`<div class="tpl-lock-ov"><div style="font-size:28px;margin-bottom:7px">🔐</div><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:11px">Free account required</div><button class="tpl-btn tpl-ul" onclick="openAuth('signup')">Create Free Account</button></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function filterTpl(cat,btn){
+  document.querySelectorAll('.vf-btn').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  renderTemplates(cat);
+}
+
+function dlTpl(id,title){
+  if(!currentUser){openAuth('signup');return;}
+  if(!currentUser.downloads) currentUser.downloads=[];
+  if(!currentUser.downloads.includes(id)) currentUser.downloads.push(id);
+  saveUser();renderTemplates();populateDashboard();
+  const btn=event.target;const orig=btn.textContent;
+  btn.textContent='✓ Downloaded!';btn.style.background='var(--sage)';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';},2000);
+}
+
+// ══ LOCATION ══
+function initGeo(){
+  setTimeout(()=>{
+    document.getElementById('geoLoad').style.display='none';
+    const pill=document.getElementById('geoPill');pill.style.display='flex';
+    renderAll();
+  },1200);
+}
+
+function renderAll(){
+  const d=loc;
+  const gp=document.getElementById('geoPlace');if(gp) gp.textContent=`${d.city}, ${d.state}`;
+  const lcp=document.getElementById('lcPlace');if(lcp) lcp.textContent=`${d.city}, ${d.stateCode}`;
+  const lh=document.getElementById('localH');if(lh) lh.textContent=`${d.city}, ${d.state}`;
+  const ls=document.getElementById('localSub');if(ls) ls.textContent=`Resources specific to ${d.county}`;
+  const an=document.getElementById('agName');if(an) an.textContent=d.agency;
+  const ap=document.getElementById('agPhone');if(ap) ap.textContent=`📞 ${d.phone}`;
+  const el=document.getElementById('emLbl');if(el) el.textContent=d.em+':';
+  const ep=document.getElementById('emPhone');if(ep) ep.textContent=d.phone;
+  const grid=document.getElementById('localGrid');
+  if(grid) grid.innerHTML=d.resources.map(r=>`<div class="lc-card"><div class="lc-tag">${r.tag}</div><div class="lc-title">${r.title}</div><div class="lc-sub">${r.sub}</div></div>`).join('');
+}
+
+function openLocModal(){document.getElementById('locOverlay').classList.add('open');document.getElementById('ms').value=loc.stateCode||'CA';document.getElementById('mc').value=loc.county;document.getElementById('mci').value=loc.city;}
+function closeLocModal(){document.getElementById('locOverlay').classList.remove('open')}
+function saveLocation(){
+  const sc=document.getElementById('ms').value;
+  const county=document.getElementById('mc').value;
+  const city=document.getElementById('mci').value;
+  const sn={CA:'California',TX:'Texas',NY:'New York',FL:'Florida',IL:'Illinois',WA:'Washington',Other:'Other State'};
+  const base=DB[sc]||DB.CA;
+  loc={...base,city:city||base.city,county:county||base.county,state:sn[sc]||base.state,stateCode:sc};
+  renderAll();closeLocModal();
+}
+document.getElementById('locOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('locOverlay'))closeLocModal();});
+
+// ══ LANGUAGE ══
+const LANGS=[['en','English','🇺🇸'],['es','Español','🇲🇽'],['zh','中文','🇨🇳'],['vi','Tiếng Việt','🇻🇳'],['ko','한국어','🇰🇷'],['tl','Tagalog','🇵🇭'],['ar','العربية','🇸🇦'],['hy','Հայերեն','🇦🇲'],['ru','Русский','🇷🇺'],['fa','فارسی','🇮🇷'],['ja','日本語','🇯🇵'],['am','አማርኛ','🇪🇹']];
+function buildLangDD(){const dd=document.getElementById('langDd');if(dd) dd.innerHTML=LANGS.map(([code,label,flag],i)=>`<div class="lang-opt${i===0?' act':''}" onclick="setLang('${code}','${label}','${flag}',this)"><span>${flag}</span>${label}<span class="lang-native">${label}</span></div>`).join('');}
+function toggleLang(){document.getElementById('langDd').classList.toggle('open');}
+function setLang(code,label,flag,el){document.getElementById('langLbl').textContent=label;document.getElementById('langFlag').textContent=flag;document.getElementById('langDd').classList.remove('open');document.querySelectorAll('.lang-opt').forEach(o=>o.classList.remove('act'));if(el) el.classList.add('act');}
+document.addEventListener('click',e=>{if(!e.target.closest('#langBtn'))document.getElementById('langDd').classList.remove('open');});
+
+// ══ AUTH ══
+let currentUser=null;let selectedRole='youth';
+function loadUser(){try{const u=localStorage.getItem('an_user');if(u)currentUser=JSON.parse(u);}catch(e){}}
+function saveUser(){try{localStorage.setItem('an_user',JSON.stringify(currentUser));}catch(e){}}
+function clearUser(){try{localStorage.removeItem('an_user');}catch(e){}}
+
+function updateAuthUI(){
+  const li=!!currentUser;
+  document.getElementById('utilAuth').style.display=li?'none':'flex';
+  const av=document.getElementById('utilAvatar');av.style.display=li?'flex':'none';
+  if(li){
+    const init=(currentUser.first[0]+(currentUser.last?.[0]||'')).toUpperCase();
+    document.getElementById('avCircle').textContent=init;
+    document.getElementById('avName').textContent=currentUser.first;
+    document.getElementById('avDdName').textContent=currentUser.first+' '+(currentUser.last||'');
+    document.getElementById('avDdEmail').textContent=currentUser.email;
+  }
+  const gate=document.getElementById('vaultGate');if(gate) gate.style.display=li?'none':'block';
+  renderTemplates();
+  if(li) populateDashboard();
+}
+
+function openAuth(tab='signin'){document.getElementById('authOverlay').classList.add('open');switchTab(tab);clearAuthMsg();}
+function closeAuth(){document.getElementById('authOverlay').classList.remove('open');}
+function switchTab(tab){
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.auth-panel').forEach(p=>p.classList.remove('on'));
+  const key=tab.charAt(0).toUpperCase()+tab.slice(1);
+  document.getElementById('tab'+key)?.classList.add('on');
+  document.getElementById('panel'+key)?.classList.add('on');
+  document.getElementById('authTitle').textContent=tab==='signin'?'Welcome back.':'Create your account.';
+  document.getElementById('authSub').textContent=tab==='signin'?'Sign in to access your templates.':'Free forever. No spam.';
+  clearAuthMsg();
+}
+function showAuthMsg(txt,type='error'){const el=document.getElementById('authMsg');el.textContent=txt;el.className='auth-msg '+type+' show';}
+function clearAuthMsg(){const el=document.getElementById('authMsg');el.className='auth-msg';}
+
+function doSignIn(){
+  clearAuthMsg();
+  const email=document.getElementById('si-email').value.trim();
+  const pw=document.getElementById('si-pw').value;
+  if(!email||!pw){showAuthMsg('Please enter your email and password.');return;}
+  try{
+    const all=JSON.parse(localStorage.getItem('an_users')||'[]');
+    const user=all.find(u=>u.email.toLowerCase()===email.toLowerCase());
+    if(!user){showAuthMsg('No account found. Create one below.');return;}
+    if(user.pw!==btoa(pw)){showAuthMsg('Incorrect password.');return;}
+    currentUser={...user};saveUser();
+    showAuthMsg('Welcome back, '+user.first+'! 👋','success');
+    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},900);
+  }catch(e){showAuthMsg('Sign in failed. Please try again.');}
+}
+
+function doSignUp(){
+  clearAuthMsg();
+  const first=document.getElementById('su-first').value.trim();
+  const email=document.getElementById('su-email').value.trim();
+  const pw=document.getElementById('su-pw').value;
+  const state=document.getElementById('su-state').value;
+  const city=document.getElementById('su-city').value.trim();
+  const terms=document.getElementById('termsCb').checked;
+  if(!first){showAuthMsg('Please enter your first name.');return;}
+  if(!email||!email.includes('@')){showAuthMsg('Please enter a valid email.');return;}
+  if(pw.length<8){showAuthMsg('Password must be at least 8 characters.');return;}
+  if(!terms){showAuthMsg('Please agree to the Terms of Service.');return;}
+  try{
+    const all=JSON.parse(localStorage.getItem('an_users')||'[]');
+    if(all.find(u=>u.email.toLowerCase()===email.toLowerCase())){showAuthMsg('An account with that email exists. Sign in.');return;}
+    const nu={first,last:document.getElementById('su-last').value.trim(),email,pw:btoa(pw),role:selectedRole,state,city,joined:new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}),downloads:[],saved:[]};
+    all.push(nu);localStorage.setItem('an_users',JSON.stringify(all));
+    currentUser={...nu};saveUser();
+    showAuthMsg('Account created! Welcome, '+first+' 🎉','success');
+    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},900);
+  }catch(e){showAuthMsg('Account creation failed. Please try again.');}
+}
+
+function demoLogin(){currentUser={first:'Leslie',last:'H.',email:'leslie@demo.org',role:'parent',state:'CA',city:'Los Angeles',joined:'January 2026',downloads:['t1','t3','t5'],saved:['AB 12 Guide','Kinship Benefits','UCLA Housing Study']};saveUser();showAuthMsg('Demo loaded — welcome, Leslie 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},800);}
+function demoLoginW(){currentUser={first:'Denise',last:'R.',email:'denise@dcfs.org',role:'worker',state:'CA',city:'San Diego',joined:'March 2025',downloads:['t6','t7','t5'],saved:['BIRP Guide','SCI Reference']};saveUser();showAuthMsg('CSW demo loaded — welcome, Denise 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},800);}
+function doSignOut(){currentUser=null;clearUser();updateAuthUI();go('home');}
+function checkPW(pw){const bar=document.getElementById('pwBar');const lbl=document.getElementById('pwLbl');if(!bar) return;const score=(pw.length>=8?1:0)+(pw.length>=12?1:0)+(/[A-Z]/.test(pw)?1:0)+(/[0-9]/.test(pw)?1:0)+(/[^A-Za-z0-9]/.test(pw)?1:0);const colors=['#c0392b','#e07020','#d4a017','#2A6649','#1a5c3a'];const labels=['Too short','Weak','Fair','Good','Strong'];const idx=Math.min(score,4);bar.style.width=[20,40,60,80,100][idx]+'%';bar.style.background=colors[idx];if(lbl){lbl.style.color=colors[idx];lbl.textContent=pw.length===0?'Enter a password':labels[idx];}}
+function pickRole(el){document.querySelectorAll('.role-opt').forEach(r=>r.classList.remove('on'));el.classList.add('on');selectedRole=el.dataset.role;}
+function showForgot(){clearAuthMsg();const email=document.getElementById('si-email').value.trim();if(!email){showAuthMsg('Enter your email first.');return;}showAuthMsg('Reset link sent if account exists.','success');}
+document.getElementById('authOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('authOverlay'))closeAuth();});
+
+// ══ DASHBOARD ══
+const RLABELS={youth:'Foster Youth',parent:'Foster Parent',kinship:'Kinship Caregiver',worker:'Social Worker'};
+const RICOS={youth:'👧',parent:'🏠',kinship:'👵',worker:'📋'};
+
+function populateDashboard(){
+  if(!currentUser) return;
+  const u=currentUser;
+  const init=(u.first[0]+(u.last?.[0]||'')).toUpperCase();
+  document.getElementById('dashAv').textContent=init;
+  document.getElementById('dashName').textContent=u.first+' '+(u.last||'');
+  document.getElementById('dashRole').textContent=(RICOS[u.role]||'👤')+' '+(RLABELS[u.role]||u.role);
+  document.getElementById('dashSince').textContent='Member since '+u.joined;
+  document.getElementById('dashLoc').textContent='📍 '+(u.city?u.city+', ':'')+u.state;
+  document.getElementById('dpSub').textContent='Welcome back, '+u.first+'. Your resources are ready.';
+  document.getElementById('statDl').textContent=u.downloads?.length||0;
+  document.getElementById('statSv').textContent=u.saved?.length||0;
+  const plCount=getPlacements().length;
+  const statPl=document.getElementById('statPl');if(statPl) statPl.textContent=plCount;
+  const plLbl=document.getElementById('plQuickLbl');if(plLbl) plLbl.textContent=plCount?`${plCount} active placement${plCount>1?'s':''}`:'Track children in your home';
+  const recent=document.getElementById('recentList');
+  if(recent){const dls=(u.downloads||[]).slice(-4).reverse();recent.innerHTML=dls.length?dls.map(id=>{const t=TEMPLATES.find(t=>t.id===id);return t?`<div class="dl-item"><span class="dl-ico">${t.icon}</span><div><div class="dl-t">${t.title}</div><div class="dl-s">${t.cite}</div></div><button class="dl-btn" onclick="dlTpl('${id}','${t.title}')">↓</button></div>`:''}).join(''):`<div style="font-size:13px;color:var(--muted);padding:14px 0">No downloads yet. <a onclick="go('vault')" style="color:var(--gold);cursor:pointer">Browse the Letter Vault →</a></div>`;}
+  const dlList=document.getElementById('dlList');
+  if(dlList){const dls=u.downloads||[];dlList.innerHTML=dls.length?dls.map(id=>{const t=TEMPLATES.find(t=>t.id===id);return t?`<div class="dl-item"><span class="dl-ico">${t.icon}</span><div><div class="dl-t">${t.title}</div><div class="dl-s">${t.cite}</div></div><button class="dl-btn" onclick="dlTpl('${id}','${t.title}')">↓</button></div>`:''}).join(''):'<div style="font-size:13px;color:var(--muted)">No downloads yet.</div>';}
+  const sg=document.getElementById('savedGrid');
+  if(sg){const saved=u.saved||[];sg.innerHTML=saved.length?saved.map((item,i)=>`<div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:14px"><div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:3px">📌 ${item}</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Saved recently</div><button onclick="unsave(${i})" style="padding:5px 11px;border-radius:4px;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Remove</button></div>`).join(''):'<div style="font-size:13px;color:var(--muted);grid-column:1/-1">No saved items yet.</div>';}
+  document.getElementById('pf-first').value=u.first||'';document.getElementById('pf-last').value=u.last||'';document.getElementById('pf-email').value=u.email||'';document.getElementById('pf-role').value=u.role||'parent';document.getElementById('pf-state').value=u.state||'CA';document.getElementById('pf-city').value=u.city||'';
+}
+
+function unsave(idx){if(!currentUser?.saved) return;currentUser.saved.splice(idx,1);saveUser();populateDashboard();}
+function saveProfile(){
+  if(!currentUser) return;
+  currentUser.first=document.getElementById('pf-first').value.trim()||currentUser.first;
+  currentUser.last=document.getElementById('pf-last').value.trim();
+  currentUser.email=document.getElementById('pf-email').value.trim()||currentUser.email;
+  currentUser.role=document.getElementById('pf-role').value;
+  currentUser.state=document.getElementById('pf-state').value;
+  currentUser.city=document.getElementById('pf-city').value.trim();
+  saveUser();updateAuthUI();populateDashboard();
+  const msg=document.getElementById('profMsg');if(msg){msg.textContent='✓ Profile saved.';msg.className='auth-msg success show';setTimeout(()=>{msg.className='auth-msg'},3000);}
+}
+function showDP(id,navEl){
+  document.querySelectorAll('.dp').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.dash-ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('dp-'+id)?.classList.add('on');
+  if(navEl) navEl.classList.add('on');
+  if(id==='placements') renderPlacements();
+}
+
+// ══ ASK AUNT NANCY ══
+const AAN_MODES={
+  'foster-parent':{label:'Foster Parent',system:`You are Aunt Nancy, a warm, knowledgeable foster care advocate. You know California foster care law deeply (DCFS policy, WIC, Education Code, AB 12) and practical foster parenting. Give real, direct answers. Bold key terms using **asterisks**. Under 200 words unless more detail is needed.`},
+  'youth':{label:'Foster Youth',system:`You are Aunt Nancy, a trusted adult talking directly to foster youth ages 12-21. Real, warm, never talks down. You know WIC §16001.9, AB 12, college money, and the system. Simple language. Under 150 words.`},
+  'kinship':{label:'Kinship',system:`You are Aunt Nancy, a kinship caregiver specialist. You know CA kinship licensing, benefits, guardianship vs custody, navigating DCFS as family. Warm and practical. Under 200 words.`},
+  'worker':{label:'Social Worker',system:`You are Aunt Nancy, a peer consultant for child welfare social workers. You know DCFS policy numbers, WIC, Title 22 CCR, SCI criteria, BIRP standards. Direct and professional. Under 250 words.`}
+};
+const QUICK_Q={
+  'foster-parent':["What's a clothing allowance?","How do I enroll a child at school fast?","What is the prudent parent standard?","How do I request respite care?"],
+  'youth':["What are my rights in foster care?","Can I stay past age 18?","How do I get money for college?","What happens if I age out?"],
+  'kinship':["Am I eligible for benefits?","What's the difference between guardianship and custody?","How do I become licensed?","What can DCFS ask me?"],
+  'worker':["What is SCI Level 2 criteria?","How do I write a BIRP note?","What does DCFS Policy 0900-506.10 cover?","When does McKinney-Vento apply?"]
+};
+let aanMsgs=[];let aanMode='foster-parent';let aanBusy=false;
+
+function openAAN(){document.getElementById('aanWidget').classList.add('open');document.getElementById('aanFloat').classList.add('hidden');if(aanMsgs.length===0) showAanWelcome();}
+function closeAAN(){document.getElementById('aanWidget').classList.remove('open');document.getElementById('aanFloat').classList.remove('hidden');}
+function showAanWelcome(){
+  aanMsgs=[];const msgs=document.getElementById('aanMsgs');if(msgs) msgs.innerHTML='';
+  addAanMsg('ai',`Hi, I'm **Aunt Nancy** — your foster care advocate. 💛\n\nI'm here for **${AAN_MODES[aanMode].label}s**. Ask me anything about rights, benefits, school enrollment, letters, policy, or what to do next.\n\nEverything stays private. What's on your mind?`);
+  renderQrow();
+}
+function setAanMode(mode){
+  aanMode=mode;
+  document.querySelectorAll('.aan-mode').forEach(b=>b.classList.remove('on'));
+  document.querySelector(`[data-m="${mode}"]`)?.classList.add('on');
+  aanMsgs=[];const msgs=document.getElementById('aanMsgs');if(msgs) msgs.innerHTML='';
+  showAanWelcome();
+}
+function addAanMsg(role,text){
+  aanMsgs.push({role,text});
+  const msgs=document.getElementById('aanMsgs');if(!msgs) return;
+  const div=document.createElement('div');div.className='aan-msg '+role;
+  const html=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  div.innerHTML=`<div class="aan-bubble">${html}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){const msgs=document.getElementById('aanMsgs');if(!msgs) return;const d=document.createElement('div');d.className='aan-typing aan-msg ai';d.id='aanTyping';d.innerHTML='<div class="aan-bubble"><div class="aan-dot"></div><div class="aan-dot"></div><div class="aan-dot"></div></div>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;}
+function hideTyping(){document.getElementById('aanTyping')?.remove();}
+function renderQrow(){const row=document.getElementById('aanQrow');if(!row) return;row.innerHTML=(QUICK_Q[aanMode]||[]).map(q=>`<button class="aan-qbtn" onclick="sendAAN('${q.replace(/'/g,"&#39;")}')">${q}</button>`).join('');}
+async function sendAAN(text){
+  if(!text){const inp=document.getElementById('aanInput');if(!inp) return;text=inp.value.trim();if(!text) return;inp.value='';inp.style.height='38px';}
+  if(aanBusy) return;aanBusy=true;
+  addAanMsg('user',text);
+  const qrow=document.getElementById('aanQrow');if(qrow) qrow.innerHTML='';
+  const send=document.getElementById('aanSend');if(send) send.disabled=true;
+  showTyping();
+  try{
+    const mode=AAN_MODES[aanMode];
+    const sys=mode.system+` The user is in ${loc.city}, ${loc.state} (${loc.county}).`;
+    const history=aanMsgs.slice(-8).map(m=>({role:m.role==='ai'?'assistant':'user',content:m.text.replace(/\*\*(.*?)\*\*/g,'$1')}));
+    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:history})});
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||"I'm having trouble connecting. Please try again.";
+    hideTyping();addAanMsg('ai',reply);
+  }catch(e){hideTyping();addAanMsg('ai','Having trouble connecting. For urgent needs call DCFS at 1-800-540-4000.');}
+  aanBusy=false;if(send) send.disabled=false;
+}
+
+// ══ ROUTING ══
+function go(id,el){
+  if(id==='dashboard'&&!currentUser){openAuth('signin');return;}
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('on'));
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('on'));
+  const pg=document.getElementById('page-'+id);if(pg) pg.classList.add('on');
+  if(el){
+    if(el.classList?.contains('nav-link')) el.classList.add('on');
+    if(el.classList?.contains('role-tab')) el.classList.add('on');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='vault'){renderTemplates();const g=document.getElementById('vaultGate');if(g)g.style.display=currentUser?'none':'block';}
+  if(id==='dashboard'&&currentUser) populateDashboard();
+  if(id==='education') setTimeout(initEduPage,100);
+  // Sync role tab highlight
+  const roleMap={youth:'youth',parent:'parent',kinship:'kinship',worker:'worker',home:'all'};
+  const rkey=roleMap[id]||'all';
+  const rt=document.querySelector(`.role-tab[data-role="${rkey}"]`);if(rt) rt.classList.add('on');
+  // Sync nav link highlight
+  const navMap={vault:'vault',education:'education',products:'products',feedback:'feedback',home:'home'};
+  if(navMap[id]){const nl=document.querySelector(`.nav-link[onclick*="go('${id}"]`);if(nl) nl.classList.add('on');}
+}
+
+function initEduPage(){
+  const sched=document.getElementById('eduSched');
+  if(sched){const now=new Date();sched.innerHTML=`<div class="sched-item"><div class="sched-dot" style="background:#4ade80"></div><div><div class="sched-lbl">Daily</div><div class="sched-sub">Local updates</div></div></div><div class="sched-item"><div class="sched-dot" style="background:var(--gold)"></div><div><div class="sched-lbl">Weekly</div><div class="sched-sub">Trends & strategies</div></div></div><div class="sched-item"><div class="sched-dot" style="background:var(--sage)"></div><div><div class="sched-lbl">Monthly</div><div class="sched-sub">State & federal</div></div></div><div class="sched-item"><div class="sched-dot" style="background:var(--plum)"></div><div><div class="sched-lbl">Ongoing</div><div class="sched-sub">Research</div></div></div><div style="margin-left:auto;font-size:11px;color:var(--muted)">Last updated: ${now.toLocaleString()}</div>`;}
+  loadEdu('local');
+}
+
+// ══ FOOTER ══
+function renderFooters(){
+  const html=`<div class="ft-in"><div><div class="ft-logo">AUNT<em>NANCY</em>.ORG</div><div class="ft-blurb">Free resources for foster youth, families &amp; caregivers. Lellie journals fund the mission.</div></div><div class="ft-col"><h5>For Youth</h5><a onclick="go('youth')">Foster Youth Hub</a><a>Aging Out Guide</a><a>College Money</a><a onclick="openAAN();setAanMode('youth')">Ask Aunt Nancy</a></div><div class="ft-col"><h5>For Families</h5><a onclick="go('parent')">Foster Parent Hub</a><a onclick="go('vault')">Letter Vault</a><a onclick="go('kinship')">Kinship Hub</a></div><div class="ft-col"><h5>For Workers</h5><a onclick="go('worker')">Worker Hub</a><a onclick="go('vault')">Screening Tools</a><a onclick="go('vault')">BIRP Log</a></div><div class="ft-col"><h5>Lellie</h5><a href="https://lellie.com">Teen Journal $14.99</a><a href="https://lellie.com">Kids Journal $12.99</a><a href="https://lellie.com">lellie.com</a></div></div><div class="ft-mis"><p>All tools are <strong>always free</strong>. Journal purchases keep this mission going.</p></div><div class="ft-bot"><span>© 2026 AuntNancy.org</span><span>The village that raises every child.</span></div>`;
+  document.querySelectorAll('footer.footer').forEach(f=>f.innerHTML=html);
+}
+
+// ══ TEXTAREA AUTO-RESIZE ══
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=document.getElementById('aanInput');
+  if(inp){
+    inp.addEventListener('input',()=>{inp.style.height='38px';inp.style.height=Math.min(inp.scrollHeight,90)+'px';});
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAAN();}});
+  }
+});
+
+// ══ PLACEMENT TRACKER ══
+const DOCS=['birth','ss','immun','medi','school','iep','court','isp','health'];
+const DOC_LABELS={'birth':'Birth Certificate','ss':'Social Security Card','immun':'Immunization Records','medi':'Medi-Cal Card','school':'School Records','iep':'IEP','court':'Court Orders','isp':'ISP / Case Plan','health':'Health Passport'};
+const STATUS_LABELS={'yes':'Enrolled','pending':'Enrollment Pending','no':'Not Enrolled','na':'Not School Age','requested':'Requested','approved':'Approved','received':'Received','not-requested':'Not Requested','active':'Active','issue':'Issue — Follow Up','unknown':'Unknown','':' —'};
+let editingPlacementId=null;
+
+function getPlacements(){
+  if(!currentUser) return [];
+  try{return JSON.parse(localStorage.getItem('an_placements_'+currentUser.email)||'[]');}catch(e){return [];}
+}
+function savePlacements(list){
+  if(!currentUser) return;
+  try{localStorage.setItem('an_placements_'+currentUser.email,JSON.stringify(list));}catch(e){}
+}
+
+function openPlacementForm(id){
+  editingPlacementId=id||null;
+  const form=document.getElementById('placementForm');
+  form.style.display='block';
+  form.scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('pfTitle').textContent=id?'Edit Placement':'New Placement';
+  document.getElementById('pfSaveBtn').textContent=id?'Save Changes →':'Save Placement →';
+  // Clear form
+  ['pf-name','pf-dob','pf-date','pf-age','pf-school','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-case','pf-court','pf-notes','pf-casa'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
+  ['pf-enrolled','pf-clothing','pf-ebenefit','pf-medi'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
+  DOCS.forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=false;});
+  // If editing, populate
+  if(id){
+    const list=getPlacements();
+    const p=list.find(p=>p.id===id);
+    if(p){
+      const fmap={'pf-name':'name','pf-dob':'dob','pf-date':'date','pf-age':'age','pf-school':'school','pf-csw':'csw','pf-cswph':'cswph','pf-scsw':'scsw','pf-scswph':'scswph','pf-case':'caseNum','pf-court':'court','pf-notes':'notes','pf-casa':'casa','pf-enrolled':'enrolled','pf-clothing':'clothing','pf-ebenefit':'ebenefit','pf-medi':'medi'};
+      Object.entries(fmap).forEach(([fid,key])=>{const el=document.getElementById(fid);if(el&&p[key]) el.value=p[key];});
+      (p.docs||[]).forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=true;});
+    }
+  }
+}
+
+function cancelPlacementForm(){
+  document.getElementById('placementForm').style.display='none';
+  editingPlacementId=null;
+}
+
+function savePlacement(){
+  const name=document.getElementById('pf-name').value.trim();
+  if(!name){alert('Please enter the child\'s first name.');return;}
+  const p={
+    id:editingPlacementId||('pl_'+Date.now()),
+    name,
+    dob:document.getElementById('pf-dob').value,
+    date:document.getElementById('pf-date').value,
+    age:document.getElementById('pf-age').value,
+    school:document.getElementById('pf-school').value,
+    enrolled:document.getElementById('pf-enrolled').value,
+    csw:document.getElementById('pf-csw').value,
+    cswph:document.getElementById('pf-cswph').value,
+    scsw:document.getElementById('pf-scsw').value,
+    scswph:document.getElementById('pf-scswph').value,
+    caseNum:document.getElementById('pf-case').value,
+    court:document.getElementById('pf-court').value,
+    clothing:document.getElementById('pf-clothing').value,
+    ebenefit:document.getElementById('pf-ebenefit').value,
+    medi:document.getElementById('pf-medi').value,
+    casa:document.getElementById('pf-casa').value,
+    notes:document.getElementById('pf-notes').value,
+    docs:DOCS.filter(d=>document.getElementById('doc-'+d)?.checked),
+    updated:new Date().toISOString(),
+    timeline:[]
+  };
+  const list=getPlacements();
+  if(editingPlacementId){
+    const idx=list.findIndex(x=>x.id===editingPlacementId);
+    if(idx>-1){p.timeline=list[idx].timeline||[];list[idx]=p;}
+  } else {
+    p.timeline=[{date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:'Placement added to tracker'}];
+    list.unshift(p);
+  }
+  savePlacements(list);
+  cancelPlacementForm();
+  renderPlacements();
+}
+
+function deletePlacement(id){
+  if(!confirm('Remove this placement from your tracker? This cannot be undone.')) return;
+  const list=getPlacements().filter(p=>p.id!==id);
+  savePlacements(list);
+  renderPlacements();
+}
+
+function togglePlacement(id){
+  const body=document.getElementById('plb-'+id);
+  if(body) body.classList.toggle('open');
+}
+
+function addNote(id){
+  const note=prompt('Add a note to this placement timeline:');
+  if(!note) return;
+  const list=getPlacements();
+  const p=list.find(p=>p.id===id);
+  if(p){
+    if(!p.timeline) p.timeline=[];
+    p.timeline.push({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note});
+    savePlacements(list);
+    renderPlacements();
+  }
+}
+
+function printPlacement(){window.print();}
+
+function getStatusBadge(label,val){
+  if(!val||val==='not-requested'||val==='unknown'||val==='no') return `<span class="pl-badge warn">${label}: ${STATUS_LABELS[val]||val}</span>`;
+  if(val==='pending'||val==='issue'||val==='requested') return `<span class="pl-badge pend">${label}: ${STATUS_LABELS[val]||val}</span>`;
+  return `<span class="pl-badge ok">${label}: ${STATUS_LABELS[val]||val}</span>`;
+}
+
+function daysInCare(dateStr){
+  if(!dateStr) return null;
+  const d=new Date(dateStr);const now=new Date();
+  const diff=Math.floor((now-d)/(1000*60*60*24));
+  return diff>=0?diff:null;
+}
+
+function renderPlacements(){
+  const list=getPlacements();
+  const container=document.getElementById('placementList');
+  if(!container) return;
+  if(!list.length){
+    container.innerHTML=`<div class="pl-empty"><div class="pl-empty-ico">👶</div><h3>No placements yet</h3><p>Add your first placement to start tracking documents, contacts, benefits, and key dates.</p><button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:10px 22px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">+ Add First Placement</button></div>`;
+    return;
+  }
+  container.innerHTML=list.map(p=>{
+    const days=daysInCare(p.date);
+    const initials=p.name.charAt(0).toUpperCase();
+    const missingDocs=DOCS.filter(d=>!(p.docs||[]).includes(d));
+    const hasConcerns=(p.enrolled==='pending'||p.enrolled==='no')||(p.medi==='issue'||p.medi==='pending')||(p.clothing==='not-requested')||(missingDocs.length>3);
+    return `<div class="pl-card">
+      <div class="pl-hd" onclick="togglePlacement('${p.id}')">
+        <div class="pl-av">${initials}</div>
+        <div>
+          <div class="pl-name">${p.name}${p.age?' · Age '+p.age:''}</div>
+          <div class="pl-since">${p.date?'In care since '+new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'Placement date not set'}${days!==null?' · '+days+' days':''}</div>
+        </div>
+        <div class="pl-badges">
+          ${p.enrolled?getStatusBadge('School',p.enrolled):'<span class="pl-badge warn">School: Not set</span>'}
+          ${p.medi?getStatusBadge('Medi-Cal',p.medi):'<span class="pl-badge warn">Medi-Cal: Not set</span>'}
+          ${hasConcerns?'<span class="pl-badge warn">⚠ Action needed</span>':'<span class="pl-badge ok">✓ On track</span>'}
+        </div>
+        <span style="color:var(--muted);font-size:18px;margin-left:10px">›</span>
+      </div>
+      <div class="pl-body" id="plb-${p.id}">
+        <div class="pl-grid">
+          <div class="pl-field"><div class="pl-fl">CSW</div><div class="pl-fv">${p.csw||'—'}</div>${p.cswph?`<div style="font-size:11px;color:var(--sage);margin-top:2px">📞 ${p.cswph}</div>`:''}</div>
+          <div class="pl-field"><div class="pl-fl">SCSW</div><div class="pl-fv">${p.scsw||'—'}</div>${p.scswph?`<div style="font-size:11px;color:var(--sage);margin-top:2px">📞 ${p.scswph}</div>`:''}</div>
+          <div class="pl-field"><div class="pl-fl">CASA / Attorney</div><div class="pl-fv">${p.casa||'—'}</div></div>
+          <div class="pl-field"><div class="pl-fl">School / Grade</div><div class="pl-fv">${p.school||'—'}</div><div style="font-size:11px;color:var(--muted);margin-top:2px">${STATUS_LABELS[p.enrolled]||'Enrollment not set'}</div></div>
+          <div class="pl-field"><div class="pl-fl">Court Date</div><div class="pl-fv">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+          <div class="pl-field"><div class="pl-fl">Case Number</div><div class="pl-fv">${p.caseNum||'—'}</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+          <div class="pl-field"><div class="pl-fl">Clothing Allowance</div><div class="pl-fv" style="color:${p.clothing==='received'?'var(--sage)':p.clothing==='not-requested'?'#c0392b':'var(--ink)'}">${STATUS_LABELS[p.clothing]||'Not set'}</div></div>
+          <div class="pl-field"><div class="pl-fl">Emergency Benefits</div><div class="pl-fv" style="color:${p.ebenefit==='received'?'var(--sage)':p.ebenefit==='not-requested'?'#c0392b':'var(--ink)'}">${STATUS_LABELS[p.ebenefit]||'Not set'}</div></div>
+          <div class="pl-field"><div class="pl-fl">Medi-Cal</div><div class="pl-fv" style="color:${p.medi==='active'?'var(--sage)':p.medi==='issue'?'#c0392b':'var(--ink)'}">${STATUS_LABELS[p.medi]||'Not set'}</div></div>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Documents Received (${(p.docs||[]).length}/${DOCS.length})</div>
+          <div class="pl-docs">
+            ${DOCS.map(d=>`<span class="pl-doc${(p.docs||[]).includes(d)?'':' missing'}">${(p.docs||[]).includes(d)?'✓':'✗'} ${DOC_LABELS[d]}</span>`).join('')}
+          </div>
+        </div>
+        ${p.notes?`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Notes</div><div class="pl-notes-box">${p.notes}</div></div>`:''}
+        ${p.timeline?.length?`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Timeline</div><div class="pl-timeline">${p.timeline.map(t=>`<div class="pl-tl-item"><div class="pl-tl-date">${t.date}</div>${t.note}</div>`).join('')}</div></div>`:''}
+        <div class="pl-actions">
+          <button class="pl-act-btn" onclick="openPlacementForm('${p.id}')">✏ Edit</button>
+          <button class="pl-act-btn" onclick="addNote('${p.id}')">+ Add Note</button>
+          <button class="pl-act-btn" onclick="window.print()">🖨 Print</button>
+          <button class="pl-act-btn" onclick="go('vault')" style="border-color:var(--gold);color:var(--gold)">✉ Letter Vault</button>
+          <button class="pl-act-btn danger" onclick="deletePlacement('${p.id}')">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ INIT ══
+window.addEventListener('DOMContentLoaded',()=>{
+  loadUser();
+  buildLangDD();
+  renderAll();
+  initGeo();
+  renderTemplates();
+  renderFooters();
+  updateAuthUI();
+  document.querySelector('.role-tab[data-role="all"]')?.classList.add('on');
+});
+</script>
+</body>
+</html>
