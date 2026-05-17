@@ -125,13 +125,13 @@ img{max-width:100%}
 .av-item.danger{color:#e07070}
 /* NAV ROW */
 .nav-row{padding:0 48px;display:flex;align-items:center;height:56px;border-bottom:1px solid #1e1a12}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:white;letter-spacing:.08em;flex-shrink:0;margin-right:28px;cursor:pointer}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:white;letter-spacing:.06em;flex-shrink:0;margin-right:20px;cursor:pointer;white-space:nowrap}
 .nav-logo em{color:var(--gold);font-style:normal}
-.nav-links{display:flex;align-items:center;gap:2px;flex:1}
-.nav-link{padding:6px 13px;border-radius:4px;font-size:13px;color:#999;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;border:none;background:none;font-family:'DM Sans',sans-serif}
+.nav-links{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav-link{padding:6px 12px;border-radius:4px;font-size:13px;color:#999;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;border:none;background:none;font-family:'DM Sans',sans-serif}
 .nav-link:hover{color:white;background:rgba(255,255,255,.05)}
 .nav-link.on{color:white;background:rgba(255,255,255,.07);border-bottom:2px solid var(--gold)}
-.nav-ask{background:var(--gold);color:var(--ink)!important;padding:7px 16px;border-radius:4px;font-weight:700!important;margin-left:auto;flex-shrink:0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
+.nav-ask{background:var(--gold);color:var(--ink)!important;padding:7px 16px;border-radius:4px;font-weight:700!important;margin-left:12px;flex-shrink:0;border:none;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 .nav-ask:hover{background:var(--gold-lt)}
 /* ROLE ROW */
 .role-row{padding:0 48px;display:flex;align-items:stretch;height:40px;background:#100e0a;border-bottom:1px solid #2a2218}
@@ -772,8 +772,9 @@ img{max-width:100%}
     <div class="nav-logo" onclick="go('home')">AUNT<em>NANCY</em>.ORG</div>
     <div class="nav-links">
       <button class="nav-link on" data-page="home" onclick="go('home',this)">Home</button>
-      <button class="nav-link" data-page="vault" onclick="go('vault',this)">Letter Vault</button>
       <button class="nav-link" data-page="education" onclick="go('education',this)">📚 Education</button>
+      <button class="nav-link" data-page="resources" onclick="go('resources',this)">🌿 Resources</button>
+      <button class="nav-link" data-page="vault" onclick="go('vault',this)">Letter Vault</button>
       <button class="nav-link" data-page="qa" onclick="go('qa',this)">Community Q&amp;A</button>
       <button class="nav-link" data-page="products" onclick="go('products',this)">Products</button>
       <button class="nav-link" data-page="feedback" onclick="go('feedback',this)">Feedback</button>
@@ -812,43 +813,6 @@ img{max-width:100%}
     </div>
     <div class="home-r"><img src="IMG_2932.jpeg" alt="The Aunt Nancys" loading="eager"></div>
   </section>
-  <section style="background:var(--cream);padding:44px 0">
-    <div class="container">
-      <span class="eyebrow">Choose Your Path</span>
-      <h2 style="font-size:36px;color:var(--ink);margin-bottom:0">Who are you here for?</h2>
-      <div class="role-cards">
-        <div class="role-card y" onclick="go('youth')"><div class="rc-ico">👧</div><h3 class="rc-title">Foster Youth</h3><p class="rc-desc">Your rights, your future, real answers. Ages 12–21.</p><div class="rc-link">Youth Hub <span>→</span></div></div>
-        <div class="role-card p" onclick="go('parent')"><div class="rc-ico">🏠</div><h3 class="rc-title">Foster Parents</h3><p class="rc-desc">Letters, checklists, enrollment guides — ready to use.</p><div class="rc-link">Foster Parent Hub <span>→</span></div></div>
-        <div class="role-card k" onclick="go('kinship')"><div class="rc-ico">👵</div><h3 class="rc-title">Kinship Caregivers</h3><p class="rc-desc">You stepped up. Here's the support you deserve.</p><div class="rc-link">Kinship Hub <span>→</span></div></div>
-        <div class="role-card w" onclick="go('worker')"><div class="rc-ico">📋</div><h3 class="rc-title">Social Workers</h3><p class="rc-desc">Screening tools, BIRP logs, trackers — all free.</p><div class="rc-link">Worker Hub <span>→</span></div></div>
-      </div>
-    </div>
-  </section>
-  <section class="local-sec">
-    <div class="container">
-      <h2 class="local-h" id="localH">Los Angeles, California</h2>
-      <p class="local-sub" id="localSub">Resources specific to your area</p>
-      <div class="agency-bar"><span style="font-size:15px">🏛️</span><span class="ab-name" id="agName">DCFS — Los Angeles County</span><span class="ab-phone" id="agPhone">📞 1-800-540-4000</span></div>
-      <div class="local-grid" id="localGrid"></div>
-      <!-- Community contributed resources -->
-      <div style="margin-top:20px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a0d4b0">Community-Added Resources</div>
-          <button onclick="document.getElementById('localContribForm').style.display=document.getElementById('localContribForm').style.display==='none'?'block':'none'" style="font-size:11px;color:var(--gold-lt);background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.2);border-radius:10px;padding:4px 12px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add a resource</button>
-        </div>
-        <div id="localContribForm" style="display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:18px;margin-bottom:14px">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-            <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Resource Title</label><input id="lr-title" type="text" placeholder="e.g. Eastside Family Resource Center" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
-            <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Category</label><select id="lr-tag" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"><option>Benefits</option><option>Education</option><option>Housing</option><option>Mental Health</option><option>Legal Aid</option><option>Food</option><option>Support Group</option><option>Other</option></select></div>
-          </div>
-          <div style="margin-bottom:10px"><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Description</label><input id="lr-desc" type="text" placeholder="What does this resource offer?" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
-          <div style="margin-bottom:12px"><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Phone (optional)</label><input id="lr-phone" type="tel" placeholder="Contact number" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
-          <button id="lrSubmitBtn" onclick="submitLocalResource()" style="background:var(--gold);color:var(--ink);border:none;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Add Resource</button>
-        </div>
-        <div class="local-grid" id="localContribGrid"></div>
-      </div>
-    </div>
-  </section>
   <div class="rs-strip">
     <div class="rs-inner">
       <div><div class="rs-num">20K</div><div class="rs-lbl">youth age out of US foster care each year without support</div></div>
@@ -870,8 +834,6 @@ img{max-width:100%}
         </div>
         <button class="anw-add-btn" onclick="openANWForm()">+ Share Your Aunt Nancy</button>
       </div>
-
-      <!-- SUBMIT FORM -->
       <div class="anw-form-wrap" id="anwForm" style="display:none">
         <div class="anw-form">
           <h3 style="font-size:22px;color:var(--ink);margin-bottom:4px">Share Your Aunt Nancy</h3>
@@ -882,16 +844,7 @@ img{max-width:100%}
           </div>
           <div class="af"><label>Her Role</label><select id="anw-role"><option value="">Select…</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option><option>Teacher</option><option>Neighbor / Community Member</option><option>Biological Family Member</option><option>Mentor / Advocate</option><option>Other</option></select></div>
           <div class="af"><label>Her Story (1–2 sentences)</label><textarea id="anw-story" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="What did she do? How did she show up?"></textarea></div>
-          <div class="af">
-            <label>Photo (optional)</label>
-            <div class="anw-photo-drop" id="anwPhotoDrop" onclick="document.getElementById('anwPhotoInput').click()">
-              <div class="anw-photo-ico">📸</div>
-              <div class="anw-photo-lbl">Click to upload a photo</div>
-              <div class="anw-photo-sub">JPG or PNG · Max 5MB</div>
-              <input type="file" id="anwPhotoInput" accept="image/*" style="display:none" onchange="previewANWPhoto(this)">
-            </div>
-            <img id="anwPhotoPreview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-top:10px">
-          </div>
+          <div class="af"><label>Photo (optional)</label><div class="anw-photo-drop" id="anwPhotoDrop" onclick="document.getElementById('anwPhotoInput').click()"><div class="anw-photo-ico">📸</div><div class="anw-photo-lbl">Click to upload a photo</div><div class="anw-photo-sub">JPG or PNG · Max 5MB</div><input type="file" id="anwPhotoInput" accept="image/*" style="display:none" onchange="previewANWPhoto(this)"></div><img id="anwPhotoPreview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:var(--r);margin-top:10px"></div>
           <div class="af"><label>Your name (optional)</label><input type="text" id="anw-submitter" placeholder="Who's sharing this? (can be anonymous)"></div>
           <div id="anwFormMsg" style="font-size:12px;margin-bottom:10px;display:none"></div>
           <div style="display:flex;gap:9px">
@@ -900,8 +853,6 @@ img{max-width:100%}
           </div>
         </div>
       </div>
-
-      <!-- WALL STATS -->
       <div class="anw-stats" id="anwStats">
         <span class="anw-stat"><span id="anwCount">…</span> Aunt Nancys honored</span>
         <span class="anw-stat-sep">·</span>
@@ -909,31 +860,10 @@ img{max-width:100%}
         <span class="anw-stat-sep">·</span>
         <span class="anw-stat">Growing every day</span>
       </div>
-
-      <!-- WALL GRID -->
-      <div class="anw-grid" id="anwGrid">
-        <div class="anw-loading">
-          <div style="width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px"></div>
-          <div style="font-size:13px;color:var(--muted)">Loading the wall…</div>
-        </div>
-      </div>
-
-      <!-- SEED CARD (always shown) -->
-      <div class="anw-seed">
-        <div class="anw-seed-card">
-          <div class="anw-seed-img"><img src="IMG_2932.jpeg" alt="The Original Aunt Nancy"></div>
-          <div class="anw-seed-body">
-            <div class="anw-seed-name">The Original Aunt Nancys</div>
-            <div class="anw-seed-role">Los Angeles, California</div>
-            <p class="anw-seed-story">"Mostly women who take on nurturing, guiding, and protective roles for younger people in our families, communities, and beyond. This site is dedicated to all of them."</p>
-            <div class="anw-seed-by">— AuntNancy.org, 2026</div>
-          </div>
-        </div>
-      </div>
-
+      <div class="anw-grid" id="anwGrid"><div class="anw-loading"><div style="width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 12px"></div><div style="font-size:13px;color:var(--muted)">Loading the wall…</div></div></div>
+      <div class="anw-seed"><div class="anw-seed-card"><div class="anw-seed-img"><img src="IMG_2932.jpeg" alt="The Original Aunt Nancy"></div><div class="anw-seed-body"><div class="anw-seed-name">The Original Aunt Nancys</div><div class="anw-seed-role">Los Angeles, California</div><p class="anw-seed-story">"Mostly women who take on nurturing, guiding, and protective roles for younger people in our families, communities, and beyond. This site is dedicated to all of them."</p><div class="anw-seed-by">— AuntNancy.org, 2026</div></div></div></div>
     </div>
   </section>
-
   <footer class="footer" id="ft-home"></footer>
 </div>
 
@@ -988,37 +918,19 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <!-- Youth Journal & Motivational Section -->
+  <!-- Youth Journal & Motivational Section — reordered -->
   <section class="section" style="background:white">
     <div class="container">
-      <div style="background:var(--ink);border-radius:var(--r);padding:28px 32px;margin-bottom:28px;text-align:center">
+      <!-- 1. Daily quote -->
+      <div style="background:var(--ink);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;text-align:center">
         <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:12px">Today's Reminder</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;line-height:1.45;margin-bottom:10px;font-style:italic" id="youthQuote">"You are braver than you believe, stronger than you seem, and smarter than you think."</div>
         <div style="font-size:12px;color:rgba(255,255,255,.45)" id="youthQuoteAuthor">— A.A. Milne</div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px">
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--sage)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Your Rights</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">WIC §16001.9 guarantees fair treatment, privacy, and participation in your own case planning.</div>
-          <a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get Rights Guide →</a>
-        </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--gold)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Money for You</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">ETV grants ($5K/year), Cal Grant B, Chafee scholarships — real money with your name on it.</div>
-          <a onclick="openAAN();setAanMode('youth')" style="font-size:12px;color:var(--gold);font-weight:700;display:block;margin-top:10px;cursor:pointer">Ask Aunt Nancy →</a>
-        </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--navy)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Stay Past 18</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">AB 12 lets you stay in foster care until age 21. You must opt in — learn how before you turn 18.</div>
-          <a onclick="go('vault')" style="font-size:12px;color:var(--navy);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get AB 12 Letter →</a>
-        </div>
-      </div>
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px">
+      <!-- 2. Private journal directly under quote -->
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-          <div>
-            <h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">Your Private Journal</h3>
-            <p style="font-size:13px;color:var(--muted);line-height:1.6">This stays on your device only. No one else can read it — not DCFS, not your CSW, not this site.</p>
-          </div>
+          <div><h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">Your Private Journal</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">This stays on your device only. No one else can read it — not DCFS, not your CSW, not this site.</p></div>
           <span style="font-size:11px;padding:4px 12px;border-radius:12px;background:rgba(42,102,73,.08);border:1px solid rgba(42,102,73,.18);color:var(--sage);font-weight:700">🔒 Private</span>
         </div>
         <div style="background:white;border-radius:var(--r);padding:14px 18px;margin-bottom:16px">
@@ -1036,8 +948,36 @@ img{max-width:100%}
           <div id="journalEntries"></div>
         </div>
       </div>
+      <!-- 3. Summary cards -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--sage)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Your Rights</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">WIC §16001.9 guarantees fair treatment, privacy, and participation in your own case planning.</div>
+          <a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get Rights Guide →</a>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--gold)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Money for You</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">ETV grants ($5K/year), Cal Grant B, Chafee scholarships — real money with your name on it.</div>
+          <a onclick="openAAN();setAanMode('youth')" style="font-size:12px;color:var(--gold);font-weight:700;display:block;margin-top:10px;cursor:pointer">Ask Aunt Nancy →</a>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--navy)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Stay Past 18</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">AB 12 lets you stay in foster care until age 21. You must opt in — learn how before you turn 18.</div>
+          <a onclick="go('vault')" style="font-size:12px;color:var(--navy);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get AB 12 Letter →</a>
+        </div>
+      </div>
+      <!-- 4. Screening instruments / clinical tools access -->
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px 26px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);margin-bottom:14px">📋 Clinical Tools — For Youth in Care</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">Screening Instruments</div><div class="rc-s">PHQ-A, SCARED, CRAFFT, ACEs, GAD-7</div></div></div>
+          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">BIRP Daily Log</div><div class="rc-s">Interactive · Printable · Free</div></div></div>
+          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">SCI Placement Tracker</div><div class="rc-s">Level 2/3 · Auto-scoring</div></div></div>
+        </div>
+      </div>
     </div>
   </section>
+  <!-- What youth are saying — at the bottom -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
       <span class="eyebrow">What Youth Are Saying</span>
@@ -1112,6 +1052,42 @@ img{max-width:100%}
       </div>
     </div>
   </section>
+  <!-- Foster Parent Daily Corner -->
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:28px;align-items:start">
+        <!-- Quote + Tips -->
+        <div>
+          <div style="background:var(--ink);border-radius:var(--r);padding:24px 28px;margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px">Today's Reminder</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
+          </div>
+          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
+            <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
+            <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+          </div>
+        </div>
+        <!-- Compact journal -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div>
+              <h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3>
+              <p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p>
+            </div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+          <textarea id="parentJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--warm);line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Save →</button>
+            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <footer class="footer" id="ft-parent"></footer>
 </div>
 
@@ -1171,6 +1147,37 @@ img{max-width:100%}
         <div class="qcard"><div class="qcard-text">"I'm grandma raising my grandkids through DCFS. Found kinship licensing here."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"Nobody at DCFS told me what I was entitled to. This site did in 10 minutes."</div><div class="qcard-attr">Rosa M. · <span class="qcard-loc">East LA, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"The guardianship vs. custody explainer was the clearest thing I've ever read."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">San Bernardino, CA</span></div></div>
+      </div>
+    </div>
+  </section>
+  <!-- Kinship Daily Corner -->
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="grid-2" style="gap:28px;align-items:start">
+        <div>
+          <div style="background:var(--ink);border-radius:var(--r);padding:24px 28px;margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:10px">Today's Reminder</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
+          </div>
+          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
+            <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
+            <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+          </div>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+          <textarea id="kinshipJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--warm);line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12px;padding:8px 18px">Save →</button>
+            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1512,7 +1519,95 @@ img{max-width:100%}
   <footer class="footer" id="ft-dash"></footer>
 </div>
 
-<!-- PDF LETTER VIEWER MODAL -->
+<!-- RESOURCES PAGE -->
+<div class="page" id="page-resources">
+  <div style="background:linear-gradient(150deg,#060a06,#0a1408,#0e1c0c);padding:52px 0">
+    <div class="container">
+      <span class="eyebrow" style="color:#74c69d">For the Whole Child</span>
+      <h1 style="font-size:48px;color:white;line-height:1.0;margin-bottom:10px">Local <em style="color:#74c69d;font-style:italic">Resources.</em></h1>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:540px;line-height:1.8;font-weight:300;margin-bottom:18px">Every resource a child in foster care might need — by category, localized to your area. Community-contributed and community-rated.</p>
+      <div style="display:flex;align-items:center;gap:11px;background:rgba(42,102,73,.12);border:1px solid rgba(42,102,73,.2);border-radius:6px;padding:11px 16px;max-width:600px">
+        <span style="font-size:15px">🏛️</span>
+        <span style="font-size:13px;color:#a0d4b0;font-weight:600" id="resAgName">DCFS — Los Angeles County</span>
+        <span style="font-size:12px;color:var(--gold-lt);margin-left:auto" id="resAgPhone">📞 1-800-540-4000</span>
+      </div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <!-- Category filter -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">
+        <button class="vf-btn on" onclick="filterResources('all',this)">All Resources</button>
+        <button class="vf-btn" onclick="filterResources('mental-health',this)">🧠 Mental Health</button>
+        <button class="vf-btn" onclick="filterResources('education',this)">📚 Education</button>
+        <button class="vf-btn" onclick="filterResources('housing',this)">🏠 Housing</button>
+        <button class="vf-btn" onclick="filterResources('food',this)">🍎 Food & Basic Needs</button>
+        <button class="vf-btn" onclick="filterResources('legal',this)">⚖️ Legal Aid</button>
+        <button class="vf-btn" onclick="filterResources('health',this)">💊 Health & Dental</button>
+        <button class="vf-btn" onclick="filterResources('support',this)">🤝 Support Groups</button>
+        <button class="vf-btn" onclick="filterResources('financial',this)">💰 Financial</button>
+      </div>
+      <div class="grid-2" style="gap:36px;align-items:start">
+        <!-- Resource cards -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h3 style="font-size:22px;color:var(--ink)">State & National Resources</h3>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px" id="resGrid">
+            <!-- Mental Health -->
+            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">🧠 Child & Adolescent Mental Health — SAMHSA</div><div class="rc-s">National helpline · 1-800-662-4357 · Free</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">988 Suicide & Crisis Lifeline</div><div class="rc-s">Call or text 988 · 24/7 · Free</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">Trevor Project — LGBTQ+ Youth</div><div class="rc-s">1-866-488-7386 · Text START to 678-678</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">Crisis Text Line</div><div class="rc-s">Text HOME to 741741 · 24/7</div></div><span class="rc-arr">→</span></div>
+            <!-- Education -->
+            <div class="res-card" data-cat="education"><div><div class="rc-t">📚 McKinney-Vento School Enrollment Rights</div><div class="rc-s">Immediate enrollment · No records needed</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="education"><div><div class="rc-t">ETV Grants — Education & Training Vouchers</div><div class="rc-s">Up to $5,000/year · Ages 16–26</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="education"><div><div class="rc-t">Chafee Foster Care Independence Program</div><div class="rc-s">Federal · Life skills & financial support</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="education"><div><div class="rc-t">CA College Promise — Foster Youth Priority</div><div class="rc-s">Free tuition at CA community colleges</div></div><span class="rc-arr">→</span></div>
+            <!-- Housing -->
+            <div class="res-card" data-cat="housing"><div><div class="rc-t">🏠 THP-Plus — Transitional Housing (CA)</div><div class="rc-s">Ages 18–24 · Former foster youth</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="housing"><div><div class="rc-t">National Runaway Safeline</div><div class="rc-s">1-800-786-2929 · 24/7 crisis housing</div></div><span class="rc-arr">→</span></div>
+            <!-- Food -->
+            <div class="res-card" data-cat="food"><div><div class="rc-t">🍎 CalFresh (SNAP) — Food Assistance</div><div class="rc-s">California · EBT · Apply at benefitscal.com</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="food"><div><div class="rc-t">WIC — Women, Infants & Children</div><div class="rc-s">Nutrition support · Pregnant & young children</div></div><span class="rc-arr">→</span></div>
+            <!-- Health -->
+            <div class="res-card" data-cat="health"><div><div class="rc-t">💊 Medi-Cal — Foster Youth to Age 26</div><div class="rc-s">Free healthcare · No income limit for former FY</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="health"><div><div class="rc-t">Child Health & Disability Prevention (CHDP)</div><div class="rc-s">Free checkups · Vision · Dental · CA</div></div><span class="rc-arr">→</span></div>
+            <!-- Legal -->
+            <div class="res-card" data-cat="legal"><div><div class="rc-t">⚖️ Children's Law Center of California</div><div class="rc-s">Legal representation · Foster youth · Free</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="legal"><div><div class="rc-t">Youth Law Center</div><div class="rc-s">Foster youth rights · System advocacy</div></div><span class="rc-arr">→</span></div>
+            <!-- Financial -->
+            <div class="res-card" data-cat="financial"><div><div class="rc-t">💰 AB 12 / NMD — Extended Foster Care Benefits</div><div class="rc-s">Monthly stipend · Ages 18–21 · CA</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="financial"><div><div class="rc-t">SSI / Social Security for Foster Youth</div><div class="rc-s">Disability benefits · Bridge to adulthood</div></div><span class="rc-arr">→</span></div>
+            <!-- Support -->
+            <div class="res-card" data-cat="support"><div><div class="rc-t">🤝 Foster Club — Youth Peer Network</div><div class="rc-s">fosterclub.com · National peer support</div></div><span class="rc-arr">→</span></div>
+            <div class="res-card" data-cat="support"><div><div class="rc-t">John Burton Advocates for Youth</div><div class="rc-s">California · Housing · Education · Policy</div></div><span class="rc-arr">→</span></div>
+          </div>
+        </div>
+        <!-- Community contributions -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h3 style="font-size:22px;color:var(--ink)">Community-Added <span id="resLocLabel">Local Resources</span></h3>
+            <button onclick="document.getElementById('localContribForm').style.display=document.getElementById('localContribForm').style.display==='none'?'block':'none'" style="font-size:11px;color:var(--gold);background:rgba(200,146,58,.08);border:1px solid rgba(200,146,58,.2);border-radius:10px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700">+ Add Local Resource</button>
+          </div>
+          <div id="localContribForm" style="display:none;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+              <div class="fg"><label>Resource Title</label><input id="lr-title" type="text" placeholder="e.g. Eastside Family Center"></div>
+              <div class="fg"><label>Category</label><select id="lr-tag"><option>Benefits</option><option>Education</option><option>Housing</option><option>Mental Health</option><option>Legal Aid</option><option>Food</option><option>Support Group</option><option>Health</option><option>Other</option></select></div>
+            </div>
+            <div class="fg"><label>Description</label><input id="lr-desc" type="text" placeholder="What does this resource offer?"></div>
+            <div class="fg"><label>Phone (optional)</label><input id="lr-phone" type="tel" placeholder="Contact number"></div>
+            <button id="lrSubmitBtn" onclick="submitLocalResource()" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Add Resource →</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px" id="localContribGrid">
+            <div style="font-size:13px;color:var(--muted);text-align:center;padding:24px">Loading community resources…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-resources"></footer>
+</div>
 <div class="overlay" id="pdfViewerModal">
   <div style="background:white;border-radius:14px;width:740px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:fadeUp .25s ease">
     <div style="background:var(--ink);padding:16px 24px;display:flex;align-items:center;gap:14px;border-radius:14px 14px 0 0">
@@ -1532,39 +1627,37 @@ img{max-width:100%}
 <div class="page" id="page-qa">
   <div style="background:linear-gradient(150deg,#0a0608,#100812,#180e20);padding:52px 0">
     <div class="container">
-      <span class="eyebrow">Community</span>
-      <h1 style="font-size:48px;color:white;line-height:1.0;margin-bottom:10px">Ask the <em style="color:#c49edf;font-style:italic">Community.</em></h1>
-      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.8;font-weight:300">Real questions from foster youth, parents, kinship caregivers, and social workers — answered by Aunt Nancy AI and the community. Social workers post anonymously by default.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+        <div>
+          <span class="eyebrow" style="color:#c49edf">Community</span>
+          <h1 style="font-size:48px;color:white;line-height:1.0;margin-bottom:10px">Ask the <em style="color:#c49edf;font-style:italic">Community.</em></h1>
+          <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.8;font-weight:300;margin-bottom:16px">Real questions from foster youth, parents, kinship caregivers, and social workers — answered by Aunt Nancy AI and the community.</p>
+          <div style="background:rgba(88,42,104,.15);border:1px solid rgba(88,42,104,.3);border-radius:var(--r);padding:14px 18px">
+            <div style="font-size:12px;font-weight:700;color:#c49edf;margin-bottom:5px">🔒 Social Worker Anonymity</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6">Social workers post anonymously by default. Your role shows, your name never does.</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:24px">
+          <h3 style="font-size:20px;color:white;margin-bottom:4px">Ask a Question</h3>
+          <p style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:16px;line-height:1.5">Aunt Nancy AI answers. The community can upvote.</p>
+          <div class="fg"><label style="color:#888">Your Question</label><textarea id="qa-question" style="height:80px;resize:vertical;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:5px;color:white;font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 13px;width:100%" placeholder="What do you want to know about foster care?"></textarea></div>
+          <div class="fg"><label style="color:#888">I am a...</label><select id="qa-role" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:5px;color:white;font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 13px;width:100%"><option>Foster Youth</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option></select></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+            <input type="checkbox" id="qa-anon" style="accent-color:var(--gold);width:15px;height:15px">
+            <label for="qa-anon" style="font-size:12px;color:rgba(255,255,255,.4);cursor:pointer">Post anonymously</label>
+          </div>
+          <button onclick="submitCommunityQuestion()" id="qaSubmitBtn" class="btn btn-gold" style="width:100%;justify-content:center">Post Question →</button>
+        </div>
+      </div>
     </div>
   </div>
   <section class="section">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1.8fr;gap:32px;align-items:start">
-        <div>
-          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:16px">
-            <h3 style="font-size:20px;color:var(--ink);margin-bottom:4px">Ask a Question</h3>
-            <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.6">Your question will be answered by Aunt Nancy AI and visible to the community.</p>
-            <div class="fg"><label>Your Question</label><textarea id="qa-question" style="height:90px;resize:vertical" placeholder="What do you want to know about foster care?"></textarea></div>
-            <div class="fg"><label>I am a...</label><select id="qa-role"><option>Foster Youth</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option></select></div>
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
-              <input type="checkbox" id="qa-anon" style="accent-color:var(--gold);width:15px;height:15px">
-              <label for="qa-anon" style="font-size:12px;color:var(--muted);cursor:pointer">Post anonymously <span style="color:var(--plum)">(Social Workers: always anonymous)</span></label>
-            </div>
-            <button onclick="submitCommunityQuestion()" id="qaSubmitBtn" class="btn btn-gold" style="width:100%;justify-content:center">Post Question →</button>
-          </div>
-          <div style="background:rgba(88,42,104,.06);border:1px solid rgba(88,42,104,.14);border-radius:var(--r);padding:16px">
-            <div style="font-size:12px;font-weight:700;color:var(--plum);margin-bottom:6px">🔒 Social Worker Anonymity</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.6">Social workers can discuss sensitive case dynamics, system failures, and clinical challenges anonymously. Your role is shown, your name never is.</div>
-          </div>
-        </div>
-        <div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-            <h3 style="font-size:24px;color:var(--ink)">Community Questions</h3>
-            <button onclick="loadCommunityQA()" style="font-size:12px;color:var(--sage);background:transparent;border:1px solid rgba(42,102,73,.2);border-radius:4px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Refresh</button>
-          </div>
-          <div id="qaList"><div style="font-size:13px;color:var(--muted);text-align:center;padding:32px">Loading…</div></div>
-        </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <h3 style="font-size:26px;color:var(--ink)">Community Questions</h3>
+        <button onclick="loadCommunityQA()" style="font-size:12px;color:var(--sage);background:transparent;border:1px solid rgba(42,102,73,.2);border-radius:4px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Refresh</button>
       </div>
+      <div id="qaList"><div style="font-size:13px;color:var(--muted);text-align:center;padding:32px">Loading…</div></div>
     </div>
   </section>
   <footer class="footer" id="ft-qa"></footer>
@@ -1655,7 +1748,7 @@ async function loadEdu(tab){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
+        model:'claude-sonnet-4-6',
         max_tokens:1200,
         system:'You are a foster care education specialist. Respond with valid JSON only — no markdown, no backticks, no preamble. Return a JSON array of exactly 6 objects, each with: title (string), summary (string), strategy (string), source (string), tag (string).',
         messages:[{role:'user',content:prompt}]
@@ -1987,7 +2080,7 @@ async function sendAAN(text){
     const mode=AAN_MODES[aanMode];
     const sys=mode.system+` The user is in ${loc.city}, ${loc.state} (${loc.county}).`;
     const history=aanMsgs.slice(-8).map(m=>({role:m.role==='ai'?'assistant':'user',content:m.text.replace(/\*\*(.*?)\*\*/g,'$1')}));
-    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:history})});
+    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:history})});
     const data=await res.json();
     const reply=data.content?.[0]?.text||"I'm having trouble connecting. Please try again.";
     hideTyping();addAanMsg('ai',reply);
@@ -2017,8 +2110,25 @@ function go(id,el){
     setTimeout(()=>{ initEduPage(); loadEdu(tab); },150);
   }
   if(id==='youth'&&currentUser?.role==='youth') setTimeout(initYouthProfile,100);
+  if(id==='parent') setTimeout(initParentCorner,100);
+  if(id==='kinship') setTimeout(initKinshipCorner,100);
   if(id==='feedback') setTimeout(()=>{ loadFeedbackWall(); loadLocalContributions(); },100);
   if(id==='qa') setTimeout(loadCommunityQA,100);
+  if(id==='resources') setTimeout(()=>{
+    const an=document.getElementById('resAgName');if(an) an.textContent=loc.agency;
+    const ap=document.getElementById('resAgPhone');if(ap) ap.textContent=`📞 ${loc.phone}`;
+    const rl=document.getElementById('resLocLabel');if(rl) rl.textContent=`${loc.city}, ${loc.stateCode}`;
+    loadLocalContributions();
+  },100);
+}
+
+function filterResources(cat,btn){
+  document.querySelectorAll('.vf-btn').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  document.querySelectorAll('#resGrid .res-card').forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';
+  });
+}
   const roleMap={youth:'youth',parent:'parent',kinship:'kinship',worker:'worker',home:'all'};
   const rkey=roleMap[id]||'all';
   const rt=document.querySelector(`.role-tab[data-role="${rkey}"]`);if(rt) rt.classList.add('on');
@@ -2437,18 +2547,18 @@ async function sb(path, opts={}) {
 
 // ══ ROLE GATING ══
 const ROLE_PAGES = {
-  youth:   ['home','youth','vault','education','qa','feedback','dashboard'],
-  parent:  ['home','parent','vault','education','qa','products','feedback','dashboard'],
-  kinship: ['home','kinship','vault','education','qa','feedback','dashboard'],
-  worker:  ['home','worker','vault','education','qa','feedback','dashboard'],
-  all:     ['home','youth','parent','kinship','worker','vault','education','qa','products','feedback','dashboard'],
+  youth:   ['home','youth','vault','education','resources','qa','feedback','dashboard'],
+  parent:  ['home','parent','vault','education','resources','qa','products','feedback','dashboard'],
+  kinship: ['home','kinship','vault','education','resources','qa','feedback','dashboard'],
+  worker:  ['home','worker','vault','education','resources','qa','feedback','dashboard'],
+  all:     ['home','youth','parent','kinship','worker','vault','education','resources','qa','products','feedback','dashboard'],
 };
 const ROLE_NAV = {
-  youth:   ['home','vault','education','qa','feedback'],
-  parent:  ['home','vault','education','qa','products','feedback'],
-  kinship: ['home','vault','education','qa','feedback'],
-  worker:  ['home','worker','vault','education','qa','feedback'],
-  all:     ['home','vault','education','qa','products','feedback'],
+  youth:   ['home','education','resources','vault','qa','feedback'],
+  parent:  ['home','education','resources','vault','qa','products','feedback'],
+  kinship: ['home','education','resources','vault','qa','feedback'],
+  worker:  ['home','education','resources','vault','qa','feedback'],
+  all:     ['home','education','resources','vault','qa','products','feedback'],
 };
 
 function applyRoleGating() {
@@ -2647,7 +2757,7 @@ async function getAIAnswer(id, btn, question, role) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514', max_tokens: 400,
+        model: 'claude-sonnet-4-6', max_tokens: 400,
         system: `You are Aunt Nancy, a warm and knowledgeable foster care advocate answering a community question from a ${role}. Give a real, helpful, direct answer in 2-4 sentences. No fluff.`,
         messages: [{ role: 'user', content: question }]
       })
@@ -2798,6 +2908,95 @@ function newJournalPrompt() {
   const next = remaining[Math.floor(Math.random() * remaining.length)];
   const el = document.getElementById('journalPrompt');
   if (el) el.textContent = next;
+}
+
+// ══ PARENT & KINSHIP DAILY CORNER ══
+const PARENT_QUOTES = [
+  {q:"You can't pour from an empty cup. Take care of yourself so you can take care of them.",a:"Foster care wisdom"},
+  {q:"Every child deserves to know there is at least one adult who believes in them.",a:"Marian Wright Edelman"},
+  {q:"Trauma is not a character flaw. It's a wound that needs tending.",a:"Foster parent training"},
+  {q:"The best thing you can do for a child is to love them enough to set boundaries.",a:"Attachment research"},
+  {q:"Showing up consistently is more powerful than doing it perfectly.",a:"AuntNancy.org"},
+  {q:"What looks like defiance is often a child asking 'Are you safe? Will you stay?'",a:"Trauma-informed parenting"},
+];
+const PARENT_TIPS = [
+  "When a child tests boundaries, they're often asking 'Are you safe? Will you stay?' Consistency in your response — calm, firm, present — is the answer they need.",
+  "Co-regulation before self-regulation: a child cannot calm themselves down until they experience calm with a trusted adult first.",
+  "Avoid asking 'why did you do that?' during a crisis. Wait until the child is regulated. Ask 'what were you feeling?' instead.",
+  "Transitions — leaving for school, ending a visit — are often the hardest moments. Give 5-minute warnings and name what's coming.",
+  "A child's behavior communicates what their words cannot. Curiosity about the behavior beats correction every time.",
+  "Saying 'I notice you seem frustrated' validates without judgment and often de-escalates faster than any other response.",
+  "Biological family visits, even difficult ones, are usually in the best interest of the child. Your support of those relationships matters.",
+  "Self-care is not selfish. Burned-out caregivers cannot provide the stability a child in trauma needs.",
+];
+const KINSHIP_QUOTES = [
+  {q:"What you do for family is never lost. Every sacrifice, every showing up — it matters.",a:"Kinship caregiver wisdom"},
+  {q:"You didn't just open your home. You kept their world from falling apart.",a:"AuntNancy.org"},
+  {q:"Kinship care is love made structural.",a:"Child welfare research"},
+  {q:"The strength it takes to raise someone else's child — even family — is extraordinary.",a:"AuntNancy.org"},
+];
+const KINSHIP_TIPS = [
+  "Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief is more helpful than avoiding it.",
+  "Your relationship with the child's parent (your family member) is complicated — and that's okay. You don't have to resolve that tension to be a great caregiver.",
+  "Know the difference between licensed kinship (with DCFS oversight and benefits) and informal kinship (without). The paperwork matters for what you can access.",
+  "You are allowed to set boundaries with the biological parent around the child. DCFS can help document and enforce those boundaries.",
+  "Ask DCFS explicitly about the Kinship Support Services Program (KSSP) in CA — it offers respite, support groups, and training specifically for relative caregivers.",
+];
+const PARENT_JOURNAL_PROMPTS = [
+  "What's one win from this week, no matter how small?",
+  "What's something a child in your care did that surprised you?",
+  "What do you need right now that you're not getting?",
+  "When did you feel most like yourself this week?",
+  "What would you tell a new foster parent starting today?",
+];
+const KINSHIP_JOURNAL_PROMPTS = [
+  "What's something you wish someone had told you before you stepped in?",
+  "What's the hardest part of this role that nobody talks about?",
+  "What are you most proud of in how you've shown up for this child?",
+  "What does this child need from you that only you can give?",
+  "How are you holding up, really?",
+];
+
+function initParentCorner() {
+  const idx = new Date().getDate() % PARENT_QUOTES.length;
+  const el = document.getElementById('parentQuote');const ea = document.getElementById('parentQuoteAuthor');
+  if(el) el.textContent = `"${PARENT_QUOTES[idx].q}"`;
+  if(ea) ea.textContent = `— ${PARENT_QUOTES[idx].a}`;
+  const tidx = new Date().getDate() % PARENT_TIPS.length;
+  const te = document.getElementById('parentTip');
+  if(te) te.textContent = PARENT_TIPS[tidx];
+  const pidx = (new Date().getDate() + 1) % PARENT_JOURNAL_PROMPTS.length;
+  const pe = document.getElementById('parentJournalPrompt');
+  if(pe) pe.textContent = PARENT_JOURNAL_PROMPTS[pidx];
+}
+function newParentTip(){const e=document.getElementById('parentTip');if(e){const cur=e.textContent;const rem=PARENT_TIPS.filter(t=>t!==cur);e.textContent=rem[Math.floor(Math.random()*rem.length)];}}
+function newParentJournalPrompt(){const e=document.getElementById('parentJournalPrompt');if(e){const cur=e.textContent;const rem=PARENT_JOURNAL_PROMPTS.filter(p=>p!==cur);e.textContent=rem[Math.floor(Math.random()*rem.length)];}}
+
+function initKinshipCorner() {
+  const idx = new Date().getDate() % KINSHIP_QUOTES.length;
+  const el = document.getElementById('kinshipQuote');const ea = document.getElementById('kinshipQuoteAuthor');
+  if(el) el.textContent = `"${KINSHIP_QUOTES[idx].q}"`;
+  if(ea) ea.textContent = `— ${KINSHIP_QUOTES[idx].a}`;
+  const tidx = new Date().getDate() % KINSHIP_TIPS.length;
+  const te = document.getElementById('kinshipTip');
+  if(te) te.textContent = KINSHIP_TIPS[tidx];
+  const pidx = (new Date().getDate() + 1) % KINSHIP_JOURNAL_PROMPTS.length;
+  const pe = document.getElementById('kinshipJournalPrompt');
+  if(pe) pe.textContent = KINSHIP_JOURNAL_PROMPTS[pidx];
+}
+function newKinshipTip(){const e=document.getElementById('kinshipTip');if(e){const cur=e.textContent;const rem=KINSHIP_TIPS.filter(t=>t!==cur);e.textContent=rem[Math.floor(Math.random()*rem.length)];}}
+function newKinshipJournalPrompt(){const e=document.getElementById('kinshipJournalPrompt');if(e){const cur=e.textContent;const rem=KINSHIP_JOURNAL_PROMPTS.filter(p=>p!==cur);e.textContent=rem[Math.floor(Math.random()*rem.length)];}}
+
+function saveRoleJournal(role){
+  const textEl = document.getElementById(role+'JournalText');
+  const promptEl = document.getElementById(role+'JournalPrompt');
+  if(!textEl||!textEl.value.trim()) return;
+  const key='an_journal_'+role+'_'+(currentUser?.email||'guest');
+  const entries=JSON.parse(localStorage.getItem(key)||'[]');
+  entries.unshift({text:textEl.value.trim(),prompt:promptEl?.textContent||'',date:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})});
+  localStorage.setItem(key,JSON.stringify(entries.slice(0,30)));
+  textEl.value='';
+  const btn=event.target;if(btn){btn.textContent='✓ Saved';btn.style.background='var(--sage)';setTimeout(()=>{btn.textContent='Save →';btn.style.background='';},2000);}
 }
 
 // ══ INIT (updated) ══
