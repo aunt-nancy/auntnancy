@@ -771,11 +771,12 @@ img{max-width:100%}
   <div class="nav-row">
     <div class="nav-logo" onclick="go('home')">AUNT<em>NANCY</em>.ORG</div>
     <div class="nav-links">
-      <button class="nav-link on" onclick="go('home',this)">Home</button>
-      <button class="nav-link" onclick="go('vault',this)">Letter Vault</button>
-      <button class="nav-link" onclick="go('education',this)">📚 Education</button>
-      <button class="nav-link" onclick="go('products',this)">Products</button>
-      <button class="nav-link" onclick="go('feedback',this)">Feedback</button>
+      <button class="nav-link on" data-page="home" onclick="go('home',this)">Home</button>
+      <button class="nav-link" data-page="vault" onclick="go('vault',this)">Letter Vault</button>
+      <button class="nav-link" data-page="education" onclick="go('education',this)">📚 Education</button>
+      <button class="nav-link" data-page="qa" onclick="go('qa',this)">Community Q&amp;A</button>
+      <button class="nav-link" data-page="products" onclick="go('products',this)">Products</button>
+      <button class="nav-link" data-page="feedback" onclick="go('feedback',this)">Feedback</button>
     </div>
     <button class="nav-ask" onclick="openAAN()">💬 Ask Aunt Nancy</button>
   </div>
@@ -829,6 +830,23 @@ img{max-width:100%}
       <p class="local-sub" id="localSub">Resources specific to your area</p>
       <div class="agency-bar"><span style="font-size:15px">🏛️</span><span class="ab-name" id="agName">DCFS — Los Angeles County</span><span class="ab-phone" id="agPhone">📞 1-800-540-4000</span></div>
       <div class="local-grid" id="localGrid"></div>
+      <!-- Community contributed resources -->
+      <div style="margin-top:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#a0d4b0">Community-Added Resources</div>
+          <button onclick="document.getElementById('localContribForm').style.display=document.getElementById('localContribForm').style.display==='none'?'block':'none'" style="font-size:11px;color:var(--gold-lt);background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.2);border-radius:10px;padding:4px 12px;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add a resource</button>
+        </div>
+        <div id="localContribForm" style="display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:18px;margin-bottom:14px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Resource Title</label><input id="lr-title" type="text" placeholder="e.g. Eastside Family Resource Center" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+            <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Category</label><select id="lr-tag" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"><option>Benefits</option><option>Education</option><option>Housing</option><option>Mental Health</option><option>Legal Aid</option><option>Food</option><option>Support Group</option><option>Other</option></select></div>
+          </div>
+          <div style="margin-bottom:10px"><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Description</label><input id="lr-desc" type="text" placeholder="What does this resource offer?" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div style="margin-bottom:12px"><label style="font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:4px">Phone (optional)</label><input id="lr-phone" type="tel" placeholder="Contact number" style="width:100%;padding:9px 12px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <button id="lrSubmitBtn" onclick="submitLocalResource()" style="background:var(--gold);color:var(--ink);border:none;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Add Resource</button>
+        </div>
+        <div class="local-grid" id="localContribGrid"></div>
+      </div>
     </div>
   </section>
   <div class="rs-strip">
@@ -970,7 +988,57 @@ img{max-width:100%}
       </div>
     </div>
   </section>
+  <!-- Youth Journal & Motivational Section -->
   <section class="section" style="background:white">
+    <div class="container">
+      <div style="background:var(--ink);border-radius:var(--r);padding:28px 32px;margin-bottom:28px;text-align:center">
+        <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:12px">Today's Reminder</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;line-height:1.45;margin-bottom:10px;font-style:italic" id="youthQuote">"You are braver than you believe, stronger than you seem, and smarter than you think."</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.45)" id="youthQuoteAuthor">— A.A. Milne</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--sage)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Your Rights</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">WIC §16001.9 guarantees fair treatment, privacy, and participation in your own case planning.</div>
+          <a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get Rights Guide →</a>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--gold)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Money for You</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">ETV grants ($5K/year), Cal Grant B, Chafee scholarships — real money with your name on it.</div>
+          <a onclick="openAAN();setAanMode('youth')" style="font-size:12px;color:var(--gold);font-weight:700;display:block;margin-top:10px;cursor:pointer">Ask Aunt Nancy →</a>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--navy)">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Stay Past 18</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.6">AB 12 lets you stay in foster care until age 21. You must opt in — learn how before you turn 18.</div>
+          <a onclick="go('vault')" style="font-size:12px;color:var(--navy);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get AB 12 Letter →</a>
+        </div>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">Your Private Journal</h3>
+            <p style="font-size:13px;color:var(--muted);line-height:1.6">This stays on your device only. No one else can read it — not DCFS, not your CSW, not this site.</p>
+          </div>
+          <span style="font-size:11px;padding:4px 12px;border-radius:12px;background:rgba(42,102,73,.08);border:1px solid rgba(42,102,73,.18);color:var(--sage);font-weight:700">🔒 Private</span>
+        </div>
+        <div style="background:white;border-radius:var(--r);padding:14px 18px;margin-bottom:16px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Today's Prompt</div>
+          <div style="font-size:14px;color:var(--ink);line-height:1.6;font-style:italic" id="journalPrompt">What is one thing you're proud of about yourself today?</div>
+          <button onclick="newJournalPrompt()" style="font-size:11px;color:var(--sage);background:transparent;border:none;cursor:pointer;margin-top:6px;font-family:'DM Sans',sans-serif">↻ New prompt</button>
+        </div>
+        <textarea id="journalText" style="width:100%;height:140px;resize:vertical;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.7;margin-bottom:12px" placeholder="Write whatever you need to say. This is your space…"></textarea>
+        <div style="display:flex;gap:10px">
+          <button onclick="saveJournalEntry()" id="journalSaveBtn" class="btn btn-gold" style="font-size:13px">Save Entry →</button>
+          <button onclick="document.getElementById('journalText').value=''" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Clear</button>
+        </div>
+        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Previous Entries</div>
+          <div id="journalEntries"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="background:var(--cream)">
     <div class="container">
       <span class="eyebrow">What Youth Are Saying</span>
       <div class="grid-3">
@@ -1277,21 +1345,15 @@ img{max-width:100%}
           <p>Takes 2 minutes. Your city and county help us build better local resources.</p>
           <div class="fg"><label>I am a...</label><select><option>Foster Youth</option><option>Former Foster Youth</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option><option>Other</option></select></div>
           <div class="fg-row"><div class="fg"><label>State</label><select><option>California</option><option>Texas</option><option>New York</option><option>Florida</option><option>Other</option></select></div><div class="fg"><label>County</label><input type="text" placeholder="e.g. Los Angeles County"></div></div>
-          <div class="fg"><label>City</label><input type="text" placeholder="e.g. Compton, Inglewood…"></div>
-          <div class="fg"><label>Your Feedback</label><textarea placeholder="What helped? What's missing?"></textarea></div>
-          <div class="fg"><label>Resources you'd like added</label><input type="text" placeholder="e.g. Riverside County contacts…"></div>
-          <div class="fg"><label>Name (optional)</label><input type="text" placeholder="First name or anonymous"></div>
-          <div class="fg"><label>Email (optional)</label><input type="email" placeholder="We'll notify you when we add your request"></div>
-          <button class="fb-submit" onclick="this.textContent='✓ Submitted — thank you';this.style.background='var(--sage)';this.disabled=true">Submit Feedback →</button>
+          <div class="fg"><label>Your Feedback</label><textarea id="fb-message" style="height:80px;resize:vertical" placeholder="What helped? What's missing? What would help others in your area?"></textarea></div>
+          <div class="fg"><label>Anonymous?</label><div style="display:flex;align-items:center;gap:8px;margin-top:4px"><input type="checkbox" id="fb-anon" style="accent-color:var(--gold);width:15px;height:15px"><label for="fb-anon" style="font-size:12px;color:var(--muted);cursor:pointer">Post anonymously</label></div></div>
+          <button id="fbWallSubmit" onclick="submitFeedbackWall()" class="fb-submit">Share on Community Wall →</button>
         </div>
         <div>
-          <h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">What People Are Saying</h3>
+          <h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">Community Wall</h3>
           <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Real feedback from across the country.</p>
-          <div style="display:flex;flex-direction:column;gap:11px">
-            <div class="qcard"><div class="qcard-text">"Found the clothing allowance letter. DCFS approved in 3 days."</div><div class="qcard-attr">Sarah M. · <span class="qcard-loc">Los Angeles, CA</span></div></div>
-            <div class="qcard"><div class="qcard-text">"Didn't know I could stay past 18. I'm 19 and still in AB 12."</div><div class="qcard-attr">Marcus T. · <span class="qcard-loc">Oakland, CA</span></div></div>
-            <div class="qcard"><div class="qcard-text">"The BIRP log and SCI tracker are part of every placement decision I make."</div><div class="qcard-attr">Denise R. · <span class="qcard-loc">San Diego, CA</span></div></div>
-            <div class="qcard" style="border-left-color:var(--rust)"><div class="qcard-text">"Found kinship licensing benefits here. Nobody at DCFS told me."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
+          <div id="communityWall" style="display:flex;flex-direction:column;gap:11px">
+            <div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Loading…</div>
           </div>
         </div>
       </div>
@@ -1450,6 +1512,64 @@ img{max-width:100%}
   <footer class="footer" id="ft-dash"></footer>
 </div>
 
+<!-- PDF LETTER VIEWER MODAL -->
+<div class="overlay" id="pdfViewerModal">
+  <div style="background:white;border-radius:14px;width:740px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:fadeUp .25s ease">
+    <div style="background:var(--ink);padding:16px 24px;display:flex;align-items:center;gap:14px;border-radius:14px 14px 0 0">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;flex:1" id="pdfTitle">Letter</div>
+      <button onclick="printLetter()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:7px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🖨 Print</button>
+      <button onclick="downloadLetter()" style="background:var(--gold);border:none;color:var(--ink);padding:7px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">⬇ Download</button>
+      <button onclick="closePDFViewer()" style="background:transparent;border:none;color:#aaa;font-size:20px;cursor:pointer;padding:4px 8px;font-family:inherit">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:32px;background:#f8f8f8">
+      <div style="background:white;box-shadow:0 2px 12px rgba(0,0,0,.1);border-radius:4px;padding:48px;min-height:600px" id="pdfContent"></div>
+    </div>
+    <div style="padding:12px 24px;background:var(--cream);border-top:1px solid var(--border);font-size:11px;color:var(--muted);text-align:center">Fill in the bracketed fields before printing or downloading. This letter is policy-cited and formatted for DCFS.</div>
+  </div>
+</div>
+
+<!-- COMMUNITY Q&A PAGE -->
+<div class="page" id="page-qa">
+  <div style="background:linear-gradient(150deg,#0a0608,#100812,#180e20);padding:52px 0">
+    <div class="container">
+      <span class="eyebrow">Community</span>
+      <h1 style="font-size:48px;color:white;line-height:1.0;margin-bottom:10px">Ask the <em style="color:#c49edf;font-style:italic">Community.</em></h1>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:500px;line-height:1.8;font-weight:300">Real questions from foster youth, parents, kinship caregivers, and social workers — answered by Aunt Nancy AI and the community. Social workers post anonymously by default.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1.8fr;gap:32px;align-items:start">
+        <div>
+          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:16px">
+            <h3 style="font-size:20px;color:var(--ink);margin-bottom:4px">Ask a Question</h3>
+            <p style="font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.6">Your question will be answered by Aunt Nancy AI and visible to the community.</p>
+            <div class="fg"><label>Your Question</label><textarea id="qa-question" style="height:90px;resize:vertical" placeholder="What do you want to know about foster care?"></textarea></div>
+            <div class="fg"><label>I am a...</label><select id="qa-role"><option>Foster Youth</option><option>Foster Parent</option><option>Kinship Caregiver</option><option>Social Worker</option></select></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+              <input type="checkbox" id="qa-anon" style="accent-color:var(--gold);width:15px;height:15px">
+              <label for="qa-anon" style="font-size:12px;color:var(--muted);cursor:pointer">Post anonymously <span style="color:var(--plum)">(Social Workers: always anonymous)</span></label>
+            </div>
+            <button onclick="submitCommunityQuestion()" id="qaSubmitBtn" class="btn btn-gold" style="width:100%;justify-content:center">Post Question →</button>
+          </div>
+          <div style="background:rgba(88,42,104,.06);border:1px solid rgba(88,42,104,.14);border-radius:var(--r);padding:16px">
+            <div style="font-size:12px;font-weight:700;color:var(--plum);margin-bottom:6px">🔒 Social Worker Anonymity</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">Social workers can discuss sensitive case dynamics, system failures, and clinical challenges anonymously. Your role is shown, your name never is.</div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h3 style="font-size:24px;color:var(--ink)">Community Questions</h3>
+            <button onclick="loadCommunityQA()" style="font-size:12px;color:var(--sage);background:transparent;border:1px solid rgba(42,102,73,.2);border-radius:4px;padding:5px 12px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ Refresh</button>
+          </div>
+          <div id="qaList"><div style="font-size:13px;color:var(--muted);text-align:center;padding:32px">Loading…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer" id="ft-qa"></footer>
+</div>
+
 <!-- ASK AUNT NANCY FLOAT -->
 <button class="aan-float" id="aanFloat" onclick="openAAN()">💬</button>
 
@@ -1584,7 +1704,7 @@ function renderTemplates(filter){
         <code class="tpl-cite">${t.cite}</code>
       </div>
       <div class="tpl-foot">
-        ${locked?`<button class="tpl-btn tpl-ul" onclick="openAuth('signup')">🔐 Sign Up to Download</button>`:`<button class="tpl-btn tpl-dl" onclick="dlTpl('${t.id}','${t.title}')">⬇ Download</button>`}
+        ${locked?`<button class="tpl-btn tpl-ul" onclick="openAuth('signup')">🔐 Sign Up to Access</button>`:`<button class="tpl-btn tpl-dl" onclick="openLetterPDF('${t.id}')">📄 Open Letter</button>`}
         <span class="tpl-fmt">${t.audience}</span>
       </div>
       ${locked?`<div class="tpl-lock-ov"><div style="font-size:28px;margin-bottom:7px">🔐</div><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:11px">Free account required</div><button class="tpl-btn tpl-ul" onclick="openAuth('signup')">Create Free Account</button></div>`:''}
@@ -1669,8 +1789,12 @@ function updateAuthUI(){
     document.getElementById('avDdEmail').textContent=currentUser.email;
   }
   const gate=document.getElementById('vaultGate');if(gate) gate.style.display=li?'none':'block';
+  applyRoleGating();
   renderTemplates();
-  if(li) populateDashboard();
+  if(li){
+    populateDashboard();
+    if(currentUser.role==='youth') initYouthProfile();
+  }
 }
 
 function openAuth(tab='signin'){document.getElementById('authOverlay').classList.add('open');switchTab(tab);clearAuthMsg();}
@@ -1859,11 +1983,13 @@ function go(id,el){
   if(id==='vault'){renderTemplates();const g=document.getElementById('vaultGate');if(g)g.style.display=currentUser?'none':'block';}
   if(id==='dashboard'&&currentUser) populateDashboard();
   if(id==='education'){
-    // Always re-trigger education load when navigating to it
     const activeTab=document.querySelector('.edu-tab.on');
     const tab=activeTab?.getAttribute('data-edu')||'local';
     setTimeout(()=>{ initEduPage(); loadEdu(tab); },150);
   }
+  if(id==='youth'&&currentUser?.role==='youth') setTimeout(initYouthProfile,100);
+  if(id==='feedback') setTimeout(()=>{ loadFeedbackWall(); loadLocalContributions(); },100);
+  if(id==='qa') setTimeout(loadCommunityQA,100);
   const roleMap={youth:'youth',parent:'parent',kinship:'kinship',worker:'worker',home:'all'};
   const rkey=roleMap[id]||'all';
   const rt=document.querySelector(`.role-tab[data-role="${rkey}"]`);if(rt) rt.classList.add('on');
@@ -2078,8 +2204,8 @@ function renderPlacements(){
 // ══ AUNT NANCYS COMMUNITY WALL ══
 // Uses Supabase for real-time community storage
 // Setup: create free account at supabase.com, create table, paste URL + key below
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://vnfjszmhmcxkxegzvivg.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_5s7SB5PmfKyHOSMKG6GCkA_s7Q_PLxG';
 
 // Fallback community data shown before Supabase is configured
 const ANW_SEED_DATA = [
@@ -2263,7 +2389,384 @@ async function heartANW(id, btn) {
   }
 }
 
-// ══ INIT ══
+// ══ SUPABASE HELPER ══
+async function sb(path, opts={}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || 'return=minimal',
+      ...opts.headers
+    },
+    method: opts.method || 'GET',
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (opts.method === 'GET' || !opts.method) return res.ok ? res.json() : [];
+  return res.ok;
+}
+
+// ══ ROLE GATING ══
+const ROLE_PAGES = {
+  youth:   ['home','youth','vault','education','feedback','dashboard'],
+  parent:  ['home','parent','vault','education','products','feedback','dashboard'],
+  kinship: ['home','kinship','vault','education','feedback','dashboard'],
+  worker:  ['home','worker','vault','education','feedback','dashboard'],
+  all:     ['home','youth','parent','kinship','worker','vault','education','products','feedback','dashboard'],
+};
+const ROLE_NAV = {
+  youth:   ['home','vault','education','feedback'],
+  parent:  ['home','vault','education','products','feedback'],
+  kinship: ['home','vault','education','feedback'],
+  worker:  ['home','vault','education','feedback'],
+  all:     ['home','vault','education','products','feedback'],
+};
+
+function applyRoleGating() {
+  const role = currentUser?.role || 'all';
+  const allowed = ROLE_PAGES[role] || ROLE_PAGES.all;
+  const navAllowed = ROLE_NAV[role] || ROLE_NAV.all;
+  // Show/hide role tabs
+  document.querySelectorAll('.role-tab').forEach(t => {
+    const r = t.dataset.role;
+    if (r === 'all') { t.style.display = ''; return; }
+    t.style.display = (role === 'all' || role === r) ? '' : 'none';
+  });
+  // Show/hide nav links
+  document.querySelectorAll('.nav-link[data-page]').forEach(l => {
+    const p = l.dataset.page;
+    l.style.display = navAllowed.includes(p) ? '' : 'none';
+  });
+}
+
+// ══ RESOURCE RATINGS ══
+async function rateResource(id, el) {
+  const current = parseInt(el.dataset.count) || 0;
+  const newCount = current + 1;
+  el.dataset.count = newCount;
+  el.textContent = `▲ ${newCount}`;
+  el.style.color = 'var(--gold)';
+  el.disabled = true;
+  // Store in localStorage (per user session)
+  const key = 'rated_' + id;
+  localStorage.setItem(key, '1');
+  // Try Supabase
+  try {
+    await sb(`resource_ratings?id=eq.${id}`, {
+      method: 'PATCH',
+      body: { votes: newCount }
+    });
+  } catch(e) {}
+}
+
+// ══ COMMUNITY FEEDBACK WALL ══
+async function loadFeedbackWall() {
+  const wall = document.getElementById('communityWall');
+  if (!wall) return;
+  try {
+    const items = await sb('community_feedback?order=created_at.desc&limit=20', {headers:{'Prefer':''}});
+    if (!items?.length) { wall.innerHTML = '<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">No feedback yet — be the first!</div>'; return; }
+    const roleColors = {'Foster Youth':'var(--sage)','Foster Parent':'var(--navy)','Kinship Caregiver':'var(--rust)','Social Worker':'var(--plum)'};
+    wall.innerHTML = items.map(f => `
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;border-left:3px solid ${roleColors[f.role]||'var(--gold)'}">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink);line-height:1.55;margin-bottom:8px;font-style:italic">"${f.message}"</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:11px;color:var(--muted);font-weight:600">${f.anonymous?'Anonymous':f.name||'Anonymous'} · ${f.city||''} · ${f.role||''}</div>
+          <div style="font-size:10px;color:var(--muted)">${new Date(f.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</div>
+        </div>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+async function submitFeedbackWall() {
+  const msg = document.getElementById('fb-message')?.value.trim();
+  const role = document.getElementById('fb-role')?.value;
+  const city = document.getElementById('fb-city')?.value.trim();
+  const name = document.getElementById('fb-name')?.value.trim();
+  const anon = document.getElementById('fb-anon')?.checked;
+  if (!msg) { alert('Please enter your feedback.'); return; }
+  const btn = document.getElementById('fbWallSubmit');
+  if (btn) { btn.textContent = 'Submitting…'; btn.disabled = true; }
+  try {
+    await sb('community_feedback', {
+      method: 'POST',
+      prefer: 'return=minimal',
+      body: { message: msg, role, city, name: anon ? null : name, anonymous: anon, created_at: new Date().toISOString() }
+    });
+    document.getElementById('fb-message').value = '';
+    await loadFeedbackWall();
+    if (btn) { btn.textContent = '✓ Shared — thank you!'; btn.style.background = 'var(--sage)'; }
+    setTimeout(() => { if(btn){btn.textContent='Share Feedback →';btn.style.background='';btn.disabled=false;} }, 3000);
+  } catch(e) {
+    if (btn) { btn.textContent = 'Share Feedback →'; btn.disabled = false; }
+  }
+}
+
+// ══ LOCAL RESOURCE CONTRIBUTIONS ══
+async function loadLocalContributions() {
+  const grid = document.getElementById('localContribGrid');
+  if (!grid) return;
+  try {
+    const items = await sb(`local_resources?state=eq.${loc.stateCode}&order=votes.desc&limit=12`, {headers:{'Prefer':''}});
+    if (!items?.length) { grid.innerHTML = '<div style="font-size:13px;color:var(--muted);grid-column:1/-1;text-align:center;padding:16px">No community resources yet for your area. Be the first to add one!</div>'; return; }
+    grid.innerHTML = items.map(r => `
+      <div class="lc-card" style="position:relative">
+        <div class="lc-tag">${r.tag}</div>
+        <div class="lc-title">${r.title}</div>
+        <div class="lc-sub">${r.description}</div>
+        ${r.phone ? `<div style="font-size:11px;color:var(--gold-lt);margin-top:4px">📞 ${r.phone}</div>` : ''}
+        <button onclick="voteLocal('${r.id}',this)" data-count="${r.votes||0}" style="position:absolute;top:10px;right:10px;background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.2);border-radius:10px;padding:2px 8px;font-size:10px;color:var(--gold-lt);cursor:pointer;font-family:'DM Sans',sans-serif">▲ ${r.votes||0}</button>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+async function voteLocal(id, el) {
+  if (localStorage.getItem('voted_local_'+id)) return;
+  localStorage.setItem('voted_local_'+id, '1');
+  const c = (parseInt(el.dataset.count)||0) + 1;
+  el.dataset.count = c; el.textContent = `▲ ${c}`;
+  try { await sb(`local_resources?id=eq.${id}`, {method:'PATCH', body:{votes:c}}); } catch(e) {}
+}
+
+async function submitLocalResource() {
+  const title = document.getElementById('lr-title')?.value.trim();
+  const tag = document.getElementById('lr-tag')?.value;
+  const desc = document.getElementById('lr-desc')?.value.trim();
+  const phone = document.getElementById('lr-phone')?.value.trim();
+  if (!title || !desc) { alert('Please fill in the title and description.'); return; }
+  const btn = document.getElementById('lrSubmitBtn');
+  if (btn) { btn.textContent = 'Adding…'; btn.disabled = true; }
+  try {
+    await sb('local_resources', {
+      method: 'POST',
+      body: { title, tag, description: desc, phone, state: loc.stateCode, city: loc.city, county: loc.county, votes: 0, created_at: new Date().toISOString() }
+    });
+    document.getElementById('lr-title').value = '';
+    document.getElementById('lr-desc').value = '';
+    document.getElementById('lr-phone').value = '';
+    await loadLocalContributions();
+    if (btn) { btn.textContent = '✓ Added!'; btn.style.background = 'var(--sage)'; }
+    setTimeout(() => { if(btn){btn.textContent='Add Resource';btn.style.background='';btn.disabled=false;} }, 2500);
+    document.getElementById('localContribForm').style.display = 'none';
+  } catch(e) {
+    if (btn) { btn.textContent = 'Add Resource'; btn.disabled = false; }
+  }
+}
+
+// ══ COMMUNITY Q&A ══
+async function loadCommunityQA() {
+  const list = document.getElementById('qaList');
+  if (!list) return;
+  list.innerHTML = '<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Loading community questions…</div>';
+  try {
+    const items = await sb('community_qa?order=created_at.desc&limit=30', {headers:{'Prefer':''}});
+    if (!items?.length) { list.innerHTML = '<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">No questions yet. Ask the first one!</div>'; return; }
+    const roleColors = {'Foster Youth':'var(--sage)','Foster Parent':'var(--navy)','Kinship Caregiver':'var(--rust)','Social Worker':'var(--plum)'};
+    list.innerHTML = items.map(q => `
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:12px">
+        <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
+          <div style="width:32px;height:32px;border-radius:50%;background:${roleColors[q.role]||'var(--gold)'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${q.anonymous?'🎭':q.role==='Foster Youth'?'👧':q.role==='Social Worker'?'📋':q.role==='Kinship Caregiver'?'👵':'🏠'}</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px">${q.anonymous?'Anonymous':q.name||'Community Member'} · ${q.role||''}</div>
+            <div style="font-size:15px;color:var(--ink);line-height:1.5;margin-bottom:8px">${q.question}</div>
+            ${q.answer ? `<div style="background:rgba(42,102,73,.06);border-left:3px solid var(--sage);padding:10px 14px;border-radius:0 6px 6px 0;margin-top:8px"><div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:4px">✨ Aunt Nancy's Answer</div><div style="font-size:13px;color:var(--text);line-height:1.6">${q.answer}</div></div>` : `<button onclick="getAIAnswer('${q.id}',this,'${q.question.replace(/'/g,"\\'")}','${q.role}')" style="font-size:11px;color:var(--sage);background:transparent;border:1px dashed rgba(42,102,73,.3);border-radius:4px;padding:4px 10px;cursor:pointer;font-family:'DM Sans',sans-serif">Ask Aunt Nancy to answer this →</button>`}
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;border-top:1px solid var(--cream);padding-top:8px;margin-top:4px">
+          <button onclick="upvoteQA('${q.id}',this)" data-count="${q.upvotes||0}" style="font-size:11px;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:10px;padding:3px 10px;cursor:pointer;font-family:'DM Sans',sans-serif">▲ ${q.upvotes||0} helpful</button>
+          <span style="font-size:10px;color:var(--muted)">${new Date(q.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>
+        </div>
+      </div>`).join('');
+  } catch(e) { list.innerHTML = '<div style="font-size:13px;color:var(--muted);text-align:center;padding:20px">Couldn\'t load questions.</div>'; }
+}
+
+async function submitCommunityQuestion() {
+  const q = document.getElementById('qa-question')?.value.trim();
+  const role = document.getElementById('qa-role')?.value || currentUser?.role || 'Foster Parent';
+  const anon = document.getElementById('qa-anon')?.checked;
+  const workerAnon = currentUser?.role === 'worker' ? true : anon;
+  if (!q) { alert('Please enter your question.'); return; }
+  const btn = document.getElementById('qaSubmitBtn');
+  if (btn) { btn.textContent = 'Submitting…'; btn.disabled = true; }
+  try {
+    const entry = {
+      question: q, role: role,
+      name: workerAnon ? null : (currentUser?.first || null),
+      anonymous: workerAnon,
+      upvotes: 0, answer: null,
+      created_at: new Date().toISOString()
+    };
+    await sb('community_qa', { method: 'POST', body: entry });
+    document.getElementById('qa-question').value = '';
+    await loadCommunityQA();
+    if (btn) { btn.textContent = '✓ Posted!'; btn.style.background = 'var(--sage)'; }
+    setTimeout(() => { if(btn){btn.textContent='Post Question';btn.style.background='';btn.disabled=false;} }, 2500);
+  } catch(e) {
+    if (btn) { btn.textContent = 'Post Question'; btn.disabled = false; }
+  }
+}
+
+async function getAIAnswer(id, btn, question, role) {
+  btn.textContent = 'Asking Aunt Nancy…'; btn.disabled = true;
+  try {
+    const res = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 400,
+        system: `You are Aunt Nancy, a warm and knowledgeable foster care advocate answering a community question from a ${role}. Give a real, helpful, direct answer in 2-4 sentences. No fluff.`,
+        messages: [{ role: 'user', content: question }]
+      })
+    });
+    const data = await res.json();
+    const answer = data.content?.[0]?.text || 'Unable to generate an answer right now.';
+    await sb(`community_qa?id=eq.${id}`, { method: 'PATCH', body: { answer } });
+    await loadCommunityQA();
+  } catch(e) { btn.textContent = 'Try again'; btn.disabled = false; }
+}
+
+async function upvoteQA(id, el) {
+  if (localStorage.getItem('upvoted_qa_'+id)) return;
+  localStorage.setItem('upvoted_qa_'+id, '1');
+  const c = (parseInt(el.dataset.count)||0) + 1;
+  el.dataset.count = c; el.textContent = `▲ ${c} helpful`;
+  try { await sb(`community_qa?id=eq.${id}`, {method:'PATCH', body:{upvotes:c}}); } catch(e) {}
+}
+
+// ══ PDF LETTER VIEWER ══
+function openLetterPDF(templateId) {
+  const t = TEMPLATES.find(x => x.id === templateId);
+  if (!t) return;
+  if (t.locked && !currentUser) { openAuth('signup'); return; }
+  const modal = document.getElementById('pdfViewerModal');
+  const content = document.getElementById('pdfContent');
+  const title = document.getElementById('pdfTitle');
+  if (!modal || !content) return;
+  title.textContent = t.title;
+  // Generate a professional letter preview
+  const today = new Date().toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'});
+  const userName = currentUser ? `${currentUser.first} ${currentUser.last||''}` : '[Your Name]';
+  const userCity = currentUser?.city || '[Your City]';
+  content.innerHTML = generateLetterHTML(t, today, userName, userCity);
+  modal.classList.add('open');
+}
+
+function generateLetterHTML(t, date, name, city) {
+  const letters = {
+    t1: `<p>${date}</p><br><p>To: Assigned Children's Social Worker (CSW)<br>CC: Supervising Children's Social Worker (SCSW)<br>Re: Clothing Allowance Request — DCFS Policy 0900-506.10</p><br><p>Dear CSW/SCSW,</p><p>I am writing to formally request the clothing allowance for the child placed in my care as of [placement date]. Per DCFS Policy 0900-506.10, foster caregivers are entitled to a clothing allowance for each child placed in their home within the first 30 days of placement.</p><p>Child's name: [Child's First Name]<br>Date of placement: [Date]<br>DCFS case number: [Case Number]</p><p>Please process this request at your earliest convenience. I am available to provide any additional documentation required.</p><p>Respectfully,<br>${name}<br>${city}</p>`,
+    t2: `<p>${date}</p><br><p>To: Children's Social Worker<br>CC: Supervising CSW<br>Re: Emergency Benefit Request — WIC §11460</p><br><p>Dear CSW/SCSW,</p><p>I am writing to formally request emergency benefits for the child recently placed in my care. Per WIC §11460 and applicable DCFS policy, I am requesting immediate assistance to ensure the child's basic needs are met during this critical transition period.</p><p>Requested benefits: Clothing allowance, Emergency Assistance Rate (EAR), and any applicable placement supports.</p><p>Please respond within 24 hours given the urgent nature of this request.</p><p>Respectfully,<br>${name}<br>${city}</p>`,
+    t3: `<p>${date}</p><br><p>To: School Enrollment Office<br>[School Name and Address]<br>Re: Immediate Enrollment — McKinney-Vento Act / Education Code §48853.5</p><br><p>Dear School Administrator,</p><p>This letter requests the immediate enrollment of [Child's Name], currently in foster care, pursuant to Education Code §48853.5 and the McKinney-Vento Homeless Assistance Act (42 U.S.C. §11432).</p><p>Under California law, foster youth must be enrolled immediately, even without records typically required for enrollment. Please enroll this student today and request records separately.</p><p>If you have questions, please contact the assigned social worker at [CSW phone].</p><p>Respectfully,<br>${name}<br>Foster Caregiver, ${city}</p>`,
+    t8: `<p>${date}</p><br><p>To: [CSW Name], Children's Social Worker<br>CC: [SCSW Name], Supervising CSW<br>Re: Request for Benefits — [Child's Name]</p><br><p>Dear [CSW Name] and [SCSW Name],</p><p>I am writing to formally request the following benefits for [Child's Name], placed in my care on [placement date]:</p><p>1. Clothing Allowance (DCFS Policy 0900-506.10)<br>2. Emergency Assistance Rate (WIC §11460)<br>3. School Transportation Reimbursement<br>4. [Additional benefit if applicable]</p><p>Please process these requests and respond in writing within 5 business days per policy.</p><p>Respectfully,<br>${name}<br>${city}</p>`,
+    t9: `<p>${date}</p><br><p>To: [CSW Name], Children's Social Worker<br>Re: Request for AB 12 / Non-Minor Dependent Services — WIC §11403</p><br><p>Dear [CSW Name],</p><p>I am writing to formally request Non-Minor Dependent (NMD) extended foster care services under Assembly Bill 12 (WIC §11403). I am currently [age] years old and wish to remain in extended foster care to [state goal: complete education / gain employment / etc.].</p><p>I understand I must participate in one of the qualifying activities outlined in WIC §11403(b) and agree to the terms of the Transitional Independent Living Plan (TILP).</p><p>Please initiate the NMD agreement process at your earliest convenience.</p><p>Respectfully,<br>${name}<br>${city}</p>`,
+  };
+  const body = letters[t.id] || `<p>${date}</p><br><p>Re: ${t.title}</p><br><p>[Letter content for ${t.title}]</p><br><p>Policy citation: ${t.cite}</p><br><p>Respectfully,<br>${name}<br>${city}</p>`;
+  return `<div style="font-family:Georgia,serif;font-size:13.5px;line-height:1.8;color:#111;max-width:600px;margin:0 auto;padding:20px">${body}</div>`;
+}
+
+function closePDFViewer() {
+  document.getElementById('pdfViewerModal')?.classList.remove('open');
+}
+
+function downloadLetter() {
+  const content = document.getElementById('pdfContent')?.innerHTML;
+  const title = document.getElementById('pdfTitle')?.textContent || 'Letter';
+  const blob = new Blob([`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><style>body{font-family:Georgia,serif;font-size:13.5px;line-height:1.8;color:#111;max-width:700px;margin:40px auto;padding:0 30px}@media print{body{margin:0}}</style></head><body>${content}</body></html>`], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = title.replace(/\s+/g,'-') + '.html';
+  a.click();
+}
+
+function printLetter() { window.print(); }
+
+// ══ FOSTER YOUTH PROFILE ══
+const YOUTH_QUOTES = [
+  {quote:"You are braver than you believe, stronger than you seem, and smarter than you think.", author:"A.A. Milne"},
+  {quote:"Your story is not over. The best chapters are still being written.", author:"AuntNancy.org"},
+  {quote:"You didn't choose this system, but you get to choose what comes next.", author:"AuntNancy.org"},
+  {quote:"Every expert was once a beginner. Every success story started somewhere.", author:"Unknown"},
+  {quote:"The fact that you're still here, still trying, still fighting — that matters.", author:"AuntNancy.org"},
+  {quote:"You have survived 100% of your hardest days so far.", author:"Unknown"},
+  {quote:"Your past is not your potential. In any hour you can choose to liberate the future.", author:"Marilyn Ferguson"},
+  {quote:"You are not what happened to you. You are what you choose to become.", author:"Carl Jung"},
+];
+const JOURNAL_PROMPTS = [
+  "What is one thing you're proud of about yourself today?",
+  "What does 'home' mean to you? What would your ideal home feel like?",
+  "Who is someone who has shown up for you? What did they do that mattered?",
+  "What are three things you want for your future? What's one step toward each?",
+  "What's something hard you've been through that made you stronger?",
+  "What do you wish adults in your life understood about you?",
+  "Describe a day when you felt truly happy. What made it that way?",
+  "What are your biggest dreams? Write them without limits.",
+  "What would you tell your younger self right now?",
+  "What boundaries do you want to set in your relationships?",
+];
+
+function initYouthProfile() {
+  // Rotate daily quote
+  const quoteEl = document.getElementById('youthQuote');
+  const authorEl = document.getElementById('youthQuoteAuthor');
+  if (quoteEl && authorEl) {
+    const idx = new Date().getDate() % YOUTH_QUOTES.length;
+    quoteEl.textContent = `"${YOUTH_QUOTES[idx].quote}"`;
+    authorEl.textContent = `— ${YOUTH_QUOTES[idx].author}`;
+  }
+  // Rotate daily journal prompt
+  const promptEl = document.getElementById('journalPrompt');
+  if (promptEl) {
+    const pidx = (new Date().getDate() + new Date().getMonth()) % JOURNAL_PROMPTS.length;
+    promptEl.textContent = JOURNAL_PROMPTS[pidx];
+  }
+  // Load saved journal entries
+  loadJournalEntries();
+}
+
+function loadJournalEntries() {
+  const list = document.getElementById('journalEntries');
+  if (!list) return;
+  const entries = JSON.parse(localStorage.getItem('an_journal_' + (currentUser?.email||'guest')) || '[]');
+  if (!entries.length) { list.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:12px 0">Your journal is private and stays on this device. Start writing — no one else can read this.</div>'; return; }
+  list.innerHTML = entries.slice(0,5).map((e,i) => `
+    <div style="background:var(--cream);border-radius:var(--r);padding:14px 16px;margin-bottom:8px;position:relative">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:600">${e.date} · ${e.prompt ? 'Prompt: '+e.prompt.slice(0,40)+'…' : 'Free write'}</div>
+      <div style="font-size:13.5px;color:var(--text);line-height:1.6">${e.text.slice(0,200)}${e.text.length>200?'…':''}</div>
+      <button onclick="deleteJournalEntry(${i})" style="position:absolute;top:10px;right:10px;background:transparent;border:none;color:var(--muted);font-size:14px;cursor:pointer">✕</button>
+    </div>`).join('');
+}
+
+function saveJournalEntry() {
+  const text = document.getElementById('journalText')?.value.trim();
+  const prompt = document.getElementById('journalPrompt')?.textContent || '';
+  if (!text) return;
+  const key = 'an_journal_' + (currentUser?.email||'guest');
+  const entries = JSON.parse(localStorage.getItem(key) || '[]');
+  entries.unshift({ text, prompt, date: new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}) });
+  localStorage.setItem(key, JSON.stringify(entries.slice(0,50)));
+  document.getElementById('journalText').value = '';
+  const btn = document.getElementById('journalSaveBtn');
+  if (btn) { btn.textContent = '✓ Saved — this is yours alone'; btn.style.background = 'var(--sage)'; setTimeout(() => { btn.textContent='Save Entry →'; btn.style.background=''; }, 2000); }
+  loadJournalEntries();
+}
+
+function deleteJournalEntry(idx) {
+  const key = 'an_journal_' + (currentUser?.email||'guest');
+  const entries = JSON.parse(localStorage.getItem(key) || '[]');
+  entries.splice(idx, 1);
+  localStorage.setItem(key, JSON.stringify(entries));
+  loadJournalEntries();
+}
+
+function newJournalPrompt() {
+  const prompts = JOURNAL_PROMPTS;
+  const current = document.getElementById('journalPrompt')?.textContent;
+  const remaining = prompts.filter(p => p !== current);
+  const next = remaining[Math.floor(Math.random() * remaining.length)];
+  const el = document.getElementById('journalPrompt');
+  if (el) el.textContent = next;
+}
+
+// ══ INIT (updated) ══
 window.addEventListener('DOMContentLoaded',()=>{
   loadUser();
   buildLangDD();
@@ -2272,10 +2775,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   renderTemplates();
   renderFooters();
   updateAuthUI();
+  applyRoleGating();
   initANWall();
   // Restore page from URL hash on refresh
   const hash=window.location.hash.replace('#','');
-  const validPages=['home','youth','parent','kinship','worker','vault','education','products','feedback','dashboard'];
+  const validPages=['home','youth','parent','kinship','worker','vault','education','products','feedback','dashboard','qa','community'];
   if(hash && validPages.includes(hash)){
     go(hash);
   } else {
