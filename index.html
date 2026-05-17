@@ -1637,29 +1637,53 @@ async function loadEdu(tab){
   document.querySelector(`[data-edu="${tab}"]`)?.classList.add('on');
   const sec=document.getElementById('edu-'+tab);
   if(sec) sec.classList.add('on');
-  const ck=tab+'_'+loc.stateCode;
-  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<3600000){renderEdu(tab,eduCache[ck].data);return;}
-  if(sec) sec.innerHTML=`<div class="edu-loading"><div class="edu-spinner"></div><div style="font-size:13.5px;color:var(--muted);text-align:center;max-width:300px;line-height:1.6">Claude AI is researching the latest ${tab} updates for ${loc.city}, ${loc.state}…<div class="edu-ai-b">✨ Powered by Claude AI</div></div></div>`;
+  // Ensure loc is populated before using it
+  const safeLoc = {
+    city: loc.city||'Los Angeles',
+    state: loc.state||'California',
+    stateCode: loc.stateCode||'CA',
+    county: loc.county||'Los Angeles County'
+  };
+  const ck=tab+'_'+(safeLoc.stateCode);
+  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<3600000){renderEdu(tab,eduCache[ck].data,safeLoc);return;}
+  if(sec) sec.innerHTML=`<div class="edu-loading"><div class="edu-spinner"></div><div style="font-size:13.5px;color:var(--muted);text-align:center;max-width:300px;line-height:1.6">Claude AI is researching the latest ${tab} updates for ${safeLoc.city}, ${safeLoc.state}…<div class="edu-ai-b">✨ Powered by Claude AI</div></div></div>`;
   try{
     const topic=EDU[tab];
-    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:'You are a foster care education specialist. Respond with valid JSON only — no markdown, no backticks, no explanation. Return a JSON array of exactly 6 objects.',messages:[{role:'user',content:topic.prompt(loc)}]})});
+    if(!topic){console.error('No EDU topic for tab:',tab);return;}
+    const prompt=topic.prompt(safeLoc);
+    const res=await fetch('/.netlify/functions/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1200,
+        system:'You are a foster care education specialist. Respond with valid JSON only — no markdown, no backticks, no preamble. Return a JSON array of exactly 6 objects, each with: title (string), summary (string), strategy (string), source (string), tag (string).',
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    if(!res.ok){throw new Error('HTTP '+res.status);}
     const data=await res.json();
+    if(data.error){throw new Error(data.error);}
     const text=data.content?.[0]?.text||'[]';
-    const cards=JSON.parse(text.replace(/```json|```/g,'').trim());
+    const clean=text.replace(/```json|```/g,'').trim();
+    const cards=JSON.parse(clean);
+    if(!Array.isArray(cards)||!cards.length){throw new Error('Invalid response');}
     eduCache[ck]={data:cards,ts:Date.now()};
-    renderEdu(tab,cards);
+    renderEdu(tab,cards,safeLoc);
   }catch(e){
-    if(sec) sec.innerHTML=`<div class="edu-loading"><div style="font-size:28px">⚠️</div><div style="font-size:13px;color:var(--muted)">Couldn't load content. <span style="color:var(--sage);cursor:pointer;border-bottom:1px dashed" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">Try again →</span></div></div>`;
+    console.error('Education load error:',e);
+    if(sec) sec.innerHTML=`<div class="edu-loading"><div style="font-size:28px">⚠️</div><div style="font-size:13px;color:var(--muted);text-align:center;line-height:1.6">Couldn't load content right now.<br><br><span style="color:var(--sage);cursor:pointer;border-bottom:1px dashed" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">↻ Try again</span></div></div>`;
   }
 }
 
-function renderEdu(tab,cards){
+function renderEdu(tab,cards,safeLoc){
+  safeLoc=safeLoc||{city:loc.city||'Los Angeles',state:loc.state||'California',stateCode:loc.stateCode||'CA'};
   const sec=document.getElementById('edu-'+tab);
   if(!sec||!cards?.length) return;
   const topic=EDU[tab];
   const now=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
   const feat=cards[0];const grid=cards.slice(1);
-  const ck=tab+'_'+loc.stateCode;
+  const ck=tab+'_'+safeLoc.stateCode;
   const tabLabel=tab.charAt(0).toUpperCase()+tab.slice(1);
   sec.innerHTML=`
     <div class="edu-sec-hd">
@@ -1878,6 +1902,11 @@ function populateDashboard(){
   const plCount=getPlacements().length;
   const statPl=document.getElementById('statPl');if(statPl) statPl.textContent=plCount;
   const plLbl=document.getElementById('plQuickLbl');if(plLbl) plLbl.textContent=plCount?`${plCount} active placement${plCount>1?'s':''}`:'Track children in your home';
+  // For parent and kinship — show placements as first panel
+  if((u.role==='parent'||u.role==='kinship')&&plCount===0){
+    // Show a prominent placement tracker prompt in overview
+    const ql=document.getElementById('plQuickLbl');if(ql) ql.textContent='Start your placement tracker →';
+  }
   const recent=document.getElementById('recentList');
   if(recent){const dls=(u.downloads||[]).slice(-4).reverse();recent.innerHTML=dls.length?dls.map(id=>{const t=TEMPLATES.find(t=>t.id===id);return t?`<div class="dl-item"><span class="dl-ico">${t.icon}</span><div><div class="dl-t">${t.title}</div><div class="dl-s">${t.cite}</div></div><button class="dl-btn" onclick="dlTpl('${id}','${t.title}')">↓</button></div>`:''}).join(''):`<div style="font-size:13px;color:var(--muted);padding:14px 0">No downloads yet. <a onclick="go('vault')" style="color:var(--gold);cursor:pointer">Browse the Letter Vault →</a></div>`;}
   const dlList=document.getElementById('dlList');
@@ -2408,18 +2437,18 @@ async function sb(path, opts={}) {
 
 // ══ ROLE GATING ══
 const ROLE_PAGES = {
-  youth:   ['home','youth','vault','education','feedback','dashboard'],
-  parent:  ['home','parent','vault','education','products','feedback','dashboard'],
-  kinship: ['home','kinship','vault','education','feedback','dashboard'],
-  worker:  ['home','worker','vault','education','feedback','dashboard'],
-  all:     ['home','youth','parent','kinship','worker','vault','education','products','feedback','dashboard'],
+  youth:   ['home','youth','vault','education','qa','feedback','dashboard'],
+  parent:  ['home','parent','vault','education','qa','products','feedback','dashboard'],
+  kinship: ['home','kinship','vault','education','qa','feedback','dashboard'],
+  worker:  ['home','worker','vault','education','qa','feedback','dashboard'],
+  all:     ['home','youth','parent','kinship','worker','vault','education','qa','products','feedback','dashboard'],
 };
 const ROLE_NAV = {
-  youth:   ['home','vault','education','feedback'],
-  parent:  ['home','vault','education','products','feedback'],
-  kinship: ['home','vault','education','feedback'],
-  worker:  ['home','vault','education','feedback'],
-  all:     ['home','vault','education','products','feedback'],
+  youth:   ['home','vault','education','qa','feedback'],
+  parent:  ['home','vault','education','qa','products','feedback'],
+  kinship: ['home','vault','education','qa','feedback'],
+  worker:  ['home','worker','vault','education','qa','feedback'],
+  all:     ['home','vault','education','qa','products','feedback'],
 };
 
 function applyRoleGating() {
@@ -2437,6 +2466,11 @@ function applyRoleGating() {
     const p = l.dataset.page;
     l.style.display = navAllowed.includes(p) ? '' : 'none';
   });
+  // Show placement tracker prominently for parent and kinship roles
+  const plNav = document.querySelector('.dash-ni[onclick*="placements"]');
+  if (plNav) {
+    plNav.style.display = (role === 'parent' || role === 'kinship' || role === 'all') ? '' : 'none';
+  }
 }
 
 // ══ RESOURCE RATINGS ══
