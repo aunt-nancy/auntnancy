@@ -795,7 +795,7 @@ img{max-width:100%}
 </header>
 
 <!-- HOME PAGE -->
-<div class="page on" id="page-home">
+<div class="page" id="page-home">
   <section class="home-hero">
     <div class="home-l">
       <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(200,146,58,.1);border:1px solid rgba(200,146,58,.18);border-radius:20px;padding:4px 13px;font-size:10.5px;color:var(--gold-lt);margin-bottom:16px" class="fu">💛 Free Forever · No Jargon · Real Answers</div>
@@ -869,6 +869,7 @@ img{max-width:100%}
 
 <!-- FOSTER YOUTH PAGE -->
 <div class="page" id="page-youth">
+  <!-- HERO -->
   <div class="rhy" style="padding:52px 0">
     <div class="container">
       <div class="ph-split">
@@ -891,6 +892,33 @@ img{max-width:100%}
       </div>
     </div>
   </div>
+
+  <!-- JOURNAL — directly below hero/title -->
+  <section class="section" style="background:white">
+    <div class="container" style="max-width:800px">
+      <div style="background:var(--ink);border-radius:var(--r);padding:24px 28px;margin-bottom:20px;text-align:center">
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:10px">Today's Reminder</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:white;line-height:1.5;margin-bottom:8px;font-style:italic" id="youthQuote">"You are braver than you believe, stronger than you seem, and smarter than you think."</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4)" id="youthQuoteAuthor">— A.A. Milne</div>
+      </div>
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+          <div><h3 style="font-size:22px;color:var(--ink);margin-bottom:3px">Your Private Journal</h3><p style="font-size:12.5px;color:var(--muted)">Stays on your device only. Nobody else can read this.</p></div>
+          <span style="font-size:10px;padding:3px 10px;border-radius:10px;background:rgba(42,102,73,.08);border:1px solid rgba(42,102,73,.18);color:var(--sage);font-weight:700;white-space:nowrap">🔒 Private</span>
+        </div>
+        <div style="background:white;border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:13.5px;color:var(--ink);font-style:italic;line-height:1.6" id="journalPrompt">What is one thing you're proud of about yourself today?</div>
+        <textarea id="journalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.7;margin-bottom:10px" placeholder="Write whatever you need to say. This is your space…"></textarea>
+        <div style="display:flex;gap:9px;margin-bottom:16px">
+          <button onclick="saveJournalEntry()" id="journalSaveBtn" class="btn btn-gold" style="font-size:12.5px">Save Entry →</button>
+          <button onclick="newJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
+          <button onclick="document.getElementById('journalText').value=''" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">Clear</button>
+        </div>
+        <div id="journalEntries"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHTS & RESOURCES -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
       <div class="grid-2" style="gap:40px;align-items:start">
@@ -918,67 +946,9 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <!-- Youth Journal & Motivational Section — reordered -->
+
+  <!-- WHAT YOUTH ARE SAYING -->
   <section class="section" style="background:white">
-    <div class="container">
-      <!-- 1. Daily quote -->
-      <div style="background:var(--ink);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;text-align:center">
-        <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:12px">Today's Reminder</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;line-height:1.45;margin-bottom:10px;font-style:italic" id="youthQuote">"You are braver than you believe, stronger than you seem, and smarter than you think."</div>
-        <div style="font-size:12px;color:rgba(255,255,255,.45)" id="youthQuoteAuthor">— A.A. Milne</div>
-      </div>
-      <!-- 2. Private journal directly under quote -->
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:28px 32px;margin-bottom:24px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-          <div><h3 style="font-size:24px;color:var(--ink);margin-bottom:4px">Your Private Journal</h3><p style="font-size:13px;color:var(--muted);line-height:1.6">This stays on your device only. No one else can read it — not DCFS, not your CSW, not this site.</p></div>
-          <span style="font-size:11px;padding:4px 12px;border-radius:12px;background:rgba(42,102,73,.08);border:1px solid rgba(42,102,73,.18);color:var(--sage);font-weight:700">🔒 Private</span>
-        </div>
-        <div style="background:white;border-radius:var(--r);padding:14px 18px;margin-bottom:16px">
-          <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Today's Prompt</div>
-          <div style="font-size:14px;color:var(--ink);line-height:1.6;font-style:italic" id="journalPrompt">What is one thing you're proud of about yourself today?</div>
-          <button onclick="newJournalPrompt()" style="font-size:11px;color:var(--sage);background:transparent;border:none;cursor:pointer;margin-top:6px;font-family:'DM Sans',sans-serif">↻ New prompt</button>
-        </div>
-        <textarea id="journalText" style="width:100%;height:140px;resize:vertical;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.7;margin-bottom:12px" placeholder="Write whatever you need to say. This is your space…"></textarea>
-        <div style="display:flex;gap:10px">
-          <button onclick="saveJournalEntry()" id="journalSaveBtn" class="btn btn-gold" style="font-size:13px">Save Entry →</button>
-          <button onclick="document.getElementById('journalText').value=''" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Clear</button>
-        </div>
-        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
-          <div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Previous Entries</div>
-          <div id="journalEntries"></div>
-        </div>
-      </div>
-      <!-- 3. Summary cards -->
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px">
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--sage)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Your Rights</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">WIC §16001.9 guarantees fair treatment, privacy, and participation in your own case planning.</div>
-          <a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get Rights Guide →</a>
-        </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--gold)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Money for You</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">ETV grants ($5K/year), Cal Grant B, Chafee scholarships — real money with your name on it.</div>
-          <a onclick="openAAN();setAanMode('youth')" style="font-size:12px;color:var(--gold);font-weight:700;display:block;margin-top:10px;cursor:pointer">Ask Aunt Nancy →</a>
-        </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px;border-top:3px solid var(--navy)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Stay Past 18</div>
-          <div style="font-size:13px;color:var(--text);line-height:1.6">AB 12 lets you stay in foster care until age 21. You must opt in — learn how before you turn 18.</div>
-          <a onclick="go('vault')" style="font-size:12px;color:var(--navy);font-weight:700;display:block;margin-top:10px;cursor:pointer">Get AB 12 Letter →</a>
-        </div>
-      </div>
-      <!-- 4. Screening instruments / clinical tools access -->
-      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px 26px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--plum);margin-bottom:14px">📋 Clinical Tools — For Youth in Care</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
-          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">Screening Instruments</div><div class="rc-s">PHQ-A, SCARED, CRAFFT, ACEs, GAD-7</div></div></div>
-          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">BIRP Daily Log</div><div class="rc-s">Interactive · Printable · Free</div></div></div>
-          <div class="res-card" onclick="go('vault')" style="flex-direction:column;align-items:flex-start;gap:4px"><div><div class="rc-t" style="font-size:13px">SCI Placement Tracker</div><div class="rc-s">Level 2/3 · Auto-scoring</div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- What youth are saying — at the bottom -->
-  <section class="section" style="background:var(--cream)">
     <div class="container">
       <span class="eyebrow">What Youth Are Saying</span>
       <div class="grid-3">
@@ -988,11 +958,26 @@ img{max-width:100%}
       </div>
     </div>
   </section>
+
+  <!-- CLINICAL TOOLS — at the bottom -->
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <span class="eyebrow">Clinical & Document Tools</span>
+      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">Screening instruments & logs</h3>
+      <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📋 Screening Instruments</div><div style="font-size:11px;color:var(--muted)">PHQ-A, SCARED, CRAFFT, ACEs, GAD-7, C-SSRS, PCL-5, HEEADSSS</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📝 BIRP Daily Log</div><div style="font-size:11px;color:var(--muted)">Behavior, Intervention, Response, Plan · Digital & printable</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📊 SCI Level 2/3 Tracker</div><div style="font-size:11px;color:var(--muted)">Specialized Care Increment · Auto-scoring</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
+      </div>
+    </div>
+  </section>
+
   <footer class="footer" id="ft-youth"></footer>
 </div>
 
 <!-- FOSTER PARENTS PAGE -->
 <div class="page" id="page-parent">
+  <!-- HERO -->
   <div class="rhp" style="padding:52px 0">
     <div class="container">
       <div class="ph-split">
@@ -1015,6 +1000,40 @@ img{max-width:100%}
       </div>
     </div>
   </div>
+
+  <!-- QUOTE + JOURNAL — directly below hero -->
+  <section class="section" style="background:white">
+    <div class="container">
+      <div class="grid-2" style="gap:24px;align-items:start">
+        <div>
+          <div style="background:var(--ink);border-radius:var(--r);padding:22px 26px;margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px">Today's Reminder</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
+          </div>
+          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:10px">💡 Today's Parenting Tip</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
+            <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+          </div>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+          <textarea id="parentJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Save →</button>
+            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS & NEEDS -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
       <div class="grid-2" style="gap:40px;align-items:start">
@@ -1042,6 +1061,8 @@ img{max-width:100%}
       </div>
     </div>
   </section>
+
+  <!-- WHAT FOSTER PARENTS ARE SAYING -->
   <section class="section" style="background:white">
     <div class="container">
       <span class="eyebrow">What Foster Parents Are Saying</span>
@@ -1052,47 +1073,40 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <!-- Foster Parent Daily Corner -->
+
+  <!-- CASE MANAGEMENT — before document tools -->
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">Case Management</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <h3 style="font-size:28px;color:var(--ink)">Placement Tracker</h3>
+        <button onclick="openPlacementForm()" class="btn btn-gold" style="font-size:13px">+ Add Placement</button>
+      </div>
+      <div id="placementList"></div>
+    </div>
+  </section>
+
+  <!-- DOCUMENT TOOLS — at the bottom -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
-      <div class="grid-2" style="gap:28px;align-items:start">
-        <!-- Quote + Tips -->
-        <div>
-          <div style="background:var(--ink);border-radius:var(--r);padding:24px 28px;margin-bottom:16px">
-            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px">Today's Reminder</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
-          </div>
-          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
-            <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
-            <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-          </div>
-        </div>
-        <!-- Compact journal -->
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div>
-              <h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3>
-              <p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p>
-            </div>
-            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
-          </div>
-          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
-          <textarea id="parentJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--warm);line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
-          <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Save →</button>
-            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
-          </div>
-        </div>
+      <span class="eyebrow">Document Tools & Letters</span>
+      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">All templates — open or download</h3>
+      <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white;max-width:700px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">👕 Clothing Allowance Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</div></div><a onclick="openLetterPDF('t1')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🆘 Emergency Benefit Request</div><div style="font-size:11px;color:var(--muted)">WIC §11460</div></div><a onclick="openLetterPDF('t2')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🏫 McKinney-Vento Enrollment</div><div style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</div></div><a onclick="openLetterPDF('t3')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✉️ CSW/SCSW Benefit Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy · WIC</div></div><a onclick="openLetterPDF('t8')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✅ Placement Intake Checklist</div><div style="font-size:11px;color:var(--muted)">72-hour · Free · No login required</div></div><a onclick="openLetterPDF('t5')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
       </div>
     </div>
   </section>
+
   <footer class="footer" id="ft-parent"></footer>
 </div>
 
 <!-- KINSHIP PAGE -->
 <div class="page" id="page-kinship">
+  <!-- HERO -->
   <div class="rhk" style="padding:52px 0">
     <div class="container">
       <div class="ph-split">
@@ -1115,6 +1129,40 @@ img{max-width:100%}
       </div>
     </div>
   </div>
+
+  <!-- QUOTE + JOURNAL — directly below hero -->
+  <section class="section" style="background:white">
+    <div class="container">
+      <div class="grid-2" style="gap:24px;align-items:start">
+        <div>
+          <div style="background:var(--ink);border-radius:var(--r);padding:22px 26px;margin-bottom:16px">
+            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:10px">Today's Reminder</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
+          </div>
+          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:10px">💡 Today's Tip</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
+            <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+          </div>
+        </div>
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+          <textarea id="kinshipJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12px;padding:8px 18px">Save →</button>
+            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KINSHIP RESOURCES -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
       <div class="grid-2" style="gap:40px;align-items:start">
@@ -1140,6 +1188,8 @@ img{max-width:100%}
       </div>
     </div>
   </section>
+
+  <!-- WHAT KINSHIP ARE SAYING -->
   <section class="section" style="background:white">
     <div class="container">
       <span class="eyebrow">What Kinship Caregivers Are Saying</span>
@@ -1150,37 +1200,33 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <!-- Kinship Daily Corner -->
+
+  <!-- CASE MANAGEMENT -->
+  <section class="section" style="background:white">
+    <div class="container">
+      <span class="eyebrow">Case Management</span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <h3 style="font-size:28px;color:var(--ink)">Placement Tracker</h3>
+        <button onclick="openPlacementForm()" class="btn" style="background:var(--rust);color:white;font-size:13px">+ Add Placement</button>
+      </div>
+      <div id="placementListKinship"></div>
+    </div>
+  </section>
+
+  <!-- DOCUMENT TOOLS — at the bottom -->
   <section class="section" style="background:var(--cream)">
     <div class="container">
-      <div class="grid-2" style="gap:28px;align-items:start">
-        <div>
-          <div style="background:var(--ink);border-radius:var(--r);padding:24px 28px;margin-bottom:16px">
-            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:10px">Today's Reminder</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
-          </div>
-          <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
-            <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
-            <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-          </div>
-        </div>
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
-          </div>
-          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
-          <textarea id="kinshipJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:var(--warm);line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
-          <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12px;padding:8px 18px">Save →</button>
-            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
-          </div>
-        </div>
+      <span class="eyebrow">Document Tools & Letters</span>
+      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">All templates — open or download</h3>
+      <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white;max-width:700px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✉️ CSW / SCSW Benefit Request Letter</div><div style="font-size:11px;color:var(--muted)">Policy-cited · DCFS · WIC</div></div><a onclick="openLetterPDF('t8')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">👕 Clothing Allowance Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</div></div><a onclick="openLetterPDF('t1')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🏫 McKinney-Vento Enrollment</div><div style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</div></div><a onclick="openLetterPDF('t3')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✅ Placement Intake Checklist</div><div style="font-size:11px;color:var(--muted)">72-hour · Free · No login required</div></div><a onclick="openLetterPDF('t5')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
       </div>
     </div>
   </section>
+
   <footer class="footer" id="ft-kinship"></footer>
 </div>
 
@@ -1264,14 +1310,7 @@ img{max-width:100%}
   </div>
   <section class="section">
     <div class="container">
-      <div class="vault-filters">
-        <button class="vf-btn on" onclick="filterTpl('all',this)">All Templates</button>
-        <button class="vf-btn" onclick="filterTpl('benefits',this)">Benefits & Allowances</button>
-        <button class="vf-btn" onclick="filterTpl('education',this)">School Enrollment</button>
-        <button class="vf-btn" onclick="filterTpl('placement',this)">Placement Tools</button>
-        <button class="vf-btn" onclick="filterTpl('advocacy',this)">Advocacy Letters</button>
-      </div>
-      <div class="grid-3" id="tplGrid"></div>
+      <div style="max-width:800px;margin:0 auto" id="tplGrid"></div>
     </div>
   </section>
   <footer class="footer" id="ft-vault"></footer>
@@ -1809,24 +1848,30 @@ function renderTemplates(filter){
   if(!grid) return;
   const list=tplFilter==='all'?TEMPLATES:TEMPLATES.filter(t=>t.cat===tplFilter);
   const li=!!currentUser;
-  grid.innerHTML=list.map(t=>{
-    const locked=t.locked&&!li;
-    const dl=li&&currentUser.downloads?.includes(t.id);
-    const cc=CC[t.cat]||{bg:'rgba(42,102,73,.08)',c:'var(--sage)'};
-    return `<div class="tpl-card${locked?' locked':''}">
-      <div class="tpl-top">
-        <div class="tpl-tr"><span class="card-tag" style="background:${cc.bg};color:${cc.c}">${t.cat}</span><span style="font-size:13px">${locked?'🔒':dl?'✅':'🔓'}</span></div>
-        <h3 class="tpl-title">${t.icon} ${t.title}</h3>
-        <p class="tpl-desc">${t.desc}</p>
-        <code class="tpl-cite">${t.cite}</code>
-      </div>
-      <div class="tpl-foot">
-        ${locked?`<button class="tpl-btn tpl-ul" onclick="openAuth('signup')">🔐 Sign Up to Access</button>`:`<button class="tpl-btn tpl-dl" onclick="openLetterPDF('${t.id}')">📄 Open Letter</button>`}
-        <span class="tpl-fmt">${t.audience}</span>
-      </div>
-      ${locked?`<div class="tpl-lock-ov"><div style="font-size:28px;margin-bottom:7px">🔐</div><div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:11px">Free account required</div><button class="tpl-btn tpl-ul" onclick="openAuth('signup')">Create Free Account</button></div>`:''}
-    </div>`;
-  }).join('');
+  const catLabels={benefits:'Benefits & Allowances',education:'School Enrollment',placement:'Placement Tools',advocacy:'Advocacy Letters'};
+  const cats={benefits:[],education:[],placement:[],advocacy:[]};
+  list.forEach(t=>{if(cats[t.cat]) cats[t.cat].push(t);});
+  let html='<div style="display:flex;flex-direction:column;gap:28px;width:100%">';
+  Object.entries(cats).forEach(([cat,items])=>{
+    if(!items.length) return;
+    html+=`<div><div style="font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)">${catLabels[cat]||cat}</div><div>`;
+    items.forEach(t=>{
+      const locked=t.locked&&!li;
+      const link=locked
+        ? '<a onclick="openAuth(\'signup\')" style="font-size:12px;color:var(--gold);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap">Sign in →</a>'
+        : '<a onclick="openLetterPDF(\''+t.id+'\')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px;white-space:nowrap">Open letter →</a>';
+      html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--cream);gap:16px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <span style="font-size:14px;color:var(--ink);font-weight:500">${t.icon} ${t.title}</span>
+          <span style="font-size:11px;color:var(--muted);display:block;margin-top:1px">${t.cite} · ${t.audience}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">${locked?'<span style="font-size:11px;color:var(--muted)">🔒</span>':''}${link}</div>
+      </div>`;
+    });
+    html+='</div></div>';
+  });
+  html+='</div>';
+  grid.innerHTML=html;
 }
 
 function filterTpl(cat,btn){
@@ -3012,13 +3057,13 @@ window.addEventListener('DOMContentLoaded',()=>{
   updateAuthUI();
   applyRoleGating();
   initANWall();
-  // Restore page from URL hash on refresh
+  // Always route via go() — never rely on hardcoded 'on' class
   const hash=window.location.hash.replace('#','');
   const validPages=['home','youth','parent','kinship','worker','vault','education','resources','products','feedback','dashboard','qa'];
   if(hash && validPages.includes(hash)){
     go(hash);
   } else {
-    document.querySelector('.role-tab[data-role="all"]')?.classList.add('on');
+    go('home');
   }
 });
 </script>
