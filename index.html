@@ -1034,37 +1034,35 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- TODAY'S PARENTING TIP — centered below Today's Reminder -->
-  <section class="section" style="background:var(--cream);padding:32px 0">
-    <div class="container" style="max-width:760px">
-      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;text-align:center">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
-        <div style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
-        <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- CAREGIVER JOURNAL — centered below tip -->
-  <section class="section" style="background:white;padding:32px 0">
-    <div class="container" style="max-width:760px">
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
-          <div><h3 style="font-size:22px;color:var(--ink);margin-bottom:3px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-          <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
-        </div>
-        <div style="background:white;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
-        <textarea id="parentJournalText" style="width:100%;height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.6;margin-bottom:12px" placeholder="Write here…"></textarea>
-        <div style="display:flex;gap:8px">
-          <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:13px;padding:8px 18px">Save →</button>
-          <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CASE MANAGEMENT — centered, compact 11-tab panel -->
+  <!-- JOURNAL (LEFT) + TODAY'S PARENTING TIP (RIGHT) — 2 columns side by side -->
   <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container">
+      <div class="grid-2" style="gap:24px;align-items:stretch">
+        <!-- LEFT: Caregiver Journal -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+          <textarea id="parentJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12.5px;padding:8px 18px">Save →</button>
+            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+        <!-- RIGHT: Today's Parenting Tip -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
+          <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
+          <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE MANAGEMENT — centered below journal+tip -->
+  <section class="section" style="background:white;padding:36px 0">
     <div class="container" style="max-width:920px">
       <div style="text-align:center;margin-bottom:20px">
         <span class="eyebrow">Case Management</span>
@@ -1076,7 +1074,7 @@ img{max-width:100%}
   </section>
 
   <!-- WHAT FOSTER PARENTS ARE SAYING -->
-  <section class="section" style="background:white">
+  <section class="section" style="background:var(--cream)">
     <div class="container">
       <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Foster Parents Are Saying</span></div>
       <div class="grid-3">
@@ -1088,7 +1086,7 @@ img{max-width:100%}
   </section>
 
   <!-- VAULT LETTERS — at the bottom above footer, plain hyperlinks -->
-  <section class="section" style="background:var(--cream);padding:48px 0">
+  <section class="section" style="background:white;padding:48px 0">
     <div class="container" style="max-width:780px">
       <div style="text-align:center;margin-bottom:24px">
         <span class="eyebrow">Vault Letters</span>
@@ -1147,37 +1145,35 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- TODAY'S TIP — centered -->
-  <section class="section" style="background:var(--cream);padding:32px 0">
-    <div class="container" style="max-width:760px">
-      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;text-align:center">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
-        <div style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
-        <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- KINSHIP JOURNAL — centered -->
-  <section class="section" style="background:white;padding:32px 0">
-    <div class="container" style="max-width:760px">
-      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
-          <div><h3 style="font-size:22px;color:var(--ink);margin-bottom:3px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-          <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
-        </div>
-        <div style="background:white;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
-        <textarea id="kinshipJournalText" style="width:100%;height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.6;margin-bottom:12px" placeholder="Write here…"></textarea>
-        <div style="display:flex;gap:8px">
-          <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:13px;padding:8px 18px">Save →</button>
-          <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CASE MANAGEMENT — centered -->
+  <!-- JOURNAL (LEFT) + TIP (RIGHT) — 2 columns side by side -->
   <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container">
+      <div class="grid-2" style="gap:24px;align-items:stretch">
+        <!-- LEFT: Kinship Journal -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
+          </div>
+          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+          <textarea id="kinshipJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12.5px;padding:8px 18px">Save →</button>
+            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+        <!-- RIGHT: Today's Tip -->
+        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
+          <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
+          <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE MANAGEMENT — centered below journal+tip -->
+  <section class="section" style="background:white;padding:36px 0">
     <div class="container" style="max-width:920px">
       <div style="text-align:center;margin-bottom:20px">
         <span class="eyebrow">Case Management</span>
@@ -1189,7 +1185,7 @@ img{max-width:100%}
   </section>
 
   <!-- WHAT KINSHIP CAREGIVERS ARE SAYING -->
-  <section class="section" style="background:white">
+  <section class="section" style="background:var(--cream)">
     <div class="container">
       <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Kinship Caregivers Are Saying</span></div>
       <div class="grid-3">
@@ -1201,7 +1197,7 @@ img{max-width:100%}
   </section>
 
   <!-- VAULT LETTERS — at the bottom above footer -->
-  <section class="section" style="background:var(--cream);padding:48px 0">
+  <section class="section" style="background:white;padding:48px 0">
     <div class="container" style="max-width:780px">
       <div style="text-align:center;margin-bottom:24px">
         <span class="eyebrow">Vault Letters</span>
@@ -2996,10 +2992,18 @@ let cpActivePlacementIdx = {};
 function renderCasePanel(containerId){
   const el=document.getElementById(containerId);
   if(!el) return;
-  const list=getPlacements();
+  let list=getPlacements();
+  // Auto-create a blank placement so tabs and fields are immediately visible
   if(!list.length){
-    el.innerHTML=`<div class="cp-empty"><div style="font-size:36px;margin-bottom:10px">📋</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px">No placements yet</div><div>Add your first placement to start tracking documents, contacts, benefits, and key dates.</div><button onclick="openPlacementForm()">+ Add First Placement</button></div>`;
-    return;
+    const blank={
+      id:'p_'+Date.now(),
+      name:'',dob:'',age:'',date:'',caseNum:'',school:'',
+      csw:'',cswph:'',scsw:'',scswph:'',casa:'',court:'',
+      enrolled:'',clothing:'',ebenefit:'',medi:'',
+      docs:[],caseNotes:[],tabs:{},notes:''
+    };
+    list=[blank];
+    savePlacements(list);
   }
   const idx=cpActivePlacementIdx[containerId]||0;
   const p=list[idx]||list[0];
@@ -3008,7 +3012,7 @@ function renderCasePanel(containerId){
     <div class="cp-bar">
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--ink)">${p.name?p.name[0].toUpperCase():'?'}</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--ink)">${p.name||'Unnamed'}${p.age?' · Age '+p.age:''}</div><div style="font-size:11px;color:var(--muted)">${days!==null?days+' days in care':'Placement date not set'}</div></div>
+        <div><div style="font-size:14px;font-weight:600;color:var(--ink)">${p.name||'New placement — click "Edit Intake" to begin'}${p.age?' · Age '+p.age:''}</div><div style="font-size:11px;color:var(--muted)">${days!==null?days+' days in care':'Add intake details to track time in care'}</div></div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:11px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
@@ -3019,7 +3023,7 @@ function renderCasePanel(containerId){
     <div class="cp-tabs">${CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join('')}</div>
     <!-- INTAKE -->
     <div class="cp-pane on" id="${containerId}-intake">
-      <div class="cp-field"><span class="cp-fl">Child</span><span class="cp-fv">${p.name||'—'}${p.age?' · Age '+p.age:''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Child</span><span class="cp-fv">${p.name||'<em style="color:var(--muted)">Click "Edit Intake" above</em>'}${p.age?' · Age '+p.age:''}</span></div>
       <div class="cp-field"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${days!==null?' ('+days+' days)':''}</span></div>
       <div class="cp-field"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
@@ -3027,7 +3031,7 @@ function renderCasePanel(containerId){
       <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}${p.cswph?' · <span style="color:var(--sage)">'+p.cswph+'</span>':''}</span></div>
       <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}${p.scswph?' · <span style="color:var(--sage)">'+p.scswph+'</span>':''}</span></div>
       <div class="cp-field"><span class="cp-fl">CASA / Attorney</span><span class="cp-fv">${p.casa||'—'}</span></div>
-      <div style="margin-top:10px;font-size:11px;color:var(--muted);text-align:right">Edit intake details using the "Edit Intake" button above.</div>
+      <div style="margin-top:14px;text-align:center"><button onclick="openPlacementForm('${p.id}')" class="btn btn-gold" style="font-size:12px;padding:9px 22px">✏ Add Intake Details</button></div>
     </div>
     <!-- LEGAL -->
     <div class="cp-pane" id="${containerId}-legal">
