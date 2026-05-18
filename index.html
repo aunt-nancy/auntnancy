@@ -206,6 +206,30 @@ img{max-width:100%}
 .modal-save{flex:1;background:var(--gold);color:var(--ink);border:none;padding:11px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
 .modal-cancel{background:transparent;border:1px solid #2a2218;color:#777;padding:11px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 /* PAGES */
+/* CASE PANEL */
+.case-panel{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white}
+.cp-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--cream);border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap}
+.cp-bar select{padding:6px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white;color:var(--ink)}
+.cp-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--warm)}
+.cp-tab{padding:10px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s}
+.cp-tab:hover{color:var(--ink)}
+.cp-tab.on{color:var(--ink);border-bottom-color:var(--gold);background:white}
+.cp-pane{display:none;padding:18px}.cp-pane.on{display:block}
+.cp-field{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--cream);font-size:13px}
+.cp-fl{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.08em;min-width:110px}
+.cp-fv{color:var(--ink);flex:1;text-align:right}
+.cp-fv input,.cp-fv select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;width:100%;max-width:220px;text-align:right;background:white}
+.cp-empty{text-align:center;padding:36px 20px;color:var(--muted);font-size:13px}
+.cp-empty button{margin-top:14px;background:var(--gold);color:var(--ink);border:none;padding:9px 20px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+.cp-note{background:var(--cream);border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:12.5px;color:var(--text);line-height:1.55;position:relative}
+.cp-note-date{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px}
+.cp-doc-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--cream);font-size:12.5px}
+.cp-doc-row label{cursor:pointer;color:var(--text)}
+.cp-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.cp-badge.ok{background:rgba(42,102,73,.1);color:var(--sage)}
+.cp-badge.warn{background:rgba(192,57,43,.1);color:#c0392b}
+.cp-badge.pend{background:rgba(200,146,58,.1);color:var(--gold)}
+
 .page{display:none}.page.on{display:block}
 /* SHARED */
 .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block}
@@ -1001,71 +1025,60 @@ img{max-width:100%}
     </div>
   </div>
 
-  <!-- QUOTE + JOURNAL — directly below hero -->
-  <section class="section" style="background:white">
-    <div class="container">
-      <div class="grid-2" style="gap:24px;align-items:start">
-        <div>
-          <div style="background:var(--ink);border-radius:var(--r);padding:22px 26px;margin-bottom:16px">
-            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px">Today's Reminder</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
-          </div>
-          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:10px">💡 Today's Parenting Tip</div>
-            <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
-            <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-          </div>
+  <!-- TODAY'S REMINDER — full-width band, centered -->
+  <section style="background:var(--ink);padding:36px 0">
+    <div class="container" style="text-align:center">
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:12px">Today's Reminder</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:white;line-height:1.5;font-style:italic;margin-bottom:10px;max-width:780px;margin-left:auto;margin-right:auto" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
+    </div>
+  </section>
+
+  <!-- TODAY'S PARENTING TIP — centered below Today's Reminder -->
+  <section class="section" style="background:var(--cream);padding:32px 0">
+    <div class="container" style="max-width:760px">
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;text-align:center">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
+        <div style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
+        <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREGIVER JOURNAL — centered below tip -->
+  <section class="section" style="background:white;padding:32px 0">
+    <div class="container" style="max-width:760px">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+          <div><h3 style="font-size:22px;color:var(--ink);margin-bottom:3px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+          <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
-          </div>
-          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
-          <textarea id="parentJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
-          <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Save →</button>
-            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
-          </div>
+        <div style="background:white;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+        <textarea id="parentJournalText" style="width:100%;height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.6;margin-bottom:12px" placeholder="Write here…"></textarea>
+        <div style="display:flex;gap:8px">
+          <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:13px;padding:8px 18px">Save →</button>
+          <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TOOLS & NEEDS -->
-  <section class="section" style="background:var(--cream)">
-    <div class="container">
-      <div class="grid-2" style="gap:40px;align-items:start">
-        <div>
-          <span class="eyebrow">Tools & Letters</span>
-          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">What you weren't given at placement.</h2>
-          <ul class="needs">
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>First 24/48/72-hour placement checklist</li>
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>Clothing allowance and emergency benefit letters</li>
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>McKinney-Vento school enrollment rights</li>
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>Trauma-informed parenting — practical, not textbook</li>
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>Respite care resources by county</li>
-            <li class="need"><div class="nd" style="background:var(--navy)"></div>School transportation reimbursement request</li>
-          </ul>
-          <a class="btn" style="background:var(--navy);color:white" onclick="go('vault')">Access Letter Vault →</a>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="res-card"><div><div class="rc-t">Placement Day Checklist — 72 Hours</div><div class="rc-s">Printable · Step-by-step · Free</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Clothing Allowance Request Letter</div><div class="rc-s">DCFS Policy 0900-506.10</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">McKinney-Vento School Enrollment</div><div class="rc-s">Ed. Code §48853.5</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Emergency Benefit Request Letter</div><div class="rc-s">WIC §11460 · CSW/SCSW addressed</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Placement Intake Tracker</div><div class="rc-s">Interactive · Printable · Free</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card" onclick="go('education')"><div><div class="rc-t">📚 Parent Education Hub</div><div class="rc-s">AI-powered · Updated daily</div></div><span class="rc-arr">→</span></div>
-        </div>
+  <!-- CASE MANAGEMENT — centered, compact 11-tab panel -->
+  <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container" style="max-width:920px">
+      <div style="text-align:center;margin-bottom:20px">
+        <span class="eyebrow">Case Management</span>
+        <h3 style="font-size:26px;color:var(--ink);margin-bottom:4px">Placement Tracker</h3>
+        <p style="font-size:13px;color:var(--muted)">Track each child in your home. Private to your device — never shared.</p>
       </div>
+      <div id="casePanelParent" class="case-panel"></div>
     </div>
   </section>
 
   <!-- WHAT FOSTER PARENTS ARE SAYING -->
   <section class="section" style="background:white">
     <div class="container">
-      <span class="eyebrow">What Foster Parents Are Saying</span>
+      <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Foster Parents Are Saying</span></div>
       <div class="grid-3">
         <div class="qcard"><div class="qcard-text">"Found the clothing allowance letter. DCFS approved it in 3 days."</div><div class="qcard-attr">Sarah M. · <span class="qcard-loc">Los Angeles, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"The 72-hour checklist covered everything I didn't know to ask."</div><div class="qcard-attr">Keisha B. · <span class="qcard-loc">Compton, CA</span></div></div>
@@ -1074,29 +1087,24 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT — before document tools -->
-  <section class="section" style="background:white">
-    <div class="container">
-      <span class="eyebrow">Case Management</span>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h3 style="font-size:28px;color:var(--ink)">Placement Tracker</h3>
-        <button onclick="openPlacementForm()" class="btn btn-gold" style="font-size:13px">+ Add Placement</button>
+  <!-- VAULT LETTERS — at the bottom above footer, plain hyperlinks -->
+  <section class="section" style="background:var(--cream);padding:48px 0">
+    <div class="container" style="max-width:780px">
+      <div style="text-align:center;margin-bottom:24px">
+        <span class="eyebrow">Vault Letters</span>
+        <h3 style="font-size:26px;color:var(--ink);margin-bottom:6px">All Templates</h3>
+        <p style="font-size:13px;color:var(--muted)">Policy-cited. Fill-in. Free.</p>
       </div>
-      <div id="placementList"></div>
-    </div>
-  </section>
-
-  <!-- DOCUMENT TOOLS — at the bottom -->
-  <section class="section" style="background:var(--cream)">
-    <div class="container">
-      <span class="eyebrow">Document Tools & Letters</span>
-      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">All templates — open or download</h3>
-      <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white;max-width:700px">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">👕 Clothing Allowance Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</div></div><a onclick="openLetterPDF('t1')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🆘 Emergency Benefit Request</div><div style="font-size:11px;color:var(--muted)">WIC §11460</div></div><a onclick="openLetterPDF('t2')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🏫 McKinney-Vento Enrollment</div><div style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</div></div><a onclick="openLetterPDF('t3')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✉️ CSW/SCSW Benefit Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy · WIC</div></div><a onclick="openLetterPDF('t8')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✅ Placement Intake Checklist</div><div style="font-size:11px;color:var(--muted)">72-hour · Free · No login required</div></div><a onclick="openLetterPDF('t5')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <a onclick="openLetterPDF('t1')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Clothing Allowance Request</span> <span style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</span></a>
+        <a onclick="openLetterPDF('t2')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Emergency Benefit Request</span> <span style="font-size:11px;color:var(--muted)">WIC §11460</span></a>
+        <a onclick="openLetterPDF('t3')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">McKinney-Vento Enrollment</span> <span style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</span></a>
+        <a onclick="openLetterPDF('t8')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">CSW / SCSW Benefit Request</span> <span style="font-size:11px;color:var(--muted)">DCFS Policy · WIC</span></a>
+        <a onclick="openLetterPDF('t5')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Placement Intake Checklist</span> <span style="font-size:11px;color:var(--muted)">72-hour · Free</span></a>
+        <a onclick="openLetterPDF('t4')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">School Transportation Request</span> <span style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</span></a>
+        <a onclick="openLetterPDF('t6')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">BIRP Daily Log</span> <span style="font-size:11px;color:var(--muted)">Interactive · Printable</span></a>
+        <a onclick="openLetterPDF('t7')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">SCI Placement Tracker</span> <span style="font-size:11px;color:var(--muted)">Level 2/3 scoring</span></a>
+        <div style="text-align:center;margin-top:14px"><a onclick="go('vault')" style="font-size:13px;color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none">→ View all templates in the Letter Vault</a></div>
       </div>
     </div>
   </section>
@@ -1130,69 +1138,60 @@ img{max-width:100%}
     </div>
   </div>
 
-  <!-- QUOTE + JOURNAL — directly below hero -->
-  <section class="section" style="background:white">
-    <div class="container">
-      <div class="grid-2" style="gap:24px;align-items:start">
-        <div>
-          <div style="background:var(--ink);border-radius:var(--r);padding:22px 26px;margin-bottom:16px">
-            <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:10px">Today's Reminder</div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
-            <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
-          </div>
-          <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:10px">💡 Today's Tip</div>
-            <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
-            <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-          </div>
+  <!-- TODAY'S REMINDER — full-width band, centered -->
+  <section style="background:var(--ink);padding:36px 0">
+    <div class="container" style="text-align:center">
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:12px">Today's Reminder</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:white;line-height:1.5;font-style:italic;margin-bottom:10px;max-width:780px;margin-left:auto;margin-right:auto" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
+    </div>
+  </section>
+
+  <!-- TODAY'S TIP — centered -->
+  <section class="section" style="background:var(--cream);padding:32px 0">
+    <div class="container" style="max-width:760px">
+      <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;text-align:center">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
+        <div style="font-size:15px;color:var(--text);line-height:1.7;margin-bottom:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
+        <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- KINSHIP JOURNAL — centered -->
+  <section class="section" style="background:white;padding:32px 0">
+    <div class="container" style="max-width:760px">
+      <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+          <div><h3 style="font-size:22px;color:var(--ink);margin-bottom:3px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+          <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
-          </div>
-          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
-          <textarea id="kinshipJournalText" style="width:100%;height:90px;resize:vertical;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
-          <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12px;padding:8px 18px">Save →</button>
-            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">↻ New prompt</button>
-          </div>
+        <div style="background:white;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+        <textarea id="kinshipJournalText" style="width:100%;height:110px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;color:var(--text);background:white;line-height:1.6;margin-bottom:12px" placeholder="Write here…"></textarea>
+        <div style="display:flex;gap:8px">
+          <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:13px;padding:8px 18px">Save →</button>
+          <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- KINSHIP RESOURCES -->
-  <section class="section" style="background:var(--cream)">
-    <div class="container">
-      <div class="grid-2" style="gap:40px;align-items:start">
-        <div>
-          <span class="eyebrow">Kinship Resources</span>
-          <h2 style="font-size:34px;color:var(--ink);margin-bottom:10px">Benefits nobody told you about.</h2>
-          <ul class="needs">
-            <li class="need"><div class="nd" style="background:var(--rust)"></div>Licensed vs. unlicensed kinship — what the difference means</li>
-            <li class="need"><div class="nd" style="background:var(--rust)"></div>Benefits you qualify for but were never told about</li>
-            <li class="need"><div class="nd" style="background:var(--rust)"></div>Legal guardianship vs. custody — explained plainly</li>
-            <li class="need"><div class="nd" style="background:var(--rust)"></div>How to navigate DCFS as a family member</li>
-            <li class="need"><div class="nd" style="background:var(--rust)"></div>Path to becoming licensed — what it takes and why it matters</li>
-          </ul>
-          <a class="btn" style="background:var(--rust);color:white" onclick="go('vault')">Access Resources →</a>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="res-card"><div><div class="rc-t">Licensed vs. Unlicensed Kinship Guide</div><div class="rc-s">Benefits comparison · Free PDF</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Kinship Benefits You May Be Missing</div><div class="rc-s">DCFS policy-aligned</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Guardianship vs. Custody Explainer</div><div class="rc-s">Plain language · WIC citations</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">CSW / SCSW Benefit Request Letter</div><div class="rc-s">Policy-cited · Fill-in template</div></div><span class="rc-arr">→</span></div>
-          <div class="res-card"><div><div class="rc-t">Who to Call at DCFS — and When</div><div class="rc-s">LA County guide · Printable</div></div><span class="rc-arr">→</span></div>
-        </div>
+  <!-- CASE MANAGEMENT — centered -->
+  <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container" style="max-width:920px">
+      <div style="text-align:center;margin-bottom:20px">
+        <span class="eyebrow">Case Management</span>
+        <h3 style="font-size:26px;color:var(--ink);margin-bottom:4px">Placement Tracker</h3>
+        <p style="font-size:13px;color:var(--muted)">Track each child in your care. Private to your device — never shared.</p>
       </div>
+      <div id="casePanelKinship" class="case-panel"></div>
     </div>
   </section>
 
-  <!-- WHAT KINSHIP ARE SAYING -->
+  <!-- WHAT KINSHIP CAREGIVERS ARE SAYING -->
   <section class="section" style="background:white">
     <div class="container">
-      <span class="eyebrow">What Kinship Caregivers Are Saying</span>
+      <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Kinship Caregivers Are Saying</span></div>
       <div class="grid-3">
         <div class="qcard"><div class="qcard-text">"I'm grandma raising my grandkids through DCFS. Found kinship licensing here."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"Nobody at DCFS told me what I was entitled to. This site did in 10 minutes."</div><div class="qcard-attr">Rosa M. · <span class="qcard-loc">East LA, CA</span></div></div>
@@ -1201,28 +1200,23 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT -->
-  <section class="section" style="background:white">
-    <div class="container">
-      <span class="eyebrow">Case Management</span>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h3 style="font-size:28px;color:var(--ink)">Placement Tracker</h3>
-        <button onclick="openPlacementForm()" class="btn" style="background:var(--rust);color:white;font-size:13px">+ Add Placement</button>
+  <!-- VAULT LETTERS — at the bottom above footer -->
+  <section class="section" style="background:var(--cream);padding:48px 0">
+    <div class="container" style="max-width:780px">
+      <div style="text-align:center;margin-bottom:24px">
+        <span class="eyebrow">Vault Letters</span>
+        <h3 style="font-size:26px;color:var(--ink);margin-bottom:6px">All Templates</h3>
+        <p style="font-size:13px;color:var(--muted)">Policy-cited. Fill-in. Free.</p>
       </div>
-      <div id="placementListKinship"></div>
-    </div>
-  </section>
-
-  <!-- DOCUMENT TOOLS — at the bottom -->
-  <section class="section" style="background:var(--cream)">
-    <div class="container">
-      <span class="eyebrow">Document Tools & Letters</span>
-      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">All templates — open or download</h3>
-      <div style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white;max-width:700px">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✉️ CSW / SCSW Benefit Request Letter</div><div style="font-size:11px;color:var(--muted)">Policy-cited · DCFS · WIC</div></div><a onclick="openLetterPDF('t8')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">👕 Clothing Allowance Request</div><div style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</div></div><a onclick="openLetterPDF('t1')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">🏫 McKinney-Vento Enrollment</div><div style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</div></div><a onclick="openLetterPDF('t3')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">✅ Placement Intake Checklist</div><div style="font-size:11px;color:var(--muted)">72-hour · Free · No login required</div></div><a onclick="openLetterPDF('t5')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Open →</a></div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <a onclick="openLetterPDF('t8')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">CSW / SCSW Benefit Request</span> <span style="font-size:11px;color:var(--muted)">Policy-cited · DCFS · WIC</span></a>
+        <a onclick="openLetterPDF('t1')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Clothing Allowance Request</span> <span style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</span></a>
+        <a onclick="openLetterPDF('t2')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Emergency Benefit Request</span> <span style="font-size:11px;color:var(--muted)">WIC §11460</span></a>
+        <a onclick="openLetterPDF('t3')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">McKinney-Vento Enrollment</span> <span style="font-size:11px;color:var(--muted)">Ed. Code §48853.5</span></a>
+        <a onclick="openLetterPDF('t5')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Placement Intake Checklist</span> <span style="font-size:11px;color:var(--muted)">72-hour · Free</span></a>
+        <a onclick="openLetterPDF('t6')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">BIRP Daily Log</span> <span style="font-size:11px;color:var(--muted)">Interactive · Printable</span></a>
+        <a onclick="openLetterPDF('t7')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">SCI Placement Tracker</span> <span style="font-size:11px;color:var(--muted)">Level 2/3 scoring</span></a>
+        <div style="text-align:center;margin-top:14px"><a onclick="go('vault')" style="font-size:13px;color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none">→ View all templates in the Letter Vault</a></div>
       </div>
     </div>
   </section>
@@ -1788,23 +1782,37 @@ async function loadEdu(tab){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:'claude-sonnet-4-6',
-        max_tokens:1200,
-        system:'You are a foster care education specialist. Respond with valid JSON only — no markdown, no backticks, no preamble. Return a JSON array of exactly 6 objects, each with: title (string), summary (string), strategy (string), source (string), tag (string).',
-        messages:[{role:'user',content:prompt}]
+        max_tokens:2000,
+        system:'You are a foster care education specialist. You MUST respond with ONLY a valid JSON array — no markdown code fences, no explanation before or after, no preamble. Just the raw JSON array starting with [ and ending with ]. Return exactly 6 objects, each with these keys: title (string), summary (string, 2-3 sentences), strategy (string, actionable tip), source (string, agency or law citation), tag (string, one short category word).',
+        messages:[{role:'user',content:prompt+'\n\nReturn ONLY the JSON array. No other text.'}]
       })
     });
-    if(!res.ok){throw new Error('HTTP '+res.status);}
     const data=await res.json();
-    if(data.error){throw new Error(data.error);}
-    const text=data.content?.[0]?.text||'[]';
-    const clean=text.replace(/```json|```/g,'').trim();
-    const cards=JSON.parse(clean);
-    if(!Array.isArray(cards)||!cards.length){throw new Error('Invalid response');}
+    if(!res.ok||data.error){throw new Error(data.error||('HTTP '+res.status));}
+    let text=data.content?.[0]?.text||'';
+    console.log('[Education] Raw Claude response for',tab,':',text.substring(0,200));
+    // Robust JSON extraction: strip code fences, find first [ and last ]
+    text=text.replace(/```json/gi,'').replace(/```/g,'').trim();
+    const firstBracket=text.indexOf('[');
+    const lastBracket=text.lastIndexOf(']');
+    if(firstBracket===-1||lastBracket===-1||lastBracket<firstBracket){
+      throw new Error('No JSON array found in response. Got: '+text.substring(0,100));
+    }
+    const jsonStr=text.substring(firstBracket,lastBracket+1);
+    let cards;
+    try{ cards=JSON.parse(jsonStr); }
+    catch(parseErr){
+      // Try to repair common issues: trailing commas, single quotes
+      const repaired=jsonStr.replace(/,(\s*[\]}])/g,'$1').replace(/'/g,'"');
+      try{ cards=JSON.parse(repaired); }
+      catch(e2){ throw new Error('Could not parse JSON: '+parseErr.message); }
+    }
+    if(!Array.isArray(cards)||!cards.length){throw new Error('Empty array returned');}
     eduCache[ck]={data:cards,ts:Date.now()};
     renderEdu(tab,cards,safeLoc);
   }catch(e){
-    console.error('Education load error:',e);
-    if(sec) sec.innerHTML=`<div class="edu-loading"><div style="font-size:28px">⚠️</div><div style="font-size:13px;color:var(--muted);text-align:center;line-height:1.6">Couldn't load content right now.<br><br><span style="color:var(--sage);cursor:pointer;border-bottom:1px dashed" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">↻ Try again</span></div></div>`;
+    console.error('[Education] Load error for',tab,':',e.message);
+    if(sec) sec.innerHTML=`<div class="edu-loading"><div style="font-size:28px">⚠️</div><div style="font-size:13px;color:var(--muted);text-align:center;line-height:1.6;max-width:420px">Couldn't load ${tab} content.<br><span style="font-size:11px;color:var(--muted);opacity:.7;display:block;margin-top:6px">${e.message}</span><br><span style="color:var(--sage);cursor:pointer;border-bottom:1px dashed" onclick="delete eduCache['${ck}'];loadEdu('${tab}')">↻ Try again</span></div></div>`;
   }
 }
 
@@ -2156,8 +2164,8 @@ function go(id,el){
     setTimeout(()=>{ initEduPage(); loadEdu(tab); },150);
   }
   if(id==='youth'&&currentUser?.role==='youth') setTimeout(initYouthProfile,100);
-  if(id==='parent') setTimeout(initParentCorner,100);
-  if(id==='kinship') setTimeout(initKinshipCorner,100);
+  if(id==='parent') setTimeout(()=>{initParentCorner();renderCasePanel('casePanelParent');},100);
+  if(id==='kinship') setTimeout(()=>{initKinshipCorner();renderCasePanel('casePanelKinship');},100);
   if(id==='feedback') setTimeout(()=>{ loadFeedbackWall(); loadLocalContributions(); },100);
   if(id==='qa') setTimeout(loadCommunityQA,100);
   if(id==='resources') setTimeout(()=>{
@@ -2955,6 +2963,188 @@ function newJournalPrompt() {
   const next = remaining[Math.floor(Math.random() * remaining.length)];
   const el = document.getElementById('journalPrompt');
   if (el) el.textContent = next;
+}
+
+// ══ COMPACT CASE PANEL — 11 tabs ══
+const CP_TABS = [
+  {id:'intake',label:'Intake'},
+  {id:'medical',label:'Medical'},
+  {id:'dental',label:'Dental'},
+  {id:'educational',label:'Educational'},
+  {id:'legal',label:'Legal'},
+  {id:'developmental',label:'Developmental'},
+  {id:'trauma',label:'Trauma'},
+  {id:'assessments',label:'Assessments'},
+  {id:'sensitive',label:'Sensitive'},
+  {id:'misc',label:'Misc'},
+  {id:'notes',label:'Notes'},
+];
+const CP_TAB_PROMPTS = {
+  medical: 'Allergies, conditions, medications, primary doctor, Medi-Cal status, recent appointments, blood type…',
+  dental: 'Dentist name, last cleaning date, orthodontic needs, dental insurance status…',
+  educational: 'School, grade, teacher contact, IEP/504 status, attendance, McKinney-Vento status, ETV eligibility…',
+  legal: 'Court date, family visitation orders, custody status, attorney contact, case milestones…',
+  developmental: 'Milestones tracking, ASQ/screening results, age-appropriate skills, concerns to monitor…',
+  trauma: 'Known trauma history summary, triggers to be aware of, calming strategies that work, safety plan notes…',
+  assessments: 'Completed assessments (BIRP, SCI, PHQ-A, SCARED, etc.), scores, dates, follow-up needed…',
+  sensitive: 'Confidential context — family dynamics, biological parent information, sensitive case details. Stays on your device only.',
+  misc: 'Clothing sizes, allergies to non-food items, hobbies, preferences, sports/activities…',
+};
+
+let cpActivePlacementIdx = {};
+
+function renderCasePanel(containerId){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  const list=getPlacements();
+  if(!list.length){
+    el.innerHTML=`<div class="cp-empty"><div style="font-size:36px;margin-bottom:10px">📋</div><div style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px">No placements yet</div><div>Add your first placement to start tracking documents, contacts, benefits, and key dates.</div><button onclick="openPlacementForm()">+ Add First Placement</button></div>`;
+    return;
+  }
+  const idx=cpActivePlacementIdx[containerId]||0;
+  const p=list[idx]||list[0];
+  const days=daysInCare(p.date);
+  el.innerHTML=`
+    <div class="cp-bar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--ink)">${p.name?p.name[0].toUpperCase():'?'}</div>
+        <div><div style="font-size:14px;font-weight:600;color:var(--ink)">${p.name||'Unnamed'}${p.age?' · Age '+p.age:''}</div><div style="font-size:11px;color:var(--muted)">${days!==null?days+' days in care':'Placement date not set'}</div></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:11px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
+        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Add</button>
+        <button onclick="openPlacementForm('${p.id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">✏ Edit Intake</button>
+      </div>
+    </div>
+    <div class="cp-tabs">${CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join('')}</div>
+    <!-- INTAKE -->
+    <div class="cp-pane on" id="${containerId}-intake">
+      <div class="cp-field"><span class="cp-fl">Child</span><span class="cp-fv">${p.name||'—'}${p.age?' · Age '+p.age:''}</span></div>
+      <div class="cp-field"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${days!==null?' ('+days+' days)':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">School</span><span class="cp-fv">${p.school||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}${p.cswph?' · <span style="color:var(--sage)">'+p.cswph+'</span>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}${p.scswph?' · <span style="color:var(--sage)">'+p.scswph+'</span>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">CASA / Attorney</span><span class="cp-fv">${p.casa||'—'}</span></div>
+      <div style="margin-top:10px;font-size:11px;color:var(--muted);text-align:right">Edit intake details using the "Edit Intake" button above.</div>
+    </div>
+    <!-- LEGAL -->
+    <div class="cp-pane" id="${containerId}-legal">
+      <div class="cp-field"><span class="cp-fl">Case Number</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Court Date</span><span class="cp-fv">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">CASA / Attorney</span><span class="cp-fv">${p.casa||'—'}</span></div>
+      ${cpTabTextarea(p,'legal',containerId)}
+    </div>
+    <!-- MEDICAL -->
+    <div class="cp-pane" id="${containerId}-medical">
+      <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
+      ${cpTabTextarea(p,'medical',containerId)}
+    </div>
+    <!-- DENTAL -->
+    <div class="cp-pane" id="${containerId}-dental">${cpTabTextarea(p,'dental',containerId)}</div>
+    <!-- EDUCATIONAL -->
+    <div class="cp-pane" id="${containerId}-educational">
+      <div class="cp-field"><span class="cp-fl">School</span><span class="cp-fv">${p.school||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Enrollment</span><span class="cp-fv"><span class="cp-badge ${p.enrolled==='yes'?'ok':p.enrolled==='no'?'warn':'pend'}">${STATUS_LABELS[p.enrolled]||'Not set'}</span></span></div>
+      ${cpTabTextarea(p,'educational',containerId)}
+    </div>
+    <!-- DEVELOPMENTAL -->
+    <div class="cp-pane" id="${containerId}-developmental">${cpTabTextarea(p,'developmental',containerId)}</div>
+    <!-- TRAUMA -->
+    <div class="cp-pane" id="${containerId}-trauma">
+      <div style="font-size:11px;color:var(--muted);background:rgba(88,42,104,.06);border:1px solid rgba(88,42,104,.14);border-radius:4px;padding:9px 12px;margin-bottom:12px;line-height:1.5">⚠ Sensitive area — for the caregiver's reference only. Stays private on your device.</div>
+      ${cpTabTextarea(p,'trauma',containerId)}
+    </div>
+    <!-- ASSESSMENTS -->
+    <div class="cp-pane" id="${containerId}-assessments">
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📋 Open Screening Instruments</a>
+        <span style="color:var(--muted);font-size:11px">·</span>
+        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📝 Open BIRP Log</a>
+        <span style="color:var(--muted);font-size:11px">·</span>
+        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📊 Open SCI Tracker</a>
+      </div>
+      ${cpTabTextarea(p,'assessments',containerId)}
+    </div>
+    <!-- SENSITIVE -->
+    <div class="cp-pane" id="${containerId}-sensitive">
+      <div style="font-size:11px;color:var(--muted);background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.14);border-radius:4px;padding:9px 12px;margin-bottom:12px;line-height:1.5">🔒 Confidential — stays on your device only. Never synced, never shared.</div>
+      ${cpTabTextarea(p,'sensitive',containerId)}
+    </div>
+    <!-- MISC -->
+    <div class="cp-pane" id="${containerId}-misc">
+      <div class="cp-field"><span class="cp-fl">Clothing Allow.</span><span class="cp-fv"><span class="cp-badge ${p.clothing==='received'?'ok':p.clothing==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.clothing]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">Emergency Ben.</span><span class="cp-fv"><span class="cp-badge ${p.ebenefit==='received'?'ok':p.ebenefit==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.ebenefit]||'Not set'}</span></span></div>
+      ${cpTabTextarea(p,'misc',containerId)}
+    </div>
+    <!-- NOTES -->
+    <div class="cp-pane" id="${containerId}-notes">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input type="text" id="${containerId}-noteInput" placeholder="Add a timestamped note…" style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
+        <button onclick="addCpNote('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Add</button>
+      </div>
+      ${(p.caseNotes||[]).length?(p.caseNotes||[]).map((n,i)=>`<div class="cp-note"><div class="cp-note-date">${n.date}</div>${n.text}<button onclick="deleteCpNote('${p.id}',${i},'${containerId}')" style="position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No notes yet. Add one above.</div>'}
+    </div>`;
+}
+
+function cpTabTextarea(p,tabId,containerId){
+  const val=(p.tabs&&p.tabs[tabId])||'';
+  const placeholder=CP_TAB_PROMPTS[tabId]||'Add details here…';
+  return `<div style="margin-top:4px"><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px">Details</label><textarea id="${containerId}-${tabId}-text" style="width:100%;min-height:120px;resize:vertical;padding:10px 12px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px;background:white;line-height:1.6" placeholder="${placeholder}">${val.replace(/</g,'&lt;')}</textarea><div style="display:flex;gap:8px;margin-top:8px;align-items:center"><button onclick="saveCpTab('${p.id}','${tabId}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save</button><span id="${containerId}-${tabId}-status" style="font-size:11px;color:var(--muted)"></span></div></div>`;
+}
+
+function saveCpTab(placementId,tabId,containerId){
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p) return;
+  if(!p.tabs) p.tabs={};
+  const ta=document.getElementById(containerId+'-'+tabId+'-text');
+  if(!ta) return;
+  p.tabs[tabId]=ta.value;
+  savePlacements(list);
+  const s=document.getElementById(containerId+'-'+tabId+'-status');
+  if(s){s.textContent='✓ Saved';s.style.color='var(--sage)';setTimeout(()=>{s.textContent='';},2000);}
+}
+
+function switchCpTab(containerId,tab,btn){
+  const panel=document.getElementById(containerId);
+  if(!panel) return;
+  panel.querySelectorAll('.cp-tab').forEach(t=>t.classList.remove('on'));
+  panel.querySelectorAll('.cp-pane').forEach(p=>p.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  const pane=document.getElementById(containerId+'-'+tab);
+  if(pane) pane.classList.add('on');
+}
+
+function switchCasePanel(containerId,idx){
+  cpActivePlacementIdx[containerId]=parseInt(idx);
+  renderCasePanel(containerId);
+}
+
+function addCpNote(placementId,containerId){
+  const input=document.getElementById(containerId+'-noteInput');
+  if(!input||!input.value.trim()) return;
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p) return;
+  if(!p.caseNotes) p.caseNotes=[];
+  p.caseNotes.unshift({text:input.value.trim(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})});
+  savePlacements(list);
+  renderCasePanel(containerId);
+  setTimeout(()=>{const last=document.querySelector('#'+containerId+' .cp-tab:last-child');if(last) switchCpTab(containerId,'notes',last);},50);
+}
+
+function deleteCpNote(placementId,idx,containerId){
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p||!p.caseNotes) return;
+  p.caseNotes.splice(idx,1);
+  savePlacements(list);
+  renderCasePanel(containerId);
+  setTimeout(()=>{const last=document.querySelector('#'+containerId+' .cp-tab:last-child');if(last) switchCpTab(containerId,'notes',last);},50);
 }
 
 // ══ PARENT & KINSHIP DAILY CORNER ══
