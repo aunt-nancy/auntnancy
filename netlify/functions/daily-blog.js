@@ -133,7 +133,7 @@ Return ONLY this JSON structure:
     ...json,
     audience,
     source_type: 'ai',
-    author_name: 'Aunt Nancy AI',
+    author_name: 'Aunt Nancy',
     status: 'published',
   };
 }
