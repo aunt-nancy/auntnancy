@@ -5,3 +5,12 @@
   from = "/api/claude"
   to = "/.netlify/functions/claude"
   status = 200
+
+[[redirects]]
+  from = "/api/moderate"
+  to = "/.netlify/functions/moderate"
+  status = 200
+
+# Daily AI blog article — runs every day at 14:00 UTC (6 AM Pacific PDT / 7 AM PST)
+[functions."daily-blog"]
+  schedule = "0 14 * * *"
