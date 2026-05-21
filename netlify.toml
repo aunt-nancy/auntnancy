@@ -11,6 +11,17 @@
   to = "/.netlify/functions/moderate"
   status = 200
 
-# Daily AI blog article — runs every day at 14:00 UTC (6 AM Pacific PDT / 7 AM PST)
+[[redirects]]
+  from = "/api/checkout"
+  to = "/.netlify/functions/checkout"
+  status = 200
+
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+
+# Runs 4x daily at 7am, 11am, 3pm, 7pm Pacific
+# After July 1 2026, function skips if today already has a post
 [functions."daily-blog"]
-  schedule = "0 14 * * *"
+  schedule = "0 14,18,22,2 * * *"
