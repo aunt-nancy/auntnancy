@@ -206,29 +206,85 @@ img{max-width:100%}
 .modal-save{flex:1;background:var(--gold);color:var(--ink);border:none;padding:11px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
 .modal-cancel{background:transparent;border:1px solid #2a2218;color:#777;padding:11px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer}
 /* PAGES */
-/* CASE PANEL */
-.case-panel{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white}
-.cp-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--cream);border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap}
-.cp-bar select{padding:6px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white;color:var(--ink)}
-.cp-tabs{display:flex;border-bottom:1px solid var(--border);background:var(--warm)}
-.cp-tab{padding:10px 16px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s}
-.cp-tab:hover{color:var(--ink)}
-.cp-tab.on{color:var(--ink);border-bottom-color:var(--gold);background:white}
-.cp-pane{display:none;padding:18px}.cp-pane.on{display:block}
-.cp-field{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--cream);font-size:13px}
-.cp-fl{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.08em;min-width:110px}
-.cp-fv{color:var(--ink);flex:1;text-align:right}
-.cp-fv input,.cp-fv select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;width:100%;max-width:220px;text-align:right;background:white}
-.cp-empty{text-align:center;padding:36px 20px;color:var(--muted);font-size:13px}
-.cp-empty button{margin-top:14px;background:var(--gold);color:var(--ink);border:none;padding:9px 20px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
-.cp-note{background:var(--cream);border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:12.5px;color:var(--text);line-height:1.55;position:relative}
-.cp-note-date{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:3px}
-.cp-doc-row{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--cream);font-size:12.5px}
+/* VIDEOS */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.video-card{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.video-card:hover{box-shadow:0 8px 22px rgba(0,0,0,.1);transform:translateY(-2px);border-color:var(--gold)}
+.video-thumb{position:relative;background:#000;aspect-ratio:16/9;overflow:hidden}
+.video-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.video-play-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.18);transition:background .2s}
+.video-card:hover .video-play-icon{background:rgba(0,0,0,.32)}
+.video-play-icon::before{content:'▶';color:white;font-size:30px;width:62px;height:62px;background:rgba(0,0,0,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;padding-left:6px;text-shadow:0 2px 6px rgba(0,0,0,.5)}
+.video-card-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.video-card-title{font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:6px}
+.video-card-channel{font-size:11.5px;color:var(--muted);margin-bottom:10px;flex:1}
+.video-card-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:10px}
+/* Inline video embed (for blog posts and youth page) */
+.video-embed{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;margin:18px 0;border:1px solid var(--border)}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* Youth featured videos strip */
+.youth-videos-strip{display:flex;gap:14px;overflow-x:auto;padding:8px 0 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.youth-videos-strip::-webkit-scrollbar{height:6px}
+.youth-videos-strip::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+.youth-video-item{flex:0 0 260px;scroll-snap-align:start;background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
+.youth-video-item:hover{border-color:var(--gold);transform:translateY(-2px)}
+
+/* BLOG */
+.blog-filter{background:white;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:18px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;cursor:pointer;transition:all .15s}
+.blog-filter:hover{border-color:var(--gold);color:var(--ink)}
+.blog-filter.on{background:var(--ink);color:white;border-color:var(--ink)}
+.blog-card{background:white;border:1px solid var(--border);border-radius:10px;padding:22px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;height:100%}
+.blog-card:hover{box-shadow:0 8px 22px rgba(0,0,0,.08);transform:translateY(-2px);border-color:var(--gold)}
+.blog-card-hero{font-size:36px;margin-bottom:12px}
+.blog-card-title{font-family:'Cormorant Garamond',serif;font-size:21px;color:var(--ink);line-height:1.25;margin-bottom:8px;font-weight:600}
+.blog-card-sub{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1}
+.blog-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px;color:var(--muted);padding-top:12px;border-top:1px solid var(--cream)}
+.blog-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.blog-badge-ai{background:rgba(200,146,58,.12);color:#9a6f1f}
+.blog-badge-editorial{background:rgba(25,55,90,.1);color:var(--navy)}
+.blog-badge-community{background:rgba(42,102,73,.1);color:var(--sage)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+/* Post viewer */
+.bp-hero{background:linear-gradient(135deg,var(--cream),white);padding:36px 0 28px;border-bottom:1px solid var(--border)}
+.bp-emoji{font-size:54px;display:block;text-align:center;margin-bottom:14px}
+.bp-title{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--ink);line-height:1.15;text-align:center;margin-bottom:12px;font-weight:600}
+.bp-sub{font-size:17px;color:var(--muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5;font-style:italic}
+.bp-byline{font-size:12px;color:var(--muted);text-align:center;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center}
+.bp-body{max-width:680px;margin:0 auto;padding:36px 20px;font-size:16px;line-height:1.75;color:var(--text)}
+.bp-body h2{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--ink);margin:32px 0 14px;font-weight:600}
+.bp-body h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);margin:24px 0 10px;font-weight:600}
+.bp-body p{margin-bottom:16px}
+.bp-body ul,.bp-body ol{margin:14px 0 16px 24px}.bp-body li{margin-bottom:7px}
+.bp-body strong{color:var(--ink);font-weight:700}.bp-body em{font-style:italic}
+.bp-body code{background:var(--cream);padding:1px 6px;border-radius:3px;font-size:14px}
+.bp-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid var(--cream)}
+.bp-tag{font-size:11px;color:var(--muted);background:var(--cream);padding:3px 10px;border-radius:11px}
+
+/* CASE PANEL — compact, high-contrast design */
+.case-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:white;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.cp-bar{display:flex;align-items:center;justify-content:space-between;padding:11px 18px;background:linear-gradient(135deg,var(--ink) 0%,#252a37 100%);color:white;gap:10px;flex-wrap:wrap}
+.cp-bar select{padding:5px 9px;border:1px solid rgba(255,255,255,.18);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;background:rgba(255,255,255,.08);color:white}
+.cp-bar select option{background:var(--ink);color:white}
+.cp-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);background:#f6f1e8;padding:0 4px}
+.cp-tab{padding:9px 13px;font-size:11.5px;font-weight:600;color:#8a7d68;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.cp-tab:hover{color:var(--ink);background:rgba(200,146,58,.06)}
+.cp-tab.on{color:var(--ink);border-bottom-color:var(--gold);background:white;font-weight:700}
+.cp-pane{display:none;padding:16px 18px;background:white}.cp-pane.on{display:block}
+.cp-field{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0ebe0;font-size:12.5px;gap:12px}
+.cp-field:last-child{border-bottom:none}
+.cp-fl{color:#7a7163;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;min-width:100px;flex-shrink:0}
+.cp-fv{color:var(--ink);flex:1;text-align:right;font-size:12.5px}
+.cp-fv input,.cp-fv select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;width:100%;max-width:200px;text-align:right;background:white}
+.cp-empty{text-align:center;padding:32px 20px;color:var(--muted);font-size:13px}
+.cp-empty button{margin-top:12px;background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer}
+.cp-note{background:#fbf7ee;border-left:3px solid var(--gold);border-radius:4px;padding:9px 12px;margin-bottom:7px;font-size:12px;color:var(--text);line-height:1.55;position:relative;padding-right:32px}
+.cp-note-date{font-size:9.5px;color:var(--muted);font-weight:700;margin-bottom:3px;letter-spacing:.05em;text-transform:uppercase}
+.cp-doc-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0ebe0;font-size:12px}
 .cp-doc-row label{cursor:pointer;color:var(--text)}
-.cp-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
-.cp-badge.ok{background:rgba(42,102,73,.1);color:var(--sage)}
-.cp-badge.warn{background:rgba(192,57,43,.1);color:#c0392b}
-.cp-badge.pend{background:rgba(200,146,58,.1);color:var(--gold)}
+.cp-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700;letter-spacing:.04em}
+.cp-badge.ok{background:rgba(42,102,73,.12);color:var(--sage)}
+.cp-badge.warn{background:rgba(192,57,43,.12);color:#c0392b}
+.cp-badge.pend{background:rgba(200,146,58,.14);color:#9a6f1f}
 
 .page{display:none}.page.on{display:block}
 /* SHARED */
@@ -797,6 +853,8 @@ img{max-width:100%}
     <div class="nav-links">
       <button class="nav-link on" data-page="home" onclick="go('home',this)">Home</button>
       <button class="nav-link" data-page="education" onclick="go('education',this)">📚 Education</button>
+      <button class="nav-link" data-page="blog" onclick="go('blog',this)">✍️ Blog</button>
+      <button class="nav-link" data-page="videos" onclick="go('videos',this)">🎥 Videos</button>
       <button class="nav-link" data-page="resources" onclick="go('resources',this)">🌿 Resources</button>
       <button class="nav-link" data-page="vault" onclick="go('vault',this)">Letter Vault</button>
       <button class="nav-link" data-page="qa" onclick="go('qa',this)">Community Q&amp;A</button>
@@ -971,6 +1029,22 @@ img{max-width:100%}
     </div>
   </section>
 
+  <!-- VIDEOS STRIP — for youth -->
+  <section class="section" style="background:var(--ink);padding:32px 0">
+    <div class="container">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#74c69d;margin-bottom:4px">🎥 Watch</div>
+          <h2 style="font-size:24px;color:white;font-family:'Cormorant Garamond',serif">Videos for foster youth</h2>
+        </div>
+        <a onclick="go('videos')" style="font-size:12px;color:#74c69d;cursor:pointer;text-decoration:underline;text-underline-offset:3px">View all videos →</a>
+      </div>
+      <div class="youth-videos-strip" id="youthVideosStrip">
+        <div style="color:rgba(255,255,255,.5);font-size:13px;padding:18px">Loading videos…</div>
+      </div>
+    </div>
+  </section>
+
   <!-- WHAT YOUTH ARE SAYING -->
   <section class="section" style="background:white">
     <div class="container">
@@ -1034,25 +1108,35 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- JOURNAL (LEFT) + TODAY'S PARENTING TIP (RIGHT) — 2 columns side by side -->
-  <section class="section" style="background:var(--cream);padding:36px 0">
+  <!-- CASE MANAGEMENT — centered, directly below Today's Reminder -->
+  <section class="section" style="background:var(--cream);padding:32px 0">
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:16px">
+        <span class="eyebrow">Case Management</span>
+        <h3 style="font-size:24px;color:var(--ink);margin-bottom:2px">Placement Tracker</h3>
+        <p style="font-size:12.5px;color:var(--muted)">Track each child in your home. Private to your device — never shared.</p>
+      </div>
+      <div id="casePanelParent" class="case-panel"></div>
+    </div>
+  </section>
+
+  <!-- JOURNAL (LEFT) + TODAY'S PARENTING TIP (RIGHT) -->
+  <section class="section" style="background:white;padding:36px 0">
     <div class="container">
       <div class="grid-2" style="gap:24px;align-items:stretch">
-        <!-- LEFT: Caregiver Journal -->
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
             <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
             <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
           </div>
-          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
           <textarea id="parentJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
           <div style="display:flex;gap:8px">
             <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12.5px;padding:8px 18px">Save →</button>
             <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
           </div>
         </div>
-        <!-- RIGHT: Today's Parenting Tip -->
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
           <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
           <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
@@ -1061,20 +1145,20 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT — centered below journal+tip -->
-  <section class="section" style="background:white;padding:36px 0">
-    <div class="container" style="max-width:920px">
-      <div style="text-align:center;margin-bottom:20px">
-        <span class="eyebrow">Case Management</span>
-        <h3 style="font-size:26px;color:var(--ink);margin-bottom:4px">Placement Tracker</h3>
-        <p style="font-size:13px;color:var(--muted)">Track each child in your home. Private to your device — never shared.</p>
+  <!-- UPCOMING APPOINTMENTS -->
+  <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container" style="max-width:780px">
+      <div style="text-align:center;margin-bottom:16px">
+        <span class="eyebrow">📅 Upcoming Appointments</span>
+        <h3 style="font-size:22px;color:var(--ink);margin-bottom:2px">Calendar & Reminders</h3>
+        <p style="font-size:12.5px;color:var(--muted)">Browser notifications fire at your chosen reminder times.</p>
       </div>
-      <div id="casePanelParent" class="case-panel"></div>
+      <div id="apptWidgetParent"></div>
     </div>
   </section>
 
   <!-- WHAT FOSTER PARENTS ARE SAYING -->
-  <section class="section" style="background:var(--cream)">
+  <section class="section" style="background:white">
     <div class="container">
       <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Foster Parents Are Saying</span></div>
       <div class="grid-3">
@@ -1085,8 +1169,8 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- VAULT LETTERS — at the bottom above footer, plain hyperlinks -->
-  <section class="section" style="background:white;padding:48px 0">
+  <!-- VAULT LETTERS — at the bottom -->
+  <section class="section" style="background:var(--cream);padding:48px 0">
     <div class="container" style="max-width:780px">
       <div style="text-align:center;margin-bottom:24px">
         <span class="eyebrow">Vault Letters</span>
@@ -1145,25 +1229,35 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- JOURNAL (LEFT) + TIP (RIGHT) — 2 columns side by side -->
-  <section class="section" style="background:var(--cream);padding:36px 0">
+  <!-- CASE MANAGEMENT — centered, directly below Today's Reminder -->
+  <section class="section" style="background:var(--cream);padding:32px 0">
+    <div class="container" style="max-width:860px">
+      <div style="text-align:center;margin-bottom:16px">
+        <span class="eyebrow">Case Management</span>
+        <h3 style="font-size:24px;color:var(--ink);margin-bottom:2px">Placement Tracker</h3>
+        <p style="font-size:12.5px;color:var(--muted)">Track each child in your care. Private to your device — never shared.</p>
+      </div>
+      <div id="casePanelKinship" class="case-panel"></div>
+    </div>
+  </section>
+
+  <!-- JOURNAL (LEFT) + TIP (RIGHT) -->
+  <section class="section" style="background:white;padding:36px 0">
     <div class="container">
       <div class="grid-2" style="gap:24px;align-items:stretch">
-        <!-- LEFT: Kinship Journal -->
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
             <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
             <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
           </div>
-          <div style="background:var(--cream);border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
           <textarea id="kinshipJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
           <div style="display:flex;gap:8px">
             <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12.5px;padding:8px 18px">Save →</button>
             <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
           </div>
         </div>
-        <!-- RIGHT: Today's Tip -->
-        <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:22px">
+        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
           <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
           <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
@@ -1172,20 +1266,20 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT — centered below journal+tip -->
-  <section class="section" style="background:white;padding:36px 0">
-    <div class="container" style="max-width:920px">
-      <div style="text-align:center;margin-bottom:20px">
-        <span class="eyebrow">Case Management</span>
-        <h3 style="font-size:26px;color:var(--ink);margin-bottom:4px">Placement Tracker</h3>
-        <p style="font-size:13px;color:var(--muted)">Track each child in your care. Private to your device — never shared.</p>
+  <!-- UPCOMING APPOINTMENTS -->
+  <section class="section" style="background:var(--cream);padding:36px 0">
+    <div class="container" style="max-width:780px">
+      <div style="text-align:center;margin-bottom:16px">
+        <span class="eyebrow">📅 Upcoming Appointments</span>
+        <h3 style="font-size:22px;color:var(--ink);margin-bottom:2px">Calendar & Reminders</h3>
+        <p style="font-size:12.5px;color:var(--muted)">Browser notifications fire at your chosen reminder times.</p>
       </div>
-      <div id="casePanelKinship" class="case-panel"></div>
+      <div id="apptWidgetKinship"></div>
     </div>
   </section>
 
   <!-- WHAT KINSHIP CAREGIVERS ARE SAYING -->
-  <section class="section" style="background:var(--cream)">
+  <section class="section" style="background:white">
     <div class="container">
       <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Kinship Caregivers Are Saying</span></div>
       <div class="grid-3">
@@ -1196,8 +1290,8 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- VAULT LETTERS — at the bottom above footer -->
-  <section class="section" style="background:white;padding:48px 0">
+  <!-- VAULT LETTERS — at the bottom -->
+  <section class="section" style="background:var(--cream);padding:48px 0">
     <div class="container" style="max-width:780px">
       <div style="text-align:center;margin-bottom:24px">
         <span class="eyebrow">Vault Letters</span>
@@ -1548,6 +1642,148 @@ img{max-width:100%}
   <footer class="footer" id="ft-dash"></footer>
 </div>
 
+<!-- BLOG PAGE -->
+<div class="page" id="page-blog">
+  <div style="background:linear-gradient(135deg,#1a1a1a,#252a37);padding:48px 0">
+    <div class="container">
+      <div style="max-width:760px;margin:0 auto;text-align:center">
+        <span class="eyebrow" style="color:var(--gold-lt)">✍️ The Aunt Nancy Blog</span>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:46px;color:white;line-height:1.1;margin-bottom:14px">Daily wisdom from the foster care community.</h1>
+        <p style="font-size:15px;color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 22px;line-height:1.6">A new article every day from Aunt Nancy AI, with editorial pieces and stories from foster parents, kinship caregivers, foster youth, and social workers.</p>
+        <button onclick="openBlogSubmit()" class="btn btn-gold" style="font-size:13.5px">✍️ Share Your Story</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <section style="background:var(--cream);padding:18px 0;border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px">Filter:</span>
+        <button class="blog-filter on" data-filter="all" onclick="filterBlog('all',this)">All</button>
+        <button class="blog-filter" data-filter="aud-parent" onclick="filterBlog('aud-parent',this)">🏠 Parents</button>
+        <button class="blog-filter" data-filter="aud-kinship" onclick="filterBlog('aud-kinship',this)">👵 Kinship</button>
+        <button class="blog-filter" data-filter="aud-youth" onclick="filterBlog('aud-youth',this)">🌱 Youth</button>
+        <button class="blog-filter" data-filter="aud-worker" onclick="filterBlog('aud-worker',this)">📋 Workers</button>
+        <span style="font-size:11px;color:var(--muted);margin:0 4px">·</span>
+        <button class="blog-filter" data-filter="src-ai" onclick="filterBlog('src-ai',this)">🤖 Daily AI</button>
+        <button class="blog-filter" data-filter="src-editorial" onclick="filterBlog('src-editorial',this)">✍️ Editorial</button>
+        <button class="blog-filter" data-filter="src-community" onclick="filterBlog('src-community',this)">💬 Community</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog list -->
+  <section class="section" style="background:white">
+    <div class="container" style="max-width:1100px">
+      <div id="blogList"><div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Loading articles…</div></div>
+    </div>
+  </section>
+
+  <footer class="footer" id="ft-blog"></footer>
+</div>
+
+<!-- BLOG POST VIEWER -->
+<div class="page" id="page-blogpost">
+  <div style="background:var(--cream);padding:30px 0 18px">
+    <div class="container" style="max-width:780px">
+      <a onclick="go('blog')" style="font-size:12.5px;color:var(--muted);cursor:pointer;text-decoration:none">← All articles</a>
+    </div>
+  </div>
+  <div id="blogPostContent"></div>
+  <footer class="footer" id="ft-blogpost"></footer>
+</div>
+
+<!-- BLOG SUBMISSION MODAL -->
+<div id="blogSubmitModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:white;border-radius:10px;max-width:580px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#252a37);color:white;border-radius:10px 10px 0 0">
+      <div><div style="font-size:18px;font-weight:700">Share Your Story</div><div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:2px">Your post goes live immediately if it passes auto-moderation</div></div>
+      <button onclick="closeBlogSubmit()" style="background:transparent;border:none;color:white;font-size:22px;cursor:pointer;line-height:1">✕</button>
+    </div>
+    <div style="padding:20px 22px">
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Title</span><input type="text" id="bsTitle" maxlength="120" placeholder="What's your story about?" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:14px"></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Audience this is for</span><select id="bsAudience" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:14px;background:white"><option value="all">⭐ Everyone</option><option value="parent">🏠 Foster Parents</option><option value="kinship">👵 Kinship Caregivers</option><option value="youth">🌱 Foster Youth</option><option value="worker">📋 Social Workers</option></select></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Your story <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">(supports basic markdown — ## for headers, ** for bold)</span></span><textarea id="bsBody" placeholder="Share what happened, what worked, what you wish someone had told you…" style="width:100%;height:240px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;line-height:1.65"></textarea></label>
+      <label style="display:flex;align-items:center;gap:9px;margin-bottom:18px;font-size:13px;cursor:pointer"><input type="checkbox" id="bsAnon" style="accent-color:var(--gold)"> Post anonymously</label>
+      <div style="background:var(--cream);border-radius:6px;padding:11px 14px;margin-bottom:18px;font-size:12px;color:var(--muted);line-height:1.6">🤖 An AI checks every submission for violent or offensive content before publishing. Safe posts go live immediately. Anything flagged is held for manual review.</div>
+      <div id="bsStatus" style="margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px">
+        <button onclick="closeBlogSubmit()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 18px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+        <button onclick="submitBlogPost()" id="bsSubmitBtn" style="background:var(--gold);color:var(--ink);border:none;padding:9px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Submit Story</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEOS PAGE -->
+<div class="page" id="page-videos">
+  <div style="background:linear-gradient(135deg,#1a1a1a,#1f2a25);padding:48px 0">
+    <div class="container">
+      <div style="max-width:760px;margin:0 auto;text-align:center">
+        <span class="eyebrow" style="color:#74c69d">🎥 Video Library</span>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:44px;color:white;line-height:1.1;margin-bottom:14px">Watch, learn, feel less alone.</h1>
+        <p style="font-size:15px;color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 22px;line-height:1.6">Curated foster-care videos from FosterClub, Annie E. Casey Foundation, foster parents, kinship caregivers, and former foster youth.</p>
+        <button onclick="openVideoSubmit()" class="btn btn-gold" style="font-size:13.5px">+ Suggest a Video</button>
+      </div>
+    </div>
+  </div>
+
+  <section style="background:var(--cream);padding:18px 0;border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px">For:</span>
+        <button class="blog-filter on" data-filter="all" onclick="filterVideos('all',this)">All</button>
+        <button class="blog-filter" data-filter="parent" onclick="filterVideos('parent',this)">🏠 Parents</button>
+        <button class="blog-filter" data-filter="kinship" onclick="filterVideos('kinship',this)">👵 Kinship</button>
+        <button class="blog-filter" data-filter="youth" onclick="filterVideos('youth',this)">🌱 Youth</button>
+        <button class="blog-filter" data-filter="worker" onclick="filterVideos('worker',this)">📋 Workers</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:white">
+    <div class="container" style="max-width:1100px">
+      <div id="videoList"><div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Loading videos…</div></div>
+    </div>
+  </section>
+
+  <footer class="footer" id="ft-videos"></footer>
+</div>
+
+<!-- VIDEO PLAYER PAGE -->
+<div class="page" id="page-videoplayer">
+  <div style="background:var(--cream);padding:20px 0 14px">
+    <div class="container" style="max-width:900px">
+      <a onclick="go('videos')" style="font-size:12.5px;color:var(--muted);cursor:pointer;text-decoration:none">← All videos</a>
+    </div>
+  </div>
+  <div id="videoPlayerContent"></div>
+  <footer class="footer" id="ft-videoplayer"></footer>
+</div>
+
+<!-- VIDEO SUBMISSION MODAL -->
+<div id="videoSubmitModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:white;border-radius:10px;max-width:540px;width:100%;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#252a37);color:white;border-radius:10px 10px 0 0">
+      <div><div style="font-size:18px;font-weight:700">Suggest a Video</div><div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:2px">Submissions are reviewed before publishing</div></div>
+      <button onclick="closeVideoSubmit()" style="background:transparent;border:none;color:white;font-size:22px;cursor:pointer;line-height:1">✕</button>
+    </div>
+    <div style="padding:20px 22px">
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">YouTube or Vimeo URL</span><input type="url" id="vsUrl" placeholder="https://www.youtube.com/watch?v=..." style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px"></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Title</span><input type="text" id="vsTitle" maxlength="120" placeholder="Video title" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:14px"></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Channel / creator (optional)</span><input type="text" id="vsChannel" maxlength="80" placeholder="e.g. FosterClub, Annie E. Casey Foundation" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:14px"></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Audience</span><select id="vsAudience" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:14px;background:white"><option value="all">⭐ Everyone</option><option value="parent">🏠 Foster Parents</option><option value="kinship">👵 Kinship Caregivers</option><option value="youth">🌱 Foster Youth</option><option value="worker">📋 Social Workers</option></select></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Short description</span><textarea id="vsDesc" maxlength="500" placeholder="One sentence about what this video covers…" style="width:100%;height:70px;resize:vertical;padding:10px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5"></textarea></label>
+      <div id="vsStatus" style="margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px">
+        <button onclick="closeVideoSubmit()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 18px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+        <button onclick="submitVideo()" id="vsBtn" style="background:var(--gold);color:var(--ink);border:none;padding:9px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- RESOURCES PAGE -->
 <div class="page" id="page-resources">
   <div style="background:linear-gradient(150deg,#060a06,#0a1408,#0e1c0c);padding:52px 0">
@@ -1751,7 +1987,71 @@ const EDU={
   studies:{icon:'🔬',color:'var(--sage)',prompt:()=>`Generate 6 recent research findings from Annie E. Casey, UCLA, Harvard, Child Trends, Chapin Hall, CDC. Focus on attachment, educational stability, mental health, placement stability. JSON only: [{title,summary,strategy,source,tag}]`},
   strategies:{icon:'💡',color:'var(--gold)',prompt:()=>`Generate 6 evidence-based strategies for foster parents: de-escalation, educational support, transition prep, bio family visits, self-care, system advocacy. JSON only: [{title,summary,strategy,source,tag}]`},
 };
+// Persistent education cache — survives page reloads, 24h TTL
+const EDU_CACHE_KEY='an_edu_cache_v2';
+const EDU_CACHE_TTL=24*60*60*1000; // 24 hours
 let eduCache={};
+try{
+  const stored=JSON.parse(localStorage.getItem(EDU_CACHE_KEY)||'{}');
+  const now=Date.now();
+  Object.keys(stored).forEach(k=>{
+    if(stored[k]&&stored[k].ts&&(now-stored[k].ts<EDU_CACHE_TTL)) eduCache[k]=stored[k];
+  });
+}catch(e){eduCache={};}
+function persistEduCache(){
+  try{localStorage.setItem(EDU_CACHE_KEY,JSON.stringify(eduCache));}catch(e){}
+}
+
+// Prefetch all Education tabs in parallel (skip the active one, already loading)
+function prefetchAllEduTabs(activeTab){
+  const allTabs=['local','state','federal','trends','research','strategies'];
+  const safeLoc={
+    city:loc.city||'Los Angeles',
+    state:loc.state||'California',
+    stateCode:loc.stateCode||'CA',
+    county:loc.county||'Los Angeles County'
+  };
+  allTabs.forEach(t=>{
+    if(t===activeTab) return;
+    const ck=t+'_'+safeLoc.stateCode;
+    if(eduCache[ck]&&Date.now()-eduCache[ck].ts<EDU_CACHE_TTL) return;
+    // Stagger by 100ms each to avoid hammering the function
+    setTimeout(()=>loadEduSilent(t,safeLoc),200+allTabs.indexOf(t)*150);
+  });
+}
+
+async function loadEduSilent(tab,safeLoc){
+  const ck=tab+'_'+safeLoc.stateCode;
+  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<EDU_CACHE_TTL) return;
+  try{
+    const topic=EDU[tab];
+    if(!topic) return;
+    const prompt=topic.prompt(safeLoc);
+    const res=await fetch('/.netlify/functions/claude',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:1500,
+        system:'You are a foster care education specialist. Respond with ONLY a valid JSON array — no markdown, no explanation. Just the raw JSON array starting with [ and ending with ]. Return exactly 6 objects, each with: title, summary (2-3 sentences), strategy, source, tag.',
+        messages:[{role:'user',content:prompt+'\n\nReturn ONLY the JSON array.'}]
+      })
+    });
+    const data=await res.json();
+    if(!res.ok||data.error) return;
+    let text=data.content?.[0]?.text||'';
+    text=text.replace(/```json/gi,'').replace(/```/g,'').trim();
+    const f=text.indexOf('['),l=text.lastIndexOf(']');
+    if(f===-1||l===-1||l<f) return;
+    try{
+      const cards=JSON.parse(text.substring(f,l+1));
+      if(Array.isArray(cards)&&cards.length){
+        eduCache[ck]={data:cards,ts:Date.now()};
+        persistEduCache();
+      }
+    }catch(e){}
+  }catch(e){}
+}
 
 async function loadEdu(tab){
   document.querySelectorAll('.edu-tab').forEach(t=>t.classList.remove('on'));
@@ -1767,7 +2067,7 @@ async function loadEdu(tab){
     county: loc.county||'Los Angeles County'
   };
   const ck=tab+'_'+(safeLoc.stateCode);
-  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<3600000){renderEdu(tab,eduCache[ck].data,safeLoc);return;}
+  if(eduCache[ck]&&Date.now()-eduCache[ck].ts<EDU_CACHE_TTL){renderEdu(tab,eduCache[ck].data,safeLoc);return;}
   if(sec) sec.innerHTML=`<div class="edu-loading"><div class="edu-spinner"></div><div style="font-size:13.5px;color:var(--muted);text-align:center;max-width:300px;line-height:1.6">Claude AI is researching the latest ${tab} updates for ${safeLoc.city}, ${safeLoc.state}…<div class="edu-ai-b">✨ Powered by Claude AI</div></div></div>`;
   try{
     const topic=EDU[tab];
@@ -1777,8 +2077,8 @@ async function loadEdu(tab){
       method:'POST',
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        model:'claude-sonnet-4-6',
-        max_tokens:2000,
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:1500,
         system:'You are a foster care education specialist. You MUST respond with ONLY a valid JSON array — no markdown code fences, no explanation before or after, no preamble. Just the raw JSON array starting with [ and ending with ]. Return exactly 6 objects, each with these keys: title (string), summary (string, 2-3 sentences), strategy (string, actionable tip), source (string, agency or law citation), tag (string, one short category word).',
         messages:[{role:'user',content:prompt+'\n\nReturn ONLY the JSON array. No other text.'}]
       })
@@ -1805,6 +2105,7 @@ async function loadEdu(tab){
     }
     if(!Array.isArray(cards)||!cards.length){throw new Error('Empty array returned');}
     eduCache[ck]={data:cards,ts:Date.now()};
+    persistEduCache();
     renderEdu(tab,cards,safeLoc);
   }catch(e){
     console.error('[Education] Load error for',tab,':',e.message);
@@ -2157,11 +2458,14 @@ function go(id,el){
   if(id==='education'){
     const activeTab=document.querySelector('.edu-tab.on');
     const tab=activeTab?.getAttribute('data-edu')||'local';
-    setTimeout(()=>{ initEduPage(); loadEdu(tab); },150);
+    setTimeout(()=>{ initEduPage(); loadEdu(tab); prefetchAllEduTabs(tab); },150);
   }
   if(id==='youth'&&currentUser?.role==='youth') setTimeout(initYouthProfile,100);
-  if(id==='parent') setTimeout(()=>{initParentCorner();renderCasePanel('casePanelParent');},100);
-  if(id==='kinship') setTimeout(()=>{initKinshipCorner();renderCasePanel('casePanelKinship');},100);
+  if(id==='parent') setTimeout(()=>{initParentCorner();renderCasePanel('casePanelParent');renderAppointmentsWidget('apptWidgetParent');},100);
+  if(id==='kinship') setTimeout(()=>{initKinshipCorner();renderCasePanel('casePanelKinship');renderAppointmentsWidget('apptWidgetKinship');},100);
+  if(id==='blog') setTimeout(loadBlog,100);
+  if(id==='videos') setTimeout(loadVideos,100);
+  if(id==='youth') setTimeout(loadYouthVideos,150);
   if(id==='feedback') setTimeout(()=>{ loadFeedbackWall(); loadLocalContributions(); },100);
   if(id==='qa') setTimeout(loadCommunityQA,100);
   if(id==='resources') setTimeout(()=>{
@@ -2961,7 +3265,588 @@ function newJournalPrompt() {
   if (el) el.textContent = next;
 }
 
-// ══ COMPACT CASE PANEL — 11 tabs ══
+// ══ VIDEOS ══
+let _videos=[];
+let _videoFilter='all';
+
+function extractVideoId(url){
+  if(!url) return {id:'',source:'other'};
+  // YouTube
+  let m=url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if(m) return {id:m[1],source:'youtube'};
+  // Vimeo
+  m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if(m) return {id:m[1],source:'vimeo'};
+  return {id:'',source:'other'};
+}
+
+function videoThumb(v){
+  if(v.thumbnail_url) return v.thumbnail_url;
+  if(v.source==='youtube'&&v.embed_id) return `https://i.ytimg.com/vi/${v.embed_id}/hqdefault.jpg`;
+  return '';
+}
+
+function videoEmbedHTML(v){
+  if(v.source==='youtube'&&v.embed_id) return `<iframe src="https://www.youtube.com/embed/${v.embed_id}?rel=0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  if(v.source==='vimeo'&&v.embed_id) return `<iframe src="https://player.vimeo.com/video/${v.embed_id}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+  return `<div style="display:flex;align-items:center;justify-content:center;color:white;font-size:13px;height:100%">Video unavailable — <a href="${v.url}" target="_blank" rel="noopener" style="color:#74c69d;margin-left:6px">open in new tab</a></div>`;
+}
+
+async function loadVideos(){
+  const list=document.getElementById('videoList');
+  if(!list) return;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/videos?approved=eq.true&order=featured.desc,added_at.desc&limit=120`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    _videos=await r.json();
+    renderVideoList();
+  }catch(e){
+    console.error('loadVideos error',e);
+    list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">🎥</div><div style="font-size:14px">Video library is getting set up. <a onclick="openVideoSubmit()" style="color:var(--sage);cursor:pointer;text-decoration:underline">Suggest the first video</a> to seed the library.</div></div>`;
+  }
+}
+
+function renderVideoList(){
+  const list=document.getElementById('videoList');
+  if(!list) return;
+  const filtered=_videos.filter(v=>{
+    if(_videoFilter==='all') return true;
+    return v.audience===_videoFilter||v.audience==='all';
+  });
+  if(!filtered.length){
+    list.innerHTML=`<div style="text-align:center;padding:50px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">🎥</div><div style="font-size:14px">No videos yet for this audience. <a onclick="openVideoSubmit()" style="color:var(--sage);cursor:pointer;text-decoration:underline">Suggest one</a>.</div></div>`;
+    return;
+  }
+  list.innerHTML=`<div class="video-grid">${filtered.map(v=>{
+    const thumb=videoThumb(v);
+    return `<div class="video-card" onclick="openVideo('${v.id}')">
+      <div class="video-thumb">
+        ${thumb?`<img src="${thumb}" alt="${(v.title||'').replace(/"/g,'&quot;')}" loading="lazy">`:'<div style="width:100%;height:100%;background:linear-gradient(135deg,#2a3540,#1a1a1a)"></div>'}
+        <div class="video-play-icon"></div>
+      </div>
+      <div class="video-card-body">
+        <div class="video-card-title">${(v.title||'').replace(/</g,'&lt;')}</div>
+        <div class="video-card-channel">${v.channel?(v.channel.replace(/</g,'&lt;')+' · '):''}${AUDIENCE_LABEL[v.audience]||'Everyone'}</div>
+        <div class="video-card-meta">
+          <span class="blog-badge" style="background:rgba(116,198,157,.14);color:#1a4d36">${AUDIENCE_ICO[v.audience]||'⭐'} ${(AUDIENCE_LABEL[v.audience]||'Everyone').toUpperCase()}</span>
+          ${v.topic?`<span style="color:var(--muted)">· ${v.topic}</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function filterVideos(filter,btn){
+  _videoFilter=filter;
+  document.querySelectorAll('#page-videos .blog-filter').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  renderVideoList();
+}
+
+async function openVideo(videoId){
+  const c=document.getElementById('videoPlayerContent');
+  if(!c) return;
+  c.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)">Loading…</div>';
+  go('videoplayer');
+  let v=_videos.find(x=>x.id===videoId);
+  if(!v){
+    try{
+      const r=await fetch(`${SUPABASE_URL}/rest/v1/videos?id=eq.${encodeURIComponent(videoId)}&limit=1`,{
+        headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+      });
+      const data=await r.json();
+      v=data?.[0];
+    }catch(e){}
+  }
+  if(!v){c.innerHTML='<div style="text-align:center;padding:60px">Video not found.</div>';return;}
+  c.innerHTML=`
+    <div class="container" style="max-width:900px;padding-top:18px">
+      <div class="video-embed" style="margin:0 0 22px">${videoEmbedHTML(v)}</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--ink);line-height:1.2;margin-bottom:8px">${(v.title||'').replace(/</g,'&lt;')}</h1>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--muted);margin-bottom:18px">
+        ${v.channel?`<span style="font-weight:600;color:var(--ink)">${v.channel.replace(/</g,'&lt;')}</span><span>·</span>`:''}
+        <span class="blog-badge" style="background:rgba(116,198,157,.14);color:#1a4d36">${AUDIENCE_ICO[v.audience]||'⭐'} ${AUDIENCE_LABEL[v.audience]||'Everyone'}</span>
+        ${v.topic?`<span>·</span><span>${v.topic.replace(/</g,'&lt;')}</span>`:''}
+      </div>
+      ${v.description?`<p style="font-size:14.5px;color:var(--text);line-height:1.6;margin-bottom:24px">${v.description.replace(/</g,'&lt;')}</p>`:''}
+      <div style="border-top:1px solid var(--border);padding-top:20px;margin-top:20px">
+        <a href="${v.url}" target="_blank" rel="noopener" style="font-size:12px;color:var(--sage);text-decoration:underline;text-underline-offset:3px">Open original on ${v.source==='youtube'?'YouTube':v.source==='vimeo'?'Vimeo':'site'} ↗</a>
+      </div>
+    </div>`;
+  // Bump views
+  fetch(`${SUPABASE_URL}/rest/v1/videos?id=eq.${encodeURIComponent(v.id)}`,{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,Prefer:'return=minimal'},
+    body:JSON.stringify({views:(v.views||0)+1})
+  }).catch(()=>{});
+}
+
+function openVideoSubmit(){
+  const m=document.getElementById('videoSubmitModal');
+  if(!m) return;
+  m.style.display='flex';
+  document.getElementById('vsStatus').innerHTML='';
+}
+function closeVideoSubmit(){
+  const m=document.getElementById('videoSubmitModal');
+  if(m) m.style.display='none';
+}
+
+async function submitVideo(){
+  const url=document.getElementById('vsUrl').value.trim();
+  const title=document.getElementById('vsTitle').value.trim();
+  const channel=document.getElementById('vsChannel').value.trim();
+  const audience=document.getElementById('vsAudience').value;
+  const description=document.getElementById('vsDesc').value.trim();
+  const status=document.getElementById('vsStatus');
+  const btn=document.getElementById('vsBtn');
+  if(!url||!title||title.length<3){status.innerHTML='<div style="color:#c0392b;font-size:12.5px">URL and title are required.</div>';return;}
+  const ex=extractVideoId(url);
+  if(!ex.id){status.innerHTML='<div style="color:#c0392b;font-size:12.5px">That doesn\'t look like a valid YouTube or Vimeo URL.</div>';return;}
+  btn.disabled=true;btn.textContent='Submitting…';
+  try{
+    const row={title,description,url,embed_id:ex.id,source:ex.source,channel,audience,approved:false,added_by_email:currentUser?.email||null};
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/videos`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,Prefer:'return=minimal'},
+      body:JSON.stringify(row)
+    });
+    if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||'HTTP '+r.status);}
+    status.innerHTML='<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:11px 14px;border-radius:4px;font-size:13px;color:#1a4d36"><strong>Thanks!</strong> Your suggestion is in the review queue. It will appear here once approved.</div>';
+    setTimeout(closeVideoSubmit,2400);
+  }catch(e){
+    console.error('submitVideo error',e);
+    status.innerHTML=`<div style="color:#c0392b;font-size:12.5px">Could not submit: ${e.message}</div>`;
+    btn.disabled=false;btn.textContent='Submit';
+  }
+}
+
+// Featured videos for the youth page (horizontal strip)
+async function loadYouthVideos(){
+  const container=document.getElementById('youthVideosStrip');
+  if(!container) return;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/videos?approved=eq.true&or=(audience.eq.youth,audience.eq.all)&order=featured.desc,added_at.desc&limit=10`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const vids=await r.json();
+    if(!vids.length){container.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;width:100%">No videos yet. <a onclick="openVideoSubmit()" style="color:#74c69d;cursor:pointer;text-decoration:underline">Suggest one</a>.</div>';return;}
+    container.innerHTML=vids.map(v=>{
+      const thumb=videoThumb(v);
+      return `<div class="youth-video-item" onclick="openVideo('${v.id}')">
+        <div style="position:relative;aspect-ratio:16/9;background:#000">
+          ${thumb?`<img src="${thumb}" style="width:100%;height:100%;object-fit:cover" loading="lazy">`:''}
+          <div class="video-play-icon"></div>
+        </div>
+        <div style="padding:10px 12px">
+          <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.35;margin-bottom:3px">${(v.title||'').replace(/</g,'&lt;')}</div>
+          <div style="font-size:11px;color:var(--muted)">${v.channel?v.channel.replace(/</g,'&lt;'):''}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    console.error('loadYouthVideos error',e);
+    container.innerHTML='';
+  }
+}
+
+// ══ BLOG ══
+let _blogPosts=[];
+let _blogFilter='all';
+const SOURCE_BADGE={
+  ai:{label:'Daily AI',cls:'blog-badge-ai',icon:'🤖'},
+  editorial:{label:'Editorial',cls:'blog-badge-editorial',icon:'✍️'},
+  community:{label:'Community',cls:'blog-badge-community',icon:'💬'},
+};
+const AUDIENCE_LABEL={parent:'Foster Parents',kinship:'Kinship',youth:'Foster Youth',worker:'Social Workers',all:'Everyone'};
+const AUDIENCE_ICO={parent:'🏠',kinship:'👵',youth:'🌱',worker:'📋',all:'⭐'};
+
+async function loadBlog(){
+  const list=document.getElementById('blogList');
+  if(!list) return;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/blog_posts?status=eq.published&order=published_at.desc&limit=60`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    _blogPosts=await r.json();
+    renderBlogList();
+  }catch(e){
+    console.error('loadBlog error',e);
+    list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">📝</div><div style="font-size:14px">Blog is just getting started — first article publishes tomorrow at 6 AM. Until then, <a onclick="openBlogSubmit()" style="color:var(--sage);cursor:pointer;text-decoration:underline">share your story</a> to be the first.</div></div>`;
+  }
+}
+
+function renderBlogList(){
+  const list=document.getElementById('blogList');
+  if(!list) return;
+  const filtered=_blogPosts.filter(p=>{
+    if(_blogFilter==='all') return true;
+    if(_blogFilter.startsWith('aud-')) return p.audience===_blogFilter.slice(4);
+    if(_blogFilter.startsWith('src-')) return p.source_type===_blogFilter.slice(4);
+    return true;
+  });
+  if(!filtered.length){
+    list.innerHTML=`<div style="text-align:center;padding:50px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">🔍</div><div style="font-size:14px">No articles match this filter yet. <a onclick="filterBlog('all',document.querySelector('.blog-filter'))" style="color:var(--sage);cursor:pointer;text-decoration:underline">Show all</a></div></div>`;
+    return;
+  }
+  list.innerHTML=`<div class="blog-grid">${filtered.map(p=>{
+    const src=SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
+    const audLabel=AUDIENCE_LABEL[p.audience]||'Everyone';
+    const date=new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    const subEsc=(p.subtitle||'').replace(/</g,'&lt;');
+    const titleEsc=(p.title||'').replace(/</g,'&lt;');
+    return `<div class="blog-card" onclick="openBlogPost('${p.slug}')">
+      <div class="blog-card-hero">${p.hero_emoji||AUDIENCE_ICO[p.audience]||'📝'}</div>
+      <div class="blog-card-title">${titleEsc}</div>
+      ${subEsc?`<div class="blog-card-sub">${subEsc}</div>`:''}
+      <div class="blog-card-meta">
+        <span class="blog-badge ${src.cls}">${src.icon} ${src.label}</span>
+        <span>·</span>
+        <span>${AUDIENCE_ICO[p.audience]||'⭐'} ${audLabel}</span>
+        <span>·</span>
+        <span>${date}</span>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function filterBlog(filter,btn){
+  _blogFilter=filter;
+  document.querySelectorAll('.blog-filter').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  renderBlogList();
+}
+
+async function openBlogPost(slug){
+  const c=document.getElementById('blogPostContent');
+  if(!c) return;
+  c.innerHTML='<div style="text-align:center;padding:60px;color:var(--muted)">Loading…</div>';
+  go('blogpost');
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/blog_posts?slug=eq.${encodeURIComponent(slug)}&status=eq.published&limit=1`,{
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
+    });
+    const data=await r.json();
+    const p=data?.[0];
+    if(!p){c.innerHTML='<div style="text-align:center;padding:60px"><div style="font-size:32px;margin-bottom:8px">😕</div><div>Article not found.</div><a onclick="go(\'blog\')" style="color:var(--sage);cursor:pointer;text-decoration:underline;font-size:13px">← Back to blog</a></div>';return;}
+    const src=SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
+    const date=new Date(p.published_at).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    c.innerHTML=`
+      <div class="bp-hero">
+        <div class="container" style="max-width:780px">
+          <span class="bp-emoji">${p.hero_emoji||'📝'}</span>
+          <h1 class="bp-title">${(p.title||'').replace(/</g,'&lt;')}</h1>
+          ${p.subtitle?`<p class="bp-sub">${p.subtitle.replace(/</g,'&lt;')}</p>`:''}
+          <div class="bp-byline">
+            <span class="blog-badge ${src.cls}">${src.icon} ${src.label}</span>
+            <span>By ${(p.author_name||'Anonymous').replace(/</g,'&lt;')}</span>
+            <span>·</span>
+            <span>${date}</span>
+            <span>·</span>
+            <span>${AUDIENCE_ICO[p.audience]||'⭐'} ${AUDIENCE_LABEL[p.audience]||'Everyone'}</span>
+          </div>
+        </div>
+      </div>
+      <article class="bp-body">${renderMarkdown(p.body_md||'')}
+        ${(p.tags&&p.tags.length)?`<div class="bp-tags">${p.tags.map(t=>`<span class="bp-tag">#${t.replace(/</g,'&lt;')}</span>`).join('')}</div>`:''}
+        <div style="text-align:center;margin-top:40px;padding-top:28px;border-top:1px solid var(--cream)">
+          <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px">Have your own story or perspective on this?</p>
+          <button onclick="openBlogSubmit()" class="btn btn-gold" style="font-size:13px">✍️ Share Your Story</button>
+        </div>
+      </article>`;
+    // Increment view count (best-effort)
+    fetch(`${SUPABASE_URL}/rest/v1/blog_posts?slug=eq.${encodeURIComponent(slug)}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,Prefer:'return=minimal'},
+      body:JSON.stringify({views:(p.views||0)+1})
+    }).catch(()=>{});
+  }catch(e){
+    console.error('openBlogPost error',e);
+    c.innerHTML='<div style="text-align:center;padding:60px"><div>Could not load article. <a onclick="go(\'blog\')" style="color:var(--sage);cursor:pointer;text-decoration:underline">← Back to blog</a></div></div>';
+  }
+}
+
+// Minimal safe markdown renderer (no HTML injection)
+function renderMarkdown(md){
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  let h=esc(md);
+  // [video:url] embeds — must run before link parsing
+  h=h.replace(/\[video:([^\]]+)\]/g,(_,url)=>{
+    const ex=extractVideoId(url.trim());
+    if(!ex.id) return `<a href="${url}" target="_blank" rel="noopener" style="color:var(--sage)">${url}</a>`;
+    return `<div class="video-embed">${videoEmbedHTML({source:ex.source,embed_id:ex.id,url})}</div>`;
+  });
+  h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+  h=h.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+  h=h.replace(/^# (.+)$/gm,'<h2>$1</h2>');
+  h=h.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  h=h.replace(/\*([^*\n]+?)\*/g,'<em>$1</em>');
+  h=h.replace(/`([^`\n]+?)`/g,'<code>$1</code>');
+  h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener" style="color:var(--sage);text-decoration:underline">$1</a>');
+  h=h.replace(/(^- .+$\n?)+/gm,m=>'<ul>'+m.trim().split('\n').map(l=>'<li>'+l.replace(/^- /,'')+'</li>').join('')+'</ul>');
+  h=h.replace(/(^\d+\. .+$\n?)+/gm,m=>'<ol>'+m.trim().split('\n').map(l=>'<li>'+l.replace(/^\d+\. /,'')+'</li>').join('')+'</ol>');
+  h=h.split(/\n{2,}/).map(b=>{
+    b=b.trim();
+    if(!b) return '';
+    if(b.startsWith('<h')||b.startsWith('<ul')||b.startsWith('<ol')||b.startsWith('<blockquote')||b.startsWith('<div class="video-embed"')) return b;
+    return '<p>'+b.replace(/\n/g,'<br>')+'</p>';
+  }).join('\n');
+  return h;
+}
+
+function openBlogSubmit(){
+  const m=document.getElementById('blogSubmitModal');
+  if(!m) return;
+  m.style.display='flex';
+  document.getElementById('bsStatus').innerHTML='';
+}
+function closeBlogSubmit(){
+  const m=document.getElementById('blogSubmitModal');
+  if(m) m.style.display='none';
+}
+
+async function submitBlogPost(){
+  const title=document.getElementById('bsTitle').value.trim();
+  const body=document.getElementById('bsBody').value.trim();
+  const audience=document.getElementById('bsAudience').value;
+  const anon=document.getElementById('bsAnon').checked;
+  const status=document.getElementById('bsStatus');
+  const btn=document.getElementById('bsSubmitBtn');
+  if(!title||title.length<6){status.innerHTML='<div style="color:#c0392b;font-size:12.5px">Please add a title (at least 6 characters).</div>';return;}
+  if(!body||body.length<100){status.innerHTML='<div style="color:#c0392b;font-size:12.5px">Please write at least 100 characters.</div>';return;}
+  const author=anon?'Anonymous Community Member':(currentUser?.name||currentUser?.email?.split('@')[0]||'Community Member');
+  btn.disabled=true;btn.textContent='Checking content…';
+  status.innerHTML='<div style="font-size:12.5px;color:var(--muted)">🤖 Running content moderation check…</div>';
+  try{
+    // Step 1: moderate
+    const modRes=await fetch('/.netlify/functions/moderate',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title,body_md:body})
+    });
+    const modData=await modRes.json();
+    if(!modData.safe){
+      status.innerHTML=`<div style="background:#fce9e6;border-left:3px solid #c0392b;padding:11px 14px;border-radius:4px;font-size:12.5px;color:#7a1f15"><strong>Held for review:</strong> ${modData.reason||'Content needs manual review'}. Your story is saved and will be checked manually. You'll see it published once approved.</div>`;
+      btn.disabled=false;btn.textContent='Submit Story';
+    }
+    // Step 2: insert
+    btn.textContent='Publishing…';
+    const slug=title.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').substring(0,60)+'-'+Date.now().toString(36);
+    const heroPool=['💭','📝','🌟','💛','🌱','🏠','👋','✨','🤝','💪'];
+    const row={
+      slug,title,subtitle:body.split('\n')[0].substring(0,140),
+      body_md:body,
+      author_name:author,
+      source_type:'community',
+      audience,
+      hero_emoji:heroPool[Math.floor(Math.random()*heroPool.length)],
+      status:modData.safe?'published':'pending',
+      moderation_reason:modData.reason||null,
+      created_by_email:currentUser?.email||null,
+    };
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/blog_posts`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,Prefer:'return=representation'},
+      body:JSON.stringify(row)
+    });
+    if(!r.ok){
+      const errData=await r.json().catch(()=>({}));
+      throw new Error(errData.message||'HTTP '+r.status);
+    }
+    if(modData.safe){
+      status.innerHTML=`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:11px 14px;border-radius:4px;font-size:13px;color:#1a4d36"><strong>✓ Published!</strong> Your story is now live on the blog.</div>`;
+      setTimeout(()=>{closeBlogSubmit();loadBlog();},1800);
+    }
+    btn.disabled=false;btn.textContent='Submit Story';
+  }catch(e){
+    console.error('submitBlogPost error',e);
+    status.innerHTML=`<div style="color:#c0392b;font-size:12.5px">Could not submit: ${e.message}. Please try again.</div>`;
+    btn.disabled=false;btn.textContent='Submit Story';
+  }
+}
+
+// ══ APPOINTMENT SCHEDULER ══
+const APPT_CATS={
+  court:{label:'Court Date',color:'#582a68',icon:'⚖️'},
+  medical:{label:'Medical',color:'#c0392b',icon:'🏥'},
+  dental:{label:'Dental',color:'#883618',icon:'🦷'},
+  school:{label:'IEP / School',color:'#19375a',icon:'🏫'},
+  csw:{label:'CSW Visit',color:'#2a6649',icon:'📋'},
+  family:{label:'Family Visit',color:'#c8923a',icon:'👨‍👩‍👧'},
+  therapy:{label:'Therapy',color:'#7a4d8c',icon:'💬'},
+  other:{label:'Other',color:'#6a5a48',icon:'📌'},
+};
+
+function getAppointments(){
+  const k='an_appts_'+(currentUser?.email||'guest');
+  try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];}
+}
+function saveAppointments(list){
+  const k='an_appts_'+(currentUser?.email||'guest');
+  try{localStorage.setItem(k,JSON.stringify(list));}catch(e){}
+  scheduleAppointmentNotifications();
+}
+
+function renderAppointmentsWidget(containerId){
+  const el=document.getElementById(containerId);
+  if(!el) return;
+  const list=getAppointments().filter(a=>!a.done&&new Date(a.dateTime).getTime()>Date.now()-3600000).sort((a,b)=>new Date(a.dateTime)-new Date(b.dateTime)).slice(0,5);
+  const placements=getPlacements();
+  if(!list.length){
+    el.innerHTML=`<div style="text-align:center;padding:22px 16px"><div style="font-size:28px;margin-bottom:6px">📅</div><div style="font-size:13px;color:var(--muted);margin-bottom:12px">No upcoming appointments</div><button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">+ Schedule Appointment</button></div>`;
+    return;
+  }
+  el.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px 12px 4px">
+      <div style="font-size:11px;color:var(--muted)">${list.length} upcoming · click any to edit</div>
+      <button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:6px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer">+ Add Appointment</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      ${list.map(a=>{
+        const cat=APPT_CATS[a.category]||APPT_CATS.other;
+        const d=new Date(a.dateTime);
+        const isToday=new Date().toDateString()===d.toDateString();
+        const isPast=d.getTime()<Date.now();
+        const childName=a.placementId?(placements.find(p=>p.id===a.placementId)?.name||''):'';
+        return `<div onclick="openApptModal('${a.id}')" style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-left:3px solid ${cat.color};border-radius:6px;padding:10px 14px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='var(--cream)';this.style.transform='translateX(2px)'" onmouseout="this.style.background='white';this.style.transform=''">
+          <div style="font-size:18px;flex-shrink:0">${cat.icon}</div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+              <span style="font-size:13.5px;font-weight:600;color:var(--ink)">${a.title||cat.label}</span>
+              <span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;color:${cat.color};background:${cat.color}14;letter-spacing:.04em;text-transform:uppercase">${cat.label}</span>
+              ${childName?`<span style="font-size:10.5px;color:var(--muted)">· ${childName}</span>`:''}
+            </div>
+            <div style="font-size:11.5px;color:var(--muted);margin-top:2px">
+              ${isToday?'<span style="color:var(--gold);font-weight:700">Today</span>':d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} · ${d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
+              ${a.location?' · '+a.location:''}
+              ${isPast?' <span style="color:#c0392b;font-weight:600">· passed</span>':''}
+            </div>
+          </div>
+          <div style="font-size:14px;color:var(--muted);flex-shrink:0">›</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="text-align:center;margin-top:12px"><a onclick="openAllAppts()" style="font-size:11.5px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">View all appointments →</a></div>
+  `;
+}
+
+let _editingApptId=null;
+function openApptModal(apptId){
+  _editingApptId=apptId||null;
+  const list=getAppointments();
+  const a=apptId?list.find(x=>x.id===apptId):null;
+  const placements=getPlacements();
+  let modal=document.getElementById('apptModal');
+  if(!modal){
+    modal=document.createElement('div');
+    modal.id='apptModal';
+    modal.style.cssText='display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;padding:20px';
+    document.body.appendChild(modal);
+  }
+  modal.innerHTML=`<div style="background:white;border-radius:10px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#252a37);color:white;border-radius:10px 10px 0 0">
+      <div><div style="font-size:18px;font-weight:700">${a?'Edit Appointment':'New Appointment'}</div><div style="font-size:11px;color:rgba(255,255,255,.55);margin-top:2px">Private · stored only on this device</div></div>
+      <button onclick="closeApptModal()" style="background:transparent;border:none;color:white;font-size:22px;cursor:pointer;line-height:1">✕</button>
+    </div>
+    <div style="padding:20px 22px">
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Title</span><input type="text" id="apptTitle" value="${a?.title?.replace(/"/g,'&quot;')||''}" placeholder="e.g. Dentist cleaning, Court hearing" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px"></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <label><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Date</span><input type="date" id="apptDate" value="${a?.dateTime?a.dateTime.substring(0,10):''}" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px"></label>
+        <label><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Time</span><input type="time" id="apptTime" value="${a?.dateTime?a.dateTime.substring(11,16):'09:00'}" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px"></label>
+      </div>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Category</span><select id="apptCategory" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white">${Object.entries(APPT_CATS).map(([k,v])=>`<option value="${k}"${a?.category===k?' selected':''}>${v.icon} ${v.label}</option>`).join('')}</select></label>
+      ${placements.length?`<label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">For Child (optional)</span><select id="apptPlacement" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white"><option value="">— Not linked to a child —</option>${placements.map(p=>`<option value="${p.id}"${a?.placementId===p.id?' selected':''}>${p.name||'Unnamed child'}</option>`).join('')}</select></label>`:''}
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Location (optional)</span><input type="text" id="apptLocation" value="${a?.location?.replace(/"/g,'&quot;')||''}" placeholder="Address, office name, or link" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px"></label>
+      <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Notes (optional)</span><textarea id="apptNotes" placeholder="Bring insurance card, paperwork to ask about…" style="width:100%;height:60px;resize:vertical;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5">${a?.notes||''}</textarea></label>
+      <div style="background:var(--cream);border-radius:6px;padding:12px 14px;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Reminders</div>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:6px"><input type="checkbox" id="apptRemind1d" ${!a||(a.reminders||[1440]).includes(1440)?'checked':''} style="accent-color:var(--gold)"> 1 day before</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:6px"><input type="checkbox" id="apptRemind1h" ${!a||(a.reminders||[60]).includes(60)?'checked':''} style="accent-color:var(--gold)"> 1 hour before</label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="apptRemind15m" ${a&&(a.reminders||[]).includes(15)?'checked':''} style="accent-color:var(--gold)"> 15 minutes before</label>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);padding-top:16px">
+        ${a?`<button onclick="deleteAppt('${a.id}')" style="background:transparent;border:1px solid #c0392b;color:#c0392b;padding:9px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;margin-right:auto">🗑 Delete</button>`:''}
+        <button onclick="closeApptModal()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:9px 18px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+        <button onclick="saveAppt()" style="background:var(--gold);color:var(--ink);border:none;padding:9px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">${a?'Save Changes':'Add Appointment'}</button>
+      </div>
+    </div>
+  </div>`;
+  modal.style.display='flex';
+  requestNotificationPermission();
+}
+
+function closeApptModal(){const m=document.getElementById('apptModal');if(m) m.style.display='none';_editingApptId=null;}
+
+function saveAppt(){
+  const title=document.getElementById('apptTitle').value.trim();
+  const date=document.getElementById('apptDate').value;
+  const time=document.getElementById('apptTime').value;
+  if(!date||!time){alert('Please enter a date and time.');return;}
+  const dateTime=date+'T'+time;
+  const category=document.getElementById('apptCategory').value;
+  const placementId=document.getElementById('apptPlacement')?.value||'';
+  const location=document.getElementById('apptLocation').value.trim();
+  const notes=document.getElementById('apptNotes').value.trim();
+  const reminders=[];
+  if(document.getElementById('apptRemind1d').checked) reminders.push(1440);
+  if(document.getElementById('apptRemind1h').checked) reminders.push(60);
+  if(document.getElementById('apptRemind15m').checked) reminders.push(15);
+  const list=getAppointments();
+  if(_editingApptId){
+    const idx=list.findIndex(x=>x.id===_editingApptId);
+    if(idx>-1){list[idx]={...list[idx],title:title||(APPT_CATS[category]?.label||'Appointment'),dateTime,category,placementId,location,notes,reminders};}
+  }else{
+    list.push({id:'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),title:title||(APPT_CATS[category]?.label||'Appointment'),dateTime,category,placementId,location,notes,reminders,done:false});
+  }
+  saveAppointments(list);
+  closeApptModal();
+  // Refresh whichever widget is on screen
+  ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{if(document.getElementById(id)) renderAppointmentsWidget(id);});
+}
+
+function deleteAppt(id){
+  if(!confirm('Delete this appointment?')) return;
+  const list=getAppointments().filter(a=>a.id!==id);
+  saveAppointments(list);
+  closeApptModal();
+  ['apptWidgetParent','apptWidgetKinship'].forEach(wid=>{if(document.getElementById(wid)) renderAppointmentsWidget(wid);});
+}
+
+function openAllAppts(){alert('Full calendar view coming soon. For now, all upcoming appointments are shown above.');}
+
+// Browser notification scheduling
+let _notifTimers=[];
+function requestNotificationPermission(){
+  if(!('Notification' in window)) return;
+  if(Notification.permission==='default') Notification.requestPermission();
+}
+function scheduleAppointmentNotifications(){
+  _notifTimers.forEach(t=>clearTimeout(t));
+  _notifTimers=[];
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  const now=Date.now();
+  const list=getAppointments();
+  list.forEach(a=>{
+    if(a.done) return;
+    const apptTime=new Date(a.dateTime).getTime();
+    (a.reminders||[60,1440]).forEach(mins=>{
+      const fireAt=apptTime-(mins*60*1000);
+      const delay=fireAt-now;
+      if(delay<=0||delay>2147483647) return; // setTimeout max ≈24.8 days
+      _notifTimers.push(setTimeout(()=>{
+        const cat=APPT_CATS[a.category]||APPT_CATS.other;
+        const when=mins===1440?'tomorrow':mins===60?'in 1 hour':'in '+mins+' minutes';
+        new Notification(`${cat.icon} ${a.title}`,{body:`${when} · ${new Date(a.dateTime).toLocaleString('en-US',{weekday:'short',hour:'numeric',minute:'2-digit'})}${a.location?'\n📍 '+a.location:''}`,tag:a.id+'_'+mins});
+      },delay));
+    });
+  });
+}
+
+
 const CP_TABS = [
   {id:'intake',label:'Intake'},
   {id:'medical',label:'Medical'},
@@ -3010,14 +3895,14 @@ function renderCasePanel(containerId){
   const days=daysInCare(p.date);
   el.innerHTML=`
     <div class="cp-bar">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:var(--ink)">${p.name?p.name[0].toUpperCase():'?'}</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--ink)">${p.name||'New placement — click "Edit Intake" to begin'}${p.age?' · Age '+p.age:''}</div><div style="font-size:11px;color:var(--muted)">${days!==null?days+' days in care':'Add intake details to track time in care'}</div></div>
+      <div style="display:flex;align-items:center;gap:10px;min-width:0">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--ink);flex-shrink:0">${p.name?p.name[0].toUpperCase():'+'}</div>
+        <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name||'New placement'}${p.age?' · Age '+p.age:''}</div><div style="font-size:10.5px;color:rgba(255,255,255,.55)">${days!==null?days+' days in care':'Click "Edit Intake" to begin'}</div></div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:11px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
-        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Add</button>
-        <button onclick="openPlacementForm('${p.id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">✏ Edit Intake</button>
+      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:10.5px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
+        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">+ Add</button>
+        <button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">✏ Edit Intake</button>
       </div>
     </div>
     <div class="cp-tabs">${CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join('')}</div>
@@ -3241,6 +4126,20 @@ function saveRoleJournal(role){
 }
 
 // ══ INIT (updated) ══
+window.addEventListener('error',function(e){
+  console.error('[GLOBAL ERROR]',e.message,'at',e.filename+':'+e.lineno+':'+e.colno,e.error);
+  // Show a non-blocking error banner once, with detail, so script errors are diagnosable
+  if(!window._errorBannerShown){
+    window._errorBannerShown=true;
+    const b=document.createElement('div');
+    b.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#c0392b;color:white;padding:10px 16px;font-family:ui-monospace,monospace;font-size:11.5px;line-height:1.5;z-index:99999;box-shadow:0 -2px 12px rgba(0,0,0,.3);max-height:35vh;overflow:auto';
+    b.innerHTML=`<div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start"><div><strong>⚠ Script error caught:</strong><br>${(e.message||'').replace(/</g,'&lt;')}<br><span style="opacity:.85;font-size:10.5px">at ${(e.filename||'').replace(/</g,'&lt;')}:${e.lineno}:${e.colno}</span>${e.error&&e.error.stack?`<br><span style="opacity:.7;font-size:10px;white-space:pre-wrap;display:block;margin-top:4px">${(e.error.stack||'').toString().replace(/</g,'&lt;').substring(0,400)}</span>`:''}</div><button onclick="this.parentElement.parentElement.remove();window._errorBannerShown=false" style="background:transparent;border:1px solid white;color:white;padding:3px 10px;border-radius:3px;cursor:pointer;font-size:11px;flex-shrink:0">Close</button></div>`;
+    document.body.appendChild(b);
+  }
+});
+window.addEventListener('unhandledrejection',function(e){
+  console.error('[UNHANDLED PROMISE]',e.reason);
+});
 window.addEventListener('DOMContentLoaded',()=>{
   loadUser();
   buildLangDD();
@@ -3251,9 +4150,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   updateAuthUI();
   applyRoleGating();
   initANWall();
+  scheduleAppointmentNotifications();
   // Always route via go() — never rely on hardcoded 'on' class
   const hash=window.location.hash.replace('#','');
-  const validPages=['home','youth','parent','kinship','worker','vault','education','resources','products','feedback','dashboard','qa'];
+  const validPages=['home','youth','parent','kinship','worker','vault','education','blog','blogpost','videos','videoplayer','resources','products','feedback','dashboard','qa'];
   if(hash && validPages.includes(hash)){
     go(hash);
   } else {
