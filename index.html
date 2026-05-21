@@ -2902,18 +2902,18 @@ async function sb(path, opts={}) {
 
 // ══ ROLE GATING ══
 const ROLE_PAGES = {
-  youth:   ['home','youth','vault','education','resources','qa','feedback','dashboard'],
-  parent:  ['home','parent','vault','education','resources','qa','products','feedback','dashboard'],
-  kinship: ['home','kinship','vault','education','resources','qa','feedback','dashboard'],
-  worker:  ['home','worker','vault','education','resources','qa','feedback','dashboard'],
-  all:     ['home','youth','parent','kinship','worker','vault','education','resources','qa','products','feedback','dashboard'],
+  youth:   ['home','youth','vault','education','blog','videos','resources','qa','feedback','dashboard'],
+  parent:  ['home','parent','vault','education','blog','videos','resources','qa','products','feedback','dashboard'],
+  kinship: ['home','kinship','vault','education','blog','videos','resources','qa','feedback','dashboard'],
+  worker:  ['home','worker','vault','education','blog','videos','resources','qa','feedback','dashboard'],
+  all:     ['home','youth','parent','kinship','worker','vault','education','blog','videos','resources','qa','products','feedback','dashboard'],
 };
 const ROLE_NAV = {
-  youth:   ['home','education','resources','vault','qa','feedback'],
-  parent:  ['home','education','resources','vault','qa','products','feedback'],
-  kinship: ['home','education','resources','vault','qa','feedback'],
-  worker:  ['home','education','resources','vault','qa','feedback'],
-  all:     ['home','education','resources','vault','qa','products','feedback'],
+  youth:   ['home','education','blog','videos','resources','vault','qa','feedback'],
+  parent:  ['home','education','blog','videos','resources','vault','qa','products','feedback'],
+  kinship: ['home','education','blog','videos','resources','vault','qa','feedback'],
+  worker:  ['home','education','blog','videos','resources','vault','qa','feedback'],
+  all:     ['home','education','blog','videos','resources','vault','qa','products','feedback'],
 };
 
 function applyRoleGating() {
