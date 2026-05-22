@@ -968,7 +968,6 @@ img{max-width:100%}
       <div class="anw-seed"><div class="anw-seed-card"><div class="anw-seed-img"><img src="IMG_2932.jpeg" alt="The Original Aunt Nancy"></div><div class="anw-seed-body"><div class="anw-seed-name">The Original Aunt Nancys</div><div class="anw-seed-role">Los Angeles, California</div><p class="anw-seed-story">"Mostly women who take on nurturing, guiding, and protective roles for younger people in our families, communities, and beyond. This site is dedicated to all of them."</p><div class="anw-seed-by">— AuntNancy.org, 2026</div></div></div></div>
     </div>
   </section>
-  <footer class="footer" id="ft-home"></footer>
 </div>
 
 <!-- FOSTER YOUTH PAGE -->
@@ -1086,8 +1085,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-
-  <footer class="footer" id="ft-youth"></footer>
 </div>
 <!-- FOSTER PARENTS PAGE -->
 <div class="page" id="page-parent">
@@ -1212,8 +1209,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-
-  <footer class="footer" id="ft-parent"></footer>
 </div>
 
 <!-- KINSHIP PAGE -->
@@ -1338,8 +1333,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-
-  <footer class="footer" id="ft-kinship"></footer>
 </div>
 
 <!-- SOCIAL WORKERS PAGE -->
@@ -1401,7 +1394,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <footer class="footer" id="ft-worker"></footer>
 </div>
 
 <!-- LETTER VAULT -->
@@ -1425,7 +1417,6 @@ img{max-width:100%}
       <div style="max-width:800px;margin:0 auto" id="tplGrid"></div>
     </div>
   </section>
-  <footer class="footer" id="ft-vault"></footer>
 </div>
 
 <!-- EDUCATION PAGE -->
@@ -1461,7 +1452,6 @@ img{max-width:100%}
       <div class="edu-section" id="edu-strategies"></div>
     </div>
   </section>
-  <footer class="footer" id="ft-edu"></footer>
 </div>
 
 <!-- PRODUCTS -->
@@ -1517,7 +1507,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <footer class="footer" id="ft-feedback"></footer>
 </div>
 
 <!-- DASHBOARD -->
@@ -1667,7 +1656,6 @@ img{max-width:100%}
       </div>
     </div>
   </div>
-  <footer class="footer" id="ft-dash"></footer>
 </div>
 
 <!-- BLOG PAGE -->
@@ -1708,8 +1696,6 @@ img{max-width:100%}
       <div id="blogList"><div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Loading articles…</div></div>
     </div>
   </section>
-
-  <footer class="footer" id="ft-blog"></footer>
 </div>
 
 <!-- BLOG POST VIEWER -->
@@ -1720,7 +1706,6 @@ img{max-width:100%}
     </div>
   </div>
   <div id="blogPostContent"></div>
-  <footer class="footer" id="ft-blogpost"></footer>
 </div>
 
 <!-- BLOG SUBMISSION MODAL -->
@@ -1853,7 +1838,6 @@ img{max-width:100%}
       <div id="trainingList"><div style="text-align:center;padding:40px;color:var(--muted)">Loading training modules…</div></div>
     </div>
   </section>
-  <footer class="footer" id="ft-training"></footer>
 </div>
 
 <!-- TRAINING MODULE VIEWER -->
@@ -1864,7 +1848,6 @@ img{max-width:100%}
     </div>
   </div>
   <div id="trainingModuleContent"></div>
-  <footer class="footer" id="ft-trainingmodule"></footer>
 </div>
 
 <!-- CHECKOUT MODAL -->
@@ -1931,8 +1914,6 @@ img{max-width:100%}
       <div id="videoList"><div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Loading videos…</div></div>
     </div>
   </section>
-
-  <footer class="footer" id="ft-videos"></footer>
 </div>
 
 <!-- VIDEO PLAYER PAGE -->
@@ -1943,7 +1924,6 @@ img{max-width:100%}
     </div>
   </div>
   <div id="videoPlayerContent"></div>
-  <footer class="footer" id="ft-videoplayer"></footer>
 </div>
 
 <!-- VIDEO SUBMISSION MODAL -->
@@ -2055,7 +2035,6 @@ img{max-width:100%}
       </div>
     </div>
   </section>
-  <footer class="footer" id="ft-resources"></footer>
 </div>
 <div class="overlay" id="pdfViewerModal">
   <div style="background:white;border-radius:14px;width:740px;max-width:96vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 32px 80px rgba(0,0,0,.5);animation:fadeUp .25s ease">
@@ -2109,7 +2088,6 @@ img{max-width:100%}
       <div id="qaList"><div style="font-size:13px;color:var(--muted);text-align:center;padding:32px">Loading…</div></div>
     </div>
   </section>
-  <footer class="footer" id="ft-qa"></footer>
 </div>
 
 <!-- ASK AUNT NANCY FLOAT -->
@@ -2183,7 +2161,7 @@ async function submitTopic(){
 // ══ FOOTER ══
 function renderFooters(){
   const html=`<div class="ft-in"><div><div class="ft-logo">AUNT<em>NANCY</em>.ORG</div><div class="ft-blurb">Free resources for foster youth, families &amp; caregivers. Lellie journals fund the mission.</div></div><div class="ft-col"><h5>For Youth</h5><a onclick="go('youth')">Foster Youth Hub</a><a>Aging Out Guide</a><a>College Money</a><a onclick="openAAN();setAanMode('youth')">Ask Aunt Nancy</a></div><div class="ft-col"><h5>For Families</h5><a onclick="go('parent')">Foster Parent Hub</a><a onclick="go('vault')">Letter Vault</a><a onclick="go('kinship')">Kinship Hub</a></div><div class="ft-col"><h5>Resources</h5><a onclick="go('blog')">Blog</a><a onclick="go('training')">Training</a><a onclick="go('videos')">Videos</a><a onclick="go('education')">Policy Updates</a></div><div class="ft-col"><h5>Lellie</h5><a href="https://lellie.com">Teen Journal $14.99</a><a href="https://lellie.com">Kids Journal $12.99</a><a href="https://lellie.com">lellie.com</a></div></div><div class="ft-mis"><p>All tools are <strong>always free</strong>. Journal purchases keep this mission going.</p></div><div class="ft-bot"><span>© 2026 AuntNancy.org</span><span>The village that raises every child.</span></div>`;
-  document.querySelectorAll('footer.footer').forEach(f=>{if(!f._rendered){f.innerHTML=html;f._rendered=true;}});
+  const sf=document.getElementById('site-footer');if(sf&&!sf._rendered){sf.innerHTML=html;sf._rendered=true;}
 }
 
 // ══ LOCATION DB ══
@@ -4602,6 +4580,8 @@ window.addEventListener('DOMContentLoaded',()=>{
   }
 });
 </script>
+
+<footer class="footer" id="site-footer" style="display:block"></footer>
 
 <!-- TOPIC SUGGESTION MODAL -->
 <div id="topicModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:20px">
