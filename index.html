@@ -62,7 +62,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --ink:#0c0a08;--gold:#C8923A;--gold-lt:#E4BE78;
-  --cream:#F5F0E6;--warm:#FAF7F0;--warm-dk:#1e1a14;
+  --cream:#E6D4B0;--warm:#F0E6CC;--warm-dk:#1e1a14;
   --sage:#2A6649;--sage-lt:#3d8f63;--navy:#19375A;
   --plum:#582A68;--rust:#883618;
   --border:#DDD5C5;--muted:#8a7e6e;--text:#201a14;--r:8px;
@@ -288,11 +288,11 @@ img{max-width:100%}
 .cp-bar select{padding:5px 9px;border:1px solid rgba(255,255,255,.18);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;background:rgba(255,255,255,.08);color:white}
 .cp-bar select option{background:var(--ink);color:white}
 .cp-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);background:#f6f1e8;padding:0 4px}
-.cp-tab{padding:9px 13px;font-size:11.5px;font-weight:600;color:#8a7d68;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
+.cp-tab{padding:6px 10px;font-size:11px;font-weight:600;color:#8a7d68;cursor:pointer;border:none;background:transparent;border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;transition:all .15s;white-space:nowrap}
 .cp-tab:hover{color:var(--ink);background:rgba(200,146,58,.06)}
 .cp-tab.on{color:var(--ink);border-bottom-color:var(--gold);background:white;font-weight:700}
-.cp-pane{display:none;padding:16px 18px;background:white}.cp-pane.on{display:block}
-.cp-field{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0ebe0;font-size:12.5px;gap:12px}
+.cp-pane{display:none;padding:8px 12px;background:white}.cp-pane.on{display:block}
+.cp-field{display:flex;align-items:center;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0ebe0;font-size:11px;gap:10px}
 .cp-field:last-child{border-bottom:none}
 .cp-fl{color:#7a7163;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;min-width:100px;flex-shrink:0}
 .cp-fv{color:var(--ink);flex:1;text-align:right;font-size:12.5px}
@@ -1024,7 +1024,7 @@ img{max-width:100%}
         </div>
         <div id="journalEntries"></div>
       </div>
-    </div>
+    </div></div>
   </section>
 
   <!-- VIDEOS STRIP — below today's reminder -->
@@ -1055,18 +1055,7 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- SCREENING — below reminder -->
-  <section class="section" style="background:var(--cream)">
-    <div class="container">
-      <span class="eyebrow">Clinical &amp; Document Tools</span>
-      <h3 style="font-size:26px;color:var(--ink);margin-bottom:18px">Screening instruments &amp; logs</h3>
-      <div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:white">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📋 Screening Instruments</div><div style="font-size:11px;color:var(--muted)">PHQ-A, SCARED, CRAFFT, ACEs, GAD-7, C-SSRS, PCL-5, HEEADSSS</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--cream)"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📝 BIRP Daily Log</div><div style="font-size:11px;color:var(--muted)">Behavior, Intervention, Response, Plan · Digital &amp; printable</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px"><div><div style="font-size:14px;font-weight:500;color:var(--ink)">📊 SCI Level 2/3 Tracker</div><div style="font-size:11px;color:var(--muted)">Specialized Care Increment · Auto-scoring</div></div><a onclick="go('vault')" style="font-size:12px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Access →</a></div>
-      </div>
-    </div>
-  </section>
+
 
   <!-- YOUR RIGHTS — shrunk 60%, right-aligned -->
   <section class="section" style="background:white">
@@ -1746,76 +1735,67 @@ img{max-width:100%}
 
   <!-- Pricing tiers -->
   <section style="background:var(--cream);padding:48px 0">
-    <div class="container" style="max-width:960px">
-      <div style="text-align:center;margin-bottom:32px">
+    <div class="container" style="max-width:900px">
+      <div style="text-align:center;margin-bottom:28px">
         <span class="eyebrow">Choose Your Training Plan</span>
-        <h2 style="font-size:32px;color:var(--ink)">Invest in the children you care for</h2>
+        <h2 style="font-size:32px;color:var(--ink);margin-bottom:20px">Invest in the children you care for</h2>
+        <!-- Billing toggle -->
+        <div style="display:inline-flex;background:white;border:1px solid var(--border);border-radius:30px;padding:4px;gap:4px">
+          <button id="toggleMonthly" onclick="setBilling('monthly')" style="background:var(--ink);color:white;border:none;padding:8px 22px;border-radius:24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Monthly</button>
+          <button id="toggleAnnual" onclick="setBilling('annual')" style="background:transparent;color:var(--muted);border:none;padding:8px 22px;border-radius:24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Annual <span style="background:var(--sage);color:white;font-size:9.5px;padding:1px 7px;border-radius:9px;margin-left:4px;font-weight:700">SAVE 20%</span></button>
+        </div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;align-items:start">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;align-items:start">
         <!-- Free -->
         <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:28px;border-top:4px solid var(--sage)">
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:10px">Free</div>
           <div style="font-size:36px;font-weight:800;color:var(--ink);margin-bottom:4px">$0</div>
           <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Free account required</div>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13.5px;color:var(--text);line-height:2">
+          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:var(--text);line-height:2">
             <li>✓ Intro articles for each topic</li>
-            <li>✓ <strong>2–5 min intro videos</strong></li>
-            <li>✓ <strong>Downloadable worksheets</strong></li>
-            <li style="color:var(--muted)">✗ Assignments</li>
-            <li style="color:var(--muted)">✗ Printable handouts</li>
-            <li style="color:var(--muted)">✗ Certificates</li>
+            <li>✓ 2–5 min intro videos</li>
+            <li>✓ Downloadable worksheets</li>
+            <li style="color:var(--muted)">✗ Assignments or certificates</li>
           </ul>
           <button onclick="openAuth('signup')" style="width:100%;background:var(--cream);border:1px solid var(--border);color:var(--ink);padding:11px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Create Free Account</button>
         </div>
-        <!-- Monthly -->
-        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:28px;border-top:4px solid var(--navy)">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:10px">🔄 Monthly</div>
-          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:4px"><span style="font-size:36px;font-weight:800;color:var(--ink)">$19</span><span style="font-size:15px;color:var(--muted)">/mo</span></div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Cancel anytime</div>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13.5px;color:var(--text);line-height:2">
-            <li>✓ All Basic modules</li>
-            <li>✓ 15–30 min videos</li>
-            <li>✓ Worksheets &amp; handouts</li>
-            <li>✓ Reflection questions</li>
-            <li>✓ Assignments</li>
-            <li>✓ Certificates</li>
-          </ul>
-          <button onclick="startCheckout('monthly')" style="width:100%;background:var(--navy);color:white;border:none;padding:13px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer">Start Monthly — $19/mo</button>
-        </div>
         <!-- Basic -->
         <div style="background:white;border:2px solid var(--gold);border-radius:12px;padding:28px;border-top:4px solid var(--gold);position:relative;box-shadow:0 8px 28px rgba(200,146,58,.15)">
-          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);font-size:10px;font-weight:800;padding:3px 14px;border-radius:10px;letter-spacing:.08em;text-transform:uppercase">Best Value</div>
+          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--ink);font-size:10px;font-weight:800;padding:3px 14px;border-radius:10px;letter-spacing:.08em;text-transform:uppercase">Most Popular</div>
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">⭐ Basic</div>
-          <div style="font-size:36px;font-weight:800;color:var(--ink);margin-bottom:4px">$100</div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:20px">One-time · lifetime access</div>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13.5px;color:var(--text);line-height:2">
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:2px">
+            <span style="font-size:36px;font-weight:800;color:var(--ink)" id="basicPrice">$75</span>
+            <span style="font-size:15px;color:var(--muted)">/mo</span>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:20px" id="basicBilling">Billed monthly · Cancel anytime</div>
+          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:var(--text);line-height:2">
             <li>✓ <strong>6–12 training modules</strong></li>
-            <li>✓ <strong>15–30 min micro-videos</strong></li>
+            <li>✓ 15–30 min micro-videos</li>
             <li>✓ Worksheets &amp; printable handouts</li>
-            <li>✓ Reflection questions</li>
-            <li>✓ Practical assignments</li>
+            <li>✓ Reflection questions &amp; assignments</li>
             <li>✓ <strong>Certificate of completion</strong></li>
           </ul>
-          <button onclick="startCheckout('basic')" style="width:100%;background:var(--gold);color:var(--ink);border:none;padding:13px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer">Enroll — $100</button>
+          <button onclick="startCheckout('basic')" id="basicBtn" style="width:100%;background:var(--gold);color:var(--ink);border:none;padding:13px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer">Subscribe — $75/mo</button>
         </div>
         <!-- Premium -->
         <div style="background:linear-gradient(145deg,#1a2a1a,#2a1f08);border-radius:12px;padding:28px;border-top:4px solid #74c69d">
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#74c69d;margin-bottom:10px">💎 Premium</div>
-          <div style="font-size:36px;font-weight:800;color:white;margin-bottom:4px">$175</div>
-          <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:20px">One-time · lifetime access</div>
-          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13.5px;color:rgba(255,255,255,.85);line-height:2">
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:2px">
+            <span style="font-size:36px;font-weight:800;color:white" id="premiumPrice">$150</span>
+            <span style="font-size:15px;color:rgba(255,255,255,.5)">/mo</span>
+          </div>
+          <div style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:20px" id="premiumBilling">Billed monthly · Cancel anytime</div>
+          <ul style="list-style:none;padding:0;margin:0 0 20px;font-size:13px;color:rgba(255,255,255,.85);line-height:2">
             <li>✓ Everything in Basic</li>
             <li>✓ <strong>25–30 in-depth trainings</strong></li>
-            <li>✓ <strong>15+ videos · 30–60 min each</strong></li>
-            <li>✓ Advanced topic deep-dives</li>
-            <li>✓ Worksheets, handouts &amp; tools</li>
-            <li>✓ Assignments with feedback</li>
+            <li>✓ 15+ videos · 30–60 min each</li>
+            <li>✓ Advanced deep-dives &amp; tools</li>
             <li>✓ <strong>Multiple certificates</strong></li>
           </ul>
-          <button onclick="startCheckout('premium')" style="width:100%;background:linear-gradient(135deg,#74c69d,#4a9a70);color:white;border:none;padding:13px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer">Enroll — $175</button>
+          <button onclick="startCheckout('premium')" id="premiumBtn" style="width:100%;background:linear-gradient(135deg,#74c69d,#4a9a70);color:white;border:none;padding:13px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer">Subscribe — $150/mo</button>
         </div>
       </div>
-      <div style="text-align:center;margin-top:18px;font-size:12px;color:var(--muted)">Secure checkout via Stripe · No subscriptions · Lifetime access · Satisfaction guaranteed</div>
+      <div style="text-align:center;margin-top:18px;font-size:12px;color:var(--muted)">🔒 Secure checkout via Stripe · Cancel anytime · Annual plans billed once per year</div>
     </div>
   </section>
 
@@ -3471,6 +3451,31 @@ function newJournalPrompt() {
   if (el) el.textContent = next;
 }
 
+// ══ BILLING TOGGLE ══
+let _billingPeriod = 'monthly';
+function setBilling(period) {
+  _billingPeriod = period;
+  const isAnnual = period === 'annual';
+  // Toggle buttons
+  const tm = document.getElementById('toggleMonthly');
+  const ta = document.getElementById('toggleAnnual');
+  if (tm) { tm.style.background = isAnnual ? 'transparent' : 'var(--ink)'; tm.style.color = isAnnual ? 'var(--muted)' : 'white'; }
+  if (ta) { ta.style.background = isAnnual ? 'var(--ink)' : 'transparent'; ta.style.color = isAnnual ? 'white' : 'var(--muted)'; }
+  // Update prices
+  const bp = document.getElementById('basicPrice');
+  const bb = document.getElementById('basicBilling');
+  const bBtn = document.getElementById('basicBtn');
+  const pp = document.getElementById('premiumPrice');
+  const pb = document.getElementById('premiumBilling');
+  const pBtn = document.getElementById('premiumBtn');
+  if (bp) bp.textContent = isAnnual ? '$60' : '$75';
+  if (bb) bb.textContent = isAnnual ? 'Billed $720/yr · Save $180' : 'Billed monthly · Cancel anytime';
+  if (bBtn) bBtn.textContent = isAnnual ? 'Subscribe — $60/mo (Annual)' : 'Subscribe — $75/mo';
+  if (pp) pp.textContent = isAnnual ? '$125' : '$150';
+  if (pb) pb.textContent = isAnnual ? 'Billed $1,500/yr · Save $300' : 'Billed monthly · Cancel anytime';
+  if (pBtn) pBtn.textContent = isAnnual ? 'Subscribe — $125/mo (Annual)' : 'Subscribe — $150/mo';
+}
+
 // ══ TRAINING LMS ══
 const TIER_CONFIG={free:{icon:'🔓',label:'Free',badge:'tier-badge-free'},basic:{icon:'⭐',label:'Basic',badge:'tier-badge-basic'},premium:{icon:'💎',label:'Premium',badge:'tier-badge-premium'}};
 let _trainingModules=[],_trainingFilter='all',_checkoutTier=null;
@@ -3657,8 +3662,11 @@ function printCert(){window.print();}
 function startCheckout(tier){
   _checkoutTier=tier;
   const modal=document.getElementById('checkoutModal');if(!modal)return;
+  const isAnnual=_billingPeriod==='annual';
+  const prices={basic:{monthly:75,annual:60},premium:{monthly:150,annual:125}};
+  const price=prices[tier]?.[_billingPeriod]||0;
   document.getElementById('checkoutTierIcon').textContent=tier==='premium'?'💎':'⭐';
-  document.getElementById('checkoutTierTitle').textContent=tier==='premium'?'Premium Training — $175':'Basic Training — $100';
+  document.getElementById('checkoutTierTitle').textContent=`${tier==='premium'?'Premium':'Basic'} Training — $${price}/mo ${isAnnual?'(Annual)':'(Monthly)'}`;
   document.getElementById('checkoutError').textContent='';
   document.getElementById('checkoutEmail').value=currentUser?.email||'';
   document.getElementById('checkoutName').value=currentUser?.name||'';
@@ -3675,7 +3683,7 @@ async function proceedToCheckout(){
   if(!name){errEl.textContent='Please enter your name for the certificate.';return;}
   btn.disabled=true;btn.textContent='Connecting to Stripe…';
   try{
-    const r=await fetch('/.netlify/functions/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier:_checkoutTier,email,name})});
+    const r=await fetch('/.netlify/functions/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({tier:_checkoutTier,billing:_billingPeriod,email,name})});
     const data=await r.json();
     if(data.url)window.location.href=data.url;
     else throw new Error(data.error||'Could not start checkout');
