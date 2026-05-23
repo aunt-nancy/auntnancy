@@ -4268,47 +4268,118 @@ function saveAppointments(list){
 function renderAppointmentsWidget(containerId){
   const el=document.getElementById(containerId);
   if(!el) return;
-  const list=getAppointments().filter(a=>!a.done&&new Date(a.dateTime).getTime()>Date.now()-3600000).sort((a,b)=>new Date(a.dateTime)-new Date(b.dateTime)).slice(0,5);
-  const placements=getPlacements();
-  if(!list.length){
-    el.innerHTML=`<div style="text-align:center;padding:22px 16px"><div style="font-size:28px;margin-bottom:6px">📅</div><div style="font-size:13px;color:var(--muted);margin-bottom:12px">No upcoming appointments</div><button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">+ Schedule Appointment</button></div>`;
-    return;
-  }
-  el.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 4px 12px 4px">
-      <div style="font-size:11px;color:var(--muted)">${list.length} upcoming · click any to edit</div>
-      <button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:6px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer">+ Add Appointment</button>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:6px">
-      ${list.map(a=>{
-        const cat=APPT_CATS[a.category]||APPT_CATS.other;
-        const d=new Date(a.dateTime);
-        const isToday=new Date().toDateString()===d.toDateString();
-        const isPast=d.getTime()<Date.now();
-        const childName=a.placementId?(placements.find(p=>p.id===a.placementId)?.name||''):'';
-        return `<div onclick="openApptModal('${a.id}')" style="display:flex;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-left:3px solid ${cat.color};border-radius:6px;padding:10px 14px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='var(--cream)';this.style.transform='translateX(2px)'" onmouseout="this.style.background='white';this.style.transform=''">
-          <div style="font-size:18px;flex-shrink:0">${cat.icon}</div>
-          <div style="flex:1;min-width:0">
-            <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-              <span style="font-size:13.5px;font-weight:600;color:var(--ink)">${a.title||cat.label}</span>
-              <span style="font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;color:${cat.color};background:${cat.color}14;letter-spacing:.04em;text-transform:uppercase">${cat.label}</span>
-              ${childName?`<span style="font-size:10.5px;color:var(--muted)">· ${childName}</span>`:''}
-            </div>
-            <div style="font-size:11.5px;color:var(--muted);margin-top:2px">
-              ${isToday?'<span style="color:var(--gold);font-weight:700">Today</span>':d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})} · ${d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}
-              ${a.location?' · '+a.location:''}
-              ${isPast?' <span style="color:#c0392b;font-weight:600">· passed</span>':''}
-            </div>
-          </div>
-          <div style="font-size:14px;color:var(--muted);flex-shrink:0">›</div>
-        </div>`;
-      }).join('')}
-    </div>
-    <div style="text-align:center;margin-top:12px"><a onclick="openAllAppts()" style="font-size:11.5px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px">View all appointments →</a></div>
-  `;
+  el.innerHTML=renderCalendarHTML(containerId);
 }
 
-let _editingApptId=null;
+let _calMonth={};  // containerId → {year, month}
+
+function renderCalendarHTML(containerId){
+  const now=new Date();
+  if(!_calMonth[containerId]) _calMonth[containerId]={year:now.getFullYear(),month:now.getMonth()};
+  const {year,month}=_calMonth[containerId];
+  const allAppts=getAppointments();
+
+  const firstDay=new Date(year,month,1);
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const startDow=firstDay.getDay(); // 0=Sun
+  const monthName=firstDay.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  const todayStr=now.toDateString();
+
+  // Build map: dateStr → appointments[]
+  const apptMap={};
+  allAppts.forEach(a=>{
+    const d=new Date(a.dateTime);
+    if(d.getFullYear()===year&&d.getMonth()===month){
+      const key=d.getDate();
+      if(!apptMap[key])apptMap[key]=[];
+      apptMap[key].push(a);
+    }
+  });
+
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+
+  let grid='';
+  let dayCount=1;
+  let cells=[];
+  // Leading blanks
+  for(let i=0;i<startDow;i++) cells.push('<div></div>');
+  // Day cells
+  for(let d=1;d<=daysInMonth;d++){
+    const date=new Date(year,month,d);
+    const isToday=date.toDateString()===todayStr;
+    const appts=apptMap[d]||[];
+    const dots=appts.slice(0,3).map(a=>{
+      const cat=APPT_CATS[a.category]||APPT_CATS.other;
+      return `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${cat.color};margin:0 1px;flex-shrink:0"></span>`;
+    }).join('');
+    cells.push(`<div onclick="calDayClick(${d},'${containerId}')" style="min-height:48px;padding:4px 3px;border-radius:5px;cursor:${appts.length||true?'pointer':'default'};background:${isToday?'var(--gold)':'transparent'};border:1px solid ${isToday?'var(--gold)':'transparent'};transition:background .15s;text-align:center" onmouseover="this.style.background=this.style.background||'var(--cream)'" onmouseout="this.style.background='${isToday?'var(--gold)':'transparent'}'">
+      <div style="font-size:12px;font-weight:${isToday?'800':'500'};color:${isToday?'var(--ink)':'var(--text)'};margin-bottom:3px">${d}</div>
+      <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:1px">${dots}</div>
+      ${appts.length?`<div style="font-size:9px;color:${isToday?'rgba(0,0,0,.6)':'var(--muted)'};margin-top:1px">${appts.length}</div>`:''}
+    </div>`);
+  }
+
+  const rows=[];
+  for(let i=0;i<cells.length;i+=7) rows.push(cells.slice(i,i+7));
+  while(rows[rows.length-1]&&rows[rows.length-1].length<7) rows[rows.length-1].push('<div></div>');
+
+  return `<div style="background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--ink);color:white">
+      <button onclick="_calMonth['${containerId}'].month--;if(_calMonth['${containerId}'].month<0){_calMonth['${containerId}'].month=11;_calMonth['${containerId}'].year--;}renderAppointmentsWidget('${containerId}')" style="background:transparent;border:1px solid rgba(255,255,255,.25);color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">‹</button>
+      <div>
+        <span style="font-weight:700;font-size:14px">${monthName}</span>
+      </div>
+      <button onclick="_calMonth['${containerId}'].month++;if(_calMonth['${containerId}'].month>11){_calMonth['${containerId}'].month=0;_calMonth['${containerId}'].year++;}renderAppointmentsWidget('${containerId}')" style="background:transparent;border:1px solid rgba(255,255,255,.25);color:white;width:28px;height:28px;border-radius:4px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">›</button>
+    </div>
+    <!-- Day headers -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:6px 8px 2px;gap:2px">
+      ${days.map(d=>`<div style="text-align:center;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:2px 0">${d}</div>`).join('')}
+    </div>
+    <!-- Day grid -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:2px 8px 8px;gap:2px">
+      ${rows.flat().join('')}
+    </div>
+    <!-- Legend + Add button -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-top:1px solid var(--cream);background:var(--cream)">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${Object.entries(APPT_CATS).slice(0,4).map(([k,v])=>`<span style="display:flex;align-items:center;gap:3px;font-size:9.5px;color:var(--muted)""><span style="width:7px;height:7px;border-radius:50%;background:${v.color};display:inline-block"></span>${v.label}</span>`).join('')}
+      </div>
+      <button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:6px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap">+ Add</button>
+    </div>
+    <!-- Day detail panel -->
+    <div id="calDetail_${containerId}" style="display:none;padding:12px 14px;border-top:1px solid var(--border);background:#fafafa"></div>
+  </div>`;
+}
+
+function calDayClick(day,containerId){
+  const {year,month}=_calMonth[containerId]||{year:new Date().getFullYear(),month:new Date().getMonth()};
+  const appts=getAppointments().filter(a=>{
+    const d=new Date(a.dateTime);
+    return d.getFullYear()===year&&d.getMonth()===month&&d.getDate()===day;
+  }).sort((a,b)=>new Date(a.dateTime)-new Date(b.dateTime));
+
+  const panel=document.getElementById('calDetail_'+containerId);
+  if(!panel) return;
+  const date=new Date(year,month,day);
+  const dateLabel=date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+
+  if(!appts.length){
+    panel.style.display='block';
+    panel.innerHTML=`<div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:12px;font-weight:700;color:var(--ink)">${dateLabel}</div><button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Add</button></div><div style="font-size:12px;color:var(--muted);margin-top:6px">No appointments — click + Add to schedule one.</div>`;
+    return;
+  }
+  panel.style.display='block';
+  panel.innerHTML=`<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:8px">${dateLabel}</div>${appts.map(a=>{
+    const cat=APPT_CATS[a.category]||APPT_CATS.other;
+    const t=new Date(a.dateTime).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+    return `<div onclick="openApptModal('${a.id}')" style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:white;border:1px solid var(--border);border-left:3px solid ${cat.color};border-radius:5px;margin-bottom:5px;cursor:pointer">
+      <span style="font-size:15px">${cat.icon}</span>
+      <div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--ink)">${(a.title||cat.label).replace(/</g,'&lt;')}</div><div style="font-size:11px;color:var(--muted)">${t}${a.location?' · '+a.location:''}</div></div>
+      <span style="font-size:12px;color:var(--muted)">›</span>
+    </div>`;
+  }).join('')}<button onclick="openApptModal()" style="background:transparent;border:1px dashed var(--border);color:var(--muted);padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;width:100%;margin-top:4px">+ Add another</button>`;
+}
 function openApptModal(apptId){
   _editingApptId=apptId||null;
   const list=getAppointments();
@@ -4379,7 +4450,7 @@ function saveAppt(){
   saveAppointments(list);
   closeApptModal();
   // Refresh whichever widget is on screen
-  ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{if(document.getElementById(id)) renderAppointmentsWidget(id);});
+  ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{const el=document.getElementById(id);if(el)renderAppointmentsWidget(id);});
 }
 
 function deleteAppt(id){
@@ -4390,7 +4461,7 @@ function deleteAppt(id){
   ['apptWidgetParent','apptWidgetKinship'].forEach(wid=>{if(document.getElementById(wid)) renderAppointmentsWidget(wid);});
 }
 
-function openAllAppts(){alert('Full calendar view coming soon. For now, all upcoming appointments are shown above.');}
+function openAllAppts(){renderAppointmentsWidget('apptWidgetParent');}
 
 // Browser notification scheduling
 let _notifTimers=[];
