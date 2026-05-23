@@ -86,7 +86,7 @@ img{max-width:100%}
 .crisis strong{color:white;font-weight:800}
 .crisis-sep{color:#5a2020;padding:0 6px;font-weight:400}
 /* HEADER */
-.site-header{position:sticky;top:0;z-index:200;background:var(--ink);box-shadow:0 2px 20px rgba(0,0,0,.4)}
+.site-header{position:sticky;top:0;z-index:200;background:var(--ink);box-shadow:0 2px 20px rgba(0,0,0,.4);isolation:isolate}
 .util-row{background:#080604;padding:5px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #161210}
 .geo-wrap{display:flex;align-items:center;gap:8px}
 .geo-spinner{width:11px;height:11px;border:2px solid #1e2e1e;border-top-color:var(--sage);border-radius:50%;animation:spin .8s linear infinite}
@@ -308,7 +308,7 @@ img{max-width:100%}
 .cp-badge.warn{background:rgba(192,57,43,.12);color:#c0392b}
 .cp-badge.pend{background:rgba(200,146,58,.14);color:#9a6f1f}
 
-.page{display:none}.page.on{display:block}
+.page{display:none!important}.page.on{display:block!important}
 /* SHARED */
 .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block}
 .container{max-width:1200px;margin:0 auto;padding:0 28px}
@@ -366,7 +366,7 @@ img{max-width:100%}
 .tpl-lock-ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(250,247,240,.65);backdrop-filter:blur(3px);opacity:0;transition:opacity .2s}
 .tpl-card.locked:hover .tpl-lock-ov{opacity:1}
 /* HOME */
-.home-hero{background:var(--ink);min-height:82vh;display:grid;grid-template-columns:42% 58%;overflow:hidden}
+.home-hero{background:var(--ink);min-height:82vh;display:grid;grid-template-columns:42% 58%;overflow:hidden;position:relative;z-index:1;isolation:isolate}
 .home-l{padding:64px 36px 64px 40px;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;z-index:2}
 .home-r{position:relative;overflow:hidden}
 .home-r img{width:100%;height:100%;object-fit:cover;object-position:center 15%;opacity:.88}
@@ -2706,10 +2706,11 @@ function go(id,el){
   const mn=document.getElementById('mobileNav');
   if(mn&&mn.style.display==='block'){mn.style.display='none';document.body.style.overflow='';}
   if(id==='dashboard'&&!currentUser){openAuth('signin');return;}
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('on');p.style.display='none';});
   document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('on'));
   document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('on'));
-  const pg=document.getElementById('page-'+id);if(pg) pg.classList.add('on');
+  const pg=document.getElementById('page-'+id);
+  if(pg){pg.classList.add('on');pg.style.display='block';}
   if(el){
     if(el.classList?.contains('nav-link')) el.classList.add('on');
     if(el.classList?.contains('role-tab')) el.classList.add('on');
@@ -3943,7 +3944,8 @@ async function submitVideo(){
 // Featured videos for the youth page (horizontal strip)
 async function loadHomeVideos(){
   const container=document.getElementById('homeVideosStrip');
-  if(!container)return;
+  if(!container||container._loaded)return;
+  container._loaded=true;
   try{
     const r=await fetch(`${SUPABASE_URL}/rest/v1/videos?approved=eq.true&order=featured.desc,added_at.desc&limit=8`,{
       headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}
@@ -4690,13 +4692,14 @@ window.addEventListener('DOMContentLoaded',()=>{
   initGeo();
   renderTemplates();
   renderFooters();
-  setTimeout(loadHomeVideos,400);
   updateAuthUI();
   applyRoleGating();
   initANWall();
   scheduleAppointmentNotifications();
   // Always route via go() — never rely on hardcoded 'on' class
   const hash=window.location.hash.replace('#','');
+  // Ensure all pages start hidden
+  document.querySelectorAll('.page').forEach(p=>{p.style.display='none';});
   const validPages=['home','youth','parent','kinship','worker','vault','education','blog','blogpost','videos','videoplayer','training','trainingmodule','resources','products','feedback','dashboard','qa'];
   if(hash && validPages.includes(hash)){
     go(hash);
