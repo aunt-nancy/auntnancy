@@ -1202,21 +1202,9 @@ img{max-width:100%}
   <!-- PLACEMENT TRACKER (LEFT) + CALENDAR (RIGHT) — bottoms aligned -->
   <section style="background:var(--cream);padding:36px 0">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:stretch">
+      <div style="display:grid;grid-template-columns:380px 1fr;gap:28px;align-items:stretch">
 
-        <!-- LEFT: Placement Tracker -->
-        <div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
-            <div>
-              <span class="eyebrow" style="text-align:left;display:block">Case Management</span>
-              <h3 style="font-size:22px;color:var(--ink);margin:4px 0 2px">Placement Tracker</h3>
-              <p style="font-size:12px;color:var(--muted)">Private to your device — never shared.</p>
-            </div>
-          </div>
-          <div id="casePanelParent" class="case-panel"></div>
-        </div>
-
-        <!-- RIGHT: Calendar — right-aligned, bottoms match via stretch -->
+        <!-- LEFT: Calendar -->
         <div style="display:flex;flex-direction:column">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
             <div>
@@ -1226,6 +1214,18 @@ img{max-width:100%}
             </div>
           </div>
           <div id="apptWidgetParent" style="flex:1"></div>
+        </div>
+
+        <!-- RIGHT: Placement Tracker -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+            <div>
+              <span class="eyebrow" style="text-align:left;display:block">Case Management</span>
+              <h3 style="font-size:22px;color:var(--ink);margin:4px 0 2px">Placement Tracker</h3>
+              <p style="font-size:12px;color:var(--muted)">Private to your device — never shared.</p>
+            </div>
+          </div>
+          <div id="casePanelParent" class="case-panel"></div>
         </div>
 
       </div>
