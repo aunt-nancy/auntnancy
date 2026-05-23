@@ -655,55 +655,60 @@ img{max-width:100%}
 .anw-form .af label{color:#666}
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  .container{padding:0 20px}
+  .container{padding:0 16px}
   /* Header */
-  .util-row{padding:5px 16px}
-  .nav-row{padding:0 16px;height:50px}
-  .nav-logo{font-size:19px;margin-right:12px}
-  .nav-links{gap:0}
-  .nav-link{font-size:11px;padding:5px 7px}
-  .nav-ask{font-size:11px;padding:6px 10px}
-  .role-row{padding:0 16px;height:auto;min-height:38px;flex-wrap:nowrap;overflow-x:auto}
+  .util-row{padding:4px 16px;flex-wrap:nowrap;overflow:hidden}
+  .util-right{gap:8px}
+  .util-auth{display:none} /* Hide sign in/up from util row on mobile — in hamburger menu */
+  .nav-row{padding:0 16px;height:52px}
+  .nav-logo{font-size:18px;margin-right:0}
+  .nav-links{display:none} /* Hide desktop nav on mobile */
+  .nav-ask{display:none}   /* Hide on mobile — in hamburger menu */
+  .hamburger{display:flex} /* Show hamburger on mobile */
+  .role-row{padding:0 12px;height:auto;min-height:36px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .role-row::-webkit-scrollbar{display:none}
   .role-label{display:none}
-  .role-tab{font-size:11px;padding:0 10px}
-  .role-tab-ico{display:none}
+  .role-tab{font-size:11px;padding:0 11px;white-space:nowrap}
   .loc-chip{display:none}
+  /* Crisis bar compact on mobile */
+  .crisis{padding:5px 12px;display:block}
+  .crisis p{font-size:10px;line-height:1.6}
   /* Home hero */
   .home-hero{grid-template-columns:1fr;min-height:auto}
-  .home-l{padding:40px 20px 36px}
-  .home-h1{font-size:42px}
+  .home-l{padding:36px 16px 32px}
+  .home-h1{font-size:40px}
   .home-sub{font-size:14px}
-  .home-r{height:220px}
+  .home-r{height:200px}
   .stats-row{gap:0;flex-wrap:wrap}
   .stat{padding:8px 16px 8px 0}
-  .stat-num{font-size:26px}
+  .stat-num{font-size:24px}
   /* Role cards */
-  .role-cards{grid-template-columns:1fr 1fr;gap:10px;padding:24px 0}
-  .rc-title{font-size:17px}
+  .role-cards{grid-template-columns:1fr 1fr;gap:10px;padding:20px 0}
+  .rc-title{font-size:16px}
   .rc-desc{font-size:12px}
   /* Local section */
   .local-grid{grid-template-columns:1fr 1fr}
-  .local-h{font-size:26px}
+  .local-h{font-size:24px}
   /* Research */
   .rs-inner{grid-template-columns:1fr;gap:20px}
   .rs-cards{grid-template-columns:1fr}
-  .rs-num{font-size:44px}
+  .rs-num{font-size:42px}
   /* Role pages */
   .ph-split{grid-template-columns:1fr}
-  .ph-img{height:200px}
-  .rph1{font-size:36px}
+  .ph-img{height:180px}
+  .rph1{font-size:32px}
   /* Grid */
   .grid-2{grid-template-columns:1fr}
   .grid-3{grid-template-columns:1fr}
   /* Vault */
-  .vault-hero{padding:36px 0}
+  .vault-hero{padding:32px 0}
   .vault-filters{gap:6px}
   .vf-btn{font-size:11px;padding:5px 10px}
   /* Education */
-  .edu-hero{padding:36px 0}
+  .edu-hero{padding:32px 0}
   .edu-sched{gap:14px}
-  .edu-tabs{top:132px;margin:0 -20px;padding:0 20px;overflow-x:auto}
-  .edu-tab{font-size:11.5px;padding:12px 12px;white-space:nowrap}
+  .edu-tabs{top:88px;margin:0 -16px;padding:0 16px;overflow-x:auto}
+  .edu-tab{font-size:11px;padding:10px 10px;white-space:nowrap}
   .edu-highlight{grid-template-columns:1fr}
   /* Dashboard */
   .dash-hero-in{flex-wrap:wrap;gap:12px;padding:0 16px}
@@ -724,22 +729,32 @@ img{max-width:100%}
   .anw-seed-body{padding:16px}
   /* Modals */
   .modal-box{width:96vw}
-  .modal-hd{padding:20px 20px 16px}
-  .modal-body{padding:16px 20px 20px}
+  .modal-hd{padding:18px 16px 14px}
+  .modal-body{padding:14px 16px 18px}
   .af-row{grid-template-columns:1fr}
   /* AAN widget */
   .aan-widget{width:96vw;right:2vw;bottom:16px;height:70vh}
   .aan-float{bottom:16px;right:16px;width:50px;height:50px;font-size:20px}
   /* Footer */
-  .ft-in{grid-template-columns:1fr 1fr;gap:24px;padding:0 20px}
-  .ft-bot{padding:11px 20px}
+  .ft-in{grid-template-columns:1fr 1fr;gap:20px;padding:0 16px}
+  .ft-bot{padding:10px 16px;flex-direction:column;gap:4px;text-align:center}
   /* Placement tracker */
   .pl-grid{grid-template-columns:1fr 1fr}
   /* Coming soon */
-  .cs{padding:40px 20px}
-  .cs-t{font-size:52px}
+  .cs{padding:36px 16px}
+  .cs-t{font-size:44px}
   .cs-journals{flex-direction:column;align-items:center}
+  /* Training pricing grid */
+  .training-price-grid{grid-template-columns:1fr!important}
+  /* Blog/Video grids */
+  .blog-grid,.video-grid,.training-grid{grid-template-columns:1fr}
 }
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:transparent;border:none;cursor:pointer;padding:8px;margin-left:auto;flex-shrink:0}
+.hamburger span{display:block;width:22px;height:2px;background:white;border-radius:2px}
+.mob-nav-item{display:block;padding:14px 22px;font-size:15px;color:rgba(255,255,255,.85);cursor:pointer;border-bottom:1px solid #1e1a12;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:none}
+.mob-nav-item:hover,.mob-nav-item:active{background:rgba(255,255,255,.05);color:white}
 @media (max-width:480px){
   .role-cards{grid-template-columns:1fr}
   .local-grid{grid-template-columns:1fr}
@@ -872,7 +887,7 @@ img{max-width:100%}
   </div>
   <div class="nav-row">
     <div class="nav-logo" onclick="go('home')">AUNT<em>NANCY</em>.ORG</div>
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <button class="nav-link on" data-page="home" onclick="go('home',this)">Home</button>
       <button class="nav-link" data-page="education" onclick="go('education',this)">📋 Policy Updates</button>
       <button class="nav-link" data-page="blog" onclick="go('blog',this)">✍️ Blog</button>
@@ -884,6 +899,9 @@ img{max-width:100%}
       <button class="nav-link" data-page="feedback" onclick="go('feedback',this)">Feedback</button>
     </div>
     <button class="nav-ask" onclick="openAAN()">💬 Ask Aunt Nancy</button>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
   <div class="role-row">
     <span class="role-label">I am a</span>
@@ -897,6 +915,33 @@ img{max-width:100%}
     <div class="role-right"><span class="loc-chip" onclick="openLocModal()">📍 <span id="lcPlace">Los Angeles, CA</span> ›</span></div>
   </div>
 </header>
+
+<!-- MOBILE NAV OVERLAY -->
+<div id="mobileNav" style="display:none;position:fixed;inset:0;z-index:999;background:var(--ink)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #2a2218">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:white;letter-spacing:.05em">AUNT<em style="color:var(--gold)">NANCY</em>.ORG</div>
+    <button onclick="toggleMobileNav()" style="background:transparent;border:none;color:white;font-size:28px;cursor:pointer;line-height:1">✕</button>
+  </div>
+  <div style="overflow-y:auto;height:calc(100% - 60px);padding:12px 0">
+    <a class="mob-nav-item" onclick="go('home');toggleMobileNav()">🏠 Home</a>
+    <a class="mob-nav-item" onclick="go('education');toggleMobileNav()">📋 Policy Updates</a>
+    <a class="mob-nav-item" onclick="go('blog');toggleMobileNav()">✍️ Blog</a>
+    <a class="mob-nav-item" onclick="go('training');toggleMobileNav()">🎓 Training</a>
+    <a class="mob-nav-item" onclick="go('videos');toggleMobileNav()">🎥 Videos</a>
+    <a class="mob-nav-item" onclick="go('resources');toggleMobileNav()">🌿 Resources</a>
+    <a class="mob-nav-item" onclick="go('qa');toggleMobileNav()">💬 Community Q&amp;A</a>
+    <a class="mob-nav-item" onclick="go('vault');toggleMobileNav()">✉️ Letter Vault</a>
+    <a class="mob-nav-item" onclick="go('products');toggleMobileNav()">🛍 Products</a>
+    <a class="mob-nav-item" onclick="go('feedback');toggleMobileNav()">📝 Feedback</a>
+    <div style="margin:16px 20px;border-top:1px solid #2a2218;padding-top:16px">
+      <button onclick="openAAN();toggleMobileNav()" style="width:100%;background:var(--gold);color:var(--ink);border:none;padding:14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">💬 Ask Aunt Nancy</button>
+    </div>
+    <div style="display:flex;gap:10px;padding:0 20px;margin-top:8px">
+      <button onclick="openAuth('signin');toggleMobileNav()" style="flex:1;background:transparent;border:1px solid #3a3020;color:#ccc;padding:12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer">Sign In</button>
+      <button onclick="openAuth('signup');toggleMobileNav()" style="flex:1;background:transparent;border:1px solid var(--gold);color:var(--gold);padding:12px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer">Create Account</button>
+    </div>
+  </div>
+</div>
 
 <!-- HOME PAGE -->
 <div class="page" id="page-home">
@@ -2631,6 +2676,9 @@ async function sendAAN(text){
 
 // ══ ROUTING ══
 function go(id,el){
+  // Close mobile nav if open
+  const mn=document.getElementById('mobileNav');
+  if(mn&&mn.style.display==='block'){mn.style.display='none';document.body.style.overflow='';}
   if(id==='dashboard'&&!currentUser){openAuth('signin');return;}
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('on'));
@@ -3449,6 +3497,21 @@ function newJournalPrompt() {
   const next = remaining[Math.floor(Math.random() * remaining.length)];
   const el = document.getElementById('journalPrompt');
   if (el) el.textContent = next;
+}
+
+// ══ MOBILE NAV ══
+function toggleMobileNav(){
+  const nav=document.getElementById('mobileNav');
+  const btn=document.getElementById('hamburgerBtn');
+  if(!nav)return;
+  const open=nav.style.display==='none'||nav.style.display==='';
+  nav.style.display=open?'block':'none';
+  document.body.style.overflow=open?'hidden':'';
+  if(btn){
+    btn.innerHTML=open
+      ?'<span style="transform:rotate(45deg) translate(5px,5px);display:block;width:22px;height:2px;background:white;border-radius:2px"></span><span style="opacity:0;display:block;width:22px;height:2px;background:white;border-radius:2px"></span><span style="transform:rotate(-45deg) translate(5px,-5px);display:block;width:22px;height:2px;background:white;border-radius:2px"></span>'
+      :'<span></span><span></span><span></span>';
+  }
 }
 
 // ══ BILLING TOGGLE ══
