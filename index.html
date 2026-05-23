@@ -1159,6 +1159,7 @@ img{max-width:100%}
 </div>
 <!-- FOSTER PARENTS PAGE -->
 <div class="page" id="page-parent">
+
   <!-- HERO -->
   <div class="rhp" style="padding:52px 0">
     <div class="container">
@@ -1189,68 +1190,77 @@ img{max-width:100%}
     </div>
   </div>
 
-  <!-- TODAY'S REMINDER — full-width band, centered -->
-  <section style="background:var(--ink);padding:36px 0">
+  <!-- TODAY'S REMINDER — warm full-width band -->
+  <section style="background:linear-gradient(135deg,var(--ink),#1a1f2e);padding:32px 0">
     <div class="container" style="text-align:center">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:12px">Today's Reminder</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:white;line-height:1.5;font-style:italic;margin-bottom:10px;max-width:780px;margin-left:auto;margin-right:auto" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:10px">Today's Reminder</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;line-height:1.5;font-style:italic;margin-bottom:8px;max-width:700px;margin-left:auto;margin-right:auto" id="parentQuote">"You can't pour from an empty cup. Take care of yourself so you can take care of them."</div>
       <div style="font-size:11px;color:rgba(255,255,255,.4)" id="parentQuoteAuthor">— Foster care wisdom</div>
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT — centered, directly below Today's Reminder -->
-  <section class="section" style="background:var(--cream);padding:32px 0">
-    <div class="container" style="max-width:860px">
-      <div style="text-align:center;margin-bottom:16px">
-        <span class="eyebrow">Case Management</span>
-        <h3 style="font-size:24px;color:var(--ink);margin-bottom:2px">Placement Tracker</h3>
-        <p style="font-size:12.5px;color:var(--muted)">Track each child in your home. Private to your device — never shared.</p>
+  <!-- PLACEMENT TRACKER (LEFT) + CALENDAR (RIGHT) — bottoms aligned -->
+  <section style="background:var(--cream);padding:36px 0">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:stretch">
+
+        <!-- LEFT: Placement Tracker -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+            <div>
+              <span class="eyebrow" style="text-align:left;display:block">Case Management</span>
+              <h3 style="font-size:22px;color:var(--ink);margin:4px 0 2px">Placement Tracker</h3>
+              <p style="font-size:12px;color:var(--muted)">Private to your device — never shared.</p>
+            </div>
+          </div>
+          <div id="casePanelParent" class="case-panel"></div>
+        </div>
+
+        <!-- RIGHT: Calendar — right-aligned, bottoms match via stretch -->
+        <div style="display:flex;flex-direction:column">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+            <div>
+              <span class="eyebrow" style="text-align:left;display:block">📅 Appointments</span>
+              <h3 style="font-size:22px;color:var(--ink);margin:4px 0 2px">Calendar & Reminders</h3>
+              <p style="font-size:12px;color:var(--muted)">Browser notifications at your chosen times.</p>
+            </div>
+          </div>
+          <div id="apptWidgetParent" style="flex:1"></div>
+        </div>
+
       </div>
-      <div id="casePanelParent" class="case-panel"></div>
     </div>
   </section>
 
-  <!-- JOURNAL (LEFT) + TODAY'S PARENTING TIP (RIGHT) -->
-  <section class="section" style="background:white;padding:36px 0">
+  <!-- JOURNAL + PARENTING TIP — polished two-column -->
+  <section style="background:white;padding:36px 0">
     <div class="container">
       <div class="grid-2" style="gap:24px;align-items:stretch">
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
+        <div style="background:linear-gradient(145deg,var(--cream),#f8f4ec);border:1px solid var(--border);border-radius:10px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.04)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+            <div><h3 style="font-size:18px;color:var(--ink);margin-bottom:2px">Caregiver Journal</h3><p style="font-size:12px;color:var(--muted)">Private · stays on your device</p></div>
             <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(25,55,90,.08);border:1px solid rgba(25,55,90,.18);color:var(--navy);font-weight:700">🔒 Private</span>
           </div>
-          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
-          <textarea id="parentJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="background:white;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55;border-left:3px solid var(--gold)" id="parentJournalPrompt">What's one win from this week, no matter how small?</div>
+          <textarea id="parentJournalText" style="width:100%;height:110px;resize:vertical;padding:11px 13px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
           <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12.5px;padding:8px 18px">Save →</button>
-            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
+            <button onclick="saveRoleJournal('parent')" class="btn btn-gold" style="font-size:12px;padding:8px 18px">Save →</button>
+            <button onclick="newParentJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
           </div>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);margin-bottom:12px">💡 Today's Parenting Tip</div>
-          <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="parentTip">When a child tests boundaries, they're often asking "Are you safe? Will you stay?" Consistency in your response — calm, firm, present — is the answer they need.</div>
-          <button onclick="newParentTip()" style="font-size:11px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+        <div style="background:linear-gradient(145deg,#0e1a2e,#162038);border-radius:10px;padding:24px;box-shadow:0 4px 18px rgba(25,55,90,.18)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7eb8f7;margin-bottom:14px">💡 Today's Parenting Tip</div>
+          <div style="font-size:15px;color:rgba(255,255,255,.88);line-height:1.7;margin-bottom:18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px" id="parentTip">"When a child tests boundaries, they're often asking 'Are you safe? Will you stay?' Consistency — calm, firm, present — is the answer."</div>
+          <button onclick="newParentTip()" style="font-size:11px;color:#7eb8f7;background:transparent;border:1px solid rgba(126,184,247,.25);padding:6px 14px;border-radius:16px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- UPCOMING APPOINTMENTS -->
-  <section class="section" style="background:var(--cream);padding:36px 0">
-    <div class="container" style="max-width:780px">
-      <div style="text-align:center;margin-bottom:16px">
-        <span class="eyebrow">📅 Upcoming Appointments</span>
-        <h3 style="font-size:22px;color:var(--ink);margin-bottom:2px">Calendar & Reminders</h3>
-        <p style="font-size:12.5px;color:var(--muted)">Browser notifications fire at your chosen reminder times.</p>
-      </div>
-      <div id="apptWidgetParent"></div>
     </div>
   </section>
 
   <!-- WHAT FOSTER PARENTS ARE SAYING -->
-  <section class="section" style="background:white">
+  <section style="background:var(--cream);padding:36px 0">
     <div class="container">
-      <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Foster Parents Are Saying</span></div>
+      <div style="margin-bottom:20px"><span class="eyebrow">What Foster Parents Are Saying</span></div>
       <div class="grid-3">
         <div class="qcard"><div class="qcard-text">"Found the clothing allowance letter. DCFS approved it in 3 days."</div><div class="qcard-attr">Sarah M. · <span class="qcard-loc">Los Angeles, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"The 72-hour checklist covered everything I didn't know to ask."</div><div class="qcard-attr">Keisha B. · <span class="qcard-loc">Compton, CA</span></div></div>
@@ -1259,13 +1269,13 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- VAULT LETTERS — at the bottom -->
-  <section class="section" style="background:var(--cream);padding:48px 0">
+  <!-- VAULT LETTERS -->
+  <section style="background:white;padding:40px 0">
     <div class="container" style="max-width:780px">
-      <div style="text-align:center;margin-bottom:24px">
-        <span class="eyebrow">Vault Letters</span>
-        <h3 style="font-size:26px;color:var(--ink);margin-bottom:6px">All Templates</h3>
-        <p style="font-size:13px;color:var(--muted)">Policy-cited. Fill-in. Free.</p>
+      <div style="margin-bottom:24px">
+        <span class="eyebrow">Letter Vault</span>
+        <h3 style="font-size:24px;color:var(--ink);margin:6px 0 4px">All Templates</h3>
+        <p style="font-size:13px;color:var(--muted)">Policy-cited · fill-in · free</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">
         <a onclick="openLetterPDF('t1')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">Clothing Allowance Request</span> <span style="font-size:11px;color:var(--muted)">DCFS Policy 0900-506.10</span></a>
@@ -1277,9 +1287,10 @@ img{max-width:100%}
         <a onclick="openLetterPDF('t6')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">BIRP Daily Log</span> <span style="font-size:11px;color:var(--muted)">Interactive · Printable</span></a>
         <a onclick="openLetterPDF('t7')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">SCI Placement Tracker</span> <span style="font-size:11px;color:var(--muted)">Level 2/3 scoring</span></a>
         <div style="text-align:center;margin-top:14px"><a onclick="go('vault')" style="font-size:13px;color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none">→ View all templates in the Letter Vault</a></div>
-      </div>
+    </div>
     </div>
   </section>
+
 </div>
 
 <!-- KINSHIP PAGE -->
@@ -1401,9 +1412,10 @@ img{max-width:100%}
         <a onclick="openLetterPDF('t6')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">BIRP Daily Log</span> <span style="font-size:11px;color:var(--muted)">Interactive · Printable</span></a>
         <a onclick="openLetterPDF('t7')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">SCI Placement Tracker</span> <span style="font-size:11px;color:var(--muted)">Level 2/3 scoring</span></a>
         <div style="text-align:center;margin-top:14px"><a onclick="go('vault')" style="font-size:13px;color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none">→ View all templates in the Letter Vault</a></div>
-      </div>
+    </div>
     </div>
   </section>
+
 </div>
 
 <!-- SOCIAL WORKERS PAGE -->
