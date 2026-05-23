@@ -87,7 +87,7 @@ img{max-width:100%}
 .crisis-sep{color:#5a2020;padding:0 6px;font-weight:400}
 /* HEADER */
 .site-header{position:sticky;top:0;z-index:200;background:var(--ink);box-shadow:0 2px 20px rgba(0,0,0,.4)}
-.util-row{background:#080604;padding:5px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #161210}
+.util-row{background:#080604;padding:5px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #161210}
 .geo-wrap{display:flex;align-items:center;gap:8px}
 .geo-spinner{width:11px;height:11px;border:2px solid #1e2e1e;border-top-color:var(--sage);border-radius:50%;animation:spin .8s linear infinite}
 .geo-loading{display:flex;align-items:center;gap:6px;font-size:11px;color:#555}
@@ -124,7 +124,7 @@ img{max-width:100%}
 .av-item:hover{background:rgba(255,255,255,.04);color:white}
 .av-item.danger{color:#e07070}
 /* NAV ROW */
-.nav-row{padding:0 48px;display:flex;align-items:center;height:56px;border-bottom:1px solid #1e1a12}
+.nav-row{padding:0 28px;display:flex;align-items:center;height:56px;border-bottom:1px solid #1e1a12}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:white;letter-spacing:.05em;flex-shrink:0;margin-right:16px;cursor:pointer;white-space:nowrap;overflow:hidden}
 .nav-logo em{color:var(--gold);font-style:normal}
 .nav-links{display:flex;align-items:center;gap:0;margin-left:auto;flex-wrap:nowrap}
@@ -134,7 +134,7 @@ img{max-width:100%}
 .nav-ask{background:var(--gold);color:var(--ink)!important;padding:7px 14px;border-radius:4px;font-weight:700!important;margin-left:10px;flex-shrink:0;border:none;font-family:'DM Sans',sans-serif;font-size:12.5px;cursor:pointer}
 .nav-ask:hover{background:var(--gold-lt)}
 /* ROLE ROW */
-.role-row{padding:0 48px;display:flex;align-items:stretch;height:40px;background:#100e0a;border-bottom:1px solid #2a2218}
+.role-row{padding:0 28px;display:flex;align-items:stretch;height:40px;background:#100e0a;border-bottom:1px solid #2a2218}
 .role-label{font-size:10px;color:#444;letter-spacing:.12em;text-transform:uppercase;align-self:center;margin-right:14px;flex-shrink:0;font-weight:600}
 .role-tabs{display:flex;align-items:stretch;gap:0}
 .role-tab{display:flex;align-items:center;gap:7px;padding:0 15px;font-size:13px;color:#666;cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .2s}
@@ -311,12 +311,12 @@ img{max-width:100%}
 .page{display:none}.page.on{display:block}
 /* SHARED */
 .eyebrow{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block}
-.container{max-width:1200px;margin:0 auto;padding:0 48px}
+.container{max-width:1200px;margin:0 auto;padding:0 28px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .2s}
 .btn-gold{background:var(--gold);color:var(--ink)}.btn-gold:hover{background:var(--gold-lt)}
 .btn-dark{background:var(--ink);color:white}
 .btn-outline{border:1px solid rgba(255,255,255,.25);color:white;background:transparent}.btn-outline:hover{background:rgba(255,255,255,.07)}
-.section{padding:52px 0}
+.section{padding:40px 0}
 .ph-split{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .ph-img{width:100%;border-radius:var(--r);object-fit:cover;height:320px;opacity:.7}
 .role-accent{height:4px;border-radius:2px;width:40px;margin-bottom:16px}
@@ -366,13 +366,13 @@ img{max-width:100%}
 .tpl-lock-ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(250,247,240,.65);backdrop-filter:blur(3px);opacity:0;transition:opacity .2s}
 .tpl-card.locked:hover .tpl-lock-ov{opacity:1}
 /* HOME */
-.home-hero{background:var(--ink);min-height:82vh;display:grid;grid-template-columns:60% 40%;overflow:hidden}
-.home-l{padding:64px 52px 64px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;z-index:2}
+.home-hero{background:var(--ink);min-height:82vh;display:grid;grid-template-columns:42% 58%;overflow:hidden}
+.home-l{padding:64px 36px 64px 40px;display:flex;flex-direction:column;justify-content:center;background:var(--ink);position:relative;z-index:2}
 .home-r{position:relative;overflow:hidden}
 .home-r img{width:100%;height:100%;object-fit:cover;object-position:center 15%;opacity:.88}
 .home-r::before{content:'';position:absolute;top:0;bottom:0;left:0;width:80px;z-index:1;background:linear-gradient(to right,var(--ink),transparent)}
 .home-r::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;z-index:1;background:linear-gradient(to top,var(--ink),transparent)}
-.home-h1{font-size:64px;color:white;line-height:.97;margin-bottom:18px;font-weight:700}
+.home-h1{font-size:128px;color:white;line-height:.92;margin-bottom:18px;font-weight:700}
 .home-h1 em{color:var(--gold);font-style:italic;display:block}
 .home-sub{font-size:15px;color:rgba(255,255,255,.6);line-height:1.8;max-width:400px;margin-bottom:30px;font-weight:300}
 .home-btns{display:flex;gap:11px;margin-bottom:44px;flex-wrap:wrap}
@@ -605,7 +605,7 @@ img{max-width:100%}
 .pl-tl-item::before{content:'';position:absolute;left:-21px;top:5px;width:8px;height:8px;border-radius:50%;background:var(--gold);border:2px solid white}
 .pl-tl-date{font-size:10px;color:var(--muted);font-weight:600;margin-bottom:1px}
 /* AUNT NANCYS COMMUNITY WALL */
-.anw-section{background:var(--ink);padding:64px 0}
+.anw-section{background:var(--ink);padding:48px 0}
 .anw-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
 .anw-title{font-size:42px;color:white;line-height:1.05;margin-bottom:8px}
 .anw-sub{font-size:14px;color:rgba(255,255,255,.5);max-width:520px;line-height:1.75;font-weight:300}
@@ -681,7 +681,7 @@ img{max-width:100%}
   /* Home hero */
   .home-hero{grid-template-columns:1fr;min-height:auto}
   .home-l{padding:36px 16px 32px}
-  .home-h1{font-size:40px}
+  .home-h1{font-size:72px;line-height:.93}
   .home-sub{font-size:14px}
   .home-r{height:200px}
   .stats-row{gap:0;flex-wrap:wrap}
@@ -766,7 +766,7 @@ img{max-width:100%}
   .anw-grid{grid-template-columns:1fr}
   .ft-in{grid-template-columns:1fr}
   .dash-stats{grid-template-columns:repeat(2,1fr)}
-  .home-h1{font-size:36px}
+  .home-h1{font-size:58px;line-height:.93}
   .edu-tabs{top:126px}
 }
 /* FOOTER */
@@ -1039,17 +1039,6 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- WHAT YOUTH ARE SAYING — below videos -->
-  <section class="section" style="background:white">
-    <div class="container">
-      <span class="eyebrow">What Youth Are Saying</span>
-      <div class="grid-3">
-        <div class="qcard"><div class="qcard-text">"Didn't know I could stay past 18. I'm 19 and still in AB 12 because of this page."</div><div class="qcard-attr">Marcus T. · <span class="qcard-loc">Oakland, CA</span></div></div>
-        <div class="qcard"><div class="qcard-text">"Asked Aunt Nancy about my rights at 3am and got a real answer. Game changer."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Los Angeles, CA</span></div></div>
-        <div class="qcard"><div class="qcard-text">"Finally understood what Chafee money is and how to apply."</div><div class="qcard-attr">Destiny R. · <span class="qcard-loc">San Diego, CA</span></div></div>
-      </div>
-    </div>
-  </section>
 </div>
 
 <!-- FOSTER YOUTH PAGE -->
