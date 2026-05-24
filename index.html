@@ -1368,18 +1368,18 @@ img{max-width:100%}
   <section style="background:white;padding:36px 0">
     <div class="container">
 
-      <!-- Tip — contrasting tile, 60% smaller, right aligned -->
-      <div style="display:flex;justify-content:flex-start;margin-bottom:20px">
-        <div style="background:linear-gradient(135deg,#5c1f0a,#7a2d10);border-radius:8px;padding:14px 18px;width:42%;box-shadow:0 4px 16px rgba(90,30,10,.25)">
+      <!-- Tip + Journal — centered together side by side -->
+      <div style="display:flex;justify-content:center;align-items:flex-start;gap:20px;flex-wrap:wrap">
+
+        <!-- Today's Tip — contrasting tile -->
+        <div style="background:linear-gradient(135deg,#5c1f0a,#7a2d10);border-radius:8px;padding:14px 18px;width:42%;min-width:220px;box-shadow:0 4px 16px rgba(90,30,10,.25)">
           <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#f4a56a;margin-bottom:8px">💡 Today's Tip</div>
-          <div style="font-size:12px;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief openly is more helpful than avoiding it.</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:10px;font-family:'Cormorant Garamond',serif;font-style:italic" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief openly is more helpful than avoiding it.</div>
           <button onclick="newKinshipTip()" style="font-size:10px;color:#f4a56a;background:transparent;border:1px solid rgba(244,165,106,.3);padding:4px 12px;border-radius:12px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
         </div>
-      </div>
 
-      <!-- Journal — right aligned, ~60% width -->
-      <div style="display:flex;justify-content:flex-end">
-        <div style="width:36%;background:linear-gradient(145deg,var(--cream),#f4ebe0);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:0 2px 12px rgba(136,54,24,.06)">
+        <!-- Journal — 36% width -->
+        <div style="width:36%;min-width:220px;background:linear-gradient(145deg,var(--cream),#f4ebe0);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:0 2px 12px rgba(136,54,24,.06)">
           <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
             <div>
               <h3 style="font-size:17px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3>
@@ -1394,6 +1394,7 @@ img{max-width:100%}
             <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -2073,33 +2074,33 @@ img{max-width:100%}
           </div>
           <div style="display:flex;flex-direction:column;gap:10px" id="resGrid">
             <!-- Mental Health -->
-            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">🧠 Child & Adolescent Mental Health — SAMHSA</div><div class="rc-s">National helpline · 1-800-662-4357 · Free</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">988 Suicide & Crisis Lifeline</div><div class="rc-s">Call or text 988 · 24/7 · Free</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">Trevor Project — LGBTQ+ Youth</div><div class="rc-s">1-866-488-7386 · Text START to 678-678</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="mental-health"><div><div class="rc-t">Crisis Text Line</div><div class="rc-s">Text HOME to 741741 · 24/7</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">🧠 Child & Adolescent Mental Health — SAMHSA</div><div class="rc-s">National helpline · 1-800-662-4357 · Free</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://988lifeline.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">988 Suicide & Crisis Lifeline</div><div class="rc-s">Call or text 988 · 24/7 · Free</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.thetrevorproject.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">Trevor Project — LGBTQ+ Youth</div><div class="rc-s">1-866-488-7386 · Text START to 678-678</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.crisistextline.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">Crisis Text Line</div><div class="rc-s">Text HOME to 741741 · 24/7</div></div><span class="rc-arr">↗</span></a>
             <!-- Education -->
-            <div class="res-card" data-cat="education"><div><div class="rc-t">📚 McKinney-Vento School Enrollment Rights</div><div class="rc-s">Immediate enrollment · No records needed</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="education"><div><div class="rc-t">ETV Grants — Education & Training Vouchers</div><div class="rc-s">Up to $5,000/year · Ages 16–26</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="education"><div><div class="rc-t">Chafee Foster Care Independence Program</div><div class="rc-s">Federal · Life skills & financial support</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="education"><div><div class="rc-t">CA College Promise — Foster Youth Priority</div><div class="rc-s">Free tuition at CA community colleges</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.acf.hhs.gov/fysb/mckinney-vento" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">📚 McKinney-Vento School Enrollment Rights</div><div class="rc-s">Immediate enrollment · No records needed</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.chafee.info/etv.aspx" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">ETV Grants — Education & Training Vouchers</div><div class="rc-s">Up to $5,000/year · Ages 16–26</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.acf.hhs.gov/cb/programs/independent-living" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">Chafee Foster Care Independence Program</div><div class="rc-s">Federal · Life skills & financial support</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.cccco.edu/Students/Support-Services/Special-populations/Foster-Youth" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">CA College Promise — Foster Youth Priority</div><div class="rc-s">Free tuition at CA community colleges</div></div><span class="rc-arr">↗</span></a>
             <!-- Housing -->
-            <div class="res-card" data-cat="housing"><div><div class="rc-t">🏠 THP-Plus — Transitional Housing (CA)</div><div class="rc-s">Ages 18–24 · Former foster youth</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="housing"><div><div class="rc-t">National Runaway Safeline</div><div class="rc-s">1-800-786-2929 · 24/7 crisis housing</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.cdss.ca.gov/inforesources/foster-care/thp-plus" target="_blank" rel="noopener" class="res-card" data-cat="housing"><div><div class="rc-t">🏠 THP-Plus — Transitional Housing (CA)</div><div class="rc-s">Ages 18–24 · Former foster youth</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.1800runaway.org" target="_blank" rel="noopener" class="res-card" data-cat="housing"><div><div class="rc-t">National Runaway Safeline</div><div class="rc-s">1-800-786-2929 · 24/7 crisis housing</div></div><span class="rc-arr">↗</span></a>
             <!-- Food -->
-            <div class="res-card" data-cat="food"><div><div class="rc-t">🍎 CalFresh (SNAP) — Food Assistance</div><div class="rc-s">California · EBT · Apply at benefitscal.com</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="food"><div><div class="rc-t">WIC — Women, Infants & Children</div><div class="rc-s">Nutrition support · Pregnant & young children</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.benefitscal.com" target="_blank" rel="noopener" class="res-card" data-cat="food"><div><div class="rc-t">🍎 CalFresh (SNAP) — Food Assistance</div><div class="rc-s">California · EBT · Apply at benefitscal.com</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.cdph.ca.gov/Programs/CFH/DWICSN/Pages/Program-Landing1.aspx" target="_blank" rel="noopener" class="res-card" data-cat="food"><div><div class="rc-t">WIC — Women, Infants & Children</div><div class="rc-s">Nutrition support · Pregnant & young children</div></div><span class="rc-arr">↗</span></a>
             <!-- Health -->
-            <div class="res-card" data-cat="health"><div><div class="rc-t">💊 Medi-Cal — Foster Youth to Age 26</div><div class="rc-s">Free healthcare · No income limit for former FY</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="health"><div><div class="rc-t">Child Health & Disability Prevention (CHDP)</div><div class="rc-s">Free checkups · Vision · Dental · CA</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.dhcs.ca.gov/services/medi-cal/Pages/fostercaremedical.aspx" target="_blank" rel="noopener" class="res-card" data-cat="health"><div><div class="rc-t">💊 Medi-Cal — Foster Youth to Age 26</div><div class="rc-s">Free healthcare · No income limit for former FY</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.dhcs.ca.gov/services/chdp/Pages/default.aspx" target="_blank" rel="noopener" class="res-card" data-cat="health"><div><div class="rc-t">Child Health & Disability Prevention (CHDP)</div><div class="rc-s">Free checkups · Vision · Dental · CA</div></div><span class="rc-arr">↗</span></a>
             <!-- Legal -->
-            <div class="res-card" data-cat="legal"><div><div class="rc-t">⚖️ Children's Law Center of California</div><div class="rc-s">Legal representation · Foster youth · Free</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="legal"><div><div class="rc-t">Youth Law Center</div><div class="rc-s">Foster youth rights · System advocacy</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.clccal.org" target="_blank" rel="noopener" class="res-card" data-cat="legal"><div><div class="rc-t">⚖️ Children's Law Center of California</div><div class="rc-s">Legal representation · Foster youth · Free</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.youthlawcenter.com" target="_blank" rel="noopener" class="res-card" data-cat="legal"><div><div class="rc-t">Youth Law Center</div><div class="rc-s">Foster youth rights · System advocacy</div></div><span class="rc-arr">↗</span></a>
             <!-- Financial -->
-            <div class="res-card" data-cat="financial"><div><div class="rc-t">💰 AB 12 / NMD — Extended Foster Care Benefits</div><div class="rc-s">Monthly stipend · Ages 18–21 · CA</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="financial"><div><div class="rc-t">SSI / Social Security for Foster Youth</div><div class="rc-s">Disability benefits · Bridge to adulthood</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.cdss.ca.gov/inforesources/foster-care/nonminor-dependents" target="_blank" rel="noopener" class="res-card" data-cat="financial"><div><div class="rc-t">💰 AB 12 / NMD — Extended Foster Care Benefits</div><div class="rc-s">Monthly stipend · Ages 18–21 · CA</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://www.ssa.gov/benefits/disability" target="_blank" rel="noopener" class="res-card" data-cat="financial"><div><div class="rc-t">SSI / Social Security for Foster Youth</div><div class="rc-s">Disability benefits · Bridge to adulthood</div></div><span class="rc-arr">↗</span></a>
             <!-- Support -->
-            <div class="res-card" data-cat="support"><div><div class="rc-t">🤝 Foster Club — Youth Peer Network</div><div class="rc-s">fosterclub.com · National peer support</div></div><span class="rc-arr">→</span></div>
-            <div class="res-card" data-cat="support"><div><div class="rc-t">John Burton Advocates for Youth</div><div class="rc-s">California · Housing · Education · Policy</div></div><span class="rc-arr">→</span></div>
+            <a href="https://www.fosterclub.com" target="_blank" rel="noopener" class="res-card" data-cat="support"><div><div class="rc-t">🤝 Foster Club — Youth Peer Network</div><div class="rc-s">fosterclub.com · National peer support</div></div><span class="rc-arr">↗</span></a>
+            <a href="https://jbay.org" target="_blank" rel="noopener" class="res-card" data-cat="support"><div><div class="rc-t">John Burton Advocates for Youth</div><div class="rc-s">California · Housing · Education · Policy</div></div><span class="rc-arr">↗</span></a>
           </div>
         </div>
         <!-- Community contributions -->
@@ -3864,6 +3865,8 @@ async function loadVideos(){
   }
 }
 
+function isVideoFree(v){ return !v.duration_sec || v.duration_sec<=150; }
+
 function renderVideoList(){
   const list=document.getElementById('videoList');
   if(!list) return;
@@ -3877,10 +3880,18 @@ function renderVideoList(){
   }
   list.innerHTML=`<div class="video-grid">${filtered.map(v=>{
     const thumb=videoThumb(v);
+    const free=isVideoFree(v);
+    const mins=v.duration_sec?Math.floor(v.duration_sec/60)+':'+(v.duration_sec%60<10?'0':'')+(v.duration_sec%60):'';
     return `<div class="video-card" onclick="openVideo('${v.id}')">
-      <div class="video-thumb">
+      <div class="video-thumb" style="position:relative">
         ${thumb?`<img src="${thumb}" alt="${(v.title||'').replace(/"/g,'&quot;')}" loading="lazy">`:'<div style="width:100%;height:100%;background:linear-gradient(135deg,#2a3540,#1a1a1a)"></div>'}
         <div class="video-play-icon"></div>
+        <div style="position:absolute;top:7px;left:7px;z-index:3">
+          ${free
+            ? `<span style="background:rgba(42,102,73,.9);color:white;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.06em">FREE</span>`
+            : `<span style="background:rgba(0,0,0,.75);color:#ddd;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px">🔒 Account</span>`}
+        </div>
+        ${mins?`<div style="position:absolute;bottom:7px;right:7px;background:rgba(0,0,0,.75);color:white;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;z-index:3">${mins}</div>`:''}
       </div>
       <div class="video-card-body">
         <div class="video-card-title">${(v.title||'').replace(/</g,'&lt;')}</div>
@@ -3917,6 +3928,20 @@ async function openVideo(videoId){
     }catch(e){}
   }
   if(!v){c.innerHTML='<div style="text-align:center;padding:60px">Video not found.</div>';return;}
+  // Access control: videos >2.5 min require account
+  if(!isVideoFree(v)&&!currentUser){
+    c.innerHTML=`<div style="text-align:center;padding:60px 24px">
+      <div style="font-size:40px;margin-bottom:14px">🔒</div>
+      <h2 style="font-size:22px;color:var(--ink);margin-bottom:8px">Free account required</h2>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">Videos longer than 2½ minutes require a free AuntNancy.org account. Create one in seconds.</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button onclick="openAuth('signup')" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">Create Free Account</button>
+        <button onclick="openAuth('signin')" style="background:transparent;border:1px solid var(--border);color:var(--ink);padding:11px 20px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer">Sign In</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);margin-top:16px">Videos 2½ minutes or under are always free — no account needed.</p>
+    </div>`;
+    return;
+  }
   c.innerHTML=`
     <div class="container" style="max-width:900px;padding-top:18px">
       <div class="video-embed" style="margin:0 0 22px">${videoEmbedHTML(v)}</div>

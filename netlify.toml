@@ -25,3 +25,8 @@
 # After July 1 2026, function skips if today already has a post
 [functions."daily-blog"]
   schedule = "0 14,18,22,2 * * *"
+
+# Daily video additions at 3pm UTC — adds 4–6 curated videos per day
+# Rotates across all audiences: youth, parent, kinship, worker, all
+[functions."daily-videos"]
+  schedule = "0 15 * * *"
