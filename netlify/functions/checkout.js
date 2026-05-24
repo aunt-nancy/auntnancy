@@ -1,12 +1,11 @@
 // netlify/functions/checkout.js
-// Creates a Stripe Checkout session for Basic ($100) or Premium ($175)
-// Requires these Netlify env vars:
-//   STRIPE_SECRET_KEY     — from stripe.com → Developers → API Keys
-//   STRIPE_BASIC_PRICE_ID  — from Stripe product dashboard (price_...)
-//   STRIPE_PREMIUM_PRICE_ID — from Stripe product dashboard (price_...)
-
-const SUPABASE_URL = 'https://vnfjszmhmcxkxegzvivg.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_5s7SB5PmfKyHOSMKG6GCkA_s7Q_PLxG';
+// Handles Basic and Premium subscriptions, monthly or annual billing
+// Netlify env vars needed:
+//   STRIPE_SECRET_KEY
+//   STRIPE_BASIC_MONTHLY_PRICE_ID      — $75/month recurring
+//   STRIPE_BASIC_ANNUAL_PRICE_ID       — $720/year recurring
+//   STRIPE_PREMIUM_MONTHLY_PRICE_ID    — $150/month recurring
+//   STRIPE_PREMIUM_ANNUAL_PRICE_ID     — $1500/year recurring
 
 exports.handler = async (event) => {
   const headers = {
@@ -15,46 +14,44 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json',
   };
-
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'POST only' }) };
 
   try {
-    const { tier, email, name } = JSON.parse(event.body || '{}');
+    const { tier, billing, email, name } = JSON.parse(event.body || '{}');
     if (!tier || !email) return { statusCode: 400, headers, body: JSON.stringify({ error: 'tier and email required' }) };
 
     const secretKey = process.env.STRIPE_SECRET_KEY;
-    if (!secretKey) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured. Add STRIPE_SECRET_KEY to Netlify env vars.' }) };
+    if (!secretKey) return { statusCode: 500, headers, body: JSON.stringify({ error: 'Stripe not configured — add STRIPE_SECRET_KEY to Netlify env vars' }) };
 
-    const priceId = tier === 'premium'
-      ? process.env.STRIPE_PREMIUM_PRICE_ID
-      : process.env.STRIPE_BASIC_PRICE_ID;
+    // Pick the right price ID based on tier + billing period
+    const priceMap = {
+      basic:   { monthly: process.env.STRIPE_BASIC_MONTHLY_PRICE_ID,   annual: process.env.STRIPE_BASIC_ANNUAL_PRICE_ID },
+      premium: { monthly: process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID, annual: process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID },
+    };
+    const billingPeriod = billing === 'annual' ? 'annual' : 'monthly';
+    const priceId = priceMap[tier]?.[billingPeriod];
+    if (!priceId) return { statusCode: 500, headers, body: JSON.stringify({ error: `STRIPE_${tier.toUpperCase()}_${billingPeriod.toUpperCase()}_PRICE_ID not set in Netlify env vars` }) };
 
-    if (!priceId) return { statusCode: 500, headers, body: JSON.stringify({ error: `STRIPE_${tier.toUpperCase()}_PRICE_ID not configured in Netlify env vars.` }) };
-
-    // Create Stripe Checkout Session via REST API (no SDK needed)
     const params = new URLSearchParams({
       'payment_method_types[]': 'card',
-      'mode': 'payment',
+      'mode': 'subscription',
       'customer_email': email,
       'line_items[0][price]': priceId,
       'line_items[0][quantity]': '1',
-      'success_url': `https://auntnancy.org/#training?payment=success&tier=${tier}&email=${encodeURIComponent(email)}`,
-      'cancel_url': `https://auntnancy.org/#training?payment=cancelled`,
+      'success_url': `https://auntnancy.org/#training?payment=success&tier=${tier}&billing=${billingPeriod}&email=${encodeURIComponent(email)}`,
+      'cancel_url': 'https://auntnancy.org/#training?payment=cancelled',
       'metadata[tier]': tier,
+      'metadata[billing]': billingPeriod,
       'metadata[email]': email,
       'metadata[name]': name || '',
     });
 
     const r = await fetch('https://api.stripe.com/v1/checkout/sessions', {
       method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${secretKey}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Authorization': `Bearer ${secretKey}`, 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString(),
     });
-
     const session = await r.json();
     if (!r.ok) throw new Error(session.error?.message || `Stripe ${r.status}`);
 
