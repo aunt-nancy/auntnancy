@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+Allow: /#blog
+Allow: /#education
+Allow: /#videos
+Allow: /#training
+Allow: /#vault
+Allow: /#youth
+Allow: /#parent
+Allow: /#kinship
+Allow: /#resources
+Allow: /#qa
+
+# Block API/function endpoints from indexing
+Disallow: /.netlify/functions/
+Disallow: /api/
+
+# Allow Google Image bot
+User-agent: Googlebot-Image
+Allow: /
+
+# Sitemap location
+Sitemap: https://auntnancy.org/sitemap.xml
+
+# Crawl delay for bots
+Crawl-delay: 2

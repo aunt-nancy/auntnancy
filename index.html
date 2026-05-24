@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AuntNancy.org — Free Foster Care Resources, Letter Templates & Tools for Youth, Families & Social Workers</title>
-<meta name="description" content="Free letter templates, screening tools, and real answers for foster youth, foster parents, kinship caregivers, and social workers. Policy-cited, always free. Powered by AI.">
+<title>AuntNancy.org — Free Foster Care Resources, Letter Templates &amp; Tools for Youth, Families &amp; Social Workers</title>
+<meta name="description" content="Free letter templates, policy updates, training videos, and real answers for foster youth, foster parents, kinship caregivers, and social workers. Policy-cited, always free. Powered by AI.">
+<meta name="keywords" content="foster care resources, foster youth rights, AB 12 California, foster parent letter templates, kinship caregiver support, DCFS policy, foster care policy updates, foster care training, McKinney-Vento, ETV grants, Chafee program, foster care videos, social worker tools, BIRP log, SCI tracker, clothing allowance letter, emergency benefit request, foster care blog">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="AuntNancy.org">
+<meta name="language" content="English">
+<meta name="revisit-after" content="3 days">
+<meta name="theme-color" content="#0c0a08">
 <meta name="keywords" content="foster care resources, foster parent letter templates, foster youth rights, kinship caregiver benefits, DCFS policy, McKinney-Vento enrollment, AB 12, clothing allowance letter, BIRP log, SCI placement tracker, foster care social worker tools">
 <meta name="robots" content="index, follow">
 <meta name="author" content="AuntNancy.org">
@@ -32,12 +38,20 @@
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "AuntNancy.org",
+  "alternateName": "Aunt Nancy",
   "url": "https://auntnancy.org",
-  "description": "Free foster care resources, letter templates, screening tools, and AI-powered education for foster youth, foster parents, kinship caregivers, and social workers.",
+  "description": "Free foster care resources including letter templates, policy updates, training videos, and AI-powered tools for foster youth, foster parents, kinship caregivers, and social workers.",
+  "inLanguage": "en-US",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://auntnancy.org/?q={search_term_string}",
+    "target": { "@type": "EntryPoint", "urlTemplate": "https://auntnancy.org/#blog?q={search_term_string}" },
     "query-input": "required name=search_term_string"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AuntNancy.org",
+    "url": "https://auntnancy.org",
+    "logo": { "@type": "ImageObject", "url": "https://auntnancy.org/IMG_3066.jpeg" }
   }
 }
 </script>
@@ -47,16 +61,40 @@
   "@type": "Organization",
   "name": "AuntNancy.org",
   "url": "https://auntnancy.org",
-  "logo": "https://auntnancy.org/IMG_3066.jpeg",
-  "description": "Free foster care resources funded by Lellie journal sales.",
+  "logo": { "@type": "ImageObject", "url": "https://auntnancy.org/IMG_3066.jpeg", "width": 1100, "height": 400 },
+  "description": "Free foster care resources funded by Lellie journal sales. Policy-cited tools for foster youth, parents, kinship caregivers, and social workers.",
   "foundingDate": "2026",
-  "areaServed": "United States",
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Foster Youth, Foster Parents, Kinship Caregivers, Social Workers"
-  }
+  "areaServed": { "@type": "Country", "name": "United States" },
+  "knowsAbout": ["Foster care", "Foster youth rights", "AB 12", "McKinney-Vento", "Kinship care", "DCFS", "Child welfare"],
+  "audience": { "@type": "Audience", "audienceType": "Foster Youth, Foster Parents, Kinship Caregivers, Social Workers" },
+  "sameAs": ["https://lellie.com"]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "The Aunt Nancy Post",
+  "url": "https://auntnancy.org/#blog",
+  "description": "Daily foster care articles for youth, parents, kinship caregivers, and social workers. AI-curated and community-written.",
+  "inLanguage": "en-US",
+  "publisher": { "@type": "Organization", "name": "AuntNancy.org", "url": "https://auntnancy.org" },
+  "audience": { "@type": "Audience", "audienceType": "Foster Youth, Foster Parents, Kinship Caregivers, Social Workers" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "AuntNancy.org Policy Updates",
+  "url": "https://auntnancy.org/#education",
+  "description": "AI-powered foster care policy updates covering local, state, and federal law — updated automatically for foster youth, parents, kinship caregivers, and social workers.",
+  "educationalCredentialAwarded": "Foster Care Policy Knowledge",
+  "audience": { "@type": "EducationalAudience", "educationalRole": "Foster Caregiver, Foster Youth, Social Worker" }
+}
+</script>
+<!-- Dynamic per-page JSON-LD — updated by JS on navigation -->
+<script type="application/ld+json" id="dynamic-ld">{}</script>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -2854,6 +2892,9 @@ function go(id,el){
   document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('on'));
   const pg=document.getElementById('page-'+id);
   if(pg){pg.classList.add('on');pg.style.display='block';}
+  // SEO update for key pages
+  const seoPageIds=['home','blog','education','videos','youth','parent','kinship','training','vault','resources','qa'];
+  if(seoPageIds.includes(id)) seoForPage(id);
   if(el){
     if(el.classList?.contains('nav-link')) el.classList.add('on');
     if(el.classList?.contains('role-tab')) el.classList.add('on');
@@ -3887,6 +3928,203 @@ function renderPolicyMicros(containerId) {
   ).join('');
 }
 
+// ══ SEO ENGINE ══
+const SEO_BASE = {
+  title: 'AuntNancy.org — Free Foster Care Resources',
+  description: 'Free letter templates, policy updates, training videos, and real answers for foster youth, foster parents, kinship caregivers, and social workers. Policy-cited, always free.',
+  image: 'https://auntnancy.org/IMG_3066.jpeg',
+  url: 'https://auntnancy.org/',
+};
+
+const SEO_PAGES = {
+  home:       { title: 'Free Foster Care Resources, Templates & Tools', description: 'The Aunt Nancys — free letter templates, policy updates, AI tools and training videos for foster youth, foster parents, kinship caregivers, and social workers. Policy-cited, always free.' },
+  blog:       { title: 'The Aunt Nancy Post — Foster Care Blog', description: 'Daily foster care articles for youth, parents, kinship caregivers, and social workers. AI-curated and community-written stories, policy insights, and practical guides.', url: 'https://auntnancy.org/#blog', type: 'website' },
+  education:  { title: 'Foster Care Policy Updates — AI-Powered, Always Current', description: 'Local, state, and federal foster care policy updates curated by Claude AI. Covers AB 12, McKinney-Vento, DCFS, kinship licensing, and more — updated automatically.', url: 'https://auntnancy.org/#education' },
+  videos:     { title: 'Foster Care Video Library — Free Training & Education', description: 'Curated foster care videos from FosterClub, Annie E. Casey, Hennepin County, and leading child welfare organizations. Free videos for foster youth, parents, kinship caregivers, and social workers.', url: 'https://auntnancy.org/#videos' },
+  youth:      { title: 'Foster Youth Hub — Rights, Resources & Support', description: 'AB 12, ETV grants, Medi-Cal, McKinney-Vento rights, and free letter templates for foster youth. Know what you\'re owed.' },
+  parent:     { title: 'Foster Parent Hub — Tools, Templates & Training', description: 'Placement trackers, letter templates, training videos, and DCFS benefit guides for foster parents in California.' },
+  kinship:    { title: 'Kinship Caregiver Hub — Rights & Resources', description: 'Kinship licensing, relative caregiver benefits, guardianship guides, and free letter templates for kinship caregivers in California.' },
+  training:   { title: 'Foster Care Training — Trauma-Informed Caregiver Programs', description: 'Research-backed training for foster parents and kinship caregivers. Video courses with worksheets, assignments, and certificates.' },
+  vault:      { title: 'Letter Vault — Free Foster Care Letter Templates', description: 'Policy-cited fill-in letter templates for foster parents and kinship caregivers: clothing allowance, emergency benefits, school enrollment, placement checklist, and more.' },
+  resources:  { title: 'Foster Care Resources — Mental Health, Housing, Legal & More', description: 'National and California foster care resources: 988 Lifeline, Trevor Project, CalFresh, Medi-Cal, THP-Plus housing, ETV grants, Children\'s Law Center, FosterClub, and more.' },
+  qa:         { title: 'Community Q&A — Foster Care Questions Answered', description: 'Real questions from foster youth, parents, kinship caregivers, and social workers — answered by the Aunt Nancy community.' },
+};
+
+function setMetaTag(selector, attr, value) {
+  const el = document.querySelector(selector);
+  if (el && value) el.setAttribute(attr, value);
+}
+
+function updateSEO({ title, description, image, url, type, ld } = {}) {
+  const t = (title ? title + ' — AuntNancy.org' : SEO_BASE.title);
+  const d = description || SEO_BASE.description;
+  const img = image || SEO_BASE.image;
+  const u = url || SEO_BASE.url;
+  const tp = type || 'website';
+
+  document.title = t;
+  setMetaTag('meta[name="description"]', 'content', d);
+  setMetaTag('link[rel="canonical"]', 'href', u);
+  setMetaTag('meta[property="og:title"]', 'content', t);
+  setMetaTag('meta[property="og:description"]', 'content', d);
+  setMetaTag('meta[property="og:image"]', 'content', img);
+  setMetaTag('meta[property="og:url"]', 'content', u);
+  setMetaTag('meta[property="og:type"]', 'content', tp);
+  setMetaTag('meta[name="twitter:title"]', 'content', t);
+  setMetaTag('meta[name="twitter:description"]', 'content', d);
+  setMetaTag('meta[name="twitter:image"]', 'content', img);
+  setMetaTag('meta[name="twitter:url"]', 'content', u);
+
+  if (ld) {
+    const slot = document.getElementById('dynamic-ld');
+    if (slot) slot.textContent = JSON.stringify(ld);
+  }
+}
+
+function seoForPage(id) {
+  const p = SEO_PAGES[id] || {};
+  updateSEO({
+    title: p.title,
+    description: p.description,
+    url: p.url || `https://auntnancy.org/#${id}`,
+    type: p.type,
+    ld: buildPageSchema(id, p),
+  });
+}
+
+function buildPageSchema(id, p) {
+  if (id === 'blog') return {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'The Aunt Nancy Post',
+    url: 'https://auntnancy.org/#blog',
+    description: p.description,
+    inLanguage: 'en-US',
+    publisher: { '@type': 'Organization', name: 'AuntNancy.org', url: 'https://auntnancy.org' },
+    blogPost: _blogPosts.slice(0, 10).map(post => ({
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.subtitle || post.title,
+      url: `https://auntnancy.org/#blogpost/${post.slug}`,
+      datePublished: post.published_at,
+      author: { '@type': 'Person', name: post.author_name || 'Aunt Nancy AI' },
+      keywords: (post.tags || []).join(', '),
+    })),
+  };
+  if (id === 'videos') return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Foster Care Video Library — AuntNancy.org',
+    url: 'https://auntnancy.org/#videos',
+    description: p.description,
+    numberOfItems: _videos.length,
+    itemListElement: _videos.slice(0, 20).map((v, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'VideoObject',
+        name: v.title,
+        description: v.description || v.title,
+        thumbnailUrl: `https://img.youtube.com/vi/${v.embed_id}/maxresdefault.jpg`,
+        uploadDate: v.added_at || new Date().toISOString(),
+        duration: v.duration_sec ? `PT${Math.floor(v.duration_sec/60)}M${v.duration_sec%60}S` : undefined,
+        embedUrl: `https://www.youtube.com/embed/${v.embed_id}`,
+        url: v.url || `https://www.youtube.com/watch?v=${v.embed_id}`,
+        publisher: { '@type': 'Organization', name: v.channel || 'AuntNancy.org' },
+        isFamilyFriendly: true,
+        inLanguage: 'en-US',
+      },
+    })),
+  };
+  if (id === 'education') return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': 'https://auntnancy.org/#education',
+    name: p.title,
+    description: p.description,
+    url: 'https://auntnancy.org/#education',
+    inLanguage: 'en-US',
+    about: [
+      { '@type': 'Thing', name: 'AB 12 Extended Foster Care', sameAs: 'https://www.cdss.ca.gov/inforesources/foster-care/nonminor-dependents' },
+      { '@type': 'Thing', name: 'McKinney-Vento Act', sameAs: 'https://www.acf.hhs.gov/fysb/mckinney-vento' },
+      { '@type': 'Thing', name: 'Family First Prevention Services Act', sameAs: 'https://www.acf.hhs.gov/cb/laws-regulations/family-first' },
+      { '@type': 'Thing', name: 'Chafee Foster Care Independence Program', sameAs: 'https://www.acf.hhs.gov/cb/programs/independent-living' },
+    ],
+    specialty: 'Foster Care Policy and Law',
+    audience: { '@type': 'EducationalAudience', educationalRole: 'Foster Caregiver, Foster Youth, Social Worker' },
+    provider: { '@type': 'Organization', name: 'AuntNancy.org', url: 'https://auntnancy.org' },
+  };
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: p.title || 'AuntNancy.org',
+    description: p.description || SEO_BASE.description,
+    url: p.url || `https://auntnancy.org/#${id}`,
+    inLanguage: 'en-US',
+    isPartOf: { '@type': 'WebSite', name: 'AuntNancy.org', url: 'https://auntnancy.org' },
+  };
+}
+
+function seoForBlogPost(post) {
+  const desc = post.subtitle || (post.body_md || '').slice(0, 160).replace(/[#*`>\n]/g, ' ').trim() + '…';
+  updateSEO({
+    title: post.title,
+    description: desc,
+    url: `https://auntnancy.org/#blogpost/${post.slug}`,
+    type: 'article',
+    image: SEO_BASE.image,
+    ld: {
+      '@context': 'https://schema.org',
+      '@type': 'NewsArticle',
+      headline: post.title,
+      description: desc,
+      url: `https://auntnancy.org/#blogpost/${post.slug}`,
+      datePublished: post.published_at,
+      dateModified: post.updated_at || post.published_at,
+      author: { '@type': 'Person', name: post.author_name || 'Aunt Nancy AI' },
+      publisher: { '@type': 'Organization', name: 'AuntNancy.org', url: 'https://auntnancy.org', logo: { '@type': 'ImageObject', url: 'https://auntnancy.org/IMG_3066.jpeg' } },
+      image: { '@type': 'ImageObject', url: SEO_BASE.image },
+      keywords: (post.tags || []).join(', '),
+      articleSection: AUDIENCE_LABEL[post.audience] || 'Foster Care',
+      inLanguage: 'en-US',
+      isAccessibleForFree: true,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': `https://auntnancy.org/#blogpost/${post.slug}` },
+      about: { '@type': 'Thing', name: 'Foster Care' },
+      audience: { '@type': 'Audience', audienceType: AUDIENCE_LABEL[post.audience] || 'Everyone' },
+    },
+  });
+}
+
+function seoForVideo(v) {
+  const dur = v.duration_sec ? `PT${Math.floor(v.duration_sec/60)}M${v.duration_sec%60}S` : undefined;
+  updateSEO({
+    title: v.title,
+    description: v.description || `${v.title} — Foster care video from ${v.channel || 'a verified organization'}. ${AUDIENCE_LABEL[v.audience] || 'Everyone'}.`,
+    url: `https://auntnancy.org/#videoplayer/${v.id}`,
+    type: 'video.other',
+    image: `https://img.youtube.com/vi/${v.embed_id}/maxresdefault.jpg`,
+    ld: {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: v.title,
+      description: v.description || v.title,
+      thumbnailUrl: [`https://img.youtube.com/vi/${v.embed_id}/maxresdefault.jpg`, `https://img.youtube.com/vi/${v.embed_id}/hqdefault.jpg`],
+      uploadDate: v.added_at || new Date().toISOString(),
+      duration: dur,
+      contentUrl: v.url || `https://www.youtube.com/watch?v=${v.embed_id}`,
+      embedUrl: `https://www.youtube.com/embed/${v.embed_id}`,
+      url: `https://auntnancy.org/#videoplayer/${v.id}`,
+      publisher: { '@type': 'Organization', name: v.channel || 'AuntNancy.org', url: 'https://auntnancy.org' },
+      isFamilyFriendly: true,
+      inLanguage: 'en-US',
+      isAccessibleForFree: !v.duration_sec || v.duration_sec <= 150,
+      audience: { '@type': 'Audience', audienceType: AUDIENCE_LABEL[v.audience] || 'Everyone' },
+      about: { '@type': 'Thing', name: 'Foster Care' },
+      keywords: v.topic ? `${v.topic}, foster care, ${AUDIENCE_LABEL[v.audience] || ''}` : 'foster care',
+    },
+  });
+}
+
 // ══ BILLING TOGGLE ══
 let _billingPeriod = 'monthly';
 function setBilling(period) {
@@ -4234,6 +4472,7 @@ async function openVideo(videoId){
     }catch(e){}
   }
   if(!v){c.innerHTML='<div style="text-align:center;padding:60px">Video not found.</div>';return;}
+  seoForVideo(v);
   // Access control: videos >2.5 min require account
   if(!isVideoFree(v)&&!currentUser){
     c.innerHTML=`<div style="text-align:center;padding:60px 24px">
@@ -4578,6 +4817,7 @@ async function openBlogPost(slug){
     const data=await r.json();
     const p=data?.[0];
     if(!p){c.innerHTML='<div style="text-align:center;padding:60px"><div style="font-size:32px;margin-bottom:8px">😕</div><div>Article not found.</div><a onclick="go(\'blog\')" style="color:var(--sage);cursor:pointer;text-decoration:underline;font-size:13px">← Back to blog</a></div>';return;}
+    seoForBlogPost(p);
     const src=SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
     const date=new Date(p.published_at).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
     const readTime=p.body_md?Math.max(1,Math.round(p.body_md.split(' ').length/200)):null;
