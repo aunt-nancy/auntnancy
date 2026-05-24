@@ -1295,6 +1295,7 @@ img{max-width:100%}
 
 <!-- KINSHIP PAGE -->
 <div class="page" id="page-kinship">
+
   <!-- HERO -->
   <div class="rhk" style="padding:52px 0">
     <div class="container">
@@ -1325,68 +1326,82 @@ img{max-width:100%}
     </div>
   </div>
 
-  <!-- TODAY'S REMINDER — full-width band, centered -->
-  <section style="background:var(--ink);padding:36px 0">
+  <!-- TODAY'S REMINDER — warm rust-toned band -->
+  <section style="background:linear-gradient(135deg,#3a1a0a,#2a1208);padding:28px 0">
     <div class="container" style="text-align:center">
-      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:12px">Today's Reminder</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:white;line-height:1.5;font-style:italic;margin-bottom:10px;max-width:780px;margin-left:auto;margin-right:auto" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
+      <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#f4a56a;margin-bottom:8px">Today's Reminder</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:white;line-height:1.5;font-style:italic;margin-bottom:6px;max-width:700px;margin-left:auto;margin-right:auto" id="kinshipQuote">"What you do for family is never lost. Every sacrifice, every showing up — it matters."</div>
       <div style="font-size:11px;color:rgba(255,255,255,.4)" id="kinshipQuoteAuthor">— Kinship caregiver wisdom</div>
     </div>
   </section>
 
-  <!-- CASE MANAGEMENT — centered, directly below Today's Reminder -->
-  <section class="section" style="background:var(--cream);padding:32px 0">
-    <div class="container" style="max-width:860px">
-      <div style="text-align:center;margin-bottom:16px">
-        <span class="eyebrow">Case Management</span>
-        <h3 style="font-size:24px;color:var(--ink);margin-bottom:2px">Placement Tracker</h3>
-        <p style="font-size:12.5px;color:var(--muted)">Track each child in your care. Private to your device — never shared.</p>
-      </div>
-      <div id="casePanelKinship" class="case-panel"></div>
-    </div>
-  </section>
-
-  <!-- JOURNAL (LEFT) + TIP (RIGHT) -->
-  <section class="section" style="background:white;padding:36px 0">
+  <!-- CALENDAR (LEFT) + TRACKER (RIGHT) — bottoms aligned, stretched -->
+  <section style="background:var(--cream);padding:36px 0">
     <div class="container">
-      <div class="grid-2" style="gap:24px;align-items:stretch">
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
-            <div><h3 style="font-size:20px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3><p style="font-size:12px;color:var(--muted)">Private. Stays on your device.</p></div>
-            <span style="font-size:10px;padding:3px 9px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.18);color:var(--rust);font-weight:700">🔒 Private</span>
+      <div style="display:grid;grid-template-columns:380px 1fr;gap:28px;align-items:stretch">
+
+        <!-- LEFT: Calendar -->
+        <div style="display:flex;flex-direction:column">
+          <div style="margin-bottom:16px">
+            <span class="eyebrow" style="display:block;text-align:left">📅 Appointments</span>
+            <h3 style="font-size:20px;color:var(--ink);margin:4px 0 2px">Calendar & Reminders</h3>
+            <p style="font-size:12px;color:var(--muted)">Browser notifications at your chosen times.</p>
           </div>
-          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:10px;font-size:12.5px;color:var(--ink);font-style:italic;line-height:1.55" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
-          <textarea id="kinshipJournalText" style="width:100%;height:120px;resize:vertical;padding:12px 14px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
-          <div style="display:flex;gap:8px">
-            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12.5px;padding:8px 18px">Save →</button>
-            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">↻ New prompt</button>
+          <div id="apptWidgetKinship" style="flex:1"></div>
+        </div>
+
+        <!-- RIGHT: Placement Tracker -->
+        <div>
+          <div style="margin-bottom:16px;text-align:right">
+            <span class="eyebrow" style="display:block;text-align:right">Case Management</span>
+            <h3 style="font-size:20px;color:var(--ink);margin:4px 0 2px;text-align:right">Placement Tracker</h3>
+            <p style="font-size:12px;color:var(--muted);text-align:right">Private to your device — never shared.</p>
           </div>
+          <div id="casePanelKinship" class="case-panel"></div>
         </div>
-        <div style="background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rust);margin-bottom:12px">💡 Today's Tip</div>
-          <div style="font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief — "I know you miss your mom" — is more helpful than avoiding it.</div>
-          <button onclick="newKinshipTip()" style="font-size:11px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
-        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- UPCOMING APPOINTMENTS -->
-  <section class="section" style="background:var(--cream);padding:36px 0">
-    <div class="container" style="max-width:780px">
-      <div style="text-align:center;margin-bottom:16px">
-        <span class="eyebrow">📅 Upcoming Appointments</span>
-        <h3 style="font-size:22px;color:var(--ink);margin-bottom:2px">Calendar & Reminders</h3>
-        <p style="font-size:12.5px;color:var(--muted)">Browser notifications fire at your chosen reminder times.</p>
+  <!-- JOURNAL (RIGHT, 60% width) + TODAY'S TIP (contrasting, small, right-aligned) -->
+  <section style="background:white;padding:36px 0">
+    <div class="container">
+
+      <!-- Tip — contrasting tile, 60% smaller, right aligned -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:20px">
+        <div style="background:linear-gradient(135deg,#5c1f0a,#7a2d10);border-radius:8px;padding:14px 18px;width:42%;box-shadow:0 4px 16px rgba(90,30,10,.25)">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#f4a56a;margin-bottom:8px">💡 Today's Tip</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.88);line-height:1.6;margin-bottom:10px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px" id="kinshipTip">Children in kinship placements often grieve the loss of their immediate family even while living with relatives. Naming that grief openly is more helpful than avoiding it.</div>
+          <button onclick="newKinshipTip()" style="font-size:10px;color:#f4a56a;background:transparent;border:1px solid rgba(244,165,106,.3);padding:4px 12px;border-radius:12px;cursor:pointer;font-family:'DM Sans',sans-serif">↻ New tip</button>
+        </div>
       </div>
-      <div id="apptWidgetKinship"></div>
+
+      <!-- Journal — right aligned, ~60% width -->
+      <div style="display:flex;justify-content:flex-end">
+        <div style="width:60%;background:linear-gradient(145deg,var(--cream),#f4ebe0);border:1px solid var(--border);border-radius:10px;padding:22px;box-shadow:0 2px 12px rgba(136,54,24,.06)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+            <div>
+              <h3 style="font-size:17px;color:var(--ink);margin-bottom:2px">Kinship Journal</h3>
+              <p style="font-size:12px;color:var(--muted)">Private · stays on your device</p>
+            </div>
+            <span style="font-size:9.5px;padding:3px 8px;border-radius:10px;background:rgba(136,54,24,.08);border:1px solid rgba(136,54,24,.2);color:var(--rust);font-weight:700;white-space:nowrap">🔒 Private</span>
+          </div>
+          <div style="background:white;border-radius:6px;padding:10px 13px;margin-bottom:12px;font-size:13px;color:var(--ink);font-style:italic;line-height:1.55;border-left:3px solid var(--rust)" id="kinshipJournalPrompt">What's something you wish someone had told you before you stepped in?</div>
+          <textarea id="kinshipJournalText" style="width:100%;height:100px;resize:vertical;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);background:white;line-height:1.6;margin-bottom:10px" placeholder="Write here…"></textarea>
+          <div style="display:flex;gap:8px">
+            <button onclick="saveRoleJournal('kinship')" class="btn" style="background:var(--rust);color:white;font-size:12px;padding:8px 16px">Save →</button>
+            <button onclick="newKinshipJournalPrompt()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">↻ New prompt</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- WHAT KINSHIP CAREGIVERS ARE SAYING -->
-  <section class="section" style="background:white">
+  <section style="background:var(--cream);padding:36px 0">
     <div class="container">
-      <div style="text-align:center;margin-bottom:24px"><span class="eyebrow">What Kinship Caregivers Are Saying</span></div>
+      <div style="margin-bottom:20px"><span class="eyebrow">What Kinship Caregivers Are Saying</span></div>
       <div class="grid-3">
         <div class="qcard"><div class="qcard-text">"I'm grandma raising my grandkids through DCFS. Found kinship licensing here."</div><div class="qcard-attr">Anonymous · <span class="qcard-loc">Riverside County, CA</span></div></div>
         <div class="qcard"><div class="qcard-text">"Nobody at DCFS told me what I was entitled to. This site did in 10 minutes."</div><div class="qcard-attr">Rosa M. · <span class="qcard-loc">East LA, CA</span></div></div>
@@ -1395,13 +1410,13 @@ img{max-width:100%}
     </div>
   </section>
 
-  <!-- VAULT LETTERS — at the bottom -->
-  <section class="section" style="background:var(--cream);padding:48px 0">
+  <!-- VAULT LETTERS -->
+  <section style="background:white;padding:40px 0">
     <div class="container" style="max-width:780px">
-      <div style="text-align:center;margin-bottom:24px">
-        <span class="eyebrow">Vault Letters</span>
-        <h3 style="font-size:26px;color:var(--ink);margin-bottom:6px">All Templates</h3>
-        <p style="font-size:13px;color:var(--muted)">Policy-cited. Fill-in. Free.</p>
+      <div style="margin-bottom:22px">
+        <span class="eyebrow">Letter Vault</span>
+        <h3 style="font-size:24px;color:var(--ink);margin:6px 0 4px">All Templates</h3>
+        <p style="font-size:13px;color:var(--muted)">Policy-cited · fill-in · free</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">
         <a onclick="openLetterPDF('t8')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">CSW / SCSW Benefit Request</span> <span style="font-size:11px;color:var(--muted)">Policy-cited · DCFS · WIC</span></a>
@@ -1412,7 +1427,7 @@ img{max-width:100%}
         <a onclick="openLetterPDF('t6')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">BIRP Daily Log</span> <span style="font-size:11px;color:var(--muted)">Interactive · Printable</span></a>
         <a onclick="openLetterPDF('t7')" style="display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--ink);cursor:pointer;text-decoration:none"><span style="color:var(--sage);font-weight:600;text-decoration:underline;text-underline-offset:3px">SCI Placement Tracker</span> <span style="font-size:11px;color:var(--muted)">Level 2/3 scoring</span></a>
         <div style="text-align:center;margin-top:14px"><a onclick="go('vault')" style="font-size:13px;color:var(--gold);font-weight:700;cursor:pointer;text-decoration:none">→ View all templates in the Letter Vault</a></div>
-    </div>
+      </div>
     </div>
   </section>
 
