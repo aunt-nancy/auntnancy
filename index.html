@@ -251,36 +251,69 @@ img{max-width:100%}
 .youth-video-item{flex:0 0 260px;scroll-snap-align:start;background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
 .youth-video-item:hover{border-color:var(--gold);transform:translateY(-2px)}
 
-/* BLOG */
-.blog-filter{background:white;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:18px;font-family:'DM Sans',sans-serif;font-size:14.5px;font-weight:600;cursor:pointer;transition:all .15s}
-.blog-filter:hover{border-color:var(--gold);color:var(--ink)}
-.blog-filter.on{background:var(--ink);color:white;border-color:var(--ink)}
-.blog-card{background:white;border:1px solid var(--border);border-radius:10px;padding:22px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;height:100%}
-.blog-card:hover{box-shadow:0 8px 22px rgba(0,0,0,.08);transform:translateY(-2px);border-color:var(--gold)}
-.blog-card-hero{font-size:36px;margin-bottom:12px}
-.blog-card-title{font-family:'Cormorant Garamond',serif;font-size:15.0px;color:var(--ink);line-height:1.25;margin-bottom:8px;font-weight:600}
-.blog-card-sub{font-size:19.0px;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1}
-.blog-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14.0px;color:var(--muted);padding-top:12px;border-top:1px solid var(--cream)}
-.blog-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
-.blog-badge-ai{background:rgba(200,146,58,.12);color:#9a6f1f}
-.blog-badge-editorial{background:rgba(25,55,90,.1);color:var(--navy)}
-.blog-badge-community{background:rgba(42,102,73,.1);color:var(--sage)}
-.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
-/* Post viewer */
-.bp-hero{background:linear-gradient(135deg,var(--cream),white);padding:36px 0 28px;border-bottom:1px solid var(--border)}
-.bp-emoji{font-size:54px;display:block;text-align:center;margin-bottom:14px}
-.bp-title{font-family:'Cormorant Garamond',serif;font-size:42px;color:var(--ink);line-height:1.15;text-align:center;margin-bottom:12px;font-weight:600}
-.bp-sub{font-size:14.0px;color:var(--muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5;font-style:italic}
-.bp-byline{font-size:15.0px;color:var(--muted);text-align:center;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center}
-.bp-body{max-width:680px;margin:0 auto;padding:36px 20px;font-size:19.0px;line-height:1.75;color:var(--text)}
-.bp-body h2{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--ink);margin:32px 0 14px;font-weight:600}
-.bp-body h3{font-family:'Cormorant Garamond',serif;font-size:19.0px;color:var(--ink);margin:24px 0 10px;font-weight:600}
-.bp-body p{margin-bottom:16px}
-.bp-body ul,.bp-body ol{margin:14px 0 16px 24px}.bp-body li{margin-bottom:7px}
+/* BLOG — MAGAZINE / NEWSPAPER FORMAT */
+/* Category nav */
+.blog-filter{background:transparent;border:none;border-bottom:3px solid transparent;color:var(--muted);padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.blog-filter:hover{color:var(--ink);border-bottom-color:var(--border)}
+.blog-filter.on{color:var(--ink);border-bottom-color:var(--gold)}
+/* Badges */
+.blog-badge{display:inline-block;padding:2px 9px;border-radius:3px;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.blog-badge-ai{background:var(--gold);color:var(--ink)}
+.blog-badge-editorial{background:var(--navy);color:white}
+.blog-badge-community{background:var(--sage);color:white}
+/* Category tag pill on cards */
+.mag-cat{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--rust);margin-bottom:7px;display:block}
+/* Featured story */
+.mag-featured{display:grid;grid-template-columns:1fr 340px;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:32px;background:white;cursor:pointer;transition:box-shadow .2s}
+.mag-featured:hover{box-shadow:0 12px 36px rgba(0,0,0,.1)}
+.mag-featured-body{padding:36px 40px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--border)}
+.mag-featured-graphic{display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,var(--ink),#1e2028);font-size:100px;min-height:280px}
+.mag-featured-hed{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--ink);line-height:1.15;margin:10px 0 14px;font-weight:700}
+.mag-featured-deck{font-size:15px;color:var(--muted);line-height:1.65;margin-bottom:18px;flex:1}
+.mag-featured-cta{display:inline-block;background:var(--ink);color:white;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:9px 20px;border-radius:4px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s}
+.mag-featured-cta:hover{background:var(--gold);color:var(--ink)}
+/* Magazine grid */
+.mag-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:32px}
+.mag-card{padding:24px;background:white;cursor:pointer;transition:background .15s;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;flex-direction:column}
+.mag-card:hover{background:var(--cream)}
+.mag-card:nth-child(3n){border-right:none}
+.mag-card:nth-last-child(-n+3){border-bottom:none}
+.mag-hed{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);line-height:1.25;margin-bottom:9px;font-weight:700}
+.mag-deck{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;flex:1}
+.mag-meta{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--cream);margin-top:auto}
+.mag-read{font-size:11px;font-weight:700;color:var(--sage);letter-spacing:.05em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+/* Sidebar layout */
+.mag-layout{display:grid;grid-template-columns:1fr 280px;gap:32px;align-items:start}
+.mag-sidebar{border-left:1px solid var(--border);padding-left:28px}
+.mag-sidebar-hed{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+.mag-list-item{padding:12px 0;border-bottom:1px solid var(--cream);cursor:pointer}
+.mag-list-item:hover .mag-list-title{color:var(--gold)}
+.mag-list-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink);line-height:1.3;margin-bottom:3px;font-weight:600}
+.mag-list-meta{font-size:10.5px;color:var(--muted)}
+/* Tag cloud */
+.mag-tag{display:inline-block;font-size:11px;color:var(--muted);background:var(--cream);padding:4px 10px;border-radius:3px;margin:3px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+.mag-tag:hover{background:var(--ink);color:white}
+/* Masthead section dividers */
+.mag-section-label{font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.mag-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+/* Post viewer — magazine style */
+.bp-hero{background:white;padding:48px 0 32px;border-bottom:3px solid var(--ink)}
+.bp-emoji{font-size:64px;display:block;margin-bottom:18px}
+.bp-cat{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin-bottom:12px;display:block}
+.bp-title{font-family:'Cormorant Garamond',serif;font-size:52px;color:var(--ink);line-height:1.1;margin-bottom:16px;font-weight:700}
+.bp-sub{font-size:18px;color:var(--muted);max-width:700px;line-height:1.55;font-style:italic;margin-bottom:20px}
+.bp-byline{font-size:12px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:16px;border-top:1px solid var(--border)}
+.bp-body{max-width:700px;margin:0 auto;padding:40px 20px;font-size:17px;line-height:1.82;color:var(--text)}
+.bp-body h2{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--ink);margin:40px 0 16px;font-weight:700;border-bottom:1px solid var(--border);padding-bottom:8px}
+.bp-body h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--ink);margin:28px 0 12px;font-weight:600}
+.bp-body p{margin-bottom:20px}
+.bp-body ul,.bp-body ol{margin:14px 0 20px 26px}.bp-body li{margin-bottom:8px}
 .bp-body strong{color:var(--ink);font-weight:700}.bp-body em{font-style:italic}
-.bp-body code{background:var(--cream);padding:1px 6px;border-radius:3px;font-size:14.0px}
-.bp-tags{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:24px;padding-top:18px;border-top:1px solid var(--cream)}
-.bp-tag{font-size:14.0px;color:var(--muted);background:var(--cream);padding:3px 10px;border-radius:11px}
+.bp-body code{background:var(--cream);padding:1px 6px;border-radius:3px;font-size:14px}
+.bp-body blockquote{border-left:4px solid var(--gold);padding:12px 20px;margin:24px 0;background:var(--cream);border-radius:0 6px 6px 0;font-style:italic;font-size:18px;color:var(--ink)}
+.bp-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:28px;padding-top:20px;border-top:2px solid var(--ink)}
+.bp-tag{font-size:11px;color:var(--muted);background:var(--cream);padding:4px 11px;border-radius:3px;letter-spacing:.04em}
+
 
 /* CASE PANEL — compact, high-contrast design */
 .case-panel{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:white;box-shadow:0 2px 12px rgba(0,0,0,.04)}
@@ -1759,49 +1792,65 @@ img{max-width:100%}
 
 <!-- BLOG PAGE -->
 <div class="page" id="page-blog">
-  <div style="background:linear-gradient(135deg,#1a1a1a,#252a37);padding:48px 0">
+
+  <!-- MASTHEAD -->
+  <div style="background:var(--ink);border-bottom:3px solid var(--gold)">
     <div class="container">
-      <div style="max-width:760px;margin:0 auto;text-align:center">
-        <span class="eyebrow" style="color:var(--gold-lt)">✍️ The Aunt Nancy Blog</span>
-        <h1 style="font-family:'Cormorant Garamond',serif;font-size:46px;color:white;line-height:1.1;margin-bottom:14px">Daily wisdom from the foster care community.</h1>
-        <p style="font-size:15px;color:rgba(255,255,255,.7);max-width:600px;margin:0 auto 22px;line-height:1.6">A new article every day from Aunt Nancy AI, with editorial pieces and stories from foster parents, kinship caregivers, foster youth, and social workers.</p>
-        <button onclick="openBlogSubmit()" class="btn btn-gold" style="font-size:13.5px">✍️ Share Your Story</button>
-        <button onclick="openTopicModal('blog')" style="background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.85);padding:11px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;font-weight:600;cursor:pointer;margin-left:8px">💡 Suggest a Topic</button>
+      <!-- Top utility bar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #2a2218;font-size:11px;color:rgba(255,255,255,.45)">
+        <span id="blogDate"></span>
+        <span style="letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--gold-lt)">The Aunt Nancy Post</span>
+        <div style="display:flex;gap:10px">
+          <button onclick="openBlogSubmit()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-size:10px;font-weight:600;padding:4px 10px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase">✍️ Submit</button>
+          <button onclick="openTopicModal('blog')" style="background:var(--gold);border:none;color:var(--ink);font-size:10px;font-weight:800;padding:4px 10px;border-radius:3px;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase">💡 Suggest</button>
+        </div>
+      </div>
+      <!-- Masthead headline -->
+      <div style="text-align:center;padding:28px 0 20px">
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:64px;color:white;line-height:1;letter-spacing:-.02em;margin-bottom:8px;font-weight:700">The Aunt Nancy Post</h1>
+        <p style="font-size:13px;color:rgba(255,255,255,.5);letter-spacing:.1em;text-transform:uppercase;font-style:italic">Daily wisdom from the foster care community · AI-curated · Community-written</p>
       </div>
     </div>
   </div>
 
-  <!-- Filters -->
-  <section style="background:var(--cream);padding:18px 0;border-bottom:1px solid var(--border)">
+  <!-- CATEGORY NAV BAR -->
+  <div style="background:white;border-bottom:2px solid var(--ink);position:sticky;top:96px;z-index:100">
     <div class="container">
-      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center">
-        <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px">Filter:</span>
+      <div style="display:flex;align-items:center;overflow-x:auto;scrollbar-width:none">
         <button class="blog-filter on" data-filter="all" onclick="filterBlog('all',this)">All</button>
-        <button class="blog-filter" data-filter="aud-parent" onclick="filterBlog('aud-parent',this)">🏠 Parents</button>
+        <button class="blog-filter" data-filter="aud-parent" onclick="filterBlog('aud-parent',this)">🏠 Foster Parents</button>
         <button class="blog-filter" data-filter="aud-kinship" onclick="filterBlog('aud-kinship',this)">👵 Kinship</button>
         <button class="blog-filter" data-filter="aud-youth" onclick="filterBlog('aud-youth',this)">🌱 Youth</button>
         <button class="blog-filter" data-filter="aud-worker" onclick="filterBlog('aud-worker',this)">📋 Workers</button>
-        <span style="font-size:11px;color:var(--muted);margin:0 4px">·</span>
+        <div style="width:1px;height:24px;background:var(--border);margin:0 10px;flex-shrink:0"></div>
         <button class="blog-filter" data-filter="src-ai" onclick="filterBlog('src-ai',this)">🤖 Daily AI</button>
         <button class="blog-filter" data-filter="src-editorial" onclick="filterBlog('src-editorial',this)">✍️ Editorial</button>
         <button class="blog-filter" data-filter="src-community" onclick="filterBlog('src-community',this)">💬 Community</button>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- Blog list -->
-  <section class="section" style="background:white">
+  <!-- MAIN CONTENT -->
+  <section style="background:var(--cream);padding:32px 0">
     <div class="container" style="max-width:1100px">
-      <div id="blogList"><div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">Loading articles…</div></div>
+      <div id="blogList">
+        <div style="text-align:center;padding:60px;color:var(--muted);font-size:14px">
+          <div style="font-size:32px;margin-bottom:10px">📰</div>
+          Loading today's edition…
+        </div>
+      </div>
     </div>
   </section>
+
 </div>
 
 <!-- BLOG POST VIEWER -->
 <div class="page" id="page-blogpost">
-  <div style="background:var(--cream);padding:30px 0 18px">
-    <div class="container" style="max-width:780px">
-      <a onclick="go('blog')" style="font-size:12.5px;color:var(--muted);cursor:pointer;text-decoration:none">← All articles</a>
+  <!-- Breadcrumb nav bar -->
+  <div style="background:var(--ink);border-bottom:1px solid #2a2218;padding:10px 0">
+    <div class="container" style="display:flex;align-items:center;justify-content:space-between">
+      <a onclick="go('blog')" style="font-size:11px;color:rgba(255,255,255,.5);cursor:pointer;text-decoration:none;font-weight:600;letter-spacing:.08em;text-transform:uppercase">← The Aunt Nancy Post</a>
+      <span style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.1em;text-transform:uppercase">AuntNancy.org</span>
     </div>
   </div>
   <div id="blogPostContent"></div>
@@ -4097,35 +4146,160 @@ async function loadBlog(){
 function renderBlogList(){
   const list=document.getElementById('blogList');
   if(!list) return;
+
+  // Set masthead date
+  const dateEl=document.getElementById('blogDate');
+  if(dateEl) dateEl.textContent=new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
   const filtered=_blogPosts.filter(p=>{
     if(_blogFilter==='all') return true;
     if(_blogFilter.startsWith('aud-')) return p.audience===_blogFilter.slice(4);
     if(_blogFilter.startsWith('src-')) return p.source_type===_blogFilter.slice(4);
     return true;
   });
+
   if(!filtered.length){
-    list.innerHTML=`<div style="text-align:center;padding:50px;color:var(--muted)"><div style="font-size:32px;margin-bottom:8px">🔍</div><div style="font-size:14px">No articles match this filter yet. <a onclick="filterBlog('all',document.querySelector('.blog-filter'))" style="color:var(--sage);cursor:pointer;text-decoration:underline">Show all</a></div></div>`;
+    list.innerHTML=`<div style="text-align:center;padding:60px;background:white;border-radius:10px;border:1px solid var(--border)"><div style="font-size:40px;margin-bottom:12px">🔍</div><div style="font-size:15px;color:var(--muted);margin-bottom:16px">No articles match this filter yet.</div><button onclick="filterBlog('all',document.querySelector('.blog-filter'))" class="btn btn-gold" style="font-size:13px">Show all articles</button></div>`;
     return;
   }
-  list.innerHTML=`<div class="blog-grid">${filtered.map(p=>{
-    const src=SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
-    const audLabel=AUDIENCE_LABEL[p.audience]||'Everyone';
-    const date=new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    const subEsc=(p.subtitle||'').replace(/</g,'&lt;');
-    const titleEsc=(p.title||'').replace(/</g,'&lt;');
-    return `<div class="blog-card" onclick="openBlogPost('${p.slug}')">
-      <div class="blog-card-hero">${p.hero_emoji||AUDIENCE_ICO[p.audience]||'📝'}</div>
-      <div class="blog-card-title">${titleEsc}</div>
-      ${subEsc?`<div class="blog-card-sub">${subEsc}</div>`:''}
-      <div class="blog-card-meta">
-        <span class="blog-badge ${src.cls}">${src.icon} ${src.label}</span>
-        <span>·</span>
-        <span>${AUDIENCE_ICO[p.audience]||'⭐'} ${audLabel}</span>
-        <span>·</span>
-        <span>${date}</span>
+
+  const featured=filtered[0];
+  const secondary=filtered.slice(1,4);
+  const tertiary=filtered.slice(4,10);
+  const sidebar=filtered.slice(10,18);
+  const rest=filtered.slice(4);
+
+  const src=p=>SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
+  const aud=p=>AUDIENCE_LABEL[p.audience]||'Everyone';
+  const audIco=p=>AUDIENCE_ICO[p.audience]||'⭐';
+  const dateStr=p=>new Date(p.published_at).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  const readTime=p=>p.body_md?Math.max(1,Math.round(p.body_md.split(' ').length/200))+'min read':'';
+
+  // ── FEATURED STORY ──────────────────────────────────────────────────
+  const fp=featured;
+  const fsrc=src(fp);
+  let html=`
+  <div class="mag-featured" onclick="openBlogPost('${fp.slug}')">
+    <div class="mag-featured-body">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+          <span class="blog-badge ${fsrc.cls}">${fsrc.icon} ${fsrc.label}</span>
+          <span class="mag-cat" style="margin:0">${audIco(fp)} ${aud(fp)}</span>
+        </div>
+        <h2 class="mag-featured-hed">${(fp.title||'').replace(/</g,'&lt;')}</h2>
+        ${fp.subtitle?`<p class="mag-featured-deck">${fp.subtitle.replace(/</g,'&lt;')}</p>`:''}
       </div>
-    </div>`;
-  }).join('')}</div>`;
+      <div>
+        ${fp.tags&&fp.tags.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px">${fp.tags.slice(0,4).map(t=>`<span class="mag-tag" onclick="event.stopPropagation()">#${t}</span>`).join('')}</div>`:''}
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div style="font-size:11px;color:var(--muted)">By ${(fp.author_name||'Aunt Nancy AI').replace(/</g,'&lt;')} · ${dateStr(fp)}${readTime(fp)?' · '+readTime(fp):''}</div>
+          <button class="mag-featured-cta">Read Story →</button>
+        </div>
+      </div>
+    </div>
+    <div class="mag-featured-graphic">${fp.hero_emoji||audIco(fp)||'📰'}</div>
+  </div>`;
+
+  // ── SECTION LABEL ───────────────────────────────────────────────────
+  html+=`<div class="mag-section-label">Latest Articles</div>`;
+
+  // ── MAIN LAYOUT: GRID + SIDEBAR ─────────────────────────────────────
+  html+=`<div class="mag-layout">`;
+
+  // ── MAGAZINE GRID (3 columns, remaining articles) ──────────────────
+  html+=`<div>`;
+  if(secondary.length){
+    html+=`<div class="mag-grid" style="margin-bottom:28px">`;
+    html+=secondary.map(p=>{
+      const s=src(p);
+      return `<div class="mag-card" onclick="openBlogPost('${p.slug}')">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+          <span class="blog-badge ${s.cls}" style="font-size:8px">${s.icon} ${s.label}</span>
+        </div>
+        <div style="font-size:22px;margin-bottom:9px">${p.hero_emoji||audIco(p)||'📝'}</div>
+        <div class="mag-cat">${audIco(p)} ${aud(p)}</div>
+        <h3 class="mag-hed">${(p.title||'').replace(/</g,'&lt;')}</h3>
+        ${p.subtitle?`<p class="mag-deck">${p.subtitle.replace(/</g,'&lt;')}</p>`:''}
+        ${p.tags&&p.tags.length?`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">${p.tags.slice(0,3).map(t=>`<span style="font-size:9.5px;color:var(--muted);background:var(--cream);padding:2px 7px;border-radius:2px">#${t}</span>`).join('')}</div>`:''}
+        <div class="mag-meta">
+          <span>${dateStr(p)}</span>
+          <span>·</span>
+          <span>${(p.author_name||'Aunt Nancy AI').replace(/</g,'&lt;')}</span>
+          ${readTime(p)?`<span>·</span><span>${readTime(p)}</span>`:''}
+          <span style="margin-left:auto" class="mag-read">Read →</span>
+        </div>
+      </div>`;
+    }).join('');
+    html+=`</div>`;
+  }
+
+  if(tertiary.length){
+    html+=`<div class="mag-section-label">More Stories</div>`;
+    html+=`<div class="mag-grid">`;
+    html+=tertiary.map(p=>{
+      const s=src(p);
+      return `<div class="mag-card" onclick="openBlogPost('${p.slug}')">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+          <span class="blog-badge ${s.cls}" style="font-size:8px">${s.icon} ${s.label}</span>
+        </div>
+        <div style="font-size:18px;margin-bottom:8px">${p.hero_emoji||audIco(p)||'📝'}</div>
+        <div class="mag-cat">${audIco(p)} ${aud(p)}</div>
+        <h3 class="mag-hed" style="font-size:17px">${(p.title||'').replace(/</g,'&lt;')}</h3>
+        ${p.subtitle?`<p class="mag-deck" style="font-size:12px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden">${p.subtitle.replace(/</g,'&lt;')}</p>`:''}
+        <div class="mag-meta">
+          <span>${dateStr(p)}</span>
+          <span>·</span>
+          <span>${(p.author_name||'AI').replace(/</g,'&lt;')}</span>
+          <span style="margin-left:auto" class="mag-read">Read →</span>
+        </div>
+      </div>`;
+    }).join('');
+    html+=`</div>`;
+  }
+  html+=`</div>`; // end main column
+
+  // ── SIDEBAR ─────────────────────────────────────────────────────────
+  html+=`<div class="mag-sidebar">`;
+
+  // CTA box
+  html+=`<div style="background:var(--ink);border-radius:8px;padding:20px;margin-bottom:24px;text-align:center">
+    <div style="font-size:28px;margin-bottom:10px">✍️</div>
+    <div style="font-size:14px;font-weight:700;color:white;margin-bottom:6px">Share Your Story</div>
+    <div style="font-size:11.5px;color:rgba(255,255,255,.55);margin-bottom:14px;line-height:1.5">Your experience could help another caregiver or youth right now.</div>
+    <button onclick="openBlogSubmit()" style="background:var(--gold);color:var(--ink);border:none;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:800;cursor:pointer;width:100%">Submit Your Story →</button>
+  </div>`;
+
+  // Latest articles list
+  if(sidebar.length){
+    html+=`<div class="mag-sidebar-hed">Recent</div>`;
+    html+=sidebar.map(p=>`<div class="mag-list-item" onclick="openBlogPost('${p.slug}')">
+      <div class="mag-list-title">${(p.title||'').replace(/</g,'&lt;')}</div>
+      <div class="mag-list-meta">${audIco(p)} ${aud(p)} · ${dateStr(p)}</div>
+    </div>`).join('');
+  }
+
+  // Tag cloud
+  const allTags=[..._blogPosts.flatMap(p=>p.tags||[])].filter(Boolean);
+  const tagCounts={};
+  allTags.forEach(t=>{tagCounts[t]=(tagCounts[t]||0)+1;});
+  const topTags=Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,16).map(([t])=>t);
+  if(topTags.length){
+    html+=`<div class="mag-sidebar-hed" style="margin-top:22px">Topics</div>
+    <div style="margin-bottom:22px">${topTags.map(t=>`<span class="mag-tag" onclick="filterBlog('all',document.querySelector('.blog-filter'));setTimeout(()=>renderBlogList(),50)">#${t}</span>`).join('')}</div>`;
+  }
+
+  // Suggest CTA
+  html+=`<div style="background:linear-gradient(145deg,var(--cream),#f0e6cc);border:1px solid var(--border);border-radius:8px;padding:18px;text-align:center">
+    <div style="font-size:22px;margin-bottom:8px">💡</div>
+    <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px">Have a topic idea?</div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5">Tell us what you want covered next.</div>
+    <button onclick="openTopicModal('blog')" style="background:var(--ink);color:white;border:none;padding:8px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;width:100%">Suggest a Topic</button>
+  </div>`;
+
+  html+=`</div>`; // end sidebar
+  html+=`</div>`; // end mag-layout
+
+  list.innerHTML=html;
 }
 
 function filterBlog(filter,btn){
@@ -4149,27 +4323,46 @@ async function openBlogPost(slug){
     if(!p){c.innerHTML='<div style="text-align:center;padding:60px"><div style="font-size:32px;margin-bottom:8px">😕</div><div>Article not found.</div><a onclick="go(\'blog\')" style="color:var(--sage);cursor:pointer;text-decoration:underline;font-size:13px">← Back to blog</a></div>';return;}
     const src=SOURCE_BADGE[p.source_type]||SOURCE_BADGE.editorial;
     const date=new Date(p.published_at).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+    const readTime=p.body_md?Math.max(1,Math.round(p.body_md.split(' ').length/200)):null;
     c.innerHTML=`
       <div class="bp-hero">
-        <div class="container" style="max-width:780px">
-          <span class="bp-emoji">${p.hero_emoji||'📝'}</span>
+        <div class="container" style="max-width:800px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+            <span class="blog-badge ${src.cls}">${src.icon} ${src.label}</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rust)">${AUDIENCE_ICO[p.audience]||'⭐'} ${AUDIENCE_LABEL[p.audience]||'Everyone'}</span>
+            ${readTime?`<span style="font-size:10px;color:var(--muted);margin-left:auto">${readTime} min read</span>`:''}
+          </div>
+          <span class="bp-emoji">${p.hero_emoji||'📰'}</span>
           <h1 class="bp-title">${(p.title||'').replace(/</g,'&lt;')}</h1>
           ${p.subtitle?`<p class="bp-sub">${p.subtitle.replace(/</g,'&lt;')}</p>`:''}
           <div class="bp-byline">
-            <span class="blog-badge ${src.cls}">${src.icon} ${src.label}</span>
-            <span>By ${(p.author_name||'Anonymous').replace(/</g,'&lt;')}</span>
-            <span>·</span>
-            <span>${date}</span>
-            <span>·</span>
-            <span>${AUDIENCE_ICO[p.audience]||'⭐'} ${AUDIENCE_LABEL[p.audience]||'Everyone'}</span>
+            <span style="font-weight:700;color:var(--ink)">${(p.author_name||'Aunt Nancy AI').replace(/</g,'&lt;')}</span>
+            <span>·</span><span>${date}</span>
+            ${readTime?`<span>·</span><span>${readTime} min read</span>`:''}
           </div>
         </div>
       </div>
-      <article class="bp-body">${renderMarkdown(p.body_md||'')}
+      <article class="bp-body">
+        ${renderMarkdown(p.body_md||'')}
         ${(p.tags&&p.tags.length)?`<div class="bp-tags">${p.tags.map(t=>`<span class="bp-tag">#${t.replace(/</g,'&lt;')}</span>`).join('')}</div>`:''}
-        <div style="text-align:center;margin-top:40px;padding-top:28px;border-top:1px solid var(--cream)">
-          <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px">Have your own story or perspective on this?</p>
-          <button onclick="openBlogSubmit()" class="btn btn-gold" style="font-size:13px">✍️ Share Your Story</button>
+        <!-- CTA block at end of article -->
+        <div style="background:linear-gradient(135deg,var(--ink),#1e2028);border-radius:10px;padding:28px 32px;margin-top:40px;text-align:center">
+          <div style="font-size:28px;margin-bottom:12px">✍️</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:white;margin-bottom:8px;font-weight:700">Your story matters too.</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:18px;line-height:1.6;max-width:420px;margin-left:auto;margin-right:auto">Have your own experience or perspective on this? Share it with the Aunt Nancy community.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button onclick="openBlogSubmit()" style="background:var(--gold);color:var(--ink);border:none;padding:10px 22px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer">✍️ Share Your Story</button>
+            <button onclick="go('blog')" style="background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.8);padding:10px 20px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">← More Articles</button>
+          </div>
+        </div>
+        <!-- Ask Aunt Nancy about this topic -->
+        <div style="border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-top:24px;display:flex;align-items:center;gap:16px;background:var(--cream)">
+          <div style="font-size:32px;flex-shrink:0">💬</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px">Have a question about this topic?</div>
+            <div style="font-size:12px;color:var(--muted)">Aunt Nancy AI can answer your specific situation — policy-cited, free, anytime.</div>
+          </div>
+          <button onclick="openAAN()" style="background:var(--ink);color:white;border:none;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0">Ask Aunt Nancy →</button>
         </div>
       </article>`;
     // Increment view count (best-effort)
