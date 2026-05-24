@@ -290,7 +290,18 @@ img{max-width:100%}
 .youth-video-item{flex:0 0 260px;scroll-snap-align:start;background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
 .youth-video-item:hover{border-color:var(--gold);transform:translateY(-2px)}
 
-/* POLICY MICRO-VIDEOS */
+/* DOWNLOAD CARDS */
+.dl-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:20px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column}
+.dl-card:hover{background:rgba(255,255,255,.1);border-color:rgba(200,146,58,.4);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.dl-icon{font-size:32px;margin-bottom:10px}
+.dl-label{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);background:rgba(200,146,58,.12);border:1px solid rgba(200,146,58,.2);padding:2px 8px;border-radius:3px;display:inline-block;margin-bottom:10px;width:fit-content}
+.dl-title{font-size:14px;font-weight:700;color:white;line-height:1.3;margin-bottom:6px}
+.dl-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;flex:1;margin-bottom:12px}
+.dl-meta{font-size:10px;color:rgba(255,255,255,.35);margin-bottom:12px;letter-spacing:.04em}
+.dl-btn{font-size:11.5px;font-weight:700;color:var(--gold-lt);letter-spacing:.04em;text-transform:uppercase}
+.dl-card:hover .dl-btn{color:var(--gold)}
+
+
 .micro-strip{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .micro-strip::-webkit-scrollbar{display:none}
 .micro-card{flex-shrink:0;width:230px;height:370px;border-radius:14px;overflow:hidden;position:relative;background:#0a0a0a;box-shadow:0 8px 28px rgba(0,0,0,.35);cursor:pointer;user-select:none}
@@ -760,110 +771,155 @@ img{max-width:100%}
   /* Header */
   .util-row{padding:4px 16px;flex-wrap:nowrap;overflow:hidden}
   .util-right{gap:8px}
-  .util-auth{display:none} /* Hide sign in/up from util row on mobile — in hamburger menu */
+  .util-auth{display:none}
   .nav-row{padding:0 16px;height:52px}
-  .nav-logo{font-size:15.0px;margin-right:0}
-  .nav-links{display:none} /* Hide desktop nav on mobile */
-  .nav-ask{display:none}   /* Hide on mobile — in hamburger menu */
-  .hamburger{display:flex} /* Show hamburger on mobile */
+  .nav-logo{font-size:15px;margin-right:0}
+  .nav-links{display:none}
+  .nav-ask{display:none}
+  .hamburger{display:flex}
   .role-row{padding:0 12px;height:auto;min-height:36px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .role-row::-webkit-scrollbar{display:none}
   .role-label{display:none}
-  .role-tab{font-size:14px;padding:0 11px;white-space:nowrap}
+  .role-tab{font-size:12px;padding:0 11px;white-space:nowrap}
   .loc-chip{display:none}
-  /* Crisis bar compact on mobile */
-  .crisis{padding:5px 12px;display:block}
-  .crisis p{font-size:19.0px;line-height:1.6}
+  /* Crisis bar */
+  .crisis{padding:5px 12px}
+  .crisis p{font-size:10px;line-height:1.5}
   /* Home hero */
   .home-hero{grid-template-columns:1fr;min-height:auto}
-  .home-l{padding:36px 16px 32px}
-  .home-h1{font-size:72px;line-height:.93}
-  .home-sub{font-size:16px}
-  .home-r{height:200px}
+  .home-l{padding:32px 16px 28px}
+  .home-h1{font-size:56px;line-height:.93}
+  .home-sub{font-size:14px}
+  .home-r{display:none} /* hide image on mobile — text fills full width */
   .stats-row{gap:0;flex-wrap:wrap}
-  .stat{padding:8px 16px 8px 0}
-  .stat-num{font-size:29px}
+  .stat{padding:8px 14px 8px 0}
+  .stat-num{font-size:26px}
   /* Role cards */
   .role-cards{grid-template-columns:1fr 1fr;gap:10px;padding:20px 0}
-  .rc-title{font-size:19.0px}
-  .rc-desc{font-size:15.0px}
-  /* Local section */
+  .rc-title{font-size:16px}
+  .rc-desc{font-size:12px}
+  /* Local */
   .local-grid{grid-template-columns:1fr 1fr}
-  .local-h{font-size:21.0px}
+  .local-h{font-size:20px}
   /* Research */
   .rs-inner{grid-template-columns:1fr;gap:20px}
   .rs-cards{grid-template-columns:1fr}
-  .rs-num{font-size:42px}
+  .rs-num{font-size:40px}
   /* Role pages */
   .ph-split{grid-template-columns:1fr}
-  .ph-img{height:180px}
-  .rph1{font-size:32px}
-  /* Grid */
+  .ph-img{height:160px}
+  .rph1{font-size:30px}
+  /* Grids */
   .grid-2{grid-template-columns:1fr}
   .grid-3{grid-template-columns:1fr}
   /* Vault */
-  .vault-hero{padding:32px 0}
+  .vault-hero{padding:28px 0}
   .vault-filters{gap:6px}
-  .vf-btn{font-size:14.0px;padding:5px 10px}
+  .vf-btn{font-size:11px;padding:5px 10px}
   /* Education */
-  .edu-hero{padding:32px 0}
-  .edu-sched{gap:14px}
+  .edu-hero{padding:28px 0}
+  .edu-sched{gap:10px;flex-direction:column}
   .edu-tabs{top:88px;margin:0 -16px;padding:0 16px;overflow-x:auto}
-  .edu-tab{font-size:14.0px;padding:10px 10px;white-space:nowrap}
+  .edu-tab{font-size:12px;padding:10px 10px;white-space:nowrap}
   .edu-highlight{grid-template-columns:1fr}
   /* Dashboard */
   .dash-hero-in{flex-wrap:wrap;gap:12px;padding:0 16px}
   .dash-meta{display:none}
   .dash-in{grid-template-columns:1fr;padding:0 16px}
   .dash-nav{display:flex;flex-wrap:wrap;gap:0}
-  .dash-ni{padding:9px 12px;font-size:15.0px;flex:1;min-width:80px;justify-content:center;text-align:center;border-left:none;border-bottom:3px solid transparent}
+  .dash-ni{padding:9px 12px;font-size:12px;flex:1;min-width:80px;justify-content:center;text-align:center;border-left:none;border-bottom:3px solid transparent}
   .dash-ni.on{border-left:none;border-bottom-color:var(--gold)}
   .dash-stats{grid-template-columns:repeat(2,1fr)}
   .prof-grid{grid-template-columns:1fr}
   /* Feedback */
   .fb-grid{grid-template-columns:1fr}
   /* ANW wall */
-  .anw-header{flex-direction:column;align-items:flex-start}
+  .anw-header{flex-direction:column;align-items:flex-start;gap:12px}
   .anw-grid{grid-template-columns:1fr 1fr}
   .anw-seed-card{grid-template-columns:1fr}
-  .anw-seed-img img{height:180px}
-  .anw-seed-body{padding:16px}
+  .anw-seed-img img{height:160px}
+  .anw-seed-body{padding:14px}
   /* Modals */
   .modal-box{width:96vw}
-  .modal-hd{padding:18px 16px 14px}
-  .modal-body{padding:14px 16px 18px}
+  .modal-hd{padding:16px 14px 12px}
+  .modal-body{padding:12px 14px 16px}
   .af-row{grid-template-columns:1fr}
   /* AAN widget */
   .aan-widget{width:96vw;right:2vw;bottom:16px;height:70vh}
-  .aan-float{bottom:16px;right:16px;width:50px;height:50px;font-size:14.0px}
+  .aan-float{bottom:16px;right:16px;width:50px;height:50px;font-size:18px}
   /* Footer */
-  .ft-in{grid-template-columns:1fr 1fr;gap:20px;padding:0 16px}
+  .ft-in{grid-template-columns:1fr 1fr;gap:16px;padding:0 16px}
   .ft-bot{padding:10px 16px;flex-direction:column;gap:4px;text-align:center}
-  /* Placement tracker */
-  .pl-grid{grid-template-columns:1fr 1fr}
+  /* Placement tracker — stack on mobile */
+  .pl-grid{grid-template-columns:1fr}
+  .cp-tab{font-size:10px;padding:5px 8px}
   /* Coming soon */
-  .cs{padding:36px 16px}
-  .cs-t{font-size:44px}
+  .cs{padding:32px 16px}
+  .cs-t{font-size:40px}
   .cs-journals{flex-direction:column;align-items:center}
-  /* Training pricing grid */
+  /* Training */
   .training-price-grid{grid-template-columns:1fr!important}
   /* Blog/Video grids */
   .blog-grid,.video-grid,.training-grid{grid-template-columns:1fr}
+  /* BLOG MAGAZINE — mobile layout */
+  .mag-featured{grid-template-columns:1fr}
+  .mag-featured-graphic{min-height:120px;font-size:60px}
+  .mag-featured-hed{font-size:24px}
+  .mag-featured-body{padding:20px}
+  .mag-grid{grid-template-columns:1fr}
+  .mag-card{border-right:none!important}
+  .mag-layout{grid-template-columns:1fr}
+  .mag-sidebar{border-left:none;padding-left:0;border-top:1px solid var(--border);padding-top:24px;margin-top:8px}
+  /* Blog post viewer */
+  .bp-title{font-size:32px}
+  .bp-sub{font-size:14px}
+  .bp-body{font-size:15px;padding:24px 16px}
+  /* Screening tools modal */
+  #screeningModal > div{max-width:100vw}
+  #screeningModal > div > div:nth-child(2){flex-direction:column}
+  #screeningModal > div > div:nth-child(2) > div:first-child{width:100%;height:auto;max-height:140px;overflow-y:auto;display:flex;flex-wrap:wrap;gap:0;border-right:none;border-bottom:1px solid var(--border)}
+  #screeningToolList > div{display:inline-flex;flex-direction:column;padding:8px 12px;border-bottom:none;border-right:1px solid var(--border);min-width:120px}
+  #screeningContent{padding:16px}
+  /* Downloads grid */
+  .dl-card{padding:16px}
+  .dl-icon{font-size:24px;margin-bottom:8px}
+  /* Micro-video strip */
+  .micro-strip{gap:12px;padding-bottom:8px}
+  .micro-card{width:200px;height:330px}
+  /* Calendar */
+  #apptWidgetParent,#apptWidgetKinship{min-width:0}
+  /* Foster parent / kinship two-column sections */
+  #page-parent .container > div[style*="grid-template-columns:380px"],
+  #page-kinship .container > div[style*="grid-template-columns:380px"]{display:flex;flex-direction:column;gap:20px}
+  /* Journal + tip side by side → stack on mobile */
+  #page-kinship div[style*="justify-content:center"]{flex-direction:column;align-items:stretch}
+  #page-kinship div[style*="width:42%"],
+  #page-kinship div[style*="width:36%"]{width:100%!important;min-width:0!important}
+  /* Youth page side by side → stack */
+  #page-youth div[style*="grid-template-columns:1fr 50%"]{grid-template-columns:1fr}
+  /* Resources downloads grid */
+  #downloadsSection .container > div[style*="grid-template-columns"]{grid-template-columns:1fr 1fr}
+  /* Policy micro-brief heading */
+  .micro-slide-hed{font-size:18px}
+  .micro-slide-icon{font-size:38px}
 }
 
 /* HAMBURGER */
 .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:transparent;border:none;cursor:pointer;padding:8px;margin-left:auto;flex-shrink:0}
 .hamburger span{display:block;width:22px;height:2px;background:white;border-radius:2px}
-.mob-nav-item{display:block;padding:14px 22px;font-size:15.0px;color:rgba(255,255,255,.85);cursor:pointer;border-bottom:1px solid #1e1a12;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:none}
+.mob-nav-item{display:block;padding:14px 22px;font-size:15px;color:rgba(255,255,255,.85);cursor:pointer;border-bottom:1px solid #1e1a12;font-family:'DM Sans',sans-serif;font-weight:500;text-decoration:none}
 .mob-nav-item:hover,.mob-nav-item:active{background:rgba(255,255,255,.05);color:white}
 @media (max-width:480px){
+  .home-h1{font-size:44px}
   .role-cards{grid-template-columns:1fr}
   .local-grid{grid-template-columns:1fr}
   .anw-grid{grid-template-columns:1fr}
   .ft-in{grid-template-columns:1fr}
-  .dash-stats{grid-template-columns:repeat(2,1fr)}
-  .home-h1{font-size:58px;line-height:.93}
-  .edu-tabs{top:126px}
+  .mag-featured-hed{font-size:20px}
+  .bp-title{font-size:26px}
+  #downloadsSection .container > div[style*="grid-template-columns"]{grid-template-columns:1fr}
+  .micro-card{width:180px;height:310px}
+  .edu-tabs{top:80px}
 }
 /* FOOTER */
 .footer{background:var(--ink);padding:44px 0 0}
@@ -1268,6 +1324,7 @@ img{max-width:100%}
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
             <button onclick="go('training')" style="background:rgba(200,146,58,.15);border:1px solid rgba(200,146,58,.35);color:var(--gold-lt);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🎓 Browse Training</button>
+            <button onclick="openScreeningTools()" style="background:rgba(197,134,192,.15);border:1px solid rgba(197,134,192,.3);color:#c49edf;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🩺 Screening Tools</button>
             <button onclick="go('blog')" style="background:rgba(116,198,157,.1);border:1px solid rgba(116,198,157,.25);color:#74c69d;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">✍️ Latest Articles</button>
             <button onclick="openTopicModal('blog')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">💡 Suggest a Topic</button>
             <button onclick="go('vault')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">📄 Letter Vault</button>
@@ -1404,6 +1461,7 @@ img{max-width:100%}
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">
             <button onclick="go('training')" style="background:rgba(200,146,58,.15);border:1px solid rgba(200,146,58,.35);color:var(--gold-lt);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🎓 Browse Training</button>
+            <button onclick="openScreeningTools()" style="background:rgba(197,134,192,.15);border:1px solid rgba(197,134,192,.3);color:#c49edf;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🩺 Screening Tools</button>
             <button onclick="go('blog')" style="background:rgba(116,198,157,.1);border:1px solid rgba(116,198,157,.25);color:#74c69d;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">✍️ Latest Articles</button>
             <button onclick="openTopicModal('blog')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">💡 Suggest a Topic</button>
             <button onclick="go('vault')" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.75);padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">📄 Letter Vault</button>
@@ -1541,8 +1599,12 @@ img{max-width:100%}
             <a class="btn btn-gold" onclick="go('vault')">Access All Tools</a>
             <a class="btn btn-outline" onclick="openAAN();setAanMode('worker')">Ask Aunt Nancy</a>
           </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+            <button onclick="openScreeningTools()" style="background:rgba(197,134,192,.15);border:1px solid rgba(197,134,192,.3);color:#c49edf;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🩺 Screening Tools</button>
+          </div>
           <div class="stats-row">
             <div class="stat"><div class="stat-num">8+</div><div class="stat-lbl">Screening<br>instruments</div></div>
+            <button onclick="openScreeningTools()" style="background:rgba(197,134,192,.15);border:1px solid rgba(197,134,192,.3);color:#c49edf;padding:8px 16px;border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">🩺 Screening Tools</button>
             <div class="stat"><div class="stat-num">BIRP</div><div class="stat-lbl">Daily log<br>tool</div></div>
             <div class="stat"><div class="stat-num">SCI</div><div class="stat-lbl">Auto-scoring<br>tracker</div></div>
           </div>
@@ -2190,10 +2252,14 @@ img{max-width:100%}
       <span class="eyebrow" style="color:#74c69d">For the Whole Child</span>
       <h1 style="font-size:48px;color:white;line-height:1.0;margin-bottom:10px">Local <em style="color:#74c69d;font-style:italic">Resources.</em></h1>
       <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:540px;line-height:1.8;font-weight:300;margin-bottom:18px">Every resource a child in foster care might need — by category, localized to your area. Community-contributed and community-rated.</p>
-      <div style="display:flex;align-items:center;gap:11px;background:rgba(42,102,73,.12);border:1px solid rgba(42,102,73,.2);border-radius:6px;padding:11px 16px;max-width:600px">
-        <span style="font-size:15px">🏛️</span>
-        <span style="font-size:13px;color:#a0d4b0;font-weight:600" id="resAgName">DCFS — Los Angeles County</span>
-        <span style="font-size:12px;color:var(--gold-lt);margin-left:auto" id="resAgPhone">📞 1-800-540-4000</span>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:11px;background:rgba(42,102,73,.12);border:1px solid rgba(42,102,73,.2);border-radius:6px;padding:11px 16px">
+          <span style="font-size:15px">🏛️</span>
+          <span style="font-size:13px;color:#a0d4b0;font-weight:600" id="resAgName">DCFS — Los Angeles County</span>
+          <span style="font-size:12px;color:var(--gold-lt);margin-left:auto" id="resAgPhone">📞 1-800-540-4000</span>
+        </div>
+        <button onclick="scrollToDownloads()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 22px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:7px">📥 Free Downloads</button>
+        <button onclick="openScreeningTools()" style="background:rgba(197,134,192,.15);border:1px solid rgba(197,134,192,.3);color:#c49edf;padding:11px 18px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">🩺 Screening Tools</button>
       </div>
     </div>
   </div>
@@ -2218,32 +2284,24 @@ img{max-width:100%}
             <h3 style="font-size:22px;color:var(--ink)">State & National Resources</h3>
           </div>
           <div style="display:flex;flex-direction:column;gap:10px" id="resGrid">
-            <!-- Mental Health -->
             <a href="https://www.samhsa.gov/find-help/national-helpline" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">🧠 Child & Adolescent Mental Health — SAMHSA</div><div class="rc-s">National helpline · 1-800-662-4357 · Free</div></div><span class="rc-arr">↗</span></a>
             <a href="https://988lifeline.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">988 Suicide & Crisis Lifeline</div><div class="rc-s">Call or text 988 · 24/7 · Free</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.thetrevorproject.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">Trevor Project — LGBTQ+ Youth</div><div class="rc-s">1-866-488-7386 · Text START to 678-678</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.crisistextline.org" target="_blank" rel="noopener" class="res-card" data-cat="mental-health"><div><div class="rc-t">Crisis Text Line</div><div class="rc-s">Text HOME to 741741 · 24/7</div></div><span class="rc-arr">↗</span></a>
-            <!-- Education -->
             <a href="https://www.acf.hhs.gov/fysb/mckinney-vento" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">📚 McKinney-Vento School Enrollment Rights</div><div class="rc-s">Immediate enrollment · No records needed</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.chafee.info/etv.aspx" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">ETV Grants — Education & Training Vouchers</div><div class="rc-s">Up to $5,000/year · Ages 16–26</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.acf.hhs.gov/cb/programs/independent-living" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">Chafee Foster Care Independence Program</div><div class="rc-s">Federal · Life skills & financial support</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.cccco.edu/Students/Support-Services/Special-populations/Foster-Youth" target="_blank" rel="noopener" class="res-card" data-cat="education"><div><div class="rc-t">CA College Promise — Foster Youth Priority</div><div class="rc-s">Free tuition at CA community colleges</div></div><span class="rc-arr">↗</span></a>
-            <!-- Housing -->
             <a href="https://www.cdss.ca.gov/inforesources/foster-care/thp-plus" target="_blank" rel="noopener" class="res-card" data-cat="housing"><div><div class="rc-t">🏠 THP-Plus — Transitional Housing (CA)</div><div class="rc-s">Ages 18–24 · Former foster youth</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.1800runaway.org" target="_blank" rel="noopener" class="res-card" data-cat="housing"><div><div class="rc-t">National Runaway Safeline</div><div class="rc-s">1-800-786-2929 · 24/7 crisis housing</div></div><span class="rc-arr">↗</span></a>
-            <!-- Food -->
             <a href="https://www.benefitscal.com" target="_blank" rel="noopener" class="res-card" data-cat="food"><div><div class="rc-t">🍎 CalFresh (SNAP) — Food Assistance</div><div class="rc-s">California · EBT · Apply at benefitscal.com</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.cdph.ca.gov/Programs/CFH/DWICSN/Pages/Program-Landing1.aspx" target="_blank" rel="noopener" class="res-card" data-cat="food"><div><div class="rc-t">WIC — Women, Infants & Children</div><div class="rc-s">Nutrition support · Pregnant & young children</div></div><span class="rc-arr">↗</span></a>
-            <!-- Health -->
             <a href="https://www.dhcs.ca.gov/services/medi-cal/Pages/fostercaremedical.aspx" target="_blank" rel="noopener" class="res-card" data-cat="health"><div><div class="rc-t">💊 Medi-Cal — Foster Youth to Age 26</div><div class="rc-s">Free healthcare · No income limit for former FY</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.dhcs.ca.gov/services/chdp/Pages/default.aspx" target="_blank" rel="noopener" class="res-card" data-cat="health"><div><div class="rc-t">Child Health & Disability Prevention (CHDP)</div><div class="rc-s">Free checkups · Vision · Dental · CA</div></div><span class="rc-arr">↗</span></a>
-            <!-- Legal -->
             <a href="https://www.clccal.org" target="_blank" rel="noopener" class="res-card" data-cat="legal"><div><div class="rc-t">⚖️ Children's Law Center of California</div><div class="rc-s">Legal representation · Foster youth · Free</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.youthlawcenter.com" target="_blank" rel="noopener" class="res-card" data-cat="legal"><div><div class="rc-t">Youth Law Center</div><div class="rc-s">Foster youth rights · System advocacy</div></div><span class="rc-arr">↗</span></a>
-            <!-- Financial -->
             <a href="https://www.cdss.ca.gov/inforesources/foster-care/nonminor-dependents" target="_blank" rel="noopener" class="res-card" data-cat="financial"><div><div class="rc-t">💰 AB 12 / NMD — Extended Foster Care Benefits</div><div class="rc-s">Monthly stipend · Ages 18–21 · CA</div></div><span class="rc-arr">↗</span></a>
             <a href="https://www.ssa.gov/benefits/disability" target="_blank" rel="noopener" class="res-card" data-cat="financial"><div><div class="rc-t">SSI / Social Security for Foster Youth</div><div class="rc-s">Disability benefits · Bridge to adulthood</div></div><span class="rc-arr">↗</span></a>
-            <!-- Support -->
             <a href="https://www.fosterclub.com" target="_blank" rel="noopener" class="res-card" data-cat="support"><div><div class="rc-t">🤝 Foster Club — Youth Peer Network</div><div class="rc-s">fosterclub.com · National peer support</div></div><span class="rc-arr">↗</span></a>
             <a href="https://jbay.org" target="_blank" rel="noopener" class="res-card" data-cat="support"><div><div class="rc-t">John Burton Advocates for Youth</div><div class="rc-s">California · Housing · Education · Policy</div></div><span class="rc-arr">↗</span></a>
           </div>
@@ -2267,6 +2325,267 @@ img{max-width:100%}
             <div style="font-size:13px;color:var(--muted);text-align:center;padding:24px">Loading community resources…</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOADS SECTION -->
+  <section id="downloadsSection" style="background:var(--ink);padding:48px 0;scroll-margin-top:120px">
+    <div class="container">
+      <div style="margin-bottom:32px">
+        <span class="eyebrow" style="color:var(--gold-lt)">📥 Downloads</span>
+        <h2 style="font-size:34px;color:white;margin:6px 0 8px">Free Guides & Templates</h2>
+        <p style="font-size:14px;color:rgba(255,255,255,.5);max-width:580px;line-height:1.7">Policy-cited, printable, and always free. Download any guide — no account required.</p>
+      </div>
+
+      <!-- FREE DOWNLOADS GRID -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:40px">
+
+        <div class="dl-card" onclick="openLetterPDF('t5')">
+          <div class="dl-icon">📋</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">72-Hour Placement Intake Checklist</div>
+          <div class="dl-desc">Everything a caregiver needs to do and document in the first 72 hours of a new placement.</div>
+          <div class="dl-meta">Foster Parents · Kinship</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t1')">
+          <div class="dl-icon">👗</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Clothing Allowance Request Letter</div>
+          <div class="dl-desc">Fill-in letter citing DCFS Policy 0900-506.10. Send to your CSW to request clothing allowance.</div>
+          <div class="dl-meta">Foster Parents · Kinship</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t2')">
+          <div class="dl-icon">🆘</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Emergency Benefit Request Letter</div>
+          <div class="dl-desc">Policy-cited letter for urgent benefit needs. References WIC §11460 and DCFS procedures.</div>
+          <div class="dl-meta">Foster Parents · Kinship</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t3')">
+          <div class="dl-icon">🎓</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">McKinney-Vento Enrollment Letter</div>
+          <div class="dl-desc">Immediate school enrollment letter citing Ed. Code §48853.5. No records required.</div>
+          <div class="dl-meta">Foster Youth · Caregivers</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t8')">
+          <div class="dl-icon">📝</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">CSW / SCSW Benefit Request Letter</div>
+          <div class="dl-desc">Formal letter to caseworker requesting DCFS benefits and services with policy citations.</div>
+          <div class="dl-meta">All Caregivers</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t6')">
+          <div class="dl-icon">📊</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">BIRP Daily Log</div>
+          <div class="dl-desc">Behavior · Intervention · Response · Plan. Interactive digital log with printable export.</div>
+          <div class="dl-meta">Social Workers · Caregivers</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="openLetterPDF('t7')">
+          <div class="dl-icon">🎯</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">SCI Level 2/3 Placement Tracker</div>
+          <div class="dl-desc">Specialized Care Increment criteria tracker with auto-scoring for Level 2 and Level 3 placements.</div>
+          <div class="dl-meta">Social Workers · Caregivers</div>
+          <div class="dl-btn">View & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('ab12')">
+          <div class="dl-icon">📅</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">AB 12 — Extended Foster Care Guide</div>
+          <div class="dl-desc">Plain-language guide to staying in foster care past 18 in California. Rights, requirements, and how to apply.</div>
+          <div class="dl-meta">Foster Youth · Ages 17–21</div>
+          <div class="dl-btn">Generate & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('rights')">
+          <div class="dl-icon">⚖️</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Foster Youth Rights — Plain Language</div>
+          <div class="dl-desc">WIC §16001.9 rights explained clearly. What every foster youth is entitled to, in plain English.</div>
+          <div class="dl-meta">Foster Youth · All Ages</div>
+          <div class="dl-btn">Generate & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('kinship')">
+          <div class="dl-icon">👵</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Kinship Caregiver Quick Reference</div>
+          <div class="dl-desc">Benefits, licensing options, guardianship vs. custody, and DCFS contact cheat sheet for kinship families.</div>
+          <div class="dl-meta">Kinship Caregivers</div>
+          <div class="dl-btn">Generate & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('aces')">
+          <div class="dl-icon">🧠</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Understanding ACEs — Caregiver Guide</div>
+          <div class="dl-desc">What are Adverse Childhood Experiences, why they matter, and how trauma-informed care helps children heal.</div>
+          <div class="dl-meta">All Caregivers</div>
+          <div class="dl-btn">Generate & Download →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('medi-cal')">
+          <div class="dl-icon">💊</div>
+          <div class="dl-label">Free</div>
+          <div class="dl-title">Medi-Cal for Former Foster Youth</div>
+          <div class="dl-desc">How to apply, what's covered, and what to do if you were denied. California only. Ages 18–26.</div>
+          <div class="dl-meta">Foster Youth · Ages 18–26</div>
+          <div class="dl-btn">Generate & Download →</div>
+        </div>
+
+      </div>
+
+      <!-- OFFICIAL CA FORMS SECTION -->
+      <div style="margin-bottom:24px;padding-top:32px;border-top:1px solid rgba(255,255,255,.08)">
+        <span style="font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#74c69d">📄 Official California Forms</span>
+        <h3 style="font-size:22px;color:white;margin:6px 0 6px">CCLD · DCFS · Juvenile Court</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:20px">Click any form to open the official source. All forms are publicly available through the state of California.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:40px">
+
+        <!-- CCLD Forms -->
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC624.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🚨</div>
+          <div class="dl-label">CCLD · LIC 624</div>
+          <div class="dl-title">Unusual Incident / Injury Report</div>
+          <div class="dl-desc">Required report for any unusual incident, injury, or illness affecting a child in a licensed foster home. Must be submitted within 24–72 hours.</div>
+          <div class="dl-meta">Licensed Foster Homes · CCLD Required</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC625.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">📤</div>
+          <div class="dl-label">CCLD · LIC 625</div>
+          <div class="dl-title">Resident/Client Discharge Record</div>
+          <div class="dl-desc">Documents the discharge of a child from a licensed foster home, including reason for discharge and placement destination.</div>
+          <div class="dl-meta">Licensed Foster Homes · CCLD Required</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC9052.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">💊</div>
+          <div class="dl-label">CCLD · LIC 9052</div>
+          <div class="dl-title">Medication Administration Record (MAR)</div>
+          <div class="dl-desc">Daily log for tracking all medications given to a child. Required for licensed foster homes. Documents dosage, time, and caregiver administering.</div>
+          <div class="dl-meta">Licensed Foster Homes · Daily Required</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC9058.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🧠</div>
+          <div class="dl-label">CCLD · LIC 9058</div>
+          <div class="dl-title">Mental Health Supplement</div>
+          <div class="dl-desc">Supplement required for placements involving children with mental health conditions. Documents diagnosis, medications, and treatment plan.</div>
+          <div class="dl-meta">Licensed Foster Homes · As Needed</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC9061.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🩹</div>
+          <div class="dl-label">CCLD · LIC 9061</div>
+          <div class="dl-title">First Aid & CPR Documentation</div>
+          <div class="dl-desc">Required documentation of first aid and CPR certification for all licensed foster caregivers. Must be current and on file.</div>
+          <div class="dl-meta">Licensed Foster Homes · CCLD Required</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC508.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🏠</div>
+          <div class="dl-label">CCLD · LIC 508</div>
+          <div class="dl-title">Home Environment Checklist</div>
+          <div class="dl-desc">Safety checklist for licensed foster homes. Covers sleeping arrangements, kitchen safety, medications, firearms storage, and outdoor hazards.</div>
+          <div class="dl-meta">Foster Homes · Initial & Annual</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC198.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">📋</div>
+          <div class="dl-label">CCLD · LIC 198</div>
+          <div class="dl-title">Facility Evaluation Report</div>
+          <div class="dl-desc">Form used during licensing inspections to evaluate foster home compliance with Title 22 regulations.</div>
+          <div class="dl-meta">Licensed Foster Homes · Inspection</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <!-- DCFS Forms -->
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/SS8572.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🆘</div>
+          <div class="dl-label">DCFS · SS 8572</div>
+          <div class="dl-title">Suspected Child Abuse Report (Mandated Reporter)</div>
+          <div class="dl-desc">Official form for mandated reporters to document suspected child abuse or neglect. Also known as the "SCAR" form. Required by Penal Code §11166.</div>
+          <div class="dl-meta">Mandated Reporters · Social Workers</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+
+        <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/RFA01A.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">🏡</div>
+          <div class="dl-label">CDSS · RFA 01A</div>
+          <div class="dl-title">Resource Family Application (RFA)</div>
+          <div class="dl-desc">Application to become an approved Resource Family in California. Combines foster parent and relative caregiver approval under one unified framework.</div>
+          <div class="dl-meta">Prospective Foster/Kinship Families</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <div class="dl-card" onclick="generateDownload('504-guide')">
+          <div class="dl-icon">🎓</div>
+          <div class="dl-label">Guide · Section 504</div>
+          <div class="dl-title">Section 504 Accommodation Plan — Foster Youth</div>
+          <div class="dl-desc">What a 504 plan is, how to request one for a foster child, what accommodations can be included, and how to enforce it if the school is not complying.</div>
+          <div class="dl-meta">Foster Youth · Caregivers · School Rights</div>
+          <div class="dl-btn">Generate Guide →</div>
+        </div>
+
+        <a href="https://www.courts.ca.gov/documents/jv220.pdf" target="_blank" rel="noopener" class="dl-card" style="text-decoration:none">
+          <div class="dl-icon">⚖️</div>
+          <div class="dl-label">Juvenile Court · JV-220</div>
+          <div class="dl-title">Application for Appointed Counsel</div>
+          <div class="dl-desc">Application for a foster youth to request appointed legal counsel in juvenile dependency court proceedings. Free for eligible youth.</div>
+          <div class="dl-meta">Foster Youth · Juvenile Court</div>
+          <div class="dl-btn">↗ Open Official Form</div>
+        </a>
+
+        <div class="dl-card" onclick="generateDownload('lic624-guide')">
+          <div class="dl-icon">📖</div>
+          <div class="dl-label">Guide · AI Generated</div>
+          <div class="dl-title">How to Complete LIC 624 — Step by Step</div>
+          <div class="dl-desc">Plain-language guide to completing the Unusual Incident/Injury Report. What counts as an incident, what to write in each field, and submission deadlines.</div>
+          <div class="dl-meta">Licensed Foster Homes</div>
+          <div class="dl-btn">Generate Guide →</div>
+        </div>
+
+        <div class="dl-card" onclick="generateDownload('rfa-guide')">
+          <div class="dl-icon">📖</div>
+          <div class="dl-label">Guide · AI Generated</div>
+          <div class="dl-title">Resource Family Approval (RFA) — What to Expect</div>
+          <div class="dl-desc">Step-by-step walkthrough of the RFA process in California: application, home assessment, background checks, training requirements, and timeline.</div>
+          <div class="dl-meta">Prospective Caregivers</div>
+          <div class="dl-btn">Generate Guide →</div>
+        </div>
+
+      </div>
+
+      <div style="text-align:center;padding:16px;border-top:1px solid rgba(255,255,255,.08)">
+        <p style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:12px">All guides are AI-generated using validated sources and reviewed for accuracy. Always verify policy with your DCFS caseworker.</p>
+        <button onclick="openAAN()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.65);padding:9px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer">💬 Have a question? Ask Aunt Nancy</button>
       </div>
     </div>
   </section>
@@ -3730,6 +4049,72 @@ function toggleMobileNav(){
   }
 }
 
+// ══ DOWNLOADS ══
+function scrollToDownloads(){
+  const section=document.getElementById('downloadsSection');
+  if(section) section.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+const DOWNLOAD_GUIDES = {
+  'ab12':{
+    title:'AB 12 — Extended Foster Care Guide (California)',
+    prompt:`Write a clear, plain-language guide about AB 12 and California's Extended Foster Care / Non-Minor Dependent (NMD) program. Include: eligibility (who qualifies, age range), participation requirements (school, work, or barriers), the monthly stipend amount, how to apply or re-enter, Medi-Cal continuation to 26, THP-Plus housing, and key WIC code citations. Format with clear headings. Aim for a compassionate, informative tone for a foster youth audience ages 17–21.`
+  },
+  'rights':{
+    title:'Foster Youth Rights in Plain Language (WIC §16001.9)',
+    prompt:`Write a plain-language guide explaining the rights of foster youth under California Welfare & Institutions Code §16001.9. Cover all major rights: right to be safe, right to food/clothing/shelter, right to medical care, right to education, right to privacy, right to religious freedom, right to confidentiality, right to a social worker and attorney, right to participate in placement decisions, right to know your case plan. Use simple language appropriate for youth ages 12–21. Format with clear sections.`
+  },
+  'kinship':{
+    title:'Kinship Caregiver Quick Reference Guide (California)',
+    prompt:`Write a practical quick-reference guide for kinship caregivers in California. Cover: the difference between guardianship and foster care, how to become a licensed relative caregiver, the Kin-GAP program, California Kinship Support Services (CKSS), financial assistance available (foster care rates, Kin-GAP payments, AFDC-FC), DCFS notification rights when a child is removed, relative caregiver preference in placements, and key contacts. Include policy citations. Tone: practical, respectful, informative.`
+  },
+  'aces':{
+    title:'Understanding ACEs — Caregiver Guide',
+    prompt:`Write an educational guide about Adverse Childhood Experiences (ACEs) for foster parents and kinship caregivers. Cover: what ACEs are and the 10 types measured by the original CDC-Kaiser study, why ACE scores matter for child development and health outcomes, how trauma affects brain development (plain language), what trauma-informed caregiving looks like in practice, practical daily strategies for building resilience, and when/how to seek professional support. Cite the original Felitti et al. 1998 study and CDC data. Compassionate, practical tone.`
+  },
+  'lic624-guide':{
+    title:'How to Complete the LIC 624 — Unusual Incident/Injury Report',
+    prompt:`Write a plain-language step-by-step guide for licensed foster parents on how to complete California's LIC 624 (Unusual Incident/Injury Report). Cover: what situations require a LIC 624 (falls, injuries, medication errors, runaway, police contact, psychiatric hospitalization, death, etc.), the 24/72-hour reporting timeline requirements, how to fill in each section of the form (date/time, description, persons involved, actions taken, notifications made), who to submit it to (licensing agency AND DCFS), common mistakes to avoid, and how to retain copies. Reference CCLD regulations Title 22 CCR §89372.`,
+  },
+  'rfa-guide':{
+    title:'Resource Family Approval (RFA) — Complete Guide for Prospective Caregivers',
+    prompt:`Write a comprehensive guide to the California Resource Family Approval (RFA) process. Cover: what RFA is and how it replaced the old foster/adoptive home approval systems, the steps in order (orientation, application RFA 01A, home environment assessment, background checks/LiveScan, references, training requirements, approval letter), typical timeline (4–6 months), what assessors look for in a home study, required training hours, how kinship families can request an expedited approval, what happens if you are denied and how to appeal, and how to maintain your approval annually. Practical, encouraging tone for prospective caregivers.`,
+  },
+  '504-guide':{
+    title:'Section 504 Accommodation Plan — Foster Youth Rights Guide',
+    prompt:`Write a practical guide for foster parents and kinship caregivers about Section 504 accommodation plans for foster youth. Cover: what Section 504 is (Section 504 of the Rehabilitation Act of 1973) and how it differs from an IEP, what disabilities and conditions qualify (ADHD, anxiety, depression, PTSD, learning disabilities, trauma-related, etc.), how to request a 504 evaluation in writing, what accommodations can be included (extended time, preferential seating, breaks, modified assignments, counseling access, etc.), the school's timeline to respond, what to do if the school denies or ignores the request, and how McKinney-Vento intersects with 504 rights for foster youth. Include how trauma and ACEs can be the basis for a 504. Cite the Rehabilitation Act, IDEA, and Ed Code §48853.5 where relevant. Practical, empowering tone for caregivers.`,
+  },
+  'medi-cal':{
+    prompt:`Write a practical guide for former foster youth about Medi-Cal in California. Cover: who qualifies (all former foster youth who were in care in CA, regardless of income or immigration status, up to age 26), how to apply (Covered California, county social services, BenefitsCal.com), what Medi-Cal covers (medical, dental, mental health, vision), what to do if you were denied, how to find a Medi-Cal provider, and the transition at age 26. Include the DHCS Foster Care Medi-Cal contact information. Plain language for young adults.`
+  },
+};
+
+async function generateDownload(key){
+  const guide=DOWNLOAD_GUIDES[key];
+  if(!guide)return;
+  // Show loading in PDF viewer
+  document.getElementById('pdfTitle').textContent=guide.title;
+  document.getElementById('pdfContent').innerHTML=`<div style="text-align:center;padding:60px 20px"><div style="font-size:36px;margin-bottom:14px">✨</div><div style="font-size:15px;font-weight:600;color:#333;margin-bottom:8px">Generating your guide…</div><div style="font-size:13px;color:#666">Claude AI is writing a fresh, accurate guide. This takes about 15 seconds.</div><div style="width:200px;height:3px;background:#e0e0e0;border-radius:2px;margin:20px auto;overflow:hidden"><div style="height:100%;background:var(--gold);border-radius:2px;animation:loading-bar 2s ease-in-out infinite"></div></div></div>`;
+  document.getElementById('pdfViewerModal').style.display='flex';
+  try{
+    const r=await fetch('/.netlify/functions/claude',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        system:'You write clear, accurate, compassionate guides for foster care stakeholders. Use markdown formatting with ## headings and bullet points. Always cite specific policies and code sections.',
+        messages:[{role:'user',content:guide.prompt}],
+        max_tokens:1500
+      })
+    });
+    if(!r.ok) throw new Error('API error');
+    const data=await r.json();
+    const text=(data.content?.[0]?.text||'').trim();
+    const html=renderMarkdown(text);
+    document.getElementById('pdfContent').innerHTML=`<div style="font-family:Georgia,serif;font-size:14px;line-height:1.8;color:#111">${html}</div>`;
+  }catch(e){
+    document.getElementById('pdfContent').innerHTML=`<div style="padding:20px;color:#c0392b;font-size:13px">Unable to generate guide right now. Please try again or <a onclick="openAAN()" style="color:var(--sage);cursor:pointer">ask Aunt Nancy directly</a>.</div>`;
+  }
+}
+
 // ══ POLICY MICRO-VIDEOS ══
 const MICRO_TOPICS = [
   {
@@ -4126,6 +4511,389 @@ function seoForVideo(v) {
       keywords: v.topic ? `${v.topic}, foster care, ${AUDIENCE_LABEL[v.audience] || ''}` : 'foster care',
     },
   });
+}
+
+// ══ SCREENING TOOLS ══
+const SCREENING_TOOLS = [
+  {
+    id:'phqa', name:'PHQ-A', full:'Patient Health Questionnaire for Adolescents',
+    icon:'😔', color:'#5b7fa6', audience:'Ages 12–18',
+    desc:'Validated 9-item depression screening tool adapted for adolescents. Takes 3–5 minutes. Widely used in pediatric and child welfare settings.',
+    source:'Kroenke & Spitzer, 2002 · Public domain',
+    type:'likert', scale:['Not at all','Several days','More than half the days','Nearly every day'],
+    items:[
+      'Little interest or pleasure in doing things',
+      'Feeling down, depressed, irritable, or hopeless',
+      'Trouble falling or staying asleep, or sleeping too much',
+      'Feeling tired or having little energy',
+      'Poor appetite or overeating',
+      'Feeling bad about yourself — or that you are a failure or have let yourself or your family down',
+      'Trouble concentrating on things, such as school work, reading, or watching TV',
+      'Moving or speaking so slowly that other people could have noticed — or being so fidgety or restless that you were moving around a lot more than usual',
+      'Thoughts that you would be better off dead, or of hurting yourself in some way',
+    ],
+    scoring:[
+      {max:4, label:'Minimal Depression', color:'#27ae60', action:'Monitor. Reassess in 4–6 weeks if concerns persist.'},
+      {max:9, label:'Mild Depression', color:'#f39c12', action:'Discuss results with youth. Consider counseling referral and follow-up in 2–4 weeks.'},
+      {max:14, label:'Moderate Depression', color:'#e67e22', action:'Recommend mental health referral. Develop safety plan if item 9 is scored > 0.'},
+      {max:19, label:'Moderately Severe Depression', color:'#c0392b', action:'Prompt mental health referral. Assess for safety. Notify caregiver.'},
+      {max:27, label:'Severe Depression', color:'#922b21', action:'Immediate mental health consultation. Crisis assessment if item 9 is scored > 0. Contact 988 if needed.'},
+    ],
+    note:'If item 9 (self-harm) is answered anything other than "Not at all," follow your agency\'s suicide risk protocol regardless of total score.',
+  },
+  {
+    id:'gad7', name:'GAD-7', full:'Generalized Anxiety Disorder 7-item Scale',
+    icon:'😰', color:'#7b6fa6', audience:'Ages 13+ / Adults',
+    desc:'7-item validated tool for screening and measuring severity of generalized anxiety disorder. Takes 2–3 minutes.',
+    source:'Spitzer et al., 2006 · Public domain',
+    type:'likert', scale:['Not at all','Several days','More than half the days','Nearly every day'],
+    items:[
+      'Feeling nervous, anxious, or on edge',
+      'Not being able to stop or control worrying',
+      'Worrying too much about different things',
+      'Trouble relaxing',
+      'Being so restless that it is hard to sit still',
+      'Becoming easily annoyed or irritable',
+      'Feeling afraid, as if something awful might happen',
+    ],
+    scoring:[
+      {max:4, label:'Minimal Anxiety', color:'#27ae60', action:'Monitor. Provide psychoeducation about stress management.'},
+      {max:9, label:'Mild Anxiety', color:'#f39c12', action:'Consider watchful waiting. Discuss coping strategies. Reassess in 2–4 weeks.'},
+      {max:14, label:'Moderate Anxiety', color:'#e67e22', action:'Recommend further evaluation by mental health professional.'},
+      {max:21, label:'Severe Anxiety', color:'#c0392b', action:'Active treatment recommended. Refer to mental health services promptly.'},
+    ],
+  },
+  {
+    id:'crafft', name:'CRAFFT', full:'Car, Relax, Alone, Forget, Friends, Trouble Screener',
+    icon:'🍺', color:'#a06030', audience:'Ages 12–21',
+    desc:'6-question validated screening tool for adolescent substance use. Widely recommended by the American Academy of Pediatrics.',
+    source:'Knight et al., 1999 · CRAFFT Screening Tool · CEASAR Program',
+    type:'yesno',
+    partA:{
+      label:'Part A — Ask first:',
+      note:'If ALL three answers are No, score is 0 — stop here. If ANY answer is Yes, continue to Part B.',
+      items:[
+        'In the past 12 months, did you drink any alcohol (more than a few sips)?',
+        'In the past 12 months, did you use any marijuana or hashish?',
+        'In the past 12 months, did you use anything else to get high (illegal drugs, pills, or anything you sniff, huff, vape, or inject)?',
+      ]
+    },
+    items:[
+      'C — Have you ever ridden in a CAR driven by someone (including yourself) who was high or had been using alcohol or drugs?',
+      'R — Do you ever use alcohol or drugs to RELAX, feel better about yourself, or fit in?',
+      'A — Do you ever use alcohol or drugs while you are by yourself, or ALONE?',
+      'F — Do you ever FORGET things you did while using alcohol or drugs?',
+      'F — Do your FAMILY or FRIENDS ever tell you that you should cut down on your drinking or drug use?',
+      'T — Have you ever gotten into TROUBLE while you were using alcohol or drugs?',
+    ],
+    scoring:[
+      {max:0, label:'Low Risk', color:'#27ae60', action:'Provide positive reinforcement and brief anticipatory guidance.'},
+      {max:1, label:'Moderate Risk', color:'#f39c12', action:'Brief counseling. Provide education about risks. Reassess at next visit.'},
+      {max:6, label:'High Risk / Problem Use Likely', color:'#c0392b', action:'Comprehensive substance use assessment recommended. Refer to specialist.'},
+    ],
+  },
+  {
+    id:'cssrs', name:'C-SSRS', full:'Columbia Suicide Severity Rating Scale (Screener)',
+    icon:'🆘', color:'#c0392b', audience:'All ages',
+    desc:'Brief suicide risk screener developed at Columbia University. Assesses ideation and behavior. Any positive response requires immediate follow-up.',
+    source:'Posner et al., 2011 · Columbia University · Free for clinical use',
+    type:'yesno_alert',
+    warning:'Any "Yes" answer requires immediate follow-up per your agency\'s suicide risk protocol. Contact 988 Suicide & Crisis Lifeline if youth is in immediate danger.',
+    items:[
+      'Have you wished you were dead or wished you could go to sleep and not wake up?',
+      'Have you had any actual thoughts of killing yourself?',
+      'Have you been thinking about how you might do this (e.g., "I am going to take pills" or "I have access to a gun")?',
+      'Have you had these thoughts and had some intention of acting on them?',
+      'Have you started to work out or worked out the details of how to kill yourself? Did you intend to carry out this plan?',
+    ],
+    behaviors:[
+      'In your lifetime, have you ever done anything, started to do anything, or prepared to do anything to end your life?',
+      'In the past 3 months, have you done anything to end your life?',
+    ],
+    scoring_note:'This is NOT a scored tool. ANY "Yes" response indicates need for clinical assessment. Higher items (3–5) indicate greater immediate risk.',
+  },
+  {
+    id:'aces', name:'ACEs', full:'Adverse Childhood Experiences Questionnaire',
+    icon:'🧠', color:'#2c7a4b', audience:'Adults reflecting on childhood',
+    desc:'10-question questionnaire about adverse experiences before age 18. Higher ACE scores are associated with increased risk for health, behavioral, and social problems throughout life.',
+    source:'Felitti et al., 1998 · CDC · Public domain',
+    type:'yesno',
+    note:'This tool reflects on experiences before age 18. For youth under 18, the Pediatric ACEs (PACE) tool is recommended. Results do not define outcomes — resilience factors matter.',
+    items:[
+      'Did a parent or other adult in the household often swear at you, insult you, put you down, or humiliate you?',
+      'Did a parent or other adult in the household often push, grab, slap, or throw something at you?',
+      'Did an adult or person at least 5 years older than you ever touch or fondle you in a sexual way?',
+      'Did you often feel that no one in your family loved you or thought you were important or special?',
+      'Did you often feel that you didn\'t have enough to eat, had to wear dirty clothes, or had no one to protect you?',
+      'Were your parents ever separated or divorced?',
+      'Was your mother or stepmother often pushed, grabbed, slapped, or had something thrown at her?',
+      'Did you live with anyone who was a problem drinker or alcoholic, or who used street drugs?',
+      'Was a household member depressed or mentally ill, or did a household member attempt suicide?',
+      'Did a household member go to prison?',
+    ],
+    scoring:[
+      {max:0, label:'0 ACEs', color:'#27ae60', action:'No documented adverse experiences. Continue building protective factors.'},
+      {max:1, label:'1 ACE', color:'#2ecc71', action:'Low risk. Discuss resilience and protective factors.'},
+      {max:3, label:'2–3 ACEs', color:'#f39c12', action:'Moderate risk. Provide trauma-informed support and monitor for behavioral/health concerns.'},
+      {max:6, label:'4–6 ACEs', color:'#e67e22', action:'High risk. Strong recommendation for trauma-informed care and mental health support.'},
+      {max:10, label:'7–10 ACEs', color:'#c0392b', action:'Very high risk. Trauma-specialized services strongly recommended. Address protective factors.'},
+    ],
+  },
+  {
+    id:'pcl5', name:'PCL-5 (Brief)', full:'PTSD Checklist for DSM-5 — Brief Version',
+    icon:'⚡', color:'#8e44ad', audience:'Ages 18+ (age 13+ with clinical judgment)',
+    desc:'8-item abbreviated version of the validated PCL-5 for screening PTSD symptoms. Covers four DSM-5 symptom clusters. Takes 3–5 minutes.',
+    source:'Weathers et al., 2013 · National Center for PTSD · Public domain',
+    type:'likert', scale:['Not at all','A little bit','Moderately','Quite a bit','Extremely'],
+    note:'This is a screening tool, not a diagnostic instrument. A full 20-item PCL-5 and clinical interview are required for diagnosis.',
+    items:[
+      'Repeated, disturbing, and unwanted memories of a stressful experience from the past',
+      'Feeling very upset when something reminded you of a stressful experience from the past',
+      'Avoiding memories, thoughts, or feelings related to a stressful experience',
+      'Feeling distant or cut off from other people',
+      'Feeling irritable or having angry outbursts',
+      'Being "superalert" or watchful or on guard',
+      'Feeling jumpy or easily startled',
+      'Having difficulty concentrating',
+    ],
+    scoring:[
+      {max:11, label:'Below Clinical Threshold', color:'#27ae60', action:'Monitor. Discuss trauma history if disclosure occurs.'},
+      {max:20, label:'Subclinical / Possible PTSD', color:'#f39c12', action:'Further assessment recommended. Provide trauma-informed support.'},
+      {max:40, label:'Probable PTSD', color:'#c0392b', action:'Full clinical assessment and trauma-focused treatment referral recommended.'},
+    ],
+  },
+  {
+    id:'scared', name:'SCARED (Brief)', full:'Screen for Child Anxiety Related Disorders — Brief',
+    icon:'😨', color:'#2980b9', audience:'Ages 8–18 (child + parent versions)',
+    desc:'5-item brief version of the 41-item SCARED. Screens for the presence of any anxiety disorder in children and adolescents.',
+    source:'Birmaher et al., 1997 · University of Pittsburgh · Free for clinical use',
+    type:'likert3', scale:['Not True','Somewhat True','Very True'],
+    note:'Brief version only. If score ≥ 3, consider administering the full 41-item SCARED and referring for clinical evaluation.',
+    items:[
+      'When I feel frightened, it is hard to breathe',
+      'I get headaches when I am at school',
+      'I don\'t like to be with people I don\'t know well',
+      'I get scared if I sleep away from home',
+      'I worry about other people liking me',
+    ],
+    scoring:[
+      {max:2, label:'Below Threshold', color:'#27ae60', action:'Monitor. Discuss any specific worries the child mentions.'},
+      {max:7, label:'Possible Anxiety Disorder', color:'#e67e22', action:'Administer full 41-item SCARED. Consider referral for clinical evaluation.'},
+    ],
+  },
+  {
+    id:'heeadsss', name:'HEEADSSS', full:'Psychosocial Assessment for Adolescents',
+    icon:'💬', color:'#16a085', audience:'Adolescents 10–21',
+    desc:'Structured psychosocial interview guide covering eight key domains. Not a scored tool — used to guide clinical conversation with adolescents.',
+    source:'Cohen et al., 1991 · Updated 2014 · Clinical interview guide',
+    type:'guide',
+    domains:[
+      {letter:'H', name:'Home', color:'#3498db', questions:['Where do you live? Who lives there?','How do things feel at home?','Have there been any recent changes at home?','Do you feel safe at home?']},
+      {letter:'E', name:'Education/Employment', color:'#9b59b6', questions:['Are you in school? What grade?','How are your grades? Has that changed?','Do you like school? What subjects?','Have you ever been suspended or expelled?']},
+      {letter:'E', name:'Eating', color:'#e74c3c', questions:['Are you happy with the way you look?','Has your weight changed recently?','Have you ever dieted, used laxatives, or made yourself vomit?','Do you have enough to eat?']},
+      {letter:'A', name:'Activities', color:'#27ae60', questions:['What do you do for fun?','Do you have close friends? How much do you see them?','Are you involved in any sports, clubs, or activities?','How do you spend time after school?']},
+      {letter:'D', name:'Drugs', color:'#e67e22', questions:['Do any of your friends smoke, drink, or use drugs?','Have you ever tried cigarettes, alcohol, marijuana, or other drugs?','Does anyone in your home use drugs or alcohol?','Have you ever driven under the influence or ridden with someone who was?']},
+      {letter:'S', name:'Sexuality', color:'#8e44ad', questions:['Have you ever been in a romantic relationship?','Have you ever had sex? Are you safe?','Have you ever felt confused about your sexual orientation?','Have you ever been touched in a way that felt wrong or unsafe?']},
+      {letter:'S', name:'Suicide/Mental Health', color:'#c0392b', questions:['How do you feel most of the time? Happy? Sad?','Have you ever felt like you didn\'t want to live, or thought about hurting yourself?','Have you ever tried to hurt yourself?','Are you seeing a counselor or therapist?']},
+      {letter:'S', name:'Safety', color:'#7f8c8d', questions:['Do you feel safe in your neighborhood?','Have you ever been bullied, threatened, or hurt by someone?','Have you ever carried a weapon for protection?','Have you ever been in trouble with the law?']},
+    ],
+  },
+];
+
+let _activeTool = null;
+
+function openScreeningTools() {
+  const modal = document.getElementById('screeningModal');
+  if (!modal) return;
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  buildToolList();
+}
+
+function closeScreeningTools() {
+  const modal = document.getElementById('screeningModal');
+  if (modal) { modal.style.display = 'none'; document.body.style.overflow = ''; }
+}
+
+function buildToolList() {
+  const list = document.getElementById('screeningToolList');
+  if (!list) return;
+  list.innerHTML = SCREENING_TOOLS.map(t => `
+    <div onclick="loadScreeningTool('${t.id}')" id="stl_${t.id}" style="padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s" onmouseover="this.style.background='#f0ece6'" onmouseout="this.style.background=_activeTool===this?'var(--cream)':'transparent'">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">
+        <span style="font-size:16px">${t.icon}</span>
+        <span style="font-size:13px;font-weight:700;color:var(--ink)">${t.name}</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.4;padding-left:26px">${t.full.replace(/ — .*/,'')}</div>
+      <div style="font-size:9.5px;color:rgba(0,0,0,.35);padding-left:26px;margin-top:2px">${t.audience}</div>
+    </div>`).join('');
+}
+
+function loadScreeningTool(id) {
+  _activeTool = id;
+  const tool = SCREENING_TOOLS.find(t => t.id === id);
+  if (!tool) return;
+  // Highlight active in sidebar
+  document.querySelectorAll('#screeningToolList > div').forEach(d => d.style.background = 'transparent');
+  const active = document.getElementById('stl_' + id);
+  if (active) active.style.background = 'var(--cream)';
+
+  const content = document.getElementById('screeningContent');
+  if (!content) return;
+  content.scrollTop = 0;
+
+  let html = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+      <span style="font-size:40px">${tool.icon}</span>
+      <div>
+        <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:${tool.color}">${tool.audience}</div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--ink);line-height:1.1;font-weight:700">${tool.name} — ${tool.full}</h2>
+      </div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:6px">${tool.desc}</p>
+    <div style="font-size:11px;color:rgba(0,0,0,.35);margin-bottom:20px;font-style:italic">Source: ${tool.source}</div>`;
+
+  if (tool.warning) html += `<div style="background:#fdf3f2;border:1px solid #e74c3c;border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#c0392b;line-height:1.55"><strong>⚠️ Important:</strong> ${tool.warning}</div>`;
+  if (tool.note) html += `<div style="background:var(--cream);border-left:3px solid var(--gold);padding:10px 14px;margin-bottom:20px;font-size:12.5px;color:var(--text);line-height:1.55">${tool.note}</div>`;
+
+  if (tool.type === 'guide') {
+    // HEEADSSS interview guide
+    html += `<div style="font-size:12px;color:var(--muted);margin-bottom:20px">This is an interview guide, not a scored instrument. Use these questions to structure a psychosocial conversation with the adolescent. Begin with less sensitive domains (H, E) before moving to more sensitive ones (D, S, S, S).</div>`;
+    html += tool.domains.map(d => `
+      <div style="margin-bottom:16px;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="background:${d.color};padding:10px 16px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:20px;font-weight:900;color:white;font-family:'Cormorant Garamond',serif">${d.letter}</span>
+          <span style="font-size:14px;font-weight:700;color:white">${d.name}</span>
+        </div>
+        <div style="padding:12px 16px;background:white">
+          ${d.questions.map(q => `<div style="font-size:13px;color:var(--text);padding:5px 0;border-bottom:1px solid var(--cream);display:flex;align-items:flex-start;gap:8px"><span style="color:${d.color};font-size:10px;margin-top:4px;flex-shrink:0">▶</span>${q}</div>`).join('')}
+        </div>
+      </div>`).join('');
+    html += `<div style="display:flex;gap:10px;margin-top:20px"><button onclick="printScreeningTool('${id}')" style="background:var(--ink);color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🖨️ Print Guide</button></div>`;
+
+  } else if (tool.type === 'yesno_alert') {
+    // C-SSRS
+    html += `<div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:16px">Ideation — Check all that apply:</div>`;
+    html += `<div style="display:flex;flex-direction:column;gap:10px" id="cssrs_items">`;
+    html += tool.items.map((q, i) => `
+      <label style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:white" id="cssrs_row_${i}">
+        <input type="checkbox" value="${i}" onchange="cssrsCheck()" style="margin-top:3px;width:16px;height:16px;flex-shrink:0">
+        <div><div style="font-size:13px;color:var(--ink);line-height:1.5">${q}</div></div>
+      </label>`).join('');
+    html += `</div>`;
+    if (tool.behaviors) {
+      html += `<div style="font-size:13px;color:var(--text);font-weight:600;margin:20px 0 12px">Behavior — Check all that apply:</div>`;
+      html += tool.behaviors.map((q, i) => `
+        <label style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:7px;cursor:pointer;background:white;margin-bottom:10px">
+          <input type="checkbox" style="margin-top:3px;width:16px;height:16px;flex-shrink:0">
+          <div style="font-size:13px;color:var(--ink);line-height:1.5">${q}</div>
+        </label>`).join('');
+    }
+    html += `<div id="cssrsResult" style="margin-top:20px"></div>`;
+    html += `<div style="margin-top:16px"><button onclick="printScreeningTool('${id}')" style="background:var(--ink);color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🖨️ Print</button></div>`;
+
+  } else if (tool.type === 'yesno') {
+    if (tool.partA) {
+      html += `<div style="background:var(--cream);border-radius:8px;padding:16px 18px;margin-bottom:20px"><div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">${tool.partA.label}</div>`;
+      html += tool.partA.items.map((q, i) => `
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer">
+          <input type="checkbox" id="pA_${i}" onchange="crafftPartACheck()" style="margin-top:3px;width:15px;height:15px;flex-shrink:0">
+          <span style="font-size:13px;color:var(--text);line-height:1.5">${q}</span>
+        </label>`).join('');
+      html += `<div style="font-size:11px;color:var(--muted);margin-top:10px;font-style:italic">${tool.partA.note}</div></div>`;
+      html += `<div id="partBSection" style="display:none">`;
+    }
+    html += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px">${tool.partA ? 'Part B:' : ''} Answer Yes or No:</div>`;
+    html += `<div style="display:flex;flex-direction:column;gap:8px">`;
+    html += tool.items.map((q, i) => `
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:7px;background:white">
+        <span style="font-size:13px;color:var(--text);flex:1;line-height:1.5">${q}</span>
+        <div style="display:flex;gap:8px;flex-shrink:0">
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${i}" value="1" onchange="scoreScreening('${id}')"> Yes</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${i}" value="0" onchange="scoreScreening('${id}')"> No</label>
+        </div>
+      </div>`).join('');
+    html += `</div>`;
+    if (tool.partA) html += `</div>`;
+    html += `<div id="score_${id}" style="margin-top:24px"></div>`;
+    html += `<div style="margin-top:12px;display:flex;gap:10px"><button onclick="scoreScreening('${id}')" style="background:${tool.color};color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Calculate Score</button><button onclick="printScreeningTool('${id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">🖨️ Print</button></div>`;
+
+  } else {
+    // likert or likert3
+    const scale = tool.scale;
+    html += `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px">`;
+    html += `<thead><tr><td style="padding:8px;font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink);min-width:200px">Question</td>`;
+    html += scale.map((s,si) => `<td style="padding:8px;text-align:center;font-weight:600;color:var(--muted);border-bottom:2px solid var(--ink);white-space:nowrap;min-width:70px">${s}<br><span style="font-size:10px;color:var(--muted)">(${si})</span></td>`).join('');
+    html += `</tr></thead><tbody>`;
+    html += tool.items.map((q, i) => `
+      <tr style="border-bottom:1px solid var(--cream)">
+        <td style="padding:10px 8px;color:var(--text);line-height:1.5;font-size:13px">${i+1}. ${q}</td>
+        ${scale.map((_,si) => `<td style="padding:8px;text-align:center"><label style="cursor:pointer"><input type="radio" name="${id}_${i}" value="${si}" onchange="scoreScreening('${id}')" style="width:16px;height:16px"></label></td>`).join('')}
+      </tr>`).join('');
+    html += `</tbody></table></div>`;
+    html += `<div id="score_${id}" style="margin-top:24px"></div>`;
+    html += `<div style="margin-top:12px;display:flex;gap:10px"><button onclick="scoreScreening('${id}')" style="background:${tool.color};color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Calculate Score</button><button onclick="printScreeningTool('${id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">🖨️ Print</button></div>`;
+  }
+
+  content.innerHTML = html;
+}
+
+function scoreScreening(id) {
+  const tool = SCREENING_TOOLS.find(t => t.id === id);
+  if (!tool) return;
+  let score = 0;
+  const n = tool.items.length;
+  for (let i = 0; i < n; i++) {
+    const sel = document.querySelector(`input[name="${id}_${i}"]:checked`);
+    if (sel) score += parseInt(sel.value);
+  }
+  const answered = document.querySelectorAll(`input[name^="${id}_"]:checked`).length;
+  if (answered < n) return; // Not all answered
+  const div = document.getElementById('score_' + id);
+  if (!div) return;
+  const level = tool.scoring?.find(s => score <= s.max) || tool.scoring?.[tool.scoring.length - 1];
+  if (!level) return;
+  div.innerHTML = `
+    <div style="background:${level.color}18;border:2px solid ${level.color};border-radius:10px;padding:20px 24px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+        <div style="font-size:32px;font-weight:900;color:${level.color};font-family:'Cormorant Garamond',serif">${score}</div>
+        <div><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${level.color}">${tool.name} Score</div><div style="font-size:16px;font-weight:700;color:var(--ink)">${level.label}</div></div>
+      </div>
+      <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px"><strong>Recommended Action:</strong> ${level.action}</div>
+      ${id==='phqa'&&score>=2?'<div style="font-size:12px;color:#c0392b;font-weight:600;padding:8px 12px;background:rgba(192,57,43,.08);border-radius:5px">⚠️ If item 9 (self-harm) was answered anything other than "Not at all," follow your agency\'s suicide risk protocol immediately.</div>':''}
+      <div style="font-size:11px;color:var(--muted);margin-top:10px;font-style:italic">This screening tool does not replace clinical judgment or diagnosis. All results should be reviewed with a qualified professional.</div>
+    </div>`;
+  div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function cssrsCheck() {
+  const checked = document.querySelectorAll('#cssrs_items input:checked');
+  const result = document.getElementById('cssrsResult');
+  if (!result) return;
+  if (checked.length === 0) { result.innerHTML = ''; return; }
+  const highRisk = [...checked].some(c => parseInt(c.value) >= 2);
+  result.innerHTML = `
+    <div style="background:${highRisk?'#fdf3f2':'#fff8ec'};border:2px solid ${highRisk?'#e74c3c':'#f39c12'};border-radius:10px;padding:20px 24px">
+      <div style="font-size:16px;font-weight:700;color:${highRisk?'#c0392b':'#d68910'};margin-bottom:10px">${highRisk?'⚠️ Immediate Safety Assessment Required':'⚠️ Follow-Up Required'}</div>
+      <div style="font-size:13.5px;color:var(--text);line-height:1.65">${highRisk?'One or more high-risk items endorsed (items 3–5). Follow your agency\'s suicide risk protocol immediately. Do not leave the individual alone. Contact 988 or emergency services if needed.':'Suicidal ideation is present. A full clinical assessment is required. Do not dismiss. Implement your agency\'s suicide risk protocol.'}</div>
+      <div style="margin-top:14px;font-size:13px;font-weight:700"><a href="tel:988" style="color:#c0392b;text-decoration:none">📞 988 Suicide & Crisis Lifeline — Call or Text 988</a></div>
+    </div>`;
+}
+
+function crafftPartACheck() {
+  const anyChecked = document.querySelectorAll('[id^="pA_"]:checked').length > 0;
+  const partB = document.getElementById('partBSection');
+  if (partB) partB.style.display = anyChecked ? 'block' : 'none';
+}
+
+function printScreeningTool(id) {
+  const tool = SCREENING_TOOLS.find(t => t.id === id);
+  const content = document.getElementById('screeningContent');
+  if (!content || !tool) return;
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>${tool.name} — ${tool.full}</title><style>body{font-family:Georgia,serif;font-size:13px;line-height:1.7;color:#111;max-width:720px;margin:40px auto;padding:0 24px}h1{font-size:22px;margin-bottom:4px}h2{font-size:16px;margin:24px 0 8px}table{width:100%;border-collapse:collapse}td{padding:8px;border:1px solid #ccc}input{display:none}label{display:inline}@media print{body{margin:0}}</style></head><body>${content.innerHTML}</body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(), 400);
 }
 
 // ══ BILLING TOGGLE ══
@@ -5543,6 +6311,36 @@ window.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <footer class="footer" id="site-footer" style="display:block"></footer>
+
+<!-- SCREENING TOOLS MODAL -->
+<div id="screeningModal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.7);overflow:hidden">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;background:white;max-width:900px;width:100%;margin:0 auto;height:100%;box-shadow:0 0 60px rgba(0,0,0,.4)">
+    <!-- Header -->
+    <div style="background:var(--ink);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#c49edf;font-weight:700;margin-bottom:2px">Clinical Screening Tools</div>
+        <div style="font-size:18px;font-weight:700;color:white">🩺 Validated Instruments · Free</div>
+      </div>
+      <button onclick="closeScreeningTools()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+    <!-- Body: sidebar + content -->
+    <div style="display:flex;flex:1;overflow:hidden">
+      <!-- Tool list sidebar -->
+      <div style="width:220px;flex-shrink:0;background:#f8f6f2;border-right:1px solid var(--border);overflow-y:auto">
+        <div style="padding:14px 16px 8px;font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)">Select a Tool</div>
+        <div id="screeningToolList"></div>
+      </div>
+      <!-- Tool content -->
+      <div style="flex:1;overflow-y:auto;padding:28px 32px" id="screeningContent">
+        <div style="text-align:center;padding:60px 20px;color:var(--muted)">
+          <div style="font-size:48px;margin-bottom:14px">🩺</div>
+          <div style="font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px">Select a screening tool from the left</div>
+          <div style="font-size:13px;line-height:1.6">All instruments are validated, free, and printable.<br>Results include interpretation and recommended next steps.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- TOPIC SUGGESTION MODAL -->
 <div id="topicModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;align-items:center;justify-content:center;padding:20px">
