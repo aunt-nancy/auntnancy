@@ -251,6 +251,27 @@ img{max-width:100%}
 .youth-video-item{flex:0 0 260px;scroll-snap-align:start;background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s}
 .youth-video-item:hover{border-color:var(--gold);transform:translateY(-2px)}
 
+/* POLICY MICRO-VIDEOS */
+.micro-strip{display:flex;gap:16px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.micro-strip::-webkit-scrollbar{display:none}
+.micro-card{flex-shrink:0;width:230px;height:370px;border-radius:14px;overflow:hidden;position:relative;background:#0a0a0a;box-shadow:0 8px 28px rgba(0,0,0,.35);cursor:pointer;user-select:none}
+.micro-slide{position:absolute;inset:0;padding:18px;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(16px);transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.micro-slide.ms-on{opacity:1;transform:translateY(0);pointer-events:auto}
+.micro-slide-icon{font-size:48px;margin-bottom:12px}
+.micro-slide-label{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:8px}
+.micro-slide-hed{font-family:'Cormorant Garamond',serif;font-size:21px;color:white;line-height:1.2;font-weight:700;margin-bottom:10px}
+.micro-slide-point{font-size:12.5px;color:rgba(255,255,255,.88);line-height:1.5;margin-bottom:7px;padding-left:15px;position:relative}
+.micro-slide-point::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:10px;top:2px}
+.micro-slide-src{font-size:9.5px;color:rgba(255,255,255,.38);margin-top:10px;font-style:italic}
+.micro-footer{position:absolute;bottom:0;left:0;right:0;padding:10px 14px 12px;background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);z-index:10}
+.micro-prog-track{height:2px;background:rgba(255,255,255,.18);border-radius:2px;margin-bottom:7px;overflow:hidden}
+.micro-prog-bar{height:100%;background:var(--gold);border-radius:2px;transition:width .15s linear;width:0%}
+.micro-ctrl{display:flex;align-items:center;justify-content:space-between}
+.micro-time{font-size:9.5px;color:rgba(255,255,255,.45);font-family:'DM Sans',sans-serif}
+.micro-playbtn{background:transparent;border:1px solid rgba(255,255,255,.3);color:white;font-size:11px;cursor:pointer;padding:3px 8px;border-radius:4px;font-family:'DM Sans',sans-serif}
+.micro-badge{position:absolute;top:12px;left:14px;z-index:10;background:rgba(0,0,0,.6);color:var(--gold-lt);font-size:8.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid rgba(200,146,58,.3)}
+.micro-tap{position:absolute;top:12px;right:14px;z-index:10;font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.06em;text-transform:uppercase}
+
 /* BLOG — MAGAZINE / NEWSPAPER FORMAT */
 /* Category nav */
 .blog-filter{background:transparent;border:none;border-bottom:3px solid transparent;color:var(--muted);padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
@@ -1567,6 +1588,22 @@ img{max-width:100%}
   </div>
   <section class="section">
     <div class="container">
+      <!-- MICRO-VIDEO STRIP -->
+      <div style="margin-bottom:32px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div>
+            <span style="font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--rust)">🎬 Policy Micro-Briefs</span>
+            <h3 style="font-size:20px;color:var(--ink);margin:4px 0 2px">Trending Topics · Animated</h3>
+            <p style="font-size:12px;color:var(--muted)">Tap any card to play · Tap again to advance · AI-generated key points</p>
+          </div>
+          <button onclick="refreshPolicyMicros('eduMicros')" style="background:transparent;border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;padding:6px 12px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif">✨ Refresh with AI</button>
+        </div>
+        <div class="micro-strip" id="eduMicros">
+          <div style="display:flex;align-items:center;justify-content:center;width:230px;height:370px;border-radius:14px;background:var(--cream);border:1px solid var(--border);flex-shrink:0">
+            <div style="text-align:center;color:var(--muted)"><div style="font-size:28px;margin-bottom:8px">🎬</div><div style="font-size:12px">Loading briefs…</div></div>
+          </div>
+        </div>
+      </div>
       <div class="edu-sched" id="eduSched"></div>
       <div class="edu-tabs">
         <button class="edu-tab on" data-edu="local" onclick="loadEdu('local')">📍 Local</button>
@@ -2034,6 +2071,24 @@ img{max-width:100%}
       </div>
     </div>
   </div>
+
+  <section style="background:var(--ink);padding:28px 0">
+    <div class="container">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+        <div>
+          <span style="font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt)">🎬 Policy Micro-Briefs</span>
+          <h3 style="font-size:20px;color:white;margin:4px 0 2px">Trending Topics · Animated</h3>
+          <p style="font-size:12px;color:rgba(255,255,255,.45)">AI-generated key points · Tap to play · Tap to advance</p>
+        </div>
+        <button onclick="go('education')" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-size:11px;font-weight:600;padding:6px 12px;border-radius:4px;cursor:pointer;font-family:'DM Sans',sans-serif">View Policy Updates →</button>
+      </div>
+      <div class="micro-strip" id="videosMicros">
+        <div style="display:flex;align-items:center;justify-content:center;width:230px;height:370px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);flex-shrink:0">
+          <div style="text-align:center;color:rgba(255,255,255,.35)"><div style="font-size:28px;margin-bottom:8px">🎬</div><div style="font-size:12px">Loading…</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section style="background:var(--cream);padding:18px 0;border-bottom:1px solid var(--border)">
     <div class="container">
@@ -2818,7 +2873,8 @@ function go(id,el){
   if(id==='kinship') setTimeout(()=>{initKinshipCorner();renderCasePanel('casePanelKinship');renderAppointmentsWidget('apptWidgetKinship');},100);
   if(id==='blog') setTimeout(loadBlog,100);
   if(id==='training') setTimeout(loadTraining,100);
-  if(id==='videos') setTimeout(loadVideos,100);
+  if(id==='videos'){setTimeout(loadVideos,100);setTimeout(()=>renderPolicyMicros('videosMicros'),200);}
+  if(id==='education') setTimeout(()=>renderPolicyMicros('eduMicros'),150);
   if(id==='youth') setTimeout(loadYouthVideos,150);
   if(id==='home') setTimeout(loadHomeVideos,200);
   if(id==='feedback') setTimeout(()=>{ loadFeedbackWall(); loadLocalContributions(); },100);
@@ -3628,6 +3684,207 @@ function toggleMobileNav(){
       ?'<span style="transform:rotate(45deg) translate(5px,5px);display:block;width:22px;height:2px;background:white;border-radius:2px"></span><span style="opacity:0;display:block;width:22px;height:2px;background:white;border-radius:2px"></span><span style="transform:rotate(-45deg) translate(5px,-5px);display:block;width:22px;height:2px;background:white;border-radius:2px"></span>'
       :'<span></span><span></span><span></span>';
   }
+}
+
+// ══ POLICY MICRO-VIDEOS ══
+const MICRO_TOPICS = [
+  {
+    icon:'📋', color:'#1a2a1a', accent:'#74c69d', label:'AB 12 · California',
+    title:'Extended Foster Care — What AB 12 Means for You',
+    points:['Youth can stay in care until age 21 in California','Monthly NMD stipend continues while you participate','Must be in school, working, or have a barrier to both','Health coverage through Medi-Cal continues to 26','You can re-enter care if you leave before 21'],
+    source:'CA WIC §11403 · Non-Minor Dependent Program'
+  },
+  {
+    icon:'⚖️', color:'#1a1020', accent:'#9b8fd4', label:'Federal Policy',
+    title:'Family First Prevention Services Act — Key Changes',
+    points:['Prioritizes prevention over removal','Funds mental health & substance use services','Limits congregate care placements for most youth','Requires trauma-informed care standards','States must certify all group homes meet QRTP standards'],
+    source:'PL 115-123 · Family First Act 2018'
+  },
+  {
+    icon:'🏠', color:'#1a1008', accent:'#f4a56a', label:'Kinship Policy',
+    title:'Kinship Caregiver Rights You May Not Know',
+    points:['You can request placement preference as a relative','DCFS must notify relatives within 30 days of removal','Kin are entitled to the same benefits as licensed foster parents','You can receive a waiver for some licensing requirements','California Kinship Support Services fund additional help'],
+    source:'CA WIC §309 · Kin-GAP · DCFS Policy'
+  },
+  {
+    icon:'🎓', color:'#0a1020', accent:'#7eb8f7', label:'Education Rights',
+    title:'McKinney-Vento — Foster Youth School Rights',
+    points:['Immediate enrollment — no records or documents required','School of origin rights — stay at your school after placement','Free meals, transportation, and school supplies','Designated foster youth liaison at every school district','Separate grade tracking prevents credit loss'],
+    source:'McKinney-Vento Act · CA Ed. Code §48853.5'
+  },
+  {
+    icon:'💊', color:'#0a0e1a', accent:'#74c69d', label:'Health Coverage',
+    title:'Medi-Cal for Former Foster Youth — No Age Cap',
+    points:['All former foster youth in CA get free Medi-Cal to age 26','No income requirement — regardless of earnings','Covers medical, dental, vision, and mental health','No enrollment deadline — apply anytime before 26','Applies to youth who were in foster care at any point in CA'],
+    source:'ACA §2004 · CA DHCS Foster Youth Medi-Cal'
+  },
+  {
+    icon:'💰', color:'#1a0e06', accent:'#c8923a', label:'Financial Aid',
+    title:'Chafee & ETV Grants — Money Made for Foster Youth',
+    points:['ETV grants: up to $5,000/year for ages 14–26','Chafee: covers living expenses, housing, transportation','California THP-Plus: housing for ages 18–24','No repayment required — these are grants not loans','Apply through your county IL coordinator'],
+    source:'John H. Chafee Act · 42 USC §677 · CA ILP'
+  },
+];
+
+const _microStates = {}; // containerId → { topics, cards[] }
+
+function buildMicroCard(topic, containerId, idx) {
+  const slides = [
+    // Slide 0: title
+    { type: 'title', icon: topic.icon, label: topic.label, headline: topic.title },
+    // Slides 1–5: one point each
+    ...topic.points.map((pt, i) => ({ type: 'point', num: i+1, total: topic.points.length, text: pt })),
+    // Last slide: source
+    { type: 'source', icon: '📌', src: topic.source },
+  ];
+
+  const cardId = `mc_${containerId}_${idx}`;
+  const totalSec = slides.length * 4; // 4 seconds per slide
+
+  const bgGrad = `linear-gradient(145deg, ${topic.color}, #0a0a0a)`;
+
+  const slidesHTML = slides.map((s, si) => {
+    if (s.type === 'title') return `
+      <div class="micro-slide${si===0?' ms-on':''}" data-slide="${si}">
+        <div class="micro-slide-icon">${s.icon}</div>
+        <div class="micro-slide-label">${s.label}</div>
+        <div class="micro-slide-hed">${s.headline}</div>
+        <div class="micro-slide-src">Tap to advance</div>
+      </div>`;
+    if (s.type === 'point') return `
+      <div class="micro-slide" data-slide="${si}">
+        <div class="micro-slide-label" style="color:rgba(255,255,255,.4)">Point ${s.num} of ${s.total}</div>
+        <div class="micro-slide-point">${s.text}</div>
+      </div>`;
+    if (s.type === 'source') return `
+      <div class="micro-slide" data-slide="${si}">
+        <div class="micro-slide-icon" style="font-size:32px">📌</div>
+        <div class="micro-slide-label">Source</div>
+        <div class="micro-slide-src" style="font-size:12px;color:rgba(255,255,255,.65);font-style:normal;line-height:1.5">${s.src}</div>
+        <div style="margin-top:16px"><button onclick="go('education')" style="background:${topic.accent};color:#0a0a0a;border:none;padding:7px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:800;cursor:pointer">View Policy Updates →</button></div>
+      </div>`;
+    return '';
+  }).join('');
+
+  return `<div class="micro-card" id="${cardId}" onclick="microAdvance('${cardId}',${slides.length})" style="background:${bgGrad}" data-slide="0" data-playing="0" data-total="${slides.length}" data-totalsec="${totalSec}" data-elapsed="0">
+    <div class="micro-badge">📰 Policy Brief</div>
+    <div class="micro-tap">Tap to start</div>
+    ${slidesHTML}
+    <div class="micro-footer">
+      <div class="micro-prog-track"><div class="micro-prog-bar" id="${cardId}_prog"></div></div>
+      <div class="micro-ctrl">
+        <span class="micro-time" id="${cardId}_time">0:00 / ${Math.floor(totalSec/60)}:${String(totalSec%60).padStart(2,'0')}</span>
+        <button class="micro-playbtn" onclick="event.stopPropagation();microTogglePlay('${cardId}',${slides.length},${totalSec})" id="${cardId}_btn">▶ Play</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function microAdvance(cardId, totalSlides) {
+  const card = document.getElementById(cardId);
+  if (!card) return;
+  const cur = parseInt(card.dataset.slide || '0');
+  const next = (cur + 1) % totalSlides;
+  card.querySelectorAll('.micro-slide').forEach(s => s.classList.remove('ms-on'));
+  const nextEl = card.querySelector(`[data-slide="${next}"]`);
+  if (nextEl) nextEl.classList.add('ms-on');
+  card.dataset.slide = next;
+  // Update tap hint
+  const tap = card.querySelector('.micro-tap');
+  if (tap) tap.textContent = next === totalSlides - 1 ? 'Tap to restart' : 'Tap to advance';
+}
+
+const _microTimers = {};
+function microTogglePlay(cardId, totalSlides, totalSec) {
+  const card = document.getElementById(cardId);
+  const btn = document.getElementById(cardId + '_btn');
+  const prog = document.getElementById(cardId + '_prog');
+  const timeEl = document.getElementById(cardId + '_time');
+  if (!card) return;
+
+  if (_microTimers[cardId]) {
+    clearInterval(_microTimers[cardId]);
+    delete _microTimers[cardId];
+    if (btn) btn.textContent = '▶ Play';
+    card.dataset.playing = '0';
+    return;
+  }
+
+  card.dataset.playing = '1';
+  if (btn) btn.textContent = '⏸ Pause';
+  const tapHint = card.querySelector('.micro-tap');
+  if (tapHint) tapHint.style.display = 'none';
+
+  let elapsed = parseFloat(card.dataset.elapsed || '0');
+  const secPerSlide = totalSec / totalSlides;
+
+  _microTimers[cardId] = setInterval(() => {
+    elapsed += 0.1;
+    card.dataset.elapsed = elapsed;
+    if (prog) prog.style.width = Math.min(100, (elapsed / totalSec) * 100) + '%';
+    const sec = Math.floor(elapsed);
+    if (timeEl) timeEl.textContent = `${Math.floor(sec/60)}:${String(sec%60).padStart(2,'0')} / ${Math.floor(totalSec/60)}:${String(totalSec%60).padStart(2,'0')}`;
+
+    const expectedSlide = Math.min(totalSlides - 1, Math.floor(elapsed / secPerSlide));
+    const curSlide = parseInt(card.dataset.slide || '0');
+    if (expectedSlide !== curSlide) {
+      card.querySelectorAll('.micro-slide').forEach(s => s.classList.remove('ms-on'));
+      const nextEl = card.querySelector(`[data-slide="${expectedSlide}"]`);
+      if (nextEl) nextEl.classList.add('ms-on');
+      card.dataset.slide = expectedSlide;
+    }
+
+    if (elapsed >= totalSec) {
+      clearInterval(_microTimers[cardId]);
+      delete _microTimers[cardId];
+      if (btn) btn.textContent = '↺ Replay';
+      card.dataset.playing = '0';
+      card.dataset.elapsed = '0';
+      card.dataset.slide = '0';
+    }
+  }, 100);
+}
+
+async function refreshPolicyMicros(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  // Show loading state on all cards
+  container.querySelectorAll('.micro-card').forEach(c => {
+    c.style.opacity = '.4';
+  });
+  // Use Claude to generate fresh key points for a random topic
+  try {
+    const topic = MICRO_TOPICS[Math.floor(Math.random() * MICRO_TOPICS.length)];
+    const r = await fetch('/.netlify/functions/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system: 'You generate concise policy key points for foster care educators. Respond ONLY with valid JSON — no markdown, no backticks, no preamble.',
+        messages: [{ role: 'user', content: `Give me 5 current, actionable key points about: "${topic.title}". Format: {"points":["point1","point2","point3","point4","point5"]}` }],
+        max_tokens: 300,
+      })
+    });
+    if (r.ok) {
+      const data = await r.json();
+      const text = (data.content?.[0]?.text || '').replace(/```json|```/g,'').trim();
+      const parsed = JSON.parse(text);
+      if (parsed.points?.length) {
+        topic.points = parsed.points;
+        renderPolicyMicros(containerId); // Re-render with fresh points
+        return;
+      }
+    }
+  } catch(e) {}
+  // Just re-render with existing data
+  container.querySelectorAll('.micro-card').forEach(c => { c.style.opacity = '1'; });
+}
+
+function renderPolicyMicros(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = MICRO_TOPICS.map((topic, idx) =>
+    buildMicroCard(topic, containerId, idx)
+  ).join('');
 }
 
 // ══ BILLING TOGGLE ══
