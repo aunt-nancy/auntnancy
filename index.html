@@ -1844,43 +1844,109 @@ img{max-width:100%}
 
           <!-- ADD / EDIT FORM -->
           <div id="placementForm" style="display:none;background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:22px">
-            <h3 style="font-size:20px;color:var(--ink);margin-bottom:16px" id="pfTitle">New Placement</h3>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-              <div class="af"><label>Child's First Name</label><input type="text" id="pf-name" placeholder="First name only"></div>
-              <div class="af"><label>Date of Birth</label><input type="date" id="pf-dob"></div>
+            <h3 style="font-size:20px;color:var(--ink);margin-bottom:4px" id="pfTitle">New Placement</h3>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:18px">All information stays private on your device. Never shared or synced.</p>
+
+            <!-- CHILD INFO -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+              <div class="af"><label>First Name</label><input type="text" id="pf-fname" placeholder="First name"></div>
+              <div class="af"><label>Middle Name</label><input type="text" id="pf-mname" placeholder="Middle name"></div>
+              <div class="af"><label>Last Name</label><input type="text" id="pf-lname" placeholder="Last name"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+              <div class="af"><label>Date of Birth <span style="color:#c0392b">*</span></label><input type="date" id="pf-dob"></div>
+              <div class="af"><label>Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
+              <div class="af"><label>Gender</label><select id="pf-gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+              <div class="af"><label>Primary Language</label><input type="text" id="pf-lang" placeholder="e.g. Spanish, English"></div>
+              <div class="af" style="grid-column:span 2"><label>ICWA Status</label><select id="pf-icwa"><option value="unknown">Unknown</option><option value="yes">Yes — ICWA Applies</option><option value="no">Does Not Apply</option></select></div>
+            </div>
+
+            <!-- PLACEMENT INFO -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Placement Details</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
               <div class="af"><label>Placement Date</label><input type="date" id="pf-date"></div>
-              <div class="af"><label>Child's Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
-              <div class="af"><label>School / Grade</label><input type="text" id="pf-school" placeholder="e.g. 75th Street Elementary · 3rd grade"></div>
-              <div class="af"><label>School Enrolled?</label><select id="pf-enrolled"><option value="">Select…</option><option value="yes">Yes — enrolled</option><option value="pending">Pending enrollment</option><option value="no">Not yet</option><option value="na">Not school age</option></select></div>
+              <div class="af"><label>Placement Type</label><select id="pf-placetype"><option value="">Select…</option><option value="foster">Foster Family Home</option><option value="kinship">Kinship / Relative</option><option value="nrefm">NREFM</option><option value="group">Group Home / STRTP</option><option value="thp">THP-Plus</option><option value="rfa">RFA Home</option></select></div>
+              <div class="af"><label>Prior Placements (count)</label><input type="number" id="pf-prior" placeholder="Number of prior placements" min="0"></div>
+              <div class="af"><label>SCI Level</label><select id="pf-sci"><option value="">None</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select></div>
+              <div class="af"><label>Bio Family Contact</label><select id="pf-biocontact"><option value="unknown">Unknown</option><option value="yes">Yes — unsupervised</option><option value="supervised">Supervised Visits</option><option value="virtual">Virtual Only</option><option value="no-contact">No Contact Order</option></select></div>
+            </div>
+
+            <!-- EDUCATION -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Education</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+              <div class="af"><label>School Name</label><input type="text" id="pf-school" placeholder="School name"></div>
+              <div class="af"><label>Grade</label><input type="text" id="pf-grade" placeholder="e.g. 3rd, 8th, 11th"></div>
+              <div class="af"><label>Enrollment Status</label><select id="pf-enrolled"><option value="">Select…</option><option value="yes">Enrolled</option><option value="pending">Enrollment Pending</option><option value="no">Not Yet Enrolled</option><option value="na">Not School Age</option></select></div>
+              <div class="af"><label>IEP Status</label><select id="pf-iep"><option value="">Select…</option><option value="active">Active IEP</option><option value="needed">IEP Needed</option><option value="review">Under Review</option><option value="none">No IEP</option></select></div>
+              <div class="af"><label>504 Plan Status</label><select id="pf-504"><option value="">Select…</option><option value="active">Active 504 Plan</option><option value="needed">504 Needed</option><option value="review">Under Review</option><option value="none">No 504 Plan</option></select></div>
+            </div>
+
+            <!-- HEALTH -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Health & Medical</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+              <div class="af"><label>Medi-Cal Status</label><select id="pf-medi"><option value="">Select…</option><option value="active">Active</option><option value="pending">Pending</option><option value="issue">Issue — Follow Up</option><option value="unknown">Unknown</option></select></div>
+              <div class="af"><label>Primary Care Doctor</label><input type="text" id="pf-doctor" placeholder="Dr. name or clinic"></div>
+              <div class="af"><label>Doctor Phone</label><input type="tel" id="pf-doctorph" placeholder="Phone number"></div>
+              <div class="af"><label>Therapist / Counselor</label><input type="text" id="pf-therapist" placeholder="Therapist name"></div>
+              <div class="af"><label>Therapist Phone</label><input type="tel" id="pf-therapistph" placeholder="Phone number"></div>
+              <div class="af" style="grid-column:span 2"><label>Current Medications</label><input type="text" id="pf-meds" placeholder="Medication name, dosage, frequency — or 'None'"></div>
+            </div>
+
+            <!-- CASE TEAM -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Case Team</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
               <div class="af"><label>CSW Name</label><input type="text" id="pf-csw" placeholder="Assigned social worker"></div>
-              <div class="af"><label>CSW Phone</label><input type="tel" id="pf-cswph" placeholder="Direct phone number"></div>
+              <div class="af"><label>CSW Phone</label><input type="tel" id="pf-cswph" placeholder="Direct number"></div>
               <div class="af"><label>SCSW Name</label><input type="text" id="pf-scsw" placeholder="Supervising social worker"></div>
-              <div class="af"><label>SCSW Phone</label><input type="tel" id="pf-scswph" placeholder="Direct phone number"></div>
-              <div class="af"><label>DCFS Case Number</label><input type="text" id="pf-case" placeholder="Optional"></div>
-              <div class="af"><label>Court Date</label><input type="date" id="pf-court"></div>
+              <div class="af"><label>SCSW Phone</label><input type="tel" id="pf-scswph" placeholder="Direct number"></div>
+              <div class="af"><label>CASA Name</label><input type="text" id="pf-casa" placeholder="CASA volunteer name"></div>
+              <div class="af"><label>Attorney</label><input type="text" id="pf-attorney" placeholder="Child's attorney"></div>
             </div>
-            <div class="af" style="margin-top:4px"><label>Clothing Allowance Status</label><select id="pf-clothing"><option value="">Select…</option><option value="requested">Letter sent — awaiting approval</option><option value="approved">Approved</option><option value="received">Received</option><option value="not-requested">Not yet requested</option></select></div>
-            <div class="af"><label>Emergency Benefit Status</label><select id="pf-ebenefit"><option value="">Select…</option><option value="requested">Requested</option><option value="approved">Approved</option><option value="received">Received</option><option value="not-requested">Not yet requested</option></select></div>
-            <div class="af"><label>Medi-Cal Status</label><select id="pf-medi"><option value="">Select…</option><option value="active">Active</option><option value="pending">Pending</option><option value="issue">Issue — follow up needed</option><option value="unknown">Unknown</option></select></div>
-            <div class="af"><label>CASA / Attorney</label><input type="text" id="pf-casa" placeholder="Name and contact"></div>
-            <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="Anything important to track — behaviors, medical, upcoming appointments…"></textarea></div>
-            <div class="af"><label>Documents Received</label>
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px" id="docChecks">
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-birth" style="accent-color:var(--gold)"> Birth Certificate</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-ss" style="accent-color:var(--gold)"> Social Security Card</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-immun" style="accent-color:var(--gold)"> Immunization Records</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-medi" style="accent-color:var(--gold)"> Medi-Cal Card</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-school" style="accent-color:var(--gold)"> School Records</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-iep" style="accent-color:var(--gold)"> IEP (if applicable)</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-court" style="accent-color:var(--gold)"> Court Orders</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-isp" style="accent-color:var(--gold)"> ISP / Case Plan</label>
-                <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer"><input type="checkbox" id="doc-health" style="accent-color:var(--gold)"> Health Passport</label>
-              </div>
+
+            <!-- LEGAL -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Legal / Court</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+              <div class="af"><label>DCFS Case Number</label><input type="text" id="pf-case" placeholder="Case number"></div>
+              <div class="af"><label>Judge</label><input type="text" id="pf-judge" placeholder="Judge's name"></div>
+              <div class="af"><label>Last Court Date</label><input type="date" id="pf-court"></div>
+              <div class="af"><label>Next Hearing Date</label><input type="date" id="pf-nexthearing"></div>
+              <div class="af" style="grid-column:span 2"><label>Hearing Type</label><select id="pf-hearingtype"><option value="">Select…</option><option>Detention</option><option>Jurisdiction</option><option>Disposition</option><option>6-Month Review</option><option>12-Month Review</option><option>18-Month Review</option><option>Permanency</option><option>Section 366.26</option><option>Other</option></select></div>
             </div>
-            <div style="display:flex;gap:9px;margin-top:16px">
+
+            <!-- BENEFITS -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Benefits</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+              <div class="af"><label>Clothing Allowance</label><select id="pf-clothing"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested — Awaiting</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
+              <div class="af"><label>Emergency Benefits</label><select id="pf-ebenefit"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
+            </div>
+
+            <!-- DOCUMENTS -->
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Documents Received</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px" id="docChecks">
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-birth" style="accent-color:var(--gold)"> Birth Certificate</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-ss" style="accent-color:var(--gold)"> Social Security Card</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-immun" style="accent-color:var(--gold)"> Immunization Records</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-medi" style="accent-color:var(--gold)"> Medi-Cal Card</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-school" style="accent-color:var(--gold)"> School Records</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-iep" style="accent-color:var(--gold)"> IEP</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-504" style="accent-color:var(--gold)"> 504 Plan</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-court" style="accent-color:var(--gold)"> Court Orders</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-isp" style="accent-color:var(--gold)"> ISP / Case Plan</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-health" style="accent-color:var(--gold)"> Health Passport</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-placement" style="accent-color:var(--gold)"> Placement Authorization</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-tribal" style="accent-color:var(--gold)"> Tribal Notice (ICWA)</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-dental" style="accent-color:var(--gold)"> Dental Records</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-therapy" style="accent-color:var(--gold)"> Therapy Authorization</label>
+              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-casa" style="accent-color:var(--gold)"> CASA Contact Info</label>
+            </div>
+
+            <!-- NOTES -->
+            <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="Behaviors, concerns, upcoming events, anything important…"></textarea></div>
+
+            <div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap">
               <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
               <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
-              <button onclick="printPlacement()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-left:auto">🖨 Print</button>
             </div>
           </div>
 
@@ -3282,9 +3348,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 // ══ PLACEMENT TRACKER ══
-const DOCS=['birth','ss','immun','medi','school','iep','court','isp','health'];
-const DOC_LABELS={'birth':'Birth Certificate','ss':'Social Security Card','immun':'Immunization Records','medi':'Medi-Cal Card','school':'School Records','iep':'IEP','court':'Court Orders','isp':'ISP / Case Plan','health':'Health Passport'};
-const STATUS_LABELS={'yes':'Enrolled','pending':'Enrollment Pending','no':'Not Enrolled','na':'Not School Age','requested':'Requested','approved':'Approved','received':'Received','not-requested':'Not Requested','active':'Active','issue':'Issue — Follow Up','unknown':'Unknown','':' —'};
+const DOCS=['birth','ss','immun','medi','school','iep','504','court','isp','health','placement','tribal','dental','therapy','casa'];
+const DOC_LABELS={'birth':'Birth Certificate','ss':'Social Security Card','immun':'Immunization Records','medi':'Medi-Cal Card','school':'School Records','iep':'IEP','504':'504 Plan','court':'Court Orders','isp':'ISP / Case Plan','health':'Health Passport','placement':'Placement Authorization','tribal':'Tribal Notice (ICWA)','dental':'Dental Records','therapy':'Therapy Authorization','casa':'CASA Contact Info'};
+const STATUS_LABELS={'yes':'Enrolled','pending':'Pending','no':'Not Enrolled','na':'Not School Age','requested':'Requested','approved':'Approved','received':'Received','not-requested':'Not Requested','active':'Active','issue':'Issue — Follow Up','unknown':'Unknown','none':'None','supervised':'Supervised Visits','no-contact':'No Contact Order','virtual':'Virtual Only','':'—','1':'Level 1','2':'Level 2','3':'Level 3','foster':'Foster Family Home','kinship':'Kinship / Relative','nrefm':'NREFM','group':'Group Home / STRTP','thp':'THP-Plus','rfa':'RFA Home'};
+const PLACEMENT_TYPES=['foster','kinship','nrefm','group','thp','rfa'];
+const BIO_CONTACT_OPTS=['yes','supervised','virtual','no-contact','unknown'];
+const HEARING_TYPES=['Detention','Jurisdiction','Disposition','6-Month Review','12-Month Review','18-Month Review','Permanency','Section 366.26','Other'];
 let editingPlacementId=null;
 
 function getPlacements(){
@@ -3304,15 +3373,14 @@ function openPlacementForm(id){
   document.getElementById('pfTitle').textContent=id?'Edit Placement':'New Placement';
   document.getElementById('pfSaveBtn').textContent=id?'Save Changes →':'Save Placement →';
   // Clear form
-  ['pf-name','pf-dob','pf-date','pf-age','pf-school','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-case','pf-court','pf-notes','pf-casa'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
-  ['pf-enrolled','pf-clothing','pf-ebenefit','pf-medi'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
+  ['pf-fname','pf-mname','pf-lname','pf-dob','pf-date','pf-age','pf-gender','pf-lang','pf-prior','pf-school','pf-grade','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-case','pf-court','pf-judge','pf-notes','pf-casa','pf-attorney','pf-therapist','pf-therapistph','pf-doctor','pf-doctorph','pf-meds'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
+  ['pf-enrolled','pf-clothing','pf-ebenefit','pf-medi','pf-placetype','pf-icwa','pf-iep','pf-504','pf-sci','pf-biocontact','pf-hearingtype','pf-nexthearing'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
   DOCS.forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=false;});
-  // If editing, populate
   if(id){
     const list=getPlacements();
     const p=list.find(p=>p.id===id);
     if(p){
-      const fmap={'pf-name':'name','pf-dob':'dob','pf-date':'date','pf-age':'age','pf-school':'school','pf-csw':'csw','pf-cswph':'cswph','pf-scsw':'scsw','pf-scswph':'scswph','pf-case':'caseNum','pf-court':'court','pf-notes':'notes','pf-casa':'casa','pf-enrolled':'enrolled','pf-clothing':'clothing','pf-ebenefit':'ebenefit','pf-medi':'medi'};
+      const fmap={'pf-fname':'fname','pf-mname':'mname','pf-lname':'lname','pf-dob':'dob','pf-date':'date','pf-age':'age','pf-gender':'gender','pf-lang':'language','pf-prior':'priorPlacements','pf-school':'school','pf-grade':'grade','pf-csw':'csw','pf-cswph':'cswph','pf-scsw':'scsw','pf-scswph':'scswph','pf-case':'caseNum','pf-court':'court','pf-judge':'judge','pf-notes':'notes','pf-casa':'casa','pf-attorney':'attorney','pf-therapist':'therapist','pf-therapistph':'therapistph','pf-doctor':'doctor','pf-doctorph':'doctorph','pf-meds':'medications','pf-enrolled':'enrolled','pf-clothing':'clothing','pf-ebenefit':'ebenefit','pf-medi':'medi','pf-placetype':'placementType','pf-icwa':'icwa','pf-iep':'iep','pf-504':'iep504','pf-sci':'sci','pf-biocontact':'bioContact','pf-hearingtype':'hearingType','pf-nexthearing':'nextHearing'};
       Object.entries(fmap).forEach(([fid,key])=>{const el=document.getElementById(fid);if(el&&p[key]) el.value=p[key];});
       (p.docs||[]).forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=true;});
     }
@@ -3324,33 +3392,80 @@ function cancelPlacementForm(){
   editingPlacementId=null;
 }
 
+function makePlacementKey(fname, mname, lname, dob){
+  // Generate a deterministic numeric ID from first+middle+last+dob
+  const raw = `${(fname||'').toLowerCase().trim()}|${(mname||'').toLowerCase().trim()}|${(lname||'').toLowerCase().trim()}|${(dob||'').trim()}`;
+  let hash = 0;
+  for(let i = 0; i < raw.length; i++){
+    hash = ((hash << 5) - hash) + raw.charCodeAt(i);
+    hash |= 0; // Convert to 32-bit integer
+  }
+  return Math.abs(hash).toString(); // Always positive numeric string
+}
+
 function savePlacement(){
-  const name=document.getElementById('pf-name').value.trim();
-  if(!name){alert('Please enter the child\'s first name.');return;}
+  const fname=(document.getElementById('pf-fname')?.value||'').trim();
+  const mname=(document.getElementById('pf-mname')?.value||'').trim();
+  const lname=(document.getElementById('pf-lname')?.value||'').trim();
+  const dob=document.getElementById('pf-dob').value;
+  const name=[fname,mname,lname].filter(Boolean).join(' ');
+  if(!fname){alert('Please enter the child\'s first name.');return;}
+  if(!dob){alert('Date of birth is required to create a unique record.');return;}
+
+  const compositeKey = makePlacementKey(fname, mname, lname, dob);
+  const list = getPlacements();
+
+  // Prevent duplicate when adding new (not editing)
+  if(!editingPlacementId){
+    const exists = list.find(p => p.id === compositeKey);
+    if(exists){
+      alert(`A placement for ${name} (DOB: ${dob}) already exists in your tracker. Edit the existing record instead.`);
+      return;
+    }
+  }
   const p={
-    id:editingPlacementId||('pl_'+Date.now()),
-    name,
-    dob:document.getElementById('pf-dob').value,
+    id: editingPlacementId || compositeKey,
+    fname, mname, lname, name,
+    dob,
     date:document.getElementById('pf-date').value,
     age:document.getElementById('pf-age').value,
+    gender:document.getElementById('pf-gender')?.value||'',
+    placementType:document.getElementById('pf-placetype')?.value||'',
+    priorPlacements:document.getElementById('pf-prior')?.value||'',
+    language:document.getElementById('pf-lang')?.value||'',
+    icwa:document.getElementById('pf-icwa')?.value||'unknown',
     school:document.getElementById('pf-school').value,
+    grade:document.getElementById('pf-grade')?.value||'',
     enrolled:document.getElementById('pf-enrolled').value,
+    iep:document.getElementById('pf-iep')?.value||'',
+    iep504:document.getElementById('pf-504')?.value||'',
     csw:document.getElementById('pf-csw').value,
     cswph:document.getElementById('pf-cswph').value,
     scsw:document.getElementById('pf-scsw').value,
     scswph:document.getElementById('pf-scswph').value,
     caseNum:document.getElementById('pf-case').value,
     court:document.getElementById('pf-court').value,
+    hearingType:document.getElementById('pf-hearingtype')?.value||'',
+    nextHearing:document.getElementById('pf-nexthearing')?.value||'',
+    judge:document.getElementById('pf-judge')?.value||'',
+    casa:document.getElementById('pf-casa').value,
+    attorney:document.getElementById('pf-attorney')?.value||'',
+    bioContact:document.getElementById('pf-biocontact')?.value||'unknown',
     clothing:document.getElementById('pf-clothing').value,
     ebenefit:document.getElementById('pf-ebenefit').value,
     medi:document.getElementById('pf-medi').value,
-    casa:document.getElementById('pf-casa').value,
+    sci:document.getElementById('pf-sci')?.value||'',
+    therapist:document.getElementById('pf-therapist')?.value||'',
+    therapistph:document.getElementById('pf-therapistph')?.value||'',
+    doctor:document.getElementById('pf-doctor')?.value||'',
+    doctorph:document.getElementById('pf-doctorph')?.value||'',
+    medications:document.getElementById('pf-meds')?.value||'',
     notes:document.getElementById('pf-notes').value,
     docs:DOCS.filter(d=>document.getElementById('doc-'+d)?.checked),
     updated:new Date().toISOString(),
     timeline:[]
   };
-  const list=getPlacements();
+  // list already declared above for duplicate check
   if(editingPlacementId){
     const idx=list.findIndex(x=>x.id===editingPlacementId);
     if(idx>-1){p.timeline=list[idx].timeline||[];list[idx]=p;}
@@ -3388,7 +3503,83 @@ function addNote(id){
   }
 }
 
-function printPlacement(){window.print();}
+function getCaseAlerts(p){
+  const alerts=[];
+  const days=daysInCare(p.date);
+  if(!p.name) return [];
+  if(!p.enrolled||p.enrolled==='no') alerts.push({level:'red',msg:'School enrollment not confirmed',action:'openLetterPDF("t3")',label:'McKinney-Vento Letter'});
+  if(p.enrolled==='pending') alerts.push({level:'yellow',msg:'School enrollment pending',action:null,label:null});
+  if(!p.medi||p.medi==='issue') alerts.push({level:'red',msg:'Medi-Cal status needs attention',action:null,label:null});
+  if(!p.clothing||p.clothing==='not-requested') alerts.push({level:'yellow',msg:'Clothing allowance not yet requested',action:'openLetterPDF("t1")',label:'Request Letter'});
+  if(!p.ebenefit||p.ebenefit==='not-requested') alerts.push({level:'yellow',msg:'Emergency benefits not requested',action:'openLetterPDF("t2")',label:'Request Letter'});
+  if(p.court&&p.nextHearing){const d=new Date(p.nextHearing);const diff=Math.ceil((d-new Date())/86400000);if(diff>=0&&diff<=14) alerts.push({level:diff<=3?'red':'yellow',msg:`Court hearing in ${diff} day${diff!==1?'s':''} — ${p.hearingType||'Hearing'}`,action:null,label:null});}
+  if(days&&days>30&&!p.iep&&p.enrolled==='yes') alerts.push({level:'yellow',msg:'Child enrolled 30+ days — verify IEP/504 status',action:null,label:null});
+  if(p.icwa==='yes'&&!(p.docs||[]).includes('tribal')) alerts.push({level:'red',msg:'ICWA — tribal notice document missing',action:null,label:null});
+  if((p.docs||[]).length<5) alerts.push({level:'yellow',msg:`Only ${(p.docs||[]).length} of ${DOCS.length} documents collected`,action:null,label:null});
+  return alerts;
+}
+
+function addCourtDateToCalendar(p){
+  if(!p.nextHearing){alert('No court date set. Edit intake to add a court date first.');return;}
+  const dateStr=p.nextHearing+'T09:00';
+  const title=(p.hearingType||'Court Hearing')+' — '+(p.name||'Placement');
+  // Pre-fill appointment modal
+  openApptModal();
+  setTimeout(()=>{
+    const titleEl=document.getElementById('appt-title');
+    const dateEl=document.getElementById('appt-date');
+    const catEl=document.getElementById('appt-category');
+    const noteEl=document.getElementById('appt-notes');
+    if(titleEl) titleEl.value=title;
+    if(dateEl) dateEl.value=p.nextHearing+'T09:00';
+    if(catEl) catEl.value='court';
+    if(noteEl) noteEl.value=`Case #${p.caseNum||'—'} · ${p.csw||''}`;
+  },100);
+}
+
+function generateCaseLetter(p){
+  if(!p.name){alert('Add child info first.');return;}
+  // Store child data for letter vault to pre-fill
+  sessionStorage.setItem('letterChild',JSON.stringify({name:p.name,age:p.age,caseNum:p.caseNum,csw:p.csw,cswph:p.cswph,scsw:p.scsw,date:p.date}));
+  go('vault');
+}
+
+async function generateCaseSummary(p, containerId){
+  if(!p.name){alert('Add child info first.');return;}
+  const btn=document.getElementById('cm-summary-btn-'+containerId);
+  if(btn){btn.textContent='Generating…';btn.disabled=true;}
+  const notes=Object.entries(p.tabs||{}).map(([k,v])=>v?`${k}: ${v}`:'').filter(Boolean).join('\n');
+  const caseNotes=(p.caseNotes||[]).map(n=>`${n.date}: ${n.text}`).join('\n');
+  const prompt=`Write a brief, professional case summary for a foster placement. Use only the information provided — do not invent details.
+
+Child: ${p.name}, Age ${p.age||'unknown'}, DOB ${p.dob||'unknown'}
+Placement date: ${p.date||'unknown'} (${daysInCare(p.date)||'?'} days in care)
+Placement type: ${STATUS_LABELS[p.placementType]||'Unknown'}
+Prior placements: ${p.priorPlacements||'Unknown'}
+School: ${p.school||'Not set'} — Enrollment: ${STATUS_LABELS[p.enrolled]||'Unknown'}
+IEP: ${p.iep||'Not set'} · 504: ${p.iep504||'Not set'}
+Medi-Cal: ${STATUS_LABELS[p.medi]||'Not set'}
+SCI Level: ${p.sci||'None'}
+ICWA: ${p.icwa||'Unknown'}
+CSW: ${p.csw||'Not set'}
+Upcoming hearing: ${p.nextHearing||'None'} (${p.hearingType||''})
+Tab notes:\n${notes||'None'}
+Case notes:\n${caseNotes||'None'}
+
+Write a 3–4 paragraph professional summary covering: child background, placement status, education/health, pending actions, and any concerns. Do not include any information not provided above.`;
+
+  try{
+    const r=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:'You are a professional child welfare case manager writing concise, accurate placement summaries.',messages:[{role:'user',content:prompt}],max_tokens:600})});
+    const data=await r.json();
+    const text=data.content?.[0]?.text||'';
+    // Show in a modal
+    document.getElementById('pdfTitle').textContent=`Case Summary — ${p.name}`;
+    document.getElementById('pdfContent').innerHTML=`<div style="font-family:Georgia,serif;font-size:14px;line-height:1.8;color:#111">${text.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')}</div>`;
+    document.getElementById('pdfViewerModal').style.display='flex';
+  }catch(e){alert('Summary generation failed. Try again.');}
+  if(btn){btn.textContent='✨ AI Summary';btn.disabled=false;}
+}
+
 
 function getStatusBadge(label,val){
   if(!val||val==='not-requested'||val==='unknown'||val==='no') return `<span class="pl-badge warn">${label}: ${STATUS_LABELS[val]||val}</span>`;
@@ -6027,8 +6218,8 @@ function renderCasePanel(containerId){
   // Auto-create a blank placement so tabs and fields are immediately visible
   if(!list.length){
     const blank={
-      id:'p_'+Date.now(),
-      name:'',dob:'',age:'',date:'',caseNum:'',school:'',
+      id:'p_new',
+      fname:'',mname:'',lname:'',name:'',dob:'',age:'',date:'',caseNum:'',school:'',
       csw:'',cswph:'',scsw:'',scswph:'',casa:'',court:'',
       enrolled:'',clothing:'',ebenefit:'',medi:'',
       docs:[],caseNotes:[],tabs:{},notes:''
@@ -6051,39 +6242,65 @@ function renderCasePanel(containerId){
         <button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">✏ Edit Intake</button>
       </div>
     </div>
+    <!-- ACTION ALERTS -->
+    ${(()=>{
+      const alerts=getCaseAlerts(p);
+      if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:8px 12px;font-size:11.5px;color:#1a4d36;display:flex;align-items:center;gap:6px"><span>✓</span> Everything looks on track for ${p.name}.</div>`:'';
+      return `<div style="display:flex;flex-direction:column;gap:4px;padding:8px 10px;background:#fafafa;border-bottom:1px solid var(--border)">
+        ${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;padding:5px 8px;border-radius:4px;background:${a.level==='red'?'#fdf3f2':'#fffbec'};border:1px solid ${a.level==='red'?'rgba(192,57,43,.2)':'rgba(243,156,18,.2)'}">
+          <span style="color:${a.level==='red'?'#c0392b':'#9a6f00'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}</span>
+          ${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:3px 9px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap">${a.label}</button>`:''}
+        </div>`).join('')}
+      </div>`;
+    })()}
     <div class="cp-tabs">${CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join('')}</div>
     <!-- INTAKE -->
     <div class="cp-pane on" id="${containerId}-intake">
       <div class="cp-field"><span class="cp-fl">Child</span><span class="cp-fv">${p.name||'<em style="color:var(--muted)">Click "Edit Intake" above</em>'}${p.age?' · Age '+p.age:''}</span></div>
       <div class="cp-field"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${days!==null?' ('+days+' days)':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Type</span><span class="cp-fv">${STATUS_LABELS[p.placementType]||'Not set'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Prior Placements</span><span class="cp-fv">${p.priorPlacements||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Language</span><span class="cp-fv">${p.language||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">ICWA</span><span class="cp-fv"><span class="cp-badge ${p.icwa==='yes'?'warn':p.icwa==='no'?'ok':'pend'}">${p.icwa==='yes'?'⚠ ICWA Applies':p.icwa==='no'?'Does Not Apply':'Unknown'}</span></span></div>
       <div class="cp-field"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">School</span><span class="cp-fv">${p.school||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}${p.cswph?' · <span style="color:var(--sage)">'+p.cswph+'</span>':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}${p.scswph?' · <span style="color:var(--sage)">'+p.scswph+'</span>':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">CASA / Attorney</span><span class="cp-fv">${p.casa||'—'}</span></div>
-      <div style="margin-top:14px;text-align:center"><button onclick="openPlacementForm('${p.id}')" class="btn btn-gold" style="font-size:12px;padding:9px 22px">✏ Add Intake Details</button></div>
+      <div class="cp-field"><span class="cp-fl">SCI Level</span><span class="cp-fv">${p.sci?'Level '+p.sci:'Not set'}</span></div>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="openPlacementForm('${p.id}')" class="btn btn-gold" style="font-size:11px;padding:7px 16px">✏ Edit Intake</button>
+        <button onclick="generateCaseLetter(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">✉ Letter Vault</button>
+        <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;font-weight:600">✨ AI Summary</button>
+      </div>
     </div>
     <!-- LEGAL -->
     <div class="cp-pane" id="${containerId}-legal">
       <div class="cp-field"><span class="cp-fl">Case Number</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Next Hearing</span><span class="cp-fv">${p.nextHearing?new Date(p.nextHearing).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${p.hearingType?' ('+p.hearingType+')':''}</span></div>
       <div class="cp-field"><span class="cp-fl">Court Date</span><span class="cp-fv">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">CASA / Attorney</span><span class="cp-fv">${p.casa||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Judge</span><span class="cp-fv">${p.judge||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}${p.cswph?' · <a href="tel:'+p.cswph+'" style="color:var(--sage)">'+p.cswph+'</a>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}${p.scswph?' · <a href="tel:'+p.scswph+'" style="color:var(--sage)">'+p.scswph+'</a>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">CASA</span><span class="cp-fv">${p.casa||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Attorney</span><span class="cp-fv">${p.attorney||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Bio Family Contact</span><span class="cp-fv"><span class="cp-badge ${p.bioContact==='yes'?'ok':p.bioContact==='no-contact'?'warn':'pend'}">${STATUS_LABELS[p.bioContact]||'Unknown'}</span></span></div>
+      ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:var(--navy);color:white;border:none;padding:7px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:10px;width:100%">📅 Add Hearing to Calendar</button>`:''}
       ${cpTabTextarea(p,'legal',containerId)}
     </div>
     <!-- MEDICAL -->
     <div class="cp-pane" id="${containerId}-medical">
       <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">Primary Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Therapist</span><span class="cp-fv">${p.therapist||'—'}${p.therapistph?' · <a href="tel:'+p.therapistph+'" style="color:var(--sage)">'+p.therapistph+'</a>':''}</span></div>
+      ${p.medications?`<div class="cp-field"><span class="cp-fl">Medications</span><span class="cp-fv" style="white-space:pre-wrap">${p.medications}</span></div>`:''}
       ${cpTabTextarea(p,'medical',containerId)}
     </div>
     <!-- DENTAL -->
     <div class="cp-pane" id="${containerId}-dental">${cpTabTextarea(p,'dental',containerId)}</div>
     <!-- EDUCATIONAL -->
     <div class="cp-pane" id="${containerId}-educational">
-      <div class="cp-field"><span class="cp-fl">School</span><span class="cp-fv">${p.school||'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">School / Grade</span><span class="cp-fv">${p.school||'—'}${p.grade?' · Grade '+p.grade:''}</span></div>
       <div class="cp-field"><span class="cp-fl">Enrollment</span><span class="cp-fv"><span class="cp-badge ${p.enrolled==='yes'?'ok':p.enrolled==='no'?'warn':'pend'}">${STATUS_LABELS[p.enrolled]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">IEP Status</span><span class="cp-fv"><span class="cp-badge ${p.iep==='active'?'ok':p.iep==='needed'?'warn':'pend'}">${p.iep||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">504 Plan</span><span class="cp-fv"><span class="cp-badge ${p.iep504==='active'?'ok':p.iep504==='needed'?'warn':'pend'}">${p.iep504||'Not set'}</span></span></div>
       ${cpTabTextarea(p,'educational',containerId)}
     </div>
     <!-- DEVELOPMENTAL -->
