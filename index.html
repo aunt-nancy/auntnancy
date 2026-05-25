@@ -1841,11 +1841,6 @@ img{max-width:100%}
           </div>
           <p class="dp-sub">Track each child in your home — records sync securely to your account.</p>
 
-          <!-- ADD / EDIT FORM -->
-          <div id="placementForm" style="display:none;background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:22px">
-            <h3 style="font-size:20px;color:var(--ink);margin-bottom:4px" id="pfTitle">New Placement</h3>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Records sync securely to your account. Never include SSNs or sealed court information.</p>
-
             <!-- CHILD INFO -->
             <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
@@ -1939,15 +1934,6 @@ img{max-width:100%}
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-therapy" style="accent-color:var(--gold)"> Therapy Authorization</label>
               <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-casa" style="accent-color:var(--gold)"> CASA Contact Info</label>
             </div>
-
-            <!-- NOTES -->
-            <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="Behaviors, concerns, upcoming events, anything important…"></textarea></div>
-
-            <div style="display:flex;gap:9px;margin-top:16px;flex-wrap:wrap">
-              <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
-              <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
-            </div>
-          </div>
 
           <!-- PLACEMENT LIST -->
           <div id="placementList"></div>
@@ -3457,10 +3443,8 @@ async function loadPlacementsFromSupabase(){
 
 
 function openPlacementForm(id){
+  if(!currentUser){openAuth();return;}
   editingPlacementId=id||null;
-  const form=document.getElementById('placementForm');
-  form.style.display='block';
-  form.scrollIntoView({behavior:'smooth',block:'start'});
   document.getElementById('pfTitle').textContent=id?'Edit Placement':'New Placement';
   document.getElementById('pfSaveBtn').textContent=id?'Save Changes →':'Save Placement →';
   // Clear form
@@ -3476,10 +3460,14 @@ function openPlacementForm(id){
       (p.docs||[]).forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=true;});
     }
   }
+  // Show modal
+  const modal=document.getElementById('placementFormModal');
+  if(modal){modal.style.display='block';document.body.style.overflow='hidden';}
 }
 
 function cancelPlacementForm(){
-  document.getElementById('placementForm').style.display='none';
+  const modal=document.getElementById('placementFormModal');
+  if(modal){modal.style.display='none';document.body.style.overflow='';}
   editingPlacementId=null;
 }
 
@@ -3627,8 +3615,7 @@ function doSavePlacement(fname,mname,lname,dob,name){
   }
   savePlacements(list);
   cancelPlacementForm();
-  renderPlacements();
-}
+  renderPlacements();}
 
 function deletePlacement(id){
   if(!confirm('Remove this placement from your tracker? This cannot be undone.')) return;
@@ -6682,6 +6669,124 @@ window.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <footer class="footer" id="site-footer" style="display:block"></footer>
+
+<!-- PLACEMENT FORM MODAL — global, accessible from any page -->
+<div id="placementFormModal" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,.65);overflow-y:auto">
+  <div style="max-width:680px;width:100%;margin:40px auto 40px;background:white;border-radius:12px;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden">
+    <div style="background:var(--ink);padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:3px">Placement Tracker</div>
+        <div style="font-size:18px;font-weight:700;color:white" id="pfTitle">New Placement</div>
+      </div>
+      <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div style="padding:24px" id="placementForm">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Records sync securely to your account. Never include SSNs or sealed court information.</p>
+
+      <!-- CHILD INFO -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+        <div class="af"><label>First Name</label><input type="text" id="pf-fname" placeholder="First name"></div>
+        <div class="af"><label>Middle Name</label><input type="text" id="pf-mname" placeholder="Middle name"></div>
+        <div class="af"><label>Last Name</label><input type="text" id="pf-lname" placeholder="Last name"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>Date of Birth <span style="color:#c0392b">*</span></label><input type="date" id="pf-dob"></div>
+        <div class="af"><label>Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
+        <div class="af"><label>Gender</label><select id="pf-gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+        <div class="af"><label>Primary Language</label><input type="text" id="pf-lang" placeholder="e.g. Spanish, English"></div>
+        <div class="af" style="grid-column:span 2"><label>ICWA Status</label><select id="pf-icwa"><option value="unknown">Unknown</option><option value="yes">Yes — ICWA Applies</option><option value="no">Does Not Apply</option></select></div>
+      </div>
+
+      <!-- PLACEMENT INFO -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Placement Details</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>Placement Date</label><input type="date" id="pf-date"></div>
+        <div class="af"><label>Placement Type</label><select id="pf-placetype"><option value="">Select…</option><option value="foster">Foster Family Home</option><option value="kinship">Kinship / Relative</option><option value="nrefm">NREFM</option><option value="group">Group Home / STRTP</option><option value="thp">THP-Plus</option><option value="rfa">RFA Home</option></select></div>
+        <div class="af"><label>Prior Placements (count)</label><input type="number" id="pf-prior" placeholder="Number of prior placements" min="0"></div>
+        <div class="af"><label>SCI Level</label><select id="pf-sci"><option value="">None</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select></div>
+        <div class="af"><label>Bio Family Contact</label><select id="pf-biocontact"><option value="unknown">Unknown</option><option value="yes">Yes — unsupervised</option><option value="supervised">Supervised Visits</option><option value="virtual">Virtual Only</option><option value="no-contact">No Contact Order</option></select></div>
+      </div>
+
+      <!-- EDUCATION -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Education</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>School Name</label><input type="text" id="pf-school" placeholder="School name"></div>
+        <div class="af"><label>Grade</label><input type="text" id="pf-grade" placeholder="e.g. 3rd, 8th, 11th"></div>
+        <div class="af"><label>Enrollment Status</label><select id="pf-enrolled"><option value="">Select…</option><option value="yes">Enrolled</option><option value="pending">Enrollment Pending</option><option value="no">Not Yet Enrolled</option><option value="na">Not School Age</option></select></div>
+        <div class="af"><label>IEP Status</label><select id="pf-iep"><option value="">Select…</option><option value="active">Active IEP</option><option value="needed">IEP Needed</option><option value="review">Under Review</option><option value="none">No IEP</option></select></div>
+        <div class="af"><label>504 Plan Status</label><select id="pf-504"><option value="">Select…</option><option value="active">Active 504 Plan</option><option value="needed">504 Needed</option><option value="review">Under Review</option><option value="none">No 504 Plan</option></select></div>
+      </div>
+
+      <!-- HEALTH -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Health & Medical</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>Medi-Cal Status</label><select id="pf-medi"><option value="">Select…</option><option value="active">Active</option><option value="pending">Pending</option><option value="issue">Issue — Follow Up</option><option value="unknown">Unknown</option></select></div>
+        <div class="af"><label>Primary Care Doctor</label><input type="text" id="pf-doctor" placeholder="Dr. name or clinic"></div>
+        <div class="af"><label>Doctor Phone</label><input type="tel" id="pf-doctorph" placeholder="Phone number"></div>
+        <div class="af"><label>Therapist / Counselor</label><input type="text" id="pf-therapist" placeholder="Therapist name"></div>
+        <div class="af"><label>Therapist Phone</label><input type="tel" id="pf-therapistph" placeholder="Phone number"></div>
+        <div class="af" style="grid-column:span 2"><label>Current Medications</label><input type="text" id="pf-meds" placeholder="Medication name, dosage, frequency — or 'None'"></div>
+      </div>
+
+      <!-- CASE TEAM -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Case Team</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>CSW Name</label><input type="text" id="pf-csw" placeholder="Assigned social worker"></div>
+        <div class="af"><label>CSW Phone</label><input type="tel" id="pf-cswph" placeholder="Direct number"></div>
+        <div class="af"><label>SCSW Name</label><input type="text" id="pf-scsw" placeholder="Supervising social worker"></div>
+        <div class="af"><label>SCSW Phone</label><input type="tel" id="pf-scswph" placeholder="Direct number"></div>
+        <div class="af"><label>CASA Name</label><input type="text" id="pf-casa" placeholder="CASA volunteer name"></div>
+        <div class="af"><label>Attorney</label><input type="text" id="pf-attorney" placeholder="Child's attorney"></div>
+      </div>
+
+      <!-- LEGAL -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Legal / Court</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>DCFS Case Number</label><input type="text" id="pf-case" placeholder="Case number"></div>
+        <div class="af"><label>Judge</label><input type="text" id="pf-judge" placeholder="Judge's name"></div>
+        <div class="af"><label>Last Court Date</label><input type="date" id="pf-court"></div>
+        <div class="af"><label>Next Hearing Date</label><input type="date" id="pf-nexthearing"></div>
+        <div class="af" style="grid-column:span 2"><label>Hearing Type</label><select id="pf-hearingtype"><option value="">Select…</option><option>Detention</option><option>Jurisdiction</option><option>Disposition</option><option>6-Month Review</option><option>12-Month Review</option><option>18-Month Review</option><option>Permanency</option><option>Section 366.26</option><option>Other</option></select></div>
+      </div>
+
+      <!-- BENEFITS -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Benefits</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+        <div class="af"><label>Clothing Allowance</label><select id="pf-clothing"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested — Awaiting</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
+        <div class="af"><label>Emergency Benefits</label><select id="pf-ebenefit"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
+      </div>
+
+      <!-- DOCUMENTS -->
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Documents Received</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-birth" style="accent-color:var(--gold)"> Birth Certificate</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-ss" style="accent-color:var(--gold)"> Social Security Card</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-immun" style="accent-color:var(--gold)"> Immunization Records</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-medi" style="accent-color:var(--gold)"> Medi-Cal Card</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-school" style="accent-color:var(--gold)"> School Records</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-iep" style="accent-color:var(--gold)"> IEP</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-504" style="accent-color:var(--gold)"> 504 Plan</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-court" style="accent-color:var(--gold)"> Court Orders</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-isp" style="accent-color:var(--gold)"> ISP / Case Plan</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-health" style="accent-color:var(--gold)"> Health Passport</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-placement" style="accent-color:var(--gold)"> Placement Authorization</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-tribal" style="accent-color:var(--gold)"> Tribal Notice (ICWA)</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-dental" style="accent-color:var(--gold)"> Dental Records</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-therapy" style="accent-color:var(--gold)"> Therapy Authorization</label>
+        <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-casa" style="accent-color:var(--gold)"> CASA Contact Info</label>
+      </div>
+
+      <!-- NOTES -->
+      <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:80px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm)" placeholder="Behaviors, concerns, upcoming events, anything important…"></textarea></div>
+
+      <div style="display:flex;gap:9px;margin-top:20px;flex-wrap:wrap">
+        <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
+        <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- SCREENING TOOLS MODAL -->
 <div id="screeningModal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.7);overflow:hidden">
