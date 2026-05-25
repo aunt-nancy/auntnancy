@@ -1836,16 +1836,15 @@ img{max-width:100%}
           </div>
         </div>
         <div class="dp" id="dp-placements">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div style="margin-bottom:6px">
             <h2 class="dp-title">Placement Tracker</h2>
-            <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:8px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">+ Add Placement</button>
           </div>
-          <p class="dp-sub">Track each child in your home — private to your device.</p>
+          <p class="dp-sub">Track each child in your home — records sync securely to your account.</p>
 
           <!-- ADD / EDIT FORM -->
           <div id="placementForm" style="display:none;background:white;border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:22px">
             <h3 style="font-size:20px;color:var(--ink);margin-bottom:4px" id="pfTitle">New Placement</h3>
-            <p style="font-size:12px;color:var(--muted);margin-bottom:18px">All information stays private on your device. Never shared or synced.</p>
+            <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Records sync securely to your account. Never include SSNs or sealed court information.</p>
 
             <!-- CHILD INFO -->
             <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
@@ -3071,7 +3070,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#langBtn'))document.
 
 // ══ AUTH ══
 let currentUser=null;let selectedRole='youth';
-function loadUser(){try{const u=localStorage.getItem('an_user');if(u)currentUser=JSON.parse(u);}catch(e){}}
+function loadUser(){try{const u=localStorage.getItem('an_user');if(u){currentUser=JSON.parse(u);setTimeout(loadPlacementsFromSupabase,1500);}}catch(e){}}
 function saveUser(){try{localStorage.setItem('an_user',JSON.stringify(currentUser));}catch(e){}}
 function clearUser(){try{localStorage.removeItem('an_user');}catch(e){}}
 
@@ -3122,7 +3121,7 @@ function doSignIn(){
     if(user.pw!==btoa(pw)){showAuthMsg('Incorrect password.');return;}
     currentUser={...user};saveUser();
     showAuthMsg('Welcome back, '+user.first+'! 👋','success');
-    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},900);
+    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');loadPlacementsFromSupabase();},900);
   }catch(e){showAuthMsg('Sign in failed. Please try again.');}
 }
 
@@ -3145,13 +3144,16 @@ function doSignUp(){
     all.push(nu);localStorage.setItem('an_users',JSON.stringify(all));
     currentUser={...nu};saveUser();
     showAuthMsg('Account created! Welcome, '+first+' 🎉','success');
-    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},900);
+    setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');loadPlacementsFromSupabase();},900);
   }catch(e){showAuthMsg('Account creation failed. Please try again.');}
 }
 
-function demoLogin(){currentUser={first:'Leslie',last:'H.',email:'leslie@demo.org',role:'parent',state:'CA',city:'Los Angeles',joined:'January 2026',downloads:['t1','t3','t5'],saved:['AB 12 Guide','Kinship Benefits','UCLA Housing Study']};saveUser();showAuthMsg('Demo loaded — welcome, Leslie 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},800);}
-function demoLoginW(){currentUser={first:'Denise',last:'R.',email:'denise@dcfs.org',role:'worker',state:'CA',city:'San Diego',joined:'March 2025',downloads:['t6','t7','t5'],saved:['BIRP Guide','SCI Reference']};saveUser();showAuthMsg('CSW demo loaded — welcome, Denise 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');},800);}
-function doSignOut(){currentUser=null;clearUser();updateAuthUI();go('home');}
+function demoLogin(){currentUser={first:'Leslie',last:'H.',email:'leslie@demo.org',role:'parent',state:'CA',city:'Los Angeles',joined:'January 2026',downloads:['t1','t3','t5'],saved:['AB 12 Guide','Kinship Benefits','UCLA Housing Study']};saveUser();showAuthMsg('Demo loaded — welcome, Leslie 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');loadPlacementsFromSupabase();},800);}
+function demoLoginW(){currentUser={first:'Denise',last:'R.',email:'denise@dcfs.org',role:'worker',state:'CA',city:'San Diego',joined:'March 2025',downloads:['t6','t7','t5'],saved:['BIRP Guide','SCI Reference']};saveUser();showAuthMsg('CSW demo loaded — welcome, Denise 👋','success');setTimeout(()=>{closeAuth();updateAuthUI();go('dashboard');loadPlacementsFromSupabase();},800);}
+function doSignOut(){
+  if(currentUser) delete _placementCache[currentUser.email];
+  currentUser=null;clearUser();updateAuthUI();go('home');
+}
 function checkPW(pw){const bar=document.getElementById('pwBar');const lbl=document.getElementById('pwLbl');if(!bar) return;const score=(pw.length>=8?1:0)+(pw.length>=12?1:0)+(/[A-Z]/.test(pw)?1:0)+(/[0-9]/.test(pw)?1:0)+(/[^A-Za-z0-9]/.test(pw)?1:0);const colors=['#c0392b','#e07020','#d4a017','#2A6649','#1a5c3a'];const labels=['Too short','Weak','Fair','Good','Strong'];const idx=Math.min(score,4);bar.style.width=[20,40,60,80,100][idx]+'%';bar.style.background=colors[idx];if(lbl){lbl.style.color=colors[idx];lbl.textContent=pw.length===0?'Enter a password':labels[idx];}}
 function pickRole(el){document.querySelectorAll('.role-opt').forEach(r=>r.classList.remove('on'));el.classList.add('on');selectedRole=el.dataset.role;}
 function showForgot(){clearAuthMsg();const email=document.getElementById('si-email').value.trim();if(!email){showAuthMsg('Enter your email first.');return;}showAuthMsg('Reset link sent if account exists.','success');}
@@ -3356,14 +3358,103 @@ const BIO_CONTACT_OPTS=['yes','supervised','virtual','no-contact','unknown'];
 const HEARING_TYPES=['Detention','Jurisdiction','Disposition','6-Month Review','12-Month Review','18-Month Review','Permanency','Section 366.26','Other'];
 let editingPlacementId=null;
 
+// ══ PLACEMENT STORAGE — Supabase-backed, localStorage fallback ══
+const _placementCache = {}; // email → placements array (in-memory cache)
+let _placementSyncing = false;
+
+function _localKey(email){ return 'an_placements_' + email; }
+
+// Read from cache or localStorage
 function getPlacements(){
   if(!currentUser) return [];
-  try{return JSON.parse(localStorage.getItem('an_placements_'+currentUser.email)||'[]');}catch(e){return [];}
+  const email = currentUser.email;
+  if(_placementCache[email]) return _placementCache[email];
+  try{
+    const local = JSON.parse(localStorage.getItem(_localKey(email))||'[]');
+    _placementCache[email] = local;
+    return local;
+  }catch(e){ return []; }
 }
+
+// Write to cache + localStorage immediately, then sync to Supabase
 function savePlacements(list){
   if(!currentUser) return;
-  try{localStorage.setItem('an_placements_'+currentUser.email,JSON.stringify(list));}catch(e){}
+  const email = currentUser.email;
+  _placementCache[email] = list;
+  try{ localStorage.setItem(_localKey(email), JSON.stringify(list)); }catch(e){}
+  syncPlacementsToSupabase(list, email);
 }
+
+// Push all placements to Supabase (upsert)
+async function syncPlacementsToSupabase(list, email){
+  if(_placementSyncing) return;
+  _placementSyncing = true;
+  try{
+    const rows = list.map(p => ({
+      id: p.id,
+      user_email: email,
+      data: p,
+      updated_at: new Date().toISOString()
+    }));
+    await fetch(`${SUPABASE_URL}/rest/v1/placements`, {
+      method: 'POST',
+      headers:{
+        'Content-Type':'application/json',
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Prefer: 'resolution=merge-duplicates,return=minimal'
+      },
+      body: JSON.stringify(rows)
+    });
+  }catch(e){}
+  _placementSyncing = false;
+}
+
+// Delete a single placement from Supabase
+async function deletePlacementFromSupabase(id, email){
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/placements?id=eq.${encodeURIComponent(id)}&user_email=eq.${encodeURIComponent(email)}`,{
+      method:'DELETE',
+      headers:{ apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}` }
+    });
+  }catch(e){}
+}
+
+// Load placements from Supabase on login, merge with localStorage
+async function loadPlacementsFromSupabase(){
+  if(!currentUser) return;
+  const email = currentUser.email;
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/placements?user_email=eq.${encodeURIComponent(email)}&select=id,data,updated_at&order=created_at.asc`,{
+      headers:{ apikey:SUPABASE_KEY, Authorization:`Bearer ${SUPABASE_KEY}` }
+    });
+    if(!r.ok) return;
+    const rows = await r.json();
+    if(!Array.isArray(rows)||!rows.length){
+      // No cloud records — migrate localStorage to Supabase
+      const local = JSON.parse(localStorage.getItem(_localKey(email))||'[]');
+      if(local.length){
+        _placementCache[email] = local;
+        syncPlacementsToSupabase(local, email);
+      }
+      return;
+    }
+    // Merge: cloud wins for same ID, keep local-only records too
+    const cloudMap = {};
+    rows.forEach(row=>{ if(row.data) cloudMap[row.id] = row.data; });
+    const local = JSON.parse(localStorage.getItem(_localKey(email))||'[]');
+    const localOnlyIds = local.filter(p=>!cloudMap[p.id]);
+    const merged = [...Object.values(cloudMap), ...localOnlyIds];
+    _placementCache[email] = merged;
+    localStorage.setItem(_localKey(email), JSON.stringify(merged));
+    if(localOnlyIds.length) syncPlacementsToSupabase(merged, email);
+    // Refresh any open case panels
+    ['casePanelParent','casePanelKinship'].forEach(id=>{
+      const el=document.getElementById(id);if(el&&el.innerHTML.trim()) renderCasePanel(id);
+    });
+  }catch(e){}
+}
+
 
 function openPlacementForm(id){
   editingPlacementId=id||null;
@@ -3412,6 +3503,67 @@ function savePlacement(){
   if(!fname){alert('Please enter the child\'s first name.');return;}
   if(!dob){alert('Date of birth is required to create a unique record.');return;}
 
+  // Show privacy acknowledgment before first save
+  const ackKey = currentUser ? 'an_privacy_ack_'+currentUser.email : 'an_privacy_ack_guest';
+  if(!localStorage.getItem(ackKey)){
+    showPrivacyAck(()=>doSavePlacement(fname,mname,lname,dob,name), ackKey);
+    return;
+  }
+  doSavePlacement(fname,mname,lname,dob,name);
+}
+
+function showPrivacyAck(onAccept, ackKey){
+  const modal = document.createElement('div');
+  modal.id = 'privacyAckModal';
+  modal.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML = `
+    <div style="background:white;border-radius:12px;max-width:520px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden">
+      <div style="background:var(--ink);padding:20px 24px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:6px">Before You Save</div>
+        <div style="font-size:20px;font-weight:700;color:white">Data Privacy Acknowledgment</div>
+      </div>
+      <div style="padding:24px">
+        <p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:16px">The Placement Tracker stores sensitive information about children in your care. Please read and acknowledge the following before continuing:</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;background:var(--cream);border-radius:6px;font-size:13px;color:var(--text);line-height:1.55">
+            <span style="font-size:16px;flex-shrink:0">🔒</span>
+            <span><strong>Records stay on your device.</strong> Data is stored in your browser's local storage and is never transmitted to or stored on AuntNancy.org servers.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;background:var(--cream);border-radius:6px;font-size:13px;color:var(--text);line-height:1.55">
+            <span style="font-size:16px;flex-shrink:0">⚠️</span>
+            <span><strong>Do not enter Social Security numbers</strong>, abuse or neglect details, juvenile court records, or any information sealed under WIC §827.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;background:var(--cream);border-radius:6px;font-size:13px;color:var(--text);line-height:1.55">
+            <span style="font-size:16px;flex-shrink:0">📱</span>
+            <span><strong>Clearing your browser data will permanently delete all records.</strong> This tool does not back up your data. Keep separate secure copies of critical case information.</span>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 14px;background:var(--cream);border-radius:6px;font-size:13px;color:var(--text);line-height:1.55">
+            <span style="font-size:16px;flex-shrink:0">👤</span>
+            <span><strong>You are responsible</strong> for ensuring that storing this information on this device is consistent with your agency's data handling policies.</span>
+          </div>
+        </div>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px">
+          <input type="checkbox" id="privacyAckCheck" style="margin-top:3px;width:16px;height:16px;accent-color:var(--gold);flex-shrink:0">
+          <span style="font-size:13px;color:var(--ink);line-height:1.6">I understand and acknowledge these data privacy guidelines. I will not enter SSNs or legally sealed information.</span>
+        </label>
+        <div style="display:flex;gap:10px;justify-content:flex-end">
+          <button onclick="document.getElementById('privacyAckModal').remove()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+          <button onclick="
+            if(!document.getElementById('privacyAckCheck').checked){
+              this.previousElementSibling.previousElementSibling.style.color='#c0392b';
+              return;
+            }
+            localStorage.setItem('${ackKey}','1');
+            document.getElementById('privacyAckModal').remove();
+            (${onAccept.toString()})();
+          " style="background:var(--gold);color:var(--ink);border:none;padding:10px 24px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer">I Acknowledge — Save Record →</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+function doSavePlacement(fname,mname,lname,dob,name){
   const compositeKey = makePlacementKey(fname, mname, lname, dob);
   const list = getPlacements();
 
@@ -3480,8 +3632,10 @@ function savePlacement(){
 
 function deletePlacement(id){
   if(!confirm('Remove this placement from your tracker? This cannot be undone.')) return;
+  const email = currentUser?.email;
   const list=getPlacements().filter(p=>p.id!==id);
   savePlacements(list);
+  if(email) deletePlacementFromSupabase(id, email);
   renderPlacements();
 }
 
@@ -6238,8 +6392,9 @@ function renderCasePanel(containerId){
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
         ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:10.5px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
-        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">+ Add</button>
+        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">+ New Placement</button>
         <button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">✏ Edit Intake</button>
+        <span title="Records sync to cloud automatically" style="font-size:9px;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:3px">☁ Synced</span>
       </div>
     </div>
     <!-- ACTION ALERTS -->
@@ -6266,7 +6421,6 @@ function renderCasePanel(containerId){
       <div class="cp-field"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">SCI Level</span><span class="cp-fv">${p.sci?'Level '+p.sci:'Not set'}</span></div>
       <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="openPlacementForm('${p.id}')" class="btn btn-gold" style="font-size:11px;padding:7px 16px">✏ Edit Intake</button>
         <button onclick="generateCaseLetter(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">✉ Letter Vault</button>
         <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;font-weight:600">✨ AI Summary</button>
       </div>
