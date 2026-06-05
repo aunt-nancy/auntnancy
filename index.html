@@ -1841,100 +1841,6 @@ img{max-width:100%}
           </div>
           <p class="dp-sub">Track each child in your home — records sync securely to your account.</p>
 
-            <!-- CHILD INFO -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
-              <div class="af"><label>First Name</label><input type="text" id="pf-fname" placeholder="First name"></div>
-              <div class="af"><label>Middle Name</label><input type="text" id="pf-mname" placeholder="Middle name"></div>
-              <div class="af"><label>Last Name</label><input type="text" id="pf-lname" placeholder="Last name"></div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>Date of Birth <span style="color:#c0392b">*</span></label><input type="date" id="pf-dob"></div>
-              <div class="af"><label>Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
-              <div class="af"><label>Gender</label><select id="pf-gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
-              <div class="af"><label>Primary Language</label><input type="text" id="pf-lang" placeholder="e.g. Spanish, English"></div>
-              <div class="af" style="grid-column:span 2"><label>ICWA Status</label><select id="pf-icwa"><option value="unknown">Unknown</option><option value="yes">Yes — ICWA Applies</option><option value="no">Does Not Apply</option></select></div>
-            </div>
-
-            <!-- PLACEMENT INFO -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Placement Details</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>Placement Date</label><input type="date" id="pf-date"></div>
-              <div class="af"><label>Placement Type</label><select id="pf-placetype"><option value="">Select…</option><option value="foster">Foster Family Home</option><option value="kinship">Kinship / Relative</option><option value="nrefm">NREFM</option><option value="group">Group Home / STRTP</option><option value="thp">THP-Plus</option><option value="rfa">RFA Home</option></select></div>
-              <div class="af"><label>Prior Placements (count)</label><input type="number" id="pf-prior" placeholder="Number of prior placements" min="0"></div>
-              <div class="af"><label>SCI Level</label><select id="pf-sci"><option value="">None</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select></div>
-              <div class="af"><label>Bio Family Contact</label><select id="pf-biocontact"><option value="unknown">Unknown</option><option value="yes">Yes — unsupervised</option><option value="supervised">Supervised Visits</option><option value="virtual">Virtual Only</option><option value="no-contact">No Contact Order</option></select></div>
-            </div>
-
-            <!-- EDUCATION -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Education</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>School Name</label><input type="text" id="pf-school" placeholder="School name"></div>
-              <div class="af"><label>Grade</label><input type="text" id="pf-grade" placeholder="e.g. 3rd, 8th, 11th"></div>
-              <div class="af"><label>Enrollment Status</label><select id="pf-enrolled"><option value="">Select…</option><option value="yes">Enrolled</option><option value="pending">Enrollment Pending</option><option value="no">Not Yet Enrolled</option><option value="na">Not School Age</option></select></div>
-              <div class="af"><label>IEP Status</label><select id="pf-iep"><option value="">Select…</option><option value="active">Active IEP</option><option value="needed">IEP Needed</option><option value="review">Under Review</option><option value="none">No IEP</option></select></div>
-              <div class="af"><label>504 Plan Status</label><select id="pf-504"><option value="">Select…</option><option value="active">Active 504 Plan</option><option value="needed">504 Needed</option><option value="review">Under Review</option><option value="none">No 504 Plan</option></select></div>
-            </div>
-
-            <!-- HEALTH -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Health & Medical</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>Medi-Cal Status</label><select id="pf-medi"><option value="">Select…</option><option value="active">Active</option><option value="pending">Pending</option><option value="issue">Issue — Follow Up</option><option value="unknown">Unknown</option></select></div>
-              <div class="af"><label>Primary Care Doctor</label><input type="text" id="pf-doctor" placeholder="Dr. name or clinic"></div>
-              <div class="af"><label>Doctor Phone</label><input type="tel" id="pf-doctorph" placeholder="Phone number"></div>
-              <div class="af"><label>Therapist / Counselor</label><input type="text" id="pf-therapist" placeholder="Therapist name"></div>
-              <div class="af"><label>Therapist Phone</label><input type="tel" id="pf-therapistph" placeholder="Phone number"></div>
-              <div class="af" style="grid-column:span 2"><label>Current Medications</label><input type="text" id="pf-meds" placeholder="Medication name, dosage, frequency — or 'None'"></div>
-            </div>
-
-            <!-- CASE TEAM -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Case Team</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>CSW Name</label><input type="text" id="pf-csw" placeholder="Assigned social worker"></div>
-              <div class="af"><label>CSW Phone</label><input type="tel" id="pf-cswph" placeholder="Direct number"></div>
-              <div class="af"><label>SCSW Name</label><input type="text" id="pf-scsw" placeholder="Supervising social worker"></div>
-              <div class="af"><label>SCSW Phone</label><input type="tel" id="pf-scswph" placeholder="Direct number"></div>
-              <div class="af"><label>CASA Name</label><input type="text" id="pf-casa" placeholder="CASA volunteer name"></div>
-              <div class="af"><label>Attorney</label><input type="text" id="pf-attorney" placeholder="Child's attorney"></div>
-            </div>
-
-            <!-- LEGAL -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Legal / Court</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>DCFS Case Number</label><input type="text" id="pf-case" placeholder="Case number"></div>
-              <div class="af"><label>Judge</label><input type="text" id="pf-judge" placeholder="Judge's name"></div>
-              <div class="af"><label>Last Court Date</label><input type="date" id="pf-court"></div>
-              <div class="af"><label>Next Hearing Date</label><input type="date" id="pf-nexthearing"></div>
-              <div class="af" style="grid-column:span 2"><label>Hearing Type</label><select id="pf-hearingtype"><option value="">Select…</option><option>Detention</option><option>Jurisdiction</option><option>Disposition</option><option>6-Month Review</option><option>12-Month Review</option><option>18-Month Review</option><option>Permanency</option><option>Section 366.26</option><option>Other</option></select></div>
-            </div>
-
-            <!-- BENEFITS -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Benefits</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-              <div class="af"><label>Clothing Allowance</label><select id="pf-clothing"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested — Awaiting</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
-              <div class="af"><label>Emergency Benefits</label><select id="pf-ebenefit"><option value="">Select…</option><option value="not-requested">Not Yet Requested</option><option value="requested">Requested</option><option value="approved">Approved</option><option value="received">Received</option></select></div>
-            </div>
-
-            <!-- DOCUMENTS -->
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Documents Received</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px" id="docChecks">
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-birth" style="accent-color:var(--gold)"> Birth Certificate</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-ss" style="accent-color:var(--gold)"> Social Security Card</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-immun" style="accent-color:var(--gold)"> Immunization Records</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-medi" style="accent-color:var(--gold)"> Medi-Cal Card</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-school" style="accent-color:var(--gold)"> School Records</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-iep" style="accent-color:var(--gold)"> IEP</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-504" style="accent-color:var(--gold)"> 504 Plan</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-court" style="accent-color:var(--gold)"> Court Orders</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-isp" style="accent-color:var(--gold)"> ISP / Case Plan</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-health" style="accent-color:var(--gold)"> Health Passport</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-placement" style="accent-color:var(--gold)"> Placement Authorization</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-tribal" style="accent-color:var(--gold)"> Tribal Notice (ICWA)</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-dental" style="accent-color:var(--gold)"> Dental Records</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-therapy" style="accent-color:var(--gold)"> Therapy Authorization</label>
-              <label style="display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer"><input type="checkbox" id="doc-casa" style="accent-color:var(--gold)"> CASA Contact Info</label>
-            </div>
-
           <!-- PLACEMENT LIST -->
           <div id="placementList"></div>
         </div>
@@ -3463,6 +3369,7 @@ function openPlacementForm(id){
   // Show modal
   const modal=document.getElementById('placementFormModal');
   if(modal){modal.style.display='block';document.body.style.overflow='hidden';}
+  setTimeout(()=>{wireFormAutoSave();updatePfKey();},100);
 }
 
 function cancelPlacementForm(){
@@ -5228,6 +5135,53 @@ function printScreeningTool(id) {
   setTimeout(()=>win.print(), 400);
 }
 
+function updatePfKey(){
+  const fname=(document.getElementById('pf-fname')?.value||'').trim();
+  const mname=(document.getElementById('pf-mname')?.value||'').trim();
+  const lname=(document.getElementById('pf-lname')?.value||'').trim();
+  const dob=document.getElementById('pf-dob')?.value||'';
+  const el=document.getElementById('pfKeyDisplay');
+  if(!el) return;
+  if(fname&&dob){
+    const key=makePlacementKey(fname,mname,lname,dob);
+    el.textContent='ID: '+key;
+  } else {
+    el.textContent='';
+  }
+}
+
+// Wire all non-key fields to auto-save on change
+function wireFormAutoSave(){
+  const ids=['pf-age','pf-gender','pf-lang','pf-icwa','pf-date','pf-placetype','pf-prior','pf-sci','pf-biocontact','pf-school','pf-grade','pf-enrolled','pf-iep','pf-504','pf-medi','pf-doctor','pf-doctorph','pf-therapist','pf-therapistph','pf-meds','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-casa','pf-attorney','pf-case','pf-judge','pf-court','pf-nexthearing','pf-hearingtype','pf-clothing','pf-ebenefit','pf-notes'];
+  ids.forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.addEventListener('change',autoSavePlacement);
+  });
+  DOCS.forEach(d=>{
+    const el=document.getElementById('doc-'+d);
+    if(el) el.addEventListener('change',autoSavePlacement);
+  });
+}
+
+
+let _autoSaveTimer = null;
+function autoSavePlacement(){
+  clearTimeout(_autoSaveTimer);
+  const indicator = document.getElementById('pfAutoSave');
+  if(indicator){indicator.style.color='var(--muted)';indicator.textContent='⏳ Saving…';}
+  _autoSaveTimer = setTimeout(()=>{
+    const fname=(document.getElementById('pf-fname')?.value||'').trim();
+    const mname=(document.getElementById('pf-mname')?.value||'').trim();
+    const lname=(document.getElementById('pf-lname')?.value||'').trim();
+    const dob=document.getElementById('pf-dob')?.value||'';
+    if(!fname||!dob) return;
+    const name=[fname,mname,lname].filter(Boolean).join(' ');
+    doSavePlacement(fname,mname,lname,dob,name);
+    if(indicator){indicator.style.color='var(--sage)';indicator.textContent='✓ Auto-saved';}
+    setTimeout(()=>{if(indicator) indicator.textContent='';},2500);
+  }, 800);
+}
+
 // ══ BILLING TOGGLE ══
 let _billingPeriod = 'monthly';
 function setBilling(period) {
@@ -6326,17 +6280,12 @@ function scheduleAppointmentNotifications(){
 
 
 const CP_TABS = [
-  {id:'intake',label:'Intake'},
-  {id:'medical',label:'Medical'},
-  {id:'dental',label:'Dental'},
-  {id:'educational',label:'Educational'},
-  {id:'legal',label:'Legal'},
-  {id:'developmental',label:'Developmental'},
-  {id:'trauma',label:'Trauma'},
-  {id:'assessments',label:'Assessments'},
-  {id:'sensitive',label:'Sensitive'},
-  {id:'misc',label:'Misc'},
-  {id:'notes',label:'Notes'},
+  {id:'medical',   label:'🏥 Medical'},
+  {id:'education', label:'📚 Education'},
+  {id:'legal',     label:'⚖️ Legal'},
+  {id:'benefits',  label:'💰 Benefits'},
+  {id:'documents', label:'📄 Documents'},
+  {id:'notes',     label:'📝 Notes'},
 ];
 const CP_TAB_PROMPTS = {
   medical: 'Allergies, conditions, medications, primary doctor, Medi-Cal status, recent appointments, blood type…',
@@ -6372,114 +6321,96 @@ function renderCasePanel(containerId){
   const p=list[idx]||list[0];
   const days=daysInCare(p.date);
   el.innerHTML=`
+    <!-- HEADER BAR -->
     <div class="cp-bar">
-      <div style="display:flex;align-items:center;gap:10px;min-width:0">
-        <div style="width:30px;height:30px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--ink);flex-shrink:0">${p.name?p.name[0].toUpperCase():'+'}</div>
-        <div style="min-width:0"><div style="font-size:13px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name||'New placement'}${p.age?' · Age '+p.age:''}</div><div style="font-size:10.5px;color:rgba(255,255,255,.55)">${days!==null?days+' days in care':'Click "Edit Intake" to begin'}</div></div>
+      <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--ink);flex-shrink:0">${p.name?p.name[0].toUpperCase():'+'}</div>
+        <div style="min-width:0;flex:1">
+          <div style="font-size:13px;font-weight:700;color:white">${p.name||'No placements yet'}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.45)">${days!==null?days+' days in care':''} ${p.age?'· Age '+p.age:''}</div>
+        </div>
+        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:3px 6px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10px;max-width:120px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
       </div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="font-size:10.5px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
-        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">+ New Placement</button>
-        <button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">✏ Edit Intake</button>
-        <span title="Records sync to cloud automatically" style="font-size:9px;color:rgba(255,255,255,.35);display:flex;align-items:center;gap:3px">☁ Synced</span>
+      <div style="display:flex;gap:5px;align-items:center;flex-shrink:0">
+        <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer">+ New</button>
+        ${p.name?`<button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:4px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">✏ Edit</button>`:''}
+        <span style="font-size:9px;color:rgba(255,255,255,.25)" title="Synced to cloud">☁</span>
       </div>
     </div>
-    <!-- ACTION ALERTS -->
-    ${(()=>{
-      const alerts=getCaseAlerts(p);
-      if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:8px 12px;font-size:11.5px;color:#1a4d36;display:flex;align-items:center;gap:6px"><span>✓</span> Everything looks on track for ${p.name}.</div>`:'';
-      return `<div style="display:flex;flex-direction:column;gap:4px;padding:8px 10px;background:#fafafa;border-bottom:1px solid var(--border)">
-        ${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;padding:5px 8px;border-radius:4px;background:${a.level==='red'?'#fdf3f2':'#fffbec'};border:1px solid ${a.level==='red'?'rgba(192,57,43,.2)':'rgba(243,156,18,.2)'}">
-          <span style="color:${a.level==='red'?'#c0392b':'#9a6f00'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}</span>
-          ${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:3px 9px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap">${a.label}</button>`:''}
-        </div>`).join('')}
-      </div>`;
-    })()}
-    <div class="cp-tabs">${CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join('')}</div>
-    <!-- INTAKE -->
-    <div class="cp-pane on" id="${containerId}-intake">
-      <div class="cp-field"><span class="cp-fl">Child</span><span class="cp-fv">${p.name||'<em style="color:var(--muted)">Click "Edit Intake" above</em>'}${p.age?' · Age '+p.age:''}</span></div>
-      <div class="cp-field"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${days!==null?' ('+days+' days)':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">Type</span><span class="cp-fv">${STATUS_LABELS[p.placementType]||'Not set'}</span></div>
-      <div class="cp-field"><span class="cp-fl">Prior Placements</span><span class="cp-fv">${p.priorPlacements||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">Language</span><span class="cp-fv">${p.language||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">ICWA</span><span class="cp-fv"><span class="cp-badge ${p.icwa==='yes'?'warn':p.icwa==='no'?'ok':'pend'}">${p.icwa==='yes'?'⚠ ICWA Applies':p.icwa==='no'?'Does Not Apply':'Unknown'}</span></span></div>
-      <div class="cp-field"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">SCI Level</span><span class="cp-fv">${p.sci?'Level '+p.sci:'Not set'}</span></div>
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="generateCaseLetter(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">✉ Letter Vault</button>
-        <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;font-weight:600">✨ AI Summary</button>
+    <!-- STATIC INFO — always visible regardless of tab -->
+    ${p.name?`<div style="background:white;border-bottom:2px solid var(--cream);padding:12px 14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 14px">
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">ID</span><span class="cp-fv" style="font-family:monospace;font-size:10px;color:var(--muted)">${p.id}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+(days!==null?' ('+days+'d)':''):'—'}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Type</span><span class="cp-fv">${STATUS_LABELS[p.placementType]||'—'}</span></div>
+        ${p.sci?`<div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">SCI</span><span class="cp-fv"><span style="background:rgba(200,146,58,.12);color:#9a6f1f;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">Level ${p.sci}</span></span></div>`:''}
+        ${p.caseNum?`<div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Case #</span><span class="cp-fv">${p.caseNum}</span></div>`:''}
+        ${p.icwa&&p.icwa!=='unknown'?`<div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">ICWA</span><span class="cp-fv"><span class="cp-badge ${p.icwa==='yes'?'warn':'ok'}">${p.icwa==='yes'?'⚠ Applies':'Does Not Apply'}</span></span></div>`:''}
+        ${p.priorPlacements?`<div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Prior</span><span class="cp-fv">${p.priorPlacements} placement${p.priorPlacements!=='1'?'s':''}</span></div>`:''}
+        ${p.csw?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw}${p.cswph?' · <a href="tel:'+p.cswph+'" style="color:var(--sage)">'+p.cswph+'</a>':''}</span></div>`:''}
+        ${p.scsw?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw}${p.scswph?' · <a href="tel:'+p.scswph+'" style="color:var(--sage)">'+p.scswph+'</a>':''}</span></div>`:''}
       </div>
+      <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
+        <button onclick="generateCaseLetter(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">✉ Letters</button>
+        <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;font-weight:600">✨ AI Summary</button>
+        ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid rgba(25,55,90,.2);color:var(--navy);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">📅 Calendar</button>`:''}
+      </div>
+    </div>`:''}
+    <!-- ACTION ALERTS -->
+    ${(()=>{const alerts=getCaseAlerts(p);if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:7px 12px;font-size:11px;color:#1a4d36">✓ Everything looks on track for ${p.name}.</div>`:'';return `<div style="display:flex;flex-direction:column;gap:3px;padding:7px 10px;background:#fafafa;border-bottom:1px solid var(--border)">${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;padding:4px 7px;border-radius:3px;background:${a.level==='red'?'#fdf3f2':'#fffbec'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:2px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0">${a.label}</button>`:''}</div>`).join('')}</div>`;})()}
+    <!-- DYNAMIC TABS -->
+    <div class="cp-tabs">${p.name?CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join(''):'<span style="font-size:11px;color:var(--muted);padding:8px 14px">Add a placement to begin</span>'}</div>
+    <!-- MEDICAL -->
+    <div class="cp-pane${p.name?' on':''}" id="${containerId}-medical">
+      <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Therapist</span><span class="cp-fv">${p.therapist||'—'}${p.therapistph?' · <a href="tel:'+p.therapistph+'" style="color:var(--sage)">'+p.therapistph+'</a>':''}</span></div>
+      ${p.medications?`<div class="cp-field"><span class="cp-fl">Medications</span><span class="cp-fv" style="white-space:pre-wrap;font-size:11.5px">${p.medications}</span></div>`:''}
+      ${cpTabTextarea(p,'medical',containerId)}
+    </div>
+    <!-- EDUCATION -->
+    <div class="cp-pane" id="${containerId}-education">
+      <div class="cp-field"><span class="cp-fl">School</span><span class="cp-fv">${p.school||'—'}${p.grade?' · Grade '+p.grade:''}</span></div>
+      <div class="cp-field"><span class="cp-fl">Enrollment</span><span class="cp-fv"><span class="cp-badge ${p.enrolled==='yes'?'ok':p.enrolled==='no'?'warn':'pend'}">${STATUS_LABELS[p.enrolled]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">IEP</span><span class="cp-fv"><span class="cp-badge ${p.iep==='active'?'ok':p.iep==='needed'?'warn':'pend'}">${p.iep||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">504 Plan</span><span class="cp-fv"><span class="cp-badge ${p.iep504==='active'?'ok':p.iep504==='needed'?'warn':'pend'}">${p.iep504||'Not set'}</span></span></div>
+      ${cpTabTextarea(p,'education',containerId)}
     </div>
     <!-- LEGAL -->
     <div class="cp-pane" id="${containerId}-legal">
-      <div class="cp-field"><span class="cp-fl">Case Number</span><span class="cp-fv">${p.caseNum||'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">Next Hearing</span><span class="cp-fv">${p.nextHearing?new Date(p.nextHearing).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}${p.hearingType?' ('+p.hearingType+')':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">Court Date</span><span class="cp-fv">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</span></div>
+      <div class="cp-field"><span class="cp-fl">Last Court</span><span class="cp-fv">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">Judge</span><span class="cp-fv">${p.judge||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw||'—'}${p.cswph?' · <a href="tel:'+p.cswph+'" style="color:var(--sage)">'+p.cswph+'</a>':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw||'—'}${p.scswph?' · <a href="tel:'+p.scswph+'" style="color:var(--sage)">'+p.scswph+'</a>':''}</span></div>
       <div class="cp-field"><span class="cp-fl">CASA</span><span class="cp-fv">${p.casa||'—'}</span></div>
       <div class="cp-field"><span class="cp-fl">Attorney</span><span class="cp-fv">${p.attorney||'—'}</span></div>
-      <div class="cp-field"><span class="cp-fl">Bio Family Contact</span><span class="cp-fv"><span class="cp-badge ${p.bioContact==='yes'?'ok':p.bioContact==='no-contact'?'warn':'pend'}">${STATUS_LABELS[p.bioContact]||'Unknown'}</span></span></div>
-      ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:var(--navy);color:white;border:none;padding:7px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:10px;width:100%">📅 Add Hearing to Calendar</button>`:''}
+      <div class="cp-field"><span class="cp-fl">Bio Contact</span><span class="cp-fv"><span class="cp-badge ${p.bioContact==='yes'?'ok':p.bioContact==='no-contact'?'warn':'pend'}">${STATUS_LABELS[p.bioContact]||'Unknown'}</span></span></div>
+      ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:var(--navy);color:white;border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;margin-top:8px;width:100%">📅 Add Hearing to Calendar</button>`:''}
       ${cpTabTextarea(p,'legal',containerId)}
     </div>
-    <!-- MEDICAL -->
-    <div class="cp-pane" id="${containerId}-medical">
-      <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
-      <div class="cp-field"><span class="cp-fl">Primary Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
-      <div class="cp-field"><span class="cp-fl">Therapist</span><span class="cp-fv">${p.therapist||'—'}${p.therapistph?' · <a href="tel:'+p.therapistph+'" style="color:var(--sage)">'+p.therapistph+'</a>':''}</span></div>
-      ${p.medications?`<div class="cp-field"><span class="cp-fl">Medications</span><span class="cp-fv" style="white-space:pre-wrap">${p.medications}</span></div>`:''}
-      ${cpTabTextarea(p,'medical',containerId)}
-    </div>
-    <!-- DENTAL -->
-    <div class="cp-pane" id="${containerId}-dental">${cpTabTextarea(p,'dental',containerId)}</div>
-    <!-- EDUCATIONAL -->
-    <div class="cp-pane" id="${containerId}-educational">
-      <div class="cp-field"><span class="cp-fl">School / Grade</span><span class="cp-fv">${p.school||'—'}${p.grade?' · Grade '+p.grade:''}</span></div>
-      <div class="cp-field"><span class="cp-fl">Enrollment</span><span class="cp-fv"><span class="cp-badge ${p.enrolled==='yes'?'ok':p.enrolled==='no'?'warn':'pend'}">${STATUS_LABELS[p.enrolled]||'Not set'}</span></span></div>
-      <div class="cp-field"><span class="cp-fl">IEP Status</span><span class="cp-fv"><span class="cp-badge ${p.iep==='active'?'ok':p.iep==='needed'?'warn':'pend'}">${p.iep||'Not set'}</span></span></div>
-      <div class="cp-field"><span class="cp-fl">504 Plan</span><span class="cp-fv"><span class="cp-badge ${p.iep504==='active'?'ok':p.iep504==='needed'?'warn':'pend'}">${p.iep504||'Not set'}</span></span></div>
-      ${cpTabTextarea(p,'educational',containerId)}
-    </div>
-    <!-- DEVELOPMENTAL -->
-    <div class="cp-pane" id="${containerId}-developmental">${cpTabTextarea(p,'developmental',containerId)}</div>
-    <!-- TRAUMA -->
-    <div class="cp-pane" id="${containerId}-trauma">
-      <div style="font-size:11px;color:var(--muted);background:rgba(88,42,104,.06);border:1px solid rgba(88,42,104,.14);border-radius:4px;padding:9px 12px;margin-bottom:12px;line-height:1.5">⚠ Sensitive area — for the caregiver's reference only. Stays private on your device.</div>
-      ${cpTabTextarea(p,'trauma',containerId)}
-    </div>
-    <!-- ASSESSMENTS -->
-    <div class="cp-pane" id="${containerId}-assessments">
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📋 Open Screening Instruments</a>
-        <span style="color:var(--muted);font-size:11px">·</span>
-        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📝 Open BIRP Log</a>
-        <span style="color:var(--muted);font-size:11px">·</span>
-        <a onclick="go('vault')" style="font-size:11px;color:var(--sage);font-weight:600;cursor:pointer;text-decoration:underline">📊 Open SCI Tracker</a>
+    <!-- BENEFITS -->
+    <div class="cp-pane" id="${containerId}-benefits">
+      <div class="cp-field"><span class="cp-fl">Clothing</span><span class="cp-fv"><span class="cp-badge ${p.clothing==='received'?'ok':p.clothing==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.clothing]||'Not set'}</span></span></div>
+      <div class="cp-field"><span class="cp-fl">Emergency</span><span class="cp-fv"><span class="cp-badge ${p.ebenefit==='received'?'ok':p.ebenefit==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.ebenefit]||'Not set'}</span></span></div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="openLetterPDF('t1')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">Request Clothing →</button>
+        <button onclick="openLetterPDF('t2')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">Request Emergency →</button>
       </div>
-      ${cpTabTextarea(p,'assessments',containerId)}
     </div>
-    <!-- SENSITIVE -->
-    <div class="cp-pane" id="${containerId}-sensitive">
-      <div style="font-size:11px;color:var(--muted);background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.14);border-radius:4px;padding:9px 12px;margin-bottom:12px;line-height:1.5">🔒 Confidential — stays on your device only. Never synced, never shared.</div>
-      ${cpTabTextarea(p,'sensitive',containerId)}
-    </div>
-    <!-- MISC -->
-    <div class="cp-pane" id="${containerId}-misc">
-      <div class="cp-field"><span class="cp-fl">Clothing Allow.</span><span class="cp-fv"><span class="cp-badge ${p.clothing==='received'?'ok':p.clothing==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.clothing]||'Not set'}</span></span></div>
-      <div class="cp-field"><span class="cp-fl">Emergency Ben.</span><span class="cp-fv"><span class="cp-badge ${p.ebenefit==='received'?'ok':p.ebenefit==='not-requested'?'warn':'pend'}">${STATUS_LABELS[p.ebenefit]||'Not set'}</span></span></div>
-      ${cpTabTextarea(p,'misc',containerId)}
+    <!-- DOCUMENTS -->
+    <div class="cp-pane" id="${containerId}-documents">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+        ${DOCS.map(d=>`<div style="display:flex;align-items:center;gap:6px;font-size:11px;padding:4px 0;border-bottom:1px solid var(--cream)"><span>${(p.docs||[]).includes(d)?'✅':'⬜'}</span><span style="color:${(p.docs||[]).includes(d)?'var(--ink)':'var(--muted)'}">${DOC_LABELS[d]}</span></div>`).join('')}
+      </div>
+      <div style="margin-top:10px;font-size:10.5px;color:var(--muted)">${(p.docs||[]).length}/${DOCS.length} collected · Edit intake to update</div>
     </div>
     <!-- NOTES -->
     <div class="cp-pane" id="${containerId}-notes">
-      <div style="display:flex;gap:8px;margin-bottom:14px">
-        <input type="text" id="${containerId}-noteInput" placeholder="Add a timestamped note…" style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
-        <button onclick="addCpNote('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Add</button>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input type="text" id="${containerId}-noteInput" placeholder="Add a timestamped note…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
+        <button onclick="addCpNote('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:7px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Add</button>
       </div>
-      ${(p.caseNotes||[]).length?(p.caseNotes||[]).map((n,i)=>`<div class="cp-note"><div class="cp-note-date">${n.date}</div>${n.text}<button onclick="deleteCpNote('${p.id}',${i},'${containerId}')" style="position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No notes yet. Add one above.</div>'}
+      ${(p.caseNotes||[]).length?(p.caseNotes||[]).map((n,i)=>`<div class="cp-note" style="position:relative"><div class="cp-note-date">${n.date}</div>${n.text}<button onclick="deleteCpNote('${p.id}',${i},'${containerId}')" style="position:absolute;top:6px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:11px">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No notes yet.</div>'}
     </div>`;
 }
 
@@ -6671,27 +6602,31 @@ window.addEventListener('DOMContentLoaded',()=>{
 <footer class="footer" id="site-footer" style="display:block"></footer>
 
 <!-- PLACEMENT FORM MODAL — global, accessible from any page -->
-<div id="placementFormModal" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,.65);overflow-y:auto">
-  <div style="max-width:680px;width:100%;margin:40px auto 40px;background:white;border-radius:12px;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden">
+<div id="placementFormModal" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,.5)">
+  <div style="position:absolute;right:0;top:0;bottom:0;width:100%;max-width:440px;background:white;box-shadow:-8px 0 32px rgba(0,0,0,.25);overflow-y:auto;display:flex;flex-direction:column">
     <div style="background:var(--ink);padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:3px">Placement Tracker</div>
         <div style="font-size:18px;font-weight:700;color:white" id="pfTitle">New Placement</div>
       </div>
-      <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px">✕</button>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span id="pfAutoSave" style="font-size:11px;font-weight:600;transition:color .2s"></span>
+        <span id="pfKeyDisplay" style="font-size:9px;color:rgba(255,255,255,.3);font-family:monospace"></span>
+        <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px">✕</button>
+      </div>
     </div>
     <div style="padding:24px" id="placementForm">
       <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Records sync securely to your account. Never include SSNs or sealed court information.</p>
 
       <!-- CHILD INFO -->
       <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Child Information</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
-        <div class="af"><label>First Name</label><input type="text" id="pf-fname" placeholder="First name"></div>
-        <div class="af"><label>Middle Name</label><input type="text" id="pf-mname" placeholder="Middle name"></div>
-        <div class="af"><label>Last Name</label><input type="text" id="pf-lname" placeholder="Last name"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="af" style="grid-column:span 2"><label>First Name</label><input type="text" id="pf-fname" placeholder="First name" oninput="autoSavePlacement();updatePfKey()"></div>
+        <div class="af"><label>Middle Name</label><input type="text" id="pf-mname" placeholder="Middle name" oninput="autoSavePlacement();updatePfKey()"></div>
+        <div class="af"><label>Last Name</label><input type="text" id="pf-lname" placeholder="Last name" oninput="autoSavePlacement();updatePfKey()"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-        <div class="af"><label>Date of Birth <span style="color:#c0392b">*</span></label><input type="date" id="pf-dob"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+        <div class="af"><label>Date of Birth <span style="color:#c0392b">*</span></label><input type="date" id="pf-dob" oninput="autoSavePlacement();updatePfKey()"></div>
         <div class="af"><label>Age</label><input type="number" id="pf-age" placeholder="Age" min="0" max="21"></div>
         <div class="af"><label>Gender</label><select id="pf-gender"><option value="">Select…</option><option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
         <div class="af"><label>Primary Language</label><input type="text" id="pf-lang" placeholder="e.g. Spanish, English"></div>
