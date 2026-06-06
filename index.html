@@ -396,11 +396,11 @@ img{max-width:100%}
 .cp-tab:hover{color:var(--ink);background:rgba(200,146,58,.06)}
 .cp-tab.on{color:var(--ink);border-bottom-color:var(--gold);background:white;font-weight:700}
 .cp-pane{display:none;padding:8px 12px;background:white}.cp-pane.on{display:block}
-.cp-field{display:flex;align-items:center;justify-content:space-between;padding:3px 0;border-bottom:1px solid #f0ebe0;font-size:14.0px;gap:10px}
+.cp-field{display:flex;align-items:flex-start;justify-content:flex-start;padding:4px 0;border-bottom:1px solid #f0ebe0;font-size:13.5px;gap:10px}
 .cp-field:last-child{border-bottom:none}
-.cp-fl{color:#7a7163;font-weight:700;font-size:13.5px;text-transform:uppercase;letter-spacing:.08em;min-width:100px;flex-shrink:0}
-.cp-fv{color:var(--ink);flex:1;text-align:right;font-size:15.5px}
-.cp-fv input,.cp-fv select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:14.5px;width:100%;max-width:200px;text-align:right;background:white}
+.cp-fl{color:#7a7163;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.08em;min-width:110px;flex-shrink:0;padding-top:2px;text-align:left}
+.cp-fv{color:var(--ink);flex:1;text-align:left;font-size:13px}
+.cp-fv input,.cp-fv select{padding:5px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;width:100%;max-width:220px;text-align:left;background:white}
 .cp-empty{text-align:center;padding:32px 20px;color:var(--muted);font-size:19.0px}
 .cp-empty button{margin-top:12px;background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:15.5px;font-weight:700;cursor:pointer}
 .cp-note{background:#fbf7ee;border-left:3px solid var(--gold);border-radius:4px;padding:9px 12px;margin-bottom:7px;font-size:15.0px;color:var(--text);line-height:1.55;position:relative;padding-right:32px}
@@ -3464,11 +3464,19 @@ function doSavePlacement(fname,mname,lname,dob,name,closeAfter){
 
   // Prevent duplicate when adding new (not editing)
   if(!editingPlacementId){
-    const exists = list.find(p => p.id === compositeKey);
+    const f = fname.toLowerCase().trim();
+    const l = lname.toLowerCase().trim();
+    const exists = list.find(p =>
+      p.id === compositeKey ||
+      (p.fname && p.lname && p.dob &&
+       p.fname.toLowerCase().trim() === f &&
+       p.lname.toLowerCase().trim() === l &&
+       p.dob === dob)
+    );
     if(exists){
-      // If auto-saving, silently switch to edit mode instead of alerting
-      if(!closeAfter){ editingPlacementId=compositeKey; }
-      else { alert(`A placement for ${name} (DOB: ${dob}) already exists. Edit the existing record instead.`); return; }
+      // If auto-saving, silently switch to edit mode instead of creating duplicate
+      if(!closeAfter){ editingPlacementId = exists.id; }
+      else { alert(`A placement for ${name} (DOB: ${dob}) already exists.\n\nEdit the existing record to avoid duplicates.`); return; }
     }
   }
   const p={
@@ -6384,8 +6392,7 @@ function renderCasePanel(containerId){
     </div>`:''}
     <!-- DYNAMIC TABS — directly below static data -->
     <div class="cp-tabs">${p.name?CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join(''):'<span style="font-size:11px;color:var(--muted);padding:8px 14px">Add a placement to begin</span>'}</div>
-    <!-- ACTION ALERTS — below tabs -->
-    ${(()=>{const alerts=getCaseAlerts(p);if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:7px 12px;font-size:11px;color:#1a4d36">✓ Everything looks on track for ${p.name}.</div>`:'';return `<div style="display:flex;flex-direction:column;gap:3px;padding:7px 10px;background:#fafafa;border-bottom:1px solid var(--border)">${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;padding:4px 7px;border-radius:3px;background:${a.level==='red'?'#fdf3f2':'#fffbec'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:2px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0">${a.label}</button>`:''}</div>`).join('')}</div>`;})()}
+
     <div class="cp-pane${p.name?' on':''}" id="${containerId}-medical">
       <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
       <div class="cp-field"><span class="cp-fl">Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
@@ -6437,7 +6444,9 @@ function renderCasePanel(containerId){
       ${(p.caseNotes||[]).length?(p.caseNotes||[]).map((n,i)=>`<div class="cp-note" style="position:relative"><div class="cp-note-date">${n.date}</div>${n.text}<button onclick="deleteCpNote('${p.id}',${i},'${containerId}')" style="position:absolute;top:6px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:11px">✕</button></div>`).join(''):'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No notes yet.</div>'}
     </div>
     <!-- LETTERS & ACTIONS BAR — bottom of panel, above save -->
-    ${p.name?`<div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--cream);border-top:2px solid var(--border);flex-wrap:wrap">
+    ${p.name?`<div style="background:var(--cream);border-top:2px solid var(--border)">
+      ${(()=>{const alerts=getCaseAlerts(p);if(!alerts.length)return `<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:7px 12px;font-size:11px;color:#1a4d36">✓ Everything looks on track for ${p.name}.</div>`;return `<div style="display:flex;flex-direction:column;gap:3px;padding:7px 10px;background:#fafafa;border-bottom:1px solid var(--border)">${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;padding:4px 7px;border-radius:3px;background:${a.level==='red'?'#fdf3f2':'#fffbec'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:2px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0">${a.label}</button>`:''}</div>`).join('')}</div>`;})()}
+      <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;flex-wrap:wrap">
       <div style="position:relative" id="lettersDropWrap_${containerId}">
         <button onclick="toggleLettersDrop('${containerId}')" style="display:flex;align-items:center;gap:5px;background:var(--ink);color:white;border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer">
           ✉ Letters <span style="font-size:9px;opacity:.7">▾</span>
@@ -6455,6 +6464,7 @@ function renderCasePanel(containerId){
       </div>
       <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:6px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer;font-weight:600">✨ AI Summary</button>
       ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid rgba(25,55,90,.2);color:var(--navy);padding:6px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;cursor:pointer">📅 Add to Calendar</button>`:''}
+      </div>
     </div>`:''}`;
 }
 
