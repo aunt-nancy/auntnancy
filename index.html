@@ -6366,10 +6366,11 @@ function renderCasePanel(containerId){
       </div>
     </div>
     <!-- STATIC INFO — always visible regardless of tab -->
-    ${p.name?`<div style="background:white;border-bottom:2px solid var(--cream);padding:12px 14px">
+    ${p.name?`<div style="background:white;border-bottom:1px solid var(--cream);padding:12px 14px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 14px">
-        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">ID</span><span class="cp-fv" style="font-family:monospace;font-size:10px;color:var(--muted)">${p.id}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">Name</span><span class="cp-fv" style="font-weight:600">${p.name}${p.age?' · Age '+p.age:''}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">ID</span><span class="cp-fv" style="font-family:monospace;font-size:10px;color:var(--muted)">${p.id}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+(days!==null?' ('+days+'d)':''):'—'}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Type</span><span class="cp-fv">${STATUS_LABELS[p.placementType]||'—'}</span></div>
         ${p.createdAt?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">Record Created</span><span class="cp-fv" style="font-size:11px;color:var(--muted)">${new Date(p.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} at ${new Date(p.createdAt).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</span></div>`:''}
@@ -6381,10 +6382,10 @@ function renderCasePanel(containerId){
         ${p.scsw?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw}${p.scswph?' · <a href="tel:'+p.scswph+'" style="color:var(--sage)">'+p.scswph+'</a>':''}</span></div>`:''}
       </div>
     </div>`:''}
-    <!-- ACTION ALERTS -->
+    <!-- DYNAMIC TABS — directly below static data -->
+    <div class="cp-tabs">${p.name?CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join(''):'<span style="font-size:11px;color:var(--muted);padding:8px 14px">Add a placement to begin</span>'}</div>
+    <!-- ACTION ALERTS — below tabs -->
     ${(()=>{const alerts=getCaseAlerts(p);if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:7px 12px;font-size:11px;color:#1a4d36">✓ Everything looks on track for ${p.name}.</div>`:'';return `<div style="display:flex;flex-direction:column;gap:3px;padding:7px 10px;background:#fafafa;border-bottom:1px solid var(--border)">${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;padding:4px 7px;border-radius:3px;background:${a.level==='red'?'#fdf3f2':'#fffbec'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:2px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0">${a.label}</button>`:''}</div>`).join('')}</div>`;})()}
-    <!-- DYNAMIC TABS -->
-    <div class="cp-tabs">${p.name?CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join(''):'<span style="font-size:11px;color:var(--muted);padding:8px 14px">Add a placement to begin</span>'}</div>    <!-- MEDICAL -->
     <div class="cp-pane${p.name?' on':''}" id="${containerId}-medical">
       <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
       <div class="cp-field"><span class="cp-fl">Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
