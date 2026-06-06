@@ -3183,7 +3183,7 @@ function go(id,el){
   }
   window.scrollTo({top:0,behavior:'instant'});
   // Save page in URL hash so refresh restores correct page
-  history.replaceState(null,'','#'+id);
+  try{history.replaceState(null,'','#'+id);}catch(e){}
   if(id==='vault'){renderTemplates();const g=document.getElementById('vaultGate');if(g)g.style.display=currentUser?'none':'block';}
   if(id==='dashboard'&&currentUser) populateDashboard();
   if(id==='education'){
@@ -3401,10 +3401,10 @@ function savePlacement(){
   // Show privacy acknowledgment before first save
   const ackKey = currentUser ? 'an_privacy_ack_'+currentUser.email : 'an_privacy_ack_guest';
   if(!localStorage.getItem(ackKey)){
-    showPrivacyAck(()=>doSavePlacement(fname,mname,lname,dob,name), ackKey);
+    showPrivacyAck(()=>doSavePlacement(fname,mname,lname,dob,name,true), ackKey);
     return;
   }
-  doSavePlacement(fname,mname,lname,dob,name);
+  doSavePlacement(fname,mname,lname,dob,name,true);
 }
 
 let _privacyAckCallback = null;
@@ -3458,7 +3458,7 @@ function acceptPrivacyAck(ackKey){
   if(_privacyAckCallback){_privacyAckCallback();_privacyAckCallback=null;}
 }
 
-function doSavePlacement(fname,mname,lname,dob,name){
+function doSavePlacement(fname,mname,lname,dob,name,closeAfter){
   const compositeKey = makePlacementKey(fname, mname, lname, dob);
   const list = getPlacements();
 
@@ -3466,8 +3466,9 @@ function doSavePlacement(fname,mname,lname,dob,name){
   if(!editingPlacementId){
     const exists = list.find(p => p.id === compositeKey);
     if(exists){
-      alert(`A placement for ${name} (DOB: ${dob}) already exists in your tracker. Edit the existing record instead.`);
-      return;
+      // If auto-saving, silently switch to edit mode instead of alerting
+      if(!closeAfter){ editingPlacementId=compositeKey; }
+      else { alert(`A placement for ${name} (DOB: ${dob}) already exists. Edit the existing record instead.`); return; }
     }
   }
   const p={
@@ -3512,17 +3513,22 @@ function doSavePlacement(fname,mname,lname,dob,name){
     updated:new Date().toISOString(),
     timeline:[]
   };
-  // list already declared above for duplicate check
   if(editingPlacementId){
     const idx=list.findIndex(x=>x.id===editingPlacementId);
     if(idx>-1){p.timeline=list[idx].timeline||[];list[idx]=p;}
+    else{p.timeline=[{date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:'Placement added to tracker'}];list.unshift(p);}
   } else {
     p.timeline=[{date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:'Placement added to tracker'}];
     list.unshift(p);
+    // Set editingPlacementId so subsequent auto-saves update rather than duplicate
+    editingPlacementId = p.id;
   }
   savePlacements(list);
-  cancelPlacementForm();
-  renderPlacements();}
+  if(closeAfter){
+    cancelPlacementForm();
+    renderPlacements();
+  }
+}
 
 function deletePlacement(id){
   if(!confirm('Remove this placement from your tracker? This cannot be undone.')) return;
@@ -5176,7 +5182,7 @@ function autoSavePlacement(){
     const dob=document.getElementById('pf-dob')?.value||'';
     if(!fname||!dob) return;
     const name=[fname,mname,lname].filter(Boolean).join(' ');
-    doSavePlacement(fname,mname,lname,dob,name);
+    doSavePlacement(fname,mname,lname,dob,name,false);
     if(indicator){indicator.style.color='var(--sage)';indicator.textContent='✓ Auto-saved';}
     setTimeout(()=>{if(indicator) indicator.textContent='';},2500);
   }, 800);
@@ -6603,17 +6609,17 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 <!-- PLACEMENT FORM MODAL — global, accessible from any page -->
 <div id="placementFormModal" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,.5)">
-  <div style="position:absolute;right:0;top:0;bottom:0;width:100%;max-width:440px;background:white;box-shadow:-8px 0 32px rgba(0,0,0,.25);overflow-y:auto;display:flex;flex-direction:column">
+  <div style="position:absolute;right:0;top:0;bottom:0;width:100%;max-width:680px;background:white;box-shadow:-8px 0 32px rgba(0,0,0,.25);overflow-y:auto;display:flex;flex-direction:column">
     <div style="background:var(--ink);padding:18px 24px;display:flex;align-items:center;justify-content:space-between">
       <div>
         <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:3px">Placement Tracker</div>
         <div style="font-size:18px;font-weight:700;color:white" id="pfTitle">New Placement</div>
+        <div style="margin-top:4px;display:flex;align-items:center;gap:10px">
+          <span id="pfKeyDisplay" style="font-size:10px;color:rgba(255,255,255,.45);font-family:monospace;letter-spacing:.04em"></span>
+          <span id="pfAutoSave" style="font-size:10px;font-weight:600;transition:color .2s"></span>
+        </div>
       </div>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span id="pfAutoSave" style="font-size:11px;font-weight:600;transition:color .2s"></span>
-        <span id="pfKeyDisplay" style="font-size:9px;color:rgba(255,255,255,.3);font-family:monospace"></span>
-        <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px">✕</button>
-      </div>
+      <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:32px;height:32px;border-radius:5px;cursor:pointer;font-size:18px;flex-shrink:0">✕</button>
     </div>
     <div style="padding:24px" id="placementForm">
       <p style="font-size:12px;color:var(--muted);margin-bottom:18px">Records sync securely to your account. Never include SSNs or sealed court information.</p>
