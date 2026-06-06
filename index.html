@@ -5188,6 +5188,27 @@ function autoSavePlacement(){
   }, 800);
 }
 
+function toggleLettersDrop(containerId){
+  const dd=document.getElementById('lettersDrop_'+containerId);
+  if(!dd) return;
+  const isOpen=dd.style.display==='block';
+  // Close all other dropdowns first
+  document.querySelectorAll('[id^="lettersDrop_"]').forEach(el=>el.style.display='none');
+  dd.style.display=isOpen?'none':'block';
+  if(!isOpen){
+    // Close on outside click
+    setTimeout(()=>{
+      const handler=e=>{
+        if(!document.getElementById('lettersDropWrap_'+containerId)?.contains(e.target)){
+          dd.style.display='none';
+          document.removeEventListener('click',handler);
+        }
+      };
+      document.addEventListener('click',handler);
+    },10);
+  }
+}
+
 // ══ BILLING TOGGLE ══
 let _billingPeriod = 'monthly';
 function setBilling(period) {
@@ -6357,16 +6378,32 @@ function renderCasePanel(containerId){
         ${p.csw?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">CSW</span><span class="cp-fv">${p.csw}${p.cswph?' · <a href="tel:'+p.cswph+'" style="color:var(--sage)">'+p.cswph+'</a>':''}</span></div>`:''}
         ${p.scsw?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">SCSW</span><span class="cp-fv">${p.scsw}${p.scswph?' · <a href="tel:'+p.scswph+'" style="color:var(--sage)">'+p.scswph+'</a>':''}</span></div>`:''}
       </div>
-      <div style="display:flex;gap:7px;margin-top:10px;flex-wrap:wrap">
-        <button onclick="generateCaseLetter(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">✉ Letters</button>
-        <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer;font-weight:600">✨ AI Summary</button>
-        ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid rgba(25,55,90,.2);color:var(--navy);padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">📅 Calendar</button>`:''}
-      </div>
     </div>`:''}
     <!-- ACTION ALERTS -->
     ${(()=>{const alerts=getCaseAlerts(p);if(!alerts.length) return p.name?`<div style="background:#eaf3ee;border-left:3px solid var(--sage);padding:7px 12px;font-size:11px;color:#1a4d36">✓ Everything looks on track for ${p.name}.</div>`:'';return `<div style="display:flex;flex-direction:column;gap:3px;padding:7px 10px;background:#fafafa;border-bottom:1px solid var(--border)">${alerts.map(a=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10.5px;padding:4px 7px;border-radius:3px;background:${a.level==='red'?'#fdf3f2':'#fffbec'}">${a.level==='red'?'🔴':'🟡'} ${a.msg}${a.action?`<button onclick="${a.action}" style="background:${a.level==='red'?'#c0392b':'var(--gold)'};color:white;border:none;padding:2px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;cursor:pointer;flex-shrink:0">${a.label}</button>`:''}</div>`).join('')}</div>`;})()}
     <!-- DYNAMIC TABS -->
     <div class="cp-tabs">${p.name?CP_TABS.map((t,i)=>`<button class="cp-tab${i===0?' on':''}" onclick="switchCpTab('${containerId}','${t.id}',this)">${t.label}</button>`).join(''):'<span style="font-size:11px;color:var(--muted);padding:8px 14px">Add a placement to begin</span>'}</div>
+    <!-- LETTERS & ACTIONS BAR — below tabs, always visible -->
+    ${p.name?`<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#fafafa;border-bottom:1px solid var(--border);flex-wrap:wrap">
+      <!-- Letters dropdown -->
+      <div style="position:relative" id="lettersDropWrap_${containerId}">
+        <button onclick="toggleLettersDrop('${containerId}')" style="display:flex;align-items:center;gap:5px;background:var(--ink);color:white;border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">
+          ✉ Letters <span style="font-size:9px;opacity:.7">▾</span>
+        </button>
+        <div id="lettersDrop_${containerId}" style="display:none;position:absolute;top:calc(100% + 4px);left:0;background:white;border:1px solid var(--border);border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:500;min-width:220px;overflow:hidden">
+          <div style="padding:6px 12px;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--cream);background:#fafafa">Select a Letter</div>
+          <div onclick="openLetterPDF('t1');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">👕 Clothing Allowance Request</div>
+          <div onclick="openLetterPDF('t2');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">🆘 Emergency Benefit Request</div>
+          <div onclick="openLetterPDF('t3');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">🎓 McKinney-Vento Enrollment</div>
+          <div onclick="openLetterPDF('t8');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">📝 CSW / SCSW Benefit Request</div>
+          <div onclick="openLetterPDF('t4');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">🚌 School Transportation Request</div>
+          <div onclick="openLetterPDF('t9');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--cream);display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">🎓 AB 12 / NMD Request</div>
+          <div onclick="go('vault');toggleLettersDrop('${containerId}')" style="padding:9px 14px;font-size:12px;color:var(--gold);cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background=''">→ All templates in Vault</div>
+        </div>
+      </div>
+      <button id="cm-summary-btn-${containerId}" onclick="generateCaseSummary(getPlacements().find(x=>x.id==='${p.id}'),'${containerId}')" style="background:transparent;border:1px solid rgba(116,198,157,.3);color:var(--sage);padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;font-weight:600">✨ AI Summary</button>
+      ${p.nextHearing?`<button onclick="addCourtDateToCalendar(getPlacements().find(x=>x.id==='${p.id}'))" style="background:transparent;border:1px solid rgba(25,55,90,.2);color:var(--navy);padding:5px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">📅 Add to Calendar</button>`:''}
+    </div>`:''}
     <!-- MEDICAL -->
     <div class="cp-pane${p.name?' on':''}" id="${containerId}-medical">
       <div class="cp-field"><span class="cp-fl">Medi-Cal</span><span class="cp-fv"><span class="cp-badge ${p.medi==='active'?'ok':p.medi==='issue'?'warn':'pend'}">${STATUS_LABELS[p.medi]||'Not set'}</span></span></div>
