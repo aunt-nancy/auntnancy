@@ -6316,7 +6316,7 @@ function scheduleAppointmentNotifications(){
 
 
 const CP_TABS = [
-  {id:'medical',   label:'🏥 Medical'},
+  {id:'medical',   label:'🏥 Medical/Dental'},
   {id:'education', label:'📚 Education'},
   {id:'legal',     label:'⚖️ Legal'},
   {id:'benefits',  label:'💰 Benefits'},
@@ -6400,7 +6400,14 @@ function renderCasePanel(containerId){
       <div class="cp-field"><span class="cp-fl">Doctor</span><span class="cp-fv">${p.doctor||'—'}${p.doctorph?' · <a href="tel:'+p.doctorph+'" style="color:var(--sage)">'+p.doctorph+'</a>':''}</span></div>
       <div class="cp-field"><span class="cp-fl">Therapist</span><span class="cp-fv">${p.therapist||'—'}${p.therapistph?' · <a href="tel:'+p.therapistph+'" style="color:var(--sage)">'+p.therapistph+'</a>':''}</span></div>
       ${p.medications?`<div class="cp-field"><span class="cp-fl">Medications</span><span class="cp-fv" style="white-space:pre-wrap;font-size:11.5px">${p.medications}</span></div>`:''}
-      ${cpTabTextarea(p,'medical',containerId)}
+      ${cpTabRows(p,'medical',containerId,[
+        {label:'Type',      key:'type',   kind:'select', opts:['Medical','Dental','Mental Health','Psychiatric','Vision','Specialist','Other']},
+        {label:'Date',      key:'date',   kind:'date'},
+        {label:'Time',      key:'time',   kind:'time'},
+        {label:'Provider',  key:'provider',kind:'text', placeholder:'Name / clinic'},
+        {label:'Reason',    key:'reason', kind:'select', opts:['Well-child / Annual','Sick visit','Follow-up','Cleaning / Exam','Orthodontics','Emergency','Therapy session','Medication review','Lab / Imaging','Other']},
+        {label:'Result / Notes', key:'notes', kind:'textarea', placeholder:'Diagnosis, next steps, prescriptions, referrals…'},
+      ])}
     </div>
     <!-- EDUCATION -->
     <div class="cp-pane" id="${containerId}-education">
@@ -6408,7 +6415,14 @@ function renderCasePanel(containerId){
       <div class="cp-field"><span class="cp-fl">Enrollment</span><span class="cp-fv"><span class="cp-badge ${p.enrolled==='yes'?'ok':p.enrolled==='no'?'warn':'pend'}">${STATUS_LABELS[p.enrolled]||'Not set'}</span></span></div>
       <div class="cp-field"><span class="cp-fl">IEP</span><span class="cp-fv"><span class="cp-badge ${p.iep==='active'?'ok':p.iep==='needed'?'warn':'pend'}">${p.iep||'Not set'}</span></span></div>
       <div class="cp-field"><span class="cp-fl">504 Plan</span><span class="cp-fv"><span class="cp-badge ${p.iep504==='active'?'ok':p.iep504==='needed'?'warn':'pend'}">${p.iep504||'Not set'}</span></span></div>
-      ${cpTabTextarea(p,'education',containerId)}
+      ${cpTabRows(p,'education',containerId,[
+        {label:'Date',        key:'date',    kind:'date'},
+        {label:'Event Type',  key:'type',    kind:'select', opts:['Grade report','Parent-teacher conference','IEP meeting','504 meeting','Enrollment','School change','Suspension','Expulsion','Tutoring','Extracurricular','Other']},
+        {label:'Grade / GPA', key:'grade',   kind:'text',   placeholder:'e.g. B+ / 3.2'},
+        {label:'Attendance',  key:'attend',  kind:'select', opts:['Good standing','1–2 absences','3–5 absences','Chronic (6+)','School refusal']},
+        {label:'Behavior',    key:'behavior',kind:'select', opts:['No concerns','Minor issues','Written warning','Suspension','Expulsion referral']},
+        {label:'Notes',       key:'notes',   kind:'textarea',placeholder:'School contacts, academic concerns, next steps…'},
+      ])}
     </div>
     <!-- LEGAL -->
     <div class="cp-pane" id="${containerId}-legal">
@@ -6437,30 +6451,32 @@ function renderCasePanel(containerId){
       </div>
       <div style="margin-top:10px;font-size:10.5px;color:var(--muted)">${(p.docs||[]).length}/${DOCS.length} collected · Edit intake to update</div>
     </div>
-    <!-- NOTES -->
     <!-- SCREENING TOOLS -->
     <div class="cp-pane" id="${containerId}-screening">
-      <div style="font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:3px">Non-Clinical Screening</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.55">Flag observed concerns. Select one to read the definition, then click Add. Not a diagnosis — for documentation only.</div>
+      <div style="font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:3px">Non-Clinical Screening Tools</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.55">Select a tool to open the questionnaire. Completed results post automatically to the LOC tab with notes and a recommended LOC ranking.</div>
       <div style="display:flex;gap:6px;margin-bottom:8px">
         <select id="${containerId}-sc-pick" onchange="scShowDef('${containerId}')" style="flex:1;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;background:white">
-          <option value="">— Select a concern —</option>
-          ${SC_CATS.map(cat=>`<optgroup label="${cat.g}">${cat.items.map(it=>`<option value="${it.k}">${it.n}</option>`).join('')}</optgroup>`).join('')}
+          <option value="">— Select a concern / tool —</option>
+          ${SC_CATS.map(cat=>`<optgroup label="${cat.g}">${cat.items.map(it=>`<option value="${it.k}">${it.n}${it.tool?' 📋':''}</option>`).join('')}</optgroup>`).join('')}
         </select>
-        <button onclick="scAdd('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:7px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">+ Add</button>
+        <button onclick="scAdd('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:7px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">+ Flag</button>
       </div>
-      <div id="${containerId}-sc-def" style="display:none;background:#fdf8ef;border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:9px 12px;margin-bottom:10px;font-size:11.5px;line-height:1.65"></div>
-      <div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">Flagged (${(p.concerns||[]).length})</div>
+      <div id="${containerId}-sc-def" style="display:none;background:#fdf8ef;border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:9px 12px;margin-bottom:8px;font-size:11.5px;line-height:1.65"></div>
+      <div id="${containerId}-sc-tool-btn" style="display:none;margin-bottom:10px">
+        <button onclick="scOpenTool('${p.id}','${containerId}')" style="background:var(--ink);color:white;border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">📋 Open Questionnaire →</button>
+      </div>
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">Flagged Concerns (${(p.concerns||[]).length})</div>
       <div id="${containerId}-sc-list">
         ${!(p.concerns||[]).length ? '<div style="font-size:11px;color:var(--muted);padding:4px 0">None flagged yet.</div>' :
-          (p.concerns||[]).map((c,i)=>`<div style="display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:1px solid var(--cream)"><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--ink)">${c.n}</div><div style="font-size:10.5px;color:var(--muted)">${c.cat} · ${c.dt}</div></div><button onclick="scRemove('${p.id}',${i},'${containerId}')" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0">✕</button></div>`).join('')
+          (p.concerns||[]).map((c,i)=>`<div style="display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--cream)"><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--ink)">${c.n}</div><div style="font-size:10.5px;color:var(--muted)">${c.cat} · Added ${c.dt}${c.score?` · Score: <strong>${c.score}</strong>`:''}</div>${c.locRec?`<div style="font-size:10.5px;color:var(--sage);margin-top:1px">→ LOC posted: ${c.locRec}</div>`:''}</div><button onclick="scRemove('${p.id}',${i},'${containerId}')" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0">✕</button></div>`).join('')
         }
       </div>
       <div style="margin-top:10px">
-        <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Observation Notes</label>
-        <textarea id="${containerId}-screening-text" style="width:100%;min-height:90px;resize:vertical;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.65" placeholder="Describe specific behaviors, patterns, or events observed…">${((p.tabs&&p.tabs.screening)||'').replace(/</g,'&lt;')}</textarea>
+        <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Caregiver Observations</label>
+        <textarea id="${containerId}-screening-text" style="width:100%;min-height:80px;resize:vertical;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.65" placeholder="Describe specific behaviors, patterns, or events observed…">${((p.tabs&&p.tabs.screening)||'').replace(/</g,'&lt;')}</textarea>
         <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-          <button onclick="saveCpTab('${p.id}','screening','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:5px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save Notes</button>
+          <button onclick="saveCpTabText('${p.id}','screening','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:5px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save Notes</button>
           <span id="${containerId}-screening-status" style="font-size:11px;color:var(--muted)"></span>
         </div>
       </div>
@@ -6469,54 +6485,44 @@ function renderCasePanel(containerId){
     <!-- LEVEL OF CARE -->
     <div class="cp-pane" id="${containerId}-loc">
       <div style="font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:3px">Level of Care</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.55">Document current and recommended LOC. Every save is logged in LOC history.</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.55">Document and track LOC over time. Screening tool results post here automatically.</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-        <div>
-          <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Current LOC</label>
+        <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Current LOC</label>
           <select id="${containerId}-loc-cur" onchange="locShowDesc('${containerId}')" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;background:white">
-            <option value="">Not set</option>
-            ${LOC_LVLS.map(l=>`<option value="${l.k}" ${p.locCur===l.k?'selected':''}>${l.n}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Recommended LOC</label>
+            <option value="">Not set</option>${LOC_LVLS.map(l=>`<option value="${l.k}" ${p.locCur===l.k?'selected':''}>${l.n}</option>`).join('')}
+          </select></div>
+        <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Recommended LOC</label>
           <select id="${containerId}-loc-rec" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px;background:white">
-            <option value="">Not set</option>
-            ${LOC_LVLS.map(l=>`<option value="${l.k}" ${p.locRec===l.k?'selected':''}>${l.n}</option>`).join('')}
-          </select>
-        </div>
-        <div>
-          <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Assessment Date</label>
-          <input type="date" id="${containerId}-loc-dt" value="${p.locDt||''}" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px">
-        </div>
-        <div>
-          <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Assessed By</label>
-          <input type="text" id="${containerId}-loc-by" value="${p.locBy||''}" placeholder="Name / role" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px">
-        </div>
+            <option value="">Not set</option>${LOC_LVLS.map(l=>`<option value="${l.k}" ${p.locRec===l.k?'selected':''}>${l.n}</option>`).join('')}
+          </select></div>
+        <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Assessment Date</label>
+          <input type="date" id="${containerId}-loc-dt" value="${p.locDt||''}" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px"></div>
+        <div><label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Assessed By</label>
+          <input type="text" id="${containerId}-loc-by" value="${p.locBy||''}" placeholder="Name / role" style="width:100%;padding:7px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11.5px"></div>
       </div>
-      <div id="${containerId}-loc-desc" style="background:#eef6f1;border-left:3px solid var(--sage);border-radius:0 5px 5px 0;padding:9px 12px;margin-bottom:10px;font-size:11.5px;line-height:1.65">
-        ${(()=>{const l=LOC_LVLS.find(x=>x.k===p.locCur);return l?`<strong>${l.n}</strong><br>${l.d}`:'Select a Current LOC above to see the definition.';})()}
+      <div id="${containerId}-loc-desc" style="background:#eef6f1;border-left:3px solid var(--sage);border-radius:0 5px 5px 0;padding:9px 12px;margin-bottom:8px;font-size:11.5px;line-height:1.65">
+        ${(()=>{const l=LOC_LVLS.find(x=>x.k===p.locCur);return l?`<strong>${l.n}</strong><br>${l.d}`:'Select a Current LOC above to see its definition.';})()}
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center">
         <button onclick="locSave('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save LOC</button>
         <span id="${containerId}-loc-status" style="font-size:11px;color:var(--muted)"></span>
       </div>
-      <div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">LOC History (${(p.locHist||[]).length})</div>
-      <div id="${containerId}-loc-hist">
-        ${!(p.locHist||[]).length ? '<div style="font-size:11px;color:var(--muted);padding:4px 0">No LOC assessments recorded yet.</div>' :
-          (p.locHist||[]).map(h=>`<div style="padding:5px 0;border-bottom:1px solid var(--cream);font-size:11.5px"><div style="font-weight:600;color:var(--ink)">${h.cur} <span style="font-weight:400;color:var(--muted)">→ Rec:</span> ${h.rec}</div><div style="font-size:10.5px;color:var(--muted)">${h.dt} · ${h.by}</div>${h.note?`<div style="font-size:11px;color:var(--text);margin-top:1px;font-style:italic">"${h.note}"</div>`:''}</div>`).join('')
+      <div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px">LOC History & Screening Results (${(p.locHist||[]).length})</div>
+      <div id="${containerId}-loc-hist" style="max-height:220px;overflow-y:auto">
+        ${!(p.locHist||[]).length ? '<div style="font-size:11px;color:var(--muted);padding:4px 0">No assessments recorded yet.</div>' :
+          (p.locHist||[]).map(h=>`<div style="padding:6px 0;border-bottom:1px solid var(--cream);font-size:11.5px"><div style="font-weight:600;color:var(--ink)">${h.cur||'—'} <span style="font-weight:400;color:var(--muted)">→ Rec:</span> ${h.rec||'—'}${h.src?' <span style="font-size:9.5px;background:rgba(200,146,58,.15);color:#9a6f1f;padding:1px 6px;border-radius:9px">'+h.src+'</span>':''}</div><div style="font-size:10.5px;color:var(--muted)">${h.dt||'—'} · ${h.by||'—'}</div>${h.note?`<div style="font-size:11px;color:var(--text);margin-top:2px">${h.note}</div>`:''}</div>`).join('')
         }
       </div>
       <div style="margin-top:10px">
         <label style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">LOC Notes / Justification</label>
-        <textarea id="${containerId}-loc-text" style="width:100%;min-height:90px;resize:vertical;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.65" placeholder="Clinical observations, presenting behaviors, service needs, and rationale…">${((p.tabs&&p.tabs.loc)||'').replace(/</g,'&lt;')}</textarea>
+        <textarea id="${containerId}-loc-text" style="width:100%;min-height:80px;resize:vertical;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.65" placeholder="Clinical observations, presenting behaviors, service needs, rationale…">${((p.tabs&&p.tabs.loc)||'').replace(/</g,'&lt;')}</textarea>
         <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
-          <button onclick="saveCpTab('${p.id}','loc','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:5px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save Notes</button>
-          <span id="${containerId}-loc-status2" style="font-size:11px;color:var(--muted)"></span>
+          <button onclick="saveCpTabText('${p.id}','loc','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:5px 13px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save Notes</button>
         </div>
       </div>
     </div>
 
+    <!-- NOTES -->
     <div class="cp-pane" id="${containerId}-notes">
       <div style="display:flex;gap:8px;margin-bottom:12px">
         <input type="text" id="${containerId}-noteInput" placeholder="Add a timestamped note…" style="flex:1;padding:7px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
@@ -6555,7 +6561,8 @@ function cpTabTextarea(p,tabId,containerId){
   return `<div style="margin-top:4px"><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px">Details</label><textarea id="${containerId}-${tabId}-text" style="width:100%;min-height:140px;resize:vertical;padding:10px 12px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px;background:white;line-height:1.7" placeholder="${placeholder}">${val.replace(/</g,'&lt;')}</textarea><div style="display:flex;gap:8px;margin-top:8px;align-items:center"><button onclick="saveCpTab('${p.id}','${tabId}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">Save</button><span id="${containerId}-${tabId}-status" style="font-size:11px;color:var(--muted)"></span></div></div>`;
 }
 
-function saveCpTab(placementId,tabId,containerId){
+// Save a plain textarea tab (screening observations, loc notes)
+function saveCpTabText(placementId,tabId,containerId){
   const list=getPlacements();
   const p=list.find(x=>x.id===placementId);
   if(!p) return;
@@ -6566,6 +6573,116 @@ function saveCpTab(placementId,tabId,containerId){
   savePlacements(list);
   const s=document.getElementById(containerId+'-'+tabId+'-status');
   if(s){s.textContent='✓ Saved';s.style.color='var(--sage)';setTimeout(()=>{s.textContent='';},2000);}
+}
+
+// Legacy alias — keeps any existing callers working
+function saveCpTab(placementId,tabId,containerId){
+  saveCpTabText(placementId,tabId,containerId);
+}
+
+// Save a structured row (medical, education) — reads all fields in the add-row form
+function cpRowSave(placementId,tabId,containerId,fields){
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p) return;
+  if(!p.rows) p.rows={};
+  if(!p.rows[tabId]) p.rows[tabId]=[];
+  const row={id:'r'+Date.now()};
+  fields.forEach(f=>{
+    const el=document.getElementById(containerId+'-'+tabId+'-add-'+f.key);
+    if(el) row[f.key]=el.value;
+  });
+  // Require at least a date or type
+  const hasContent=Object.values(row).some(v=>v&&v.trim&&v.trim());
+  if(!hasContent){alert('Add at least one field before saving.');return;}
+  row.savedAt=new Date().toISOString();
+  p.rows[tabId].unshift(row);
+  savePlacements(list);
+  // Clear the form fields
+  fields.forEach(f=>{const el=document.getElementById(containerId+'-'+tabId+'-add-'+f.key);if(el)el.value='';});
+  // Refresh panel staying on same tab
+  renderCasePanel(containerId);
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('#'+containerId+' .cp-tab');
+    const label=tabId==='medical'?'Medical':tabId==='education'?'Education':tabId;
+    tabs.forEach(t=>{if(t.textContent.includes(label))switchCpTab(containerId,tabId,t);});
+  },60);
+}
+
+// Delete a row from a structured tab
+function cpRowDelete(placementId,tabId,rowId,containerId){
+  if(!confirm('Remove this entry?')) return;
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p||!p.rows||!p.rows[tabId]) return;
+  p.rows[tabId]=p.rows[tabId].filter(r=>r.id!==rowId);
+  savePlacements(list);
+  renderCasePanel(containerId);
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('#'+containerId+' .cp-tab');
+    const label=tabId==='medical'?'Medical':tabId==='education'?'Education':tabId;
+    tabs.forEach(t=>{if(t.textContent.includes(label))switchCpTab(containerId,tabId,t);});
+  },60);
+}
+
+// Build a structured-row tab: add-row form on top, saved rows below
+function cpTabRows(p,tabId,containerId,fields){
+  const rows=(p.rows&&p.rows[tabId])||[];
+  const fieldLabels={type:'Type',date:'Date',time:'Time',provider:'Provider',
+    reason:'Reason',notes:'Notes',grade:'Grade/GPA',attend:'Attendance',behavior:'Behavior'};
+  // Add-row form
+  let form='<div style="background:var(--cream);border-radius:6px;padding:10px 12px;margin-bottom:10px">';
+  form+='<div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Add Entry</div>';
+  form+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">';
+  fields.forEach(f=>{
+    const fullRow=f.kind==='textarea';
+    form+=`<div style="${fullRow?'grid-column:span 2':''}">`;
+    form+=`<label style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">${f.label}</label>`;
+    const baseStyle="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white";
+    if(f.kind==='select'){
+      form+=`<select id="${containerId}-${tabId}-add-${f.key}" style="${baseStyle}">`;
+      form+=`<option value="">Select…</option>`;
+      f.opts.forEach(o=>form+=`<option value="${o}">${o}</option>`);
+      form+=`</select>`;
+    } else if(f.kind==='date'){
+      form+=`<input type="date" id="${containerId}-${tabId}-add-${f.key}" style="${baseStyle}">`;
+    } else if(f.kind==='time'){
+      form+=`<input type="time" id="${containerId}-${tabId}-add-${f.key}" style="${baseStyle}">`;
+    } else if(f.kind==='textarea'){
+      form+=`<textarea id="${containerId}-${tabId}-add-${f.key}" rows="2" style="${baseStyle};resize:vertical" placeholder="${f.placeholder||''}"></textarea>`;
+    } else {
+      form+=`<input type="text" id="${containerId}-${tabId}-add-${f.key}" placeholder="${f.placeholder||''}" style="${baseStyle}">`;
+    }
+    form+=`</div>`;
+  });
+  form+='</div>';
+  const fieldsJSON=JSON.stringify(fields).replace(/'/g,"\'");
+  form+=`<button onclick="cpRowSave('${p.id}','${tabId}','${containerId}',${fieldsJSON})" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Save Entry</button>`;
+  form+='</div>';
+  // Saved rows list
+  if(!rows.length){
+    form+='<div style="font-size:11px;color:var(--muted);text-align:center;padding:10px">No entries yet.</div>';
+  } else {
+    rows.forEach(row=>{
+      form+='<div style="padding:7px 0;border-bottom:1px solid var(--cream);font-size:12px">';
+      form+='<div style="display:flex;justify-content:space-between;align-items:flex-start">';
+      form+=`<div><strong style="font-size:12.5px">${row.date||''} ${row.time||''}</strong> `;
+      if(row.type) form+=`<span style="background:rgba(200,146,58,.12);color:#9a6f1f;padding:1px 7px;border-radius:9px;font-size:10px;font-weight:700">${row.type}</span>`;
+      form+='</div>';
+      form+=`<button onclick="cpRowDelete('${p.id}','${tabId}','${row.id}','${containerId}')" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0;flex-shrink:0">✕</button>`;
+      form+='</div>';
+      if(row.provider) form+=`<div style="font-size:11px;color:var(--muted)">${row.provider}</div>`;
+      if(row.reason)   form+=`<div style="font-size:11px;color:var(--muted)">${row.reason}</div>`;
+      if(row.grade)    form+=`<div style="font-size:11px;color:var(--muted)">Grade: ${row.grade}</div>`;
+      if(row.attend)   form+=`<div style="font-size:11px;color:var(--muted)">Attendance: ${row.attend}</div>`;
+      if(row.behavior&&row.behavior!=='No concerns') form+=`<div style="font-size:11px;color:#c0392b">Behavior: ${row.behavior}</div>`;
+      if(row.notes)    form+=`<div style="font-size:11.5px;color:var(--text);margin-top:3px;line-height:1.55">${row.notes}</div>`;
+      form+='</div>';
+    });
+  }
+  // Plain text notes fallback
+  form+=`<div style="margin-top:10px"><label style="font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">General Notes</label><textarea id="${containerId}-${tabId}-text" rows="3" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;resize:vertical" placeholder="Ongoing notes, contacts, context…">${((p.tabs&&p.tabs[tabId])||'').replace(/</g,'&lt;')}</textarea><div style="display:flex;gap:8px;margin-top:5px;align-items:center"><button onclick="saveCpTabText('${p.id}','${tabId}','${containerId}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;cursor:pointer">Save Notes</button><span id="${containerId}-${tabId}-status" style="font-size:11px;color:var(--muted)"></span></div></div>`;
+  return form;
 }
 
 function switchCpTab(containerId,tab,btn){
@@ -6698,139 +6815,286 @@ function saveRoleJournal(role){
 // ══ INIT (updated) ══
 
 // ═══════════════════════════════════════════════════════════
-// SCREENING TOOLS DATA
+// SCREENING TOOL DATA — non-clinical, caregiver-facing
+// 📋 = linked questionnaire available
 // ═══════════════════════════════════════════════════════════
 const SC_CATS = [
   { g:'Trauma & Attachment', items:[
-    { k:'trauma-complex',    n:'Complex Trauma',               d:'Exposure to multiple, chronic, or severe traumatic events during childhood — often interpersonal violence or neglect. Disrupts emotional regulation, attachment, cognition, and self-concept across development. Distinguished from single-incident PTSD by its pervasive impact on the whole child.' },
-    { k:'trauma-ptsd',       n:'PTSD / Trauma Symptoms',       d:'Persistent re-experiencing (flashbacks, nightmares), avoidance of trauma reminders, negative mood/cognition changes, and hyperarousal. In children may look like repetitive trauma play, school refusal, regression, or explosive outbursts rather than adult PTSD symptoms.' },
-    { k:'attachment-rad',    n:'Reactive Attachment Disorder (RAD)', d:'Severe disturbance in which a child rarely seeks or responds to comfort from caregivers. Results from early neglect, abuse, or repeated caregiver changes. Child appears emotionally withdrawn, irritable, and unresponsive to nurturing. Requires trauma-informed therapeutic intervention.' },
-    { k:'attachment-dsed',   n:'Disinhibited Social Engagement (DSED)', d:'Indiscriminate approach to unfamiliar adults — overly familiar, willing to leave with a stranger. Caused by early social neglect. Unlike RAD, child is outgoing rather than withdrawn. Both reflect disrupted early attachment and require therapeutic support.' },
-    { k:'attachment-insec',  n:'Insecure Attachment',          d:'Consistent patterns of anxiety or avoidance in caregiver relationships. Subtypes: anxious/ambivalent (clingy, hyperactivated), avoidant (dismisses care), disorganized (unpredictable, frightened). Extremely common in foster youth due to early relational disruption and placement changes.' },
-    { k:'grief-loss',        n:'Grief, Loss & Placement Trauma', d:'Acute and cumulative grief from separation from biological family, siblings, community, school, and routines. May present as sadness, anger, regression, idealizing birth parents, or apparent indifference. Each placement change adds to the grief burden.' },
+    { k:'trauma-complex',  n:'Complex Trauma',              tool:'CANS',    locRec:'loc2', score_guide:'CANS 3+ domains elevated',
+      d:'Exposure to multiple, chronic, or severe traumatic events — often interpersonal — during childhood development. Disrupts emotional regulation, attachment, cognition, and self-concept. Distinguished from single-incident PTSD by its pervasive developmental impact across all domains of functioning.',
+      q:[{q:'Has the child experienced multiple types of trauma (abuse, neglect, domestic violence, multiple placements)?',k:'multi_trauma'},{q:'Do trauma reactions interfere with daily functioning at home or school?',k:'interference'},{q:'Are trauma symptoms present in 3 or more areas (emotional, behavioral, relational, physical)?',k:'domains'},{q:'Has the child had specialized trauma therapy (TF-CBT, EMDR, CPP)?',k:'therapy'}],
+    },
+    { k:'trauma-ptsd',     n:'PTSD / Trauma Symptoms',     tool:'CPSS-5',  locRec:'loc2', score_guide:'CPSS-5 ≥11 = probable PTSD',
+      d:'Persistent re-experiencing (flashbacks, nightmares), avoidance of trauma reminders, negative mood/cognition, and hyperarousal. In children may present as repetitive trauma play, regression, school refusal, or explosive outbursts rather than adult PTSD presentation.',
+      q:[{q:'Does the child have nightmares or flashbacks to past events?',k:'reexperience'},{q:'Does the child avoid people, places, or activities that remind them of trauma?',k:'avoidance'},{q:'Is the child easily startled, hypervigilant, or unable to sleep?',k:'hyperarousal'},{q:'Has the child had significant mood or thinking changes since a traumatic event?',k:'cognition'},{q:'Have these symptoms lasted more than one month?',k:'duration'}],
+    },
+    { k:'attachment-rad',  n:'Reactive Attachment Disorder', tool:null,    locRec:'loc2',
+      d:'Severe disturbance where a child rarely seeks comfort from caregivers when distressed. Results from early neglect, abuse, or repeated caregiver changes. Presents as emotionally withdrawn, minimal social responsiveness, unexplained irritability or sadness.',
+      q:[{q:'Does the child rarely seek comfort from caregivers when upset?',k:'no_comfort'},{q:'Does the child show minimal positive emotional response to caregivers?',k:'flat_affect'},{q:'Was there documented neglect or 5+ caregiver changes before age 5?',k:'history'}],
+    },
+    { k:'grief-loss',      n:'Grief, Loss & Placement Trauma', tool:null,  locRec:'loc1',
+      d:'Acute and cumulative grief from separation from biological family, siblings, community, school, and familiar routines. May present as sadness, anger, regression, idealizing birth family, or apparent indifference. Each placement change compounds the grief burden.',
+      q:[{q:'Does the child express sadness, anger, or longing related to separation from birth family?',k:'grief_expressed'},{q:'Has the child had 3 or more placement changes?',k:'multiple_placements'},{q:'Does grief significantly interfere with bonding or daily functioning?',k:'interference'}],
+    },
   ]},
   { g:'Behavioral & Emotional', items:[
-    { k:'conduct',           n:'Oppositional / Conduct Behaviors', d:'Persistent defiance, disobedience, or aggression beyond developmental norms. Ranges from ODD (arguing, rule refusal) to conduct problems (property destruction, aggression). In foster youth, almost always a trauma response — address the underlying trauma, not just the behavior.' },
-    { k:'aggression',        n:'Aggression / Violent Behaviors', d:'Physical, verbal, or relational aggression toward peers, caregivers, animals, or property. Document frequency, severity, targets, antecedents, and context. Distinguish reactive aggression (threat response) from predatory patterns. Safety planning required.' },
-    { k:'self-harm',         n:'Self-Harm / NSSI',              d:'Non-suicidal self-injury: deliberate body harm without suicidal intent — cutting, burning, hitting self, hair-pulling. Typically functions as emotional regulation, self-punishment, or dissociation interruption. Requires safety planning; distinct from suicidal behavior.' },
-    { k:'suicidal',          n:'Suicidal Ideation / Attempt',   d:'Thoughts about, intent to pursue, or attempts at ending one\'s life. Distinguish passive ideation ("I wish I were dead") from active ideation with plan/intent. Any disclosure requires immediate safety assessment and mandatory notification per agency protocols.' },
-    { k:'dysreg',            n:'Emotional Dysregulation',       d:'Difficulty managing the intensity, duration, or expression of emotions relative to the situation. Presents as explosive reactions, prolonged tantrums, rapid mood cycling, or emotional shutdown. Often the primary behavioral presentation of underlying trauma — not willful defiance.' },
-    { k:'dissociation',      n:'Dissociation',                  d:'Disruptions in awareness, identity, memory, or perception — from brief "spacing out" to lost time, depersonalization (detached from self), or derealization (surroundings feel unreal). May be triggered by trauma reminders or occur with no apparent cause.' },
-    { k:'elopement',         n:'Elopement / Running Away',      d:'Leaving placement without notice. Adolescent runaway differs from young-child safety wandering. Document destination, circumstances, and frequency. Often driven by pull to birth family, partners, or gang. Each episode requires documentation and safety review.' },
+    { k:'conduct',         n:'Oppositional / Conduct Behaviors', tool:'SDQ', locRec:'loc2', score_guide:'SDQ Conduct subscale ≥4',
+      d:'Persistent defiance, disobedience, or aggression beyond developmental norms. Ranges from ODD (arguing, rule refusal) to conduct problems (property destruction, aggression). In foster youth almost always reflects underlying trauma — address root causes, not just behavior.',
+      q:[{q:'Does the child frequently lose temper, argue, or defy adults?',k:'defiance'},{q:'Is the child deliberately annoying or blaming others?',k:'oppositional'},{q:'Has the child destroyed property, fought, or harmed others in the past 6 months?',k:'conduct'},{q:'Do behaviors occur in multiple settings (home AND school)?',k:'pervasive'}],
+    },
+    { k:'self-harm',       n:'Self-Harm / NSSI',             tool:null,    locRec:'loc3',
+      d:'Non-suicidal self-injury: deliberate body harm without suicidal intent — cutting, burning, hitting self, hair-pulling. Functions as emotional regulation, self-punishment, or dissociation interruption. Requires safety planning; distinct from suicidal behavior.',
+      q:[{q:'Has the child intentionally hurt themselves without intending suicide?',k:'nssi'},{q:'Is self-harm occurring more than once per month?',k:'frequency'},{q:'Does the child have a safety plan in place?',k:'safety_plan'}],
+    },
+    { k:'suicidal',        n:'Suicidal Ideation / Attempt',  tool:'ASQ',   locRec:'loc4', score_guide:'Any YES on ASQ = urgent',
+      d:'Thoughts about, intent to pursue, or attempts at ending one\'s life. Distinguish passive ideation from active ideation with plan/intent. Any disclosure requires immediate safety assessment and mandatory notification per agency protocols.',
+      q:[{q:'Has the child expressed wishes to be dead or that life is not worth living?',k:'passive'},{q:'Has the child had thoughts of killing themselves?',k:'active'},{q:'Does the child have a plan or access to means?',k:'plan'},{q:'Has the child ever attempted suicide?',k:'attempt'}],
+    },
+    { k:'dysreg',          n:'Emotional Dysregulation',      tool:'SDQ',   locRec:'loc2', score_guide:'SDQ Emotional subscale ≥5',
+      d:'Difficulty managing the intensity, duration, or expression of emotions relative to the situation. Explosive reactions, prolonged tantrums, rapid mood cycling, or emotional shutdown. Often the primary behavioral presentation of underlying trauma.',
+      q:[{q:'Does the child have frequent explosive or disproportionate emotional reactions?',k:'explosions'},{q:'Do emotional episodes last more than 30 minutes and are hard to redirect?',k:'duration'},{q:'Does dysregulation occur daily or several times per week?',k:'frequency'}],
+    },
   ]},
   { g:'Mental Health', items:[
-    { k:'depression',        n:'Depression / Depressive Symptoms', d:'Persistent low mood, loss of interest, changes in sleep/appetite/energy, poor concentration, worthlessness. In children may present as irritability rather than sadness. PHQ-A is the standard adolescent screening tool. Distinguish adjustment disorder from Major Depressive Disorder.' },
-    { k:'anxiety',           n:'Anxiety Disorders',             d:'Excessive fear, worry, or avoidance impairing functioning. Includes generalized anxiety, separation anxiety (common in newly placed children), social anxiety, specific phobias, and panic. SCARED is the standard youth screening tool. Trauma symptoms heavily overlap with anxiety.' },
-    { k:'adhd',              n:'ADHD / Attention Difficulties', d:'Persistent inattention, hyperactivity, and/or impulsivity impairing functioning across settings. Trauma symptoms heavily mimic ADHD — hypervigilance looks like hyperactivity; dissociation looks like inattention. Use caution diagnosing in recently placed youth before stabilization.' },
-    { k:'psychosis',         n:'Psychotic Symptoms',            d:'Hallucinations, delusions, or disorganized thinking/behavior. May be associated with schizophrenia spectrum, severe mood disorders, or substance use. Requires urgent psychiatric evaluation. Note: trauma-related dissociation can mimic psychosis — do not conflate.' },
-    { k:'mood-cycling',      n:'Mood Cycling / Bipolar Spectrum', d:'Distinct episodes of elevated, irritable, or expansive mood alternating with depression. Difficult to distinguish from trauma-related instability, ADHD, or DMDD in youth. Requires comprehensive psychiatric evaluation. Document duration, frequency, and functional impact of mood episodes.' },
-    { k:'eating',            n:'Disordered Eating / Food Behaviors', d:'Includes food hoarding (scarcity response), restricting, bingeing, purging, or pica. In foster youth, food behaviors are often responses to prior food insecurity rather than primary eating disorders. Distinguish trauma-driven food insecurity responses from clinical eating disorders.' },
+    { k:'depression',      n:'Depression / Depressive Symptoms', tool:'PHQ-A', locRec:'loc2', score_guide:'PHQ-A ≥10 = moderate depression',
+      d:'Persistent low mood, loss of interest, changes in sleep/appetite/energy, difficulty concentrating, feelings of worthlessness. In children may present as irritability rather than sadness. PHQ-A is the standard validated screening tool for adolescents.',
+      q:[{q:'Has the child seemed persistently sad, empty, or irritable for 2+ weeks?',k:'mood'},{q:'Has the child lost interest in activities they used to enjoy?',k:'anhedonia'},{q:'Are there changes in sleep, appetite, or energy level?',k:'somatic'},{q:'Does the child express feelings of worthlessness or hopelessness?',k:'cognition'}],
+    },
+    { k:'anxiety',         n:'Anxiety / Anxiety Disorders',  tool:'SCARED', locRec:'loc2', score_guide:'SCARED ≥25 = likely anxiety disorder',
+      d:'Excessive fear, worry, or avoidance impairing functioning. Includes generalized anxiety, separation anxiety (common in newly placed children), social anxiety, specific phobias, and panic. SCARED is the standard validated screening tool for youth.',
+      q:[{q:'Does the child worry excessively or seem fearful most days?',k:'worry'},{q:'Does the child avoid school, social situations, or specific activities due to fear?',k:'avoidance'},{q:'Does the child have physical symptoms (stomachaches, headaches) related to anxiety?',k:'somatic'},{q:'Does the child have significant separation anxiety from caregivers?',k:'separation'}],
+    },
+    { k:'adhd',            n:'ADHD / Attention Difficulties', tool:'Vanderbilt', locRec:'loc1', score_guide:'Vanderbilt ≥2 on 6+ inattention OR hyperactivity items',
+      d:'Persistent inattention, hyperactivity, and/or impulsivity impairing functioning across multiple settings. Trauma symptoms heavily mimic ADHD — hypervigilance looks like hyperactivity; dissociation looks like inattention. Use caution in recently placed youth.',
+      q:[{q:'Does the child have difficulty sustaining attention on tasks or instructions?',k:'inattention'},{q:'Is the child excessively restless, "on the go," or interrupts constantly?',k:'hyperactivity'},{q:'Do these problems occur in BOTH home and school settings?',k:'pervasive'},{q:'Were symptoms present before age 12?',k:'onset'}],
+    },
   ]},
-  { g:'Substance Use', items:[
-    { k:'sub-alcohol',       n:'Alcohol Use',                   d:'Any alcohol use by minors is a concern. Assess frequency, quantity, binge patterns, contexts, and impact on functioning. AUDIT-C or CRAFFT are validated brief screening tools for adolescents. Prenatal alcohol exposure should be documented separately — may indicate FASD.' },
-    { k:'sub-cannabis',      n:'Cannabis / Marijuana Use',      d:'Most commonly used substance among foster youth. Assess frequency, form (smoking, vaping, edibles), and impact on school/sleep/mood. Heavy adolescent cannabis use is associated with increased psychosis risk, anxiety, academic failure, and disrupted placement stability.' },
-    { k:'sub-other',         n:'Other Substance Use',           d:'Includes stimulants, opioids, benzodiazepines, inhalants, hallucinogens, or prescription misuse. CRAFFT is a validated 6-item adolescent screening tool across substances. Any use warrants documentation, safety assessment, and referral consideration.' },
-    { k:'sub-prenatal',      n:'Prenatal Substance Exposure (NAS)', d:'Neonatal Abstinence Syndrome or prenatal exposure to alcohol, opioids, stimulants, or other substances. May result in FASD, neurodevelopmental delays, irritability, or feeding difficulties. Effects may not appear until school age. Document known exposure in medical record.' },
-  ]},
-  { g:'Developmental & Neurological', items:[
-    { k:'dev-delay',         n:'Developmental Delay',           d:'Significant delay in gross/fine motor, language, cognitive, social-emotional, or adaptive skills. "Significant" = 25% delay or −2 SD below mean for age. May qualify for Early Intervention (birth–3) under IDEA Part C, or Special Education (3–21) under Part B.' },
-    { k:'dev-id',            n:'Intellectual Disability (ID)',  d:'Significant limitations in intellectual functioning (IQ ~<70) and adaptive behavior, with onset before 18. Ranges from mild to profound. Students are entitled to an IEP. May need supported living and guardianship consideration as youth approach adulthood.' },
-    { k:'dev-asd',           n:'Autism Spectrum Disorder (ASD)', d:'Persistent challenges in social communication, restricted/repetitive behaviors, and sensory sensitivities. Highly variable presentation. Common co-occurring: anxiety, ADHD, GI issues. Requires specialized placement and caregiver training. May qualify for DDS services in California.' },
-    { k:'dev-fasd',          n:'Fetal Alcohol Spectrum Disorder (FASD)', d:'Range of conditions from prenatal alcohol exposure including FAS, ARND, ARBD. Hallmarks: neurocognitive impairment, executive function deficits, poor cause-and-effect reasoning, impulsivity. Often misdiagnosed as ADHD or behavioral disorder. Permanent — not a choice or bad parenting.' },
-    { k:'dev-tbi',           n:'Traumatic Brain Injury (TBI)',  d:'Brain injury from external force, including non-accidental trauma (shaken baby syndrome). May cause cognitive, behavioral, motor, or sensory deficits depending on injury location and severity. Mild TBI may have subtle but significant academic and behavioral impact. Document all known head trauma history.' },
-    { k:'dev-speech',        n:'Speech / Language Delay',       d:'Delays in expressive language, receptive language, articulation, fluency, or pragmatic (social) language. May be primary or associated with hearing loss, ASD, developmental delay, or neglect. Qualifies for school-based speech/language services under IDEA.' },
+  { g:'Developmental', items:[
+    { k:'dev-delay',       n:'Developmental Delay',          tool:'ASQ-3', locRec:'loc2', score_guide:'ASQ-3 score in monitoring or referral range',
+      d:'Significant delay in gross/fine motor, language, cognitive, social-emotional, or adaptive skills. Typically defined as 25% delay or −2 SD below mean for age. May qualify for Early Intervention (0–3) or Special Education (3–21) under IDEA.',
+      q:[{q:'Is the child behind peers in speech, motor, or cognitive development?',k:'delay'},{q:'Has a developmental evaluation been completed?',k:'eval'},{q:'Is the child receiving Early Intervention or Special Education services?',k:'services'}],
+    },
+    { k:'dev-asd',         n:'Autism Spectrum Disorder (ASD)', tool:'M-CHAT-R', locRec:'loc2', score_guide:'M-CHAT-R medium/high risk',
+      d:'Persistent challenges in social communication, restricted/repetitive behaviors, and sensory sensitivities. Highly variable presentation. May qualify for DDS services in California. Requires specialized placement considerations and caregiver training.',
+      q:[{q:'Does the child have difficulty with eye contact, social reciprocity, or conversation?',k:'social'},{q:'Does the child have restricted interests or repetitive behaviors?',k:'restricted'},{q:'Does the child have significant sensory sensitivities?',k:'sensory'},{q:'Has the child had a formal ASD evaluation?',k:'eval'}],
+    },
+    { k:'dev-fasd',        n:'Fetal Alcohol Spectrum Disorder', tool:null,  locRec:'loc2',
+      d:'Range of permanent conditions from prenatal alcohol exposure. Hallmarks: neurocognitive impairment, executive function deficits, poor cause-and-effect reasoning, impulsivity. Often misdiagnosed as ADHD or behavioral disorder. Not a choice — lifelong condition.',
+      q:[{q:'Is there documented or suspected prenatal alcohol exposure?',k:'exposure'},{q:'Does the child have executive function deficits (planning, cause-effect, impulse control)?',k:'executive'},{q:'Has formal FASD evaluation been completed?',k:'eval'}],
+    },
   ]},
   { g:'Safety & Risk', items:[
-    { k:'sexualized',        n:'Sexualized Behaviors',          d:'Age-inappropriate sexual knowledge, language, or behaviors suggesting prior sexual abuse or exposure. Ranges from excessive interest in sexual topics to explicit acting-out. Must be distinguished from developmentally typical curiosity. Requires home safety planning and therapeutic assessment.' },
-    { k:'fire-setting',      n:'Fire Setting',                  d:'Deliberate fire starting beyond young children\'s normal curiosity. Persistent fire setting in older children is associated with trauma, conduct disorder, and serious risk. Requires immediate safety assessment, home safety planning, and specialized behavioral intervention.' },
-    { k:'animal-cruelty',    n:'Animal Cruelty',                d:'Deliberate harm to animals. Associated with trauma, conduct disorder, and potential risk of future aggression. Requires documentation, safety assessment, and therapeutic intervention. Ensure home safety for any pets.' },
-    { k:'csec',              n:'Commercial Sexual Exploitation (CSEC)', d:'Sexual activity with a minor involving exchange of something of value — including trafficking, survival sex, or exploitation by a known person. Foster youth are at significantly elevated risk. Requires mandatory reporting, specialized services, and urgent placement safety review.' },
-    { k:'gang',              n:'Gang Involvement / Association', d:'Known or suspected gang membership, affiliation, or active recruitment. Assess pressure, family ties, geographic factors, and protective factors. Affects placement safety, school assignment, and service planning. Not synonymous with delinquency — assess individual situation.' },
-  ]},
-  { g:'Physical Health', items:[
-    { k:'chronic-med',       n:'Chronic Medical Condition',     d:'Ongoing physical health condition requiring regular monitoring, medication, or specialist care — asthma, diabetes, sickle cell, epilepsy, cardiac, HIV, and others. Caregivers must receive training on management, medication administration, emergency protocols, and when to seek urgent care.' },
-    { k:'enuresis',          n:'Enuresis / Encopresis',         d:'Repeated urinary (enuresis) or fecal (encopresis) accidents beyond developmental age of control (typically age 5 for urine, 4 for stool). In foster youth, regression after placement is common and usually a trauma stress response. Requires medical rule-out before behavioral interventions.' },
-    { k:'sleep',             n:'Sleep Disturbance',             d:'Difficulty falling or staying asleep, nightmares, night terrors, or excessive daytime sleepiness. Extremely common in foster youth — reflects hyperarousal, anxiety, and PTSD. Poor sleep significantly compounds behavioral and academic difficulties. Document pattern, frequency, and impact.' },
-    { k:'prenatal-hx',       n:'Prenatal / Perinatal Complications', d:'Complications during pregnancy or birth with potential neurological or developmental implications — prematurity, low birth weight, birth asphyxia, NICU stay, NAS, or prenatal infections. Relevant to developmental trajectory even when effects appear delayed until school age.' },
-  ]},
-  { g:'Education', items:[
-    { k:'school-avoid',      n:'School Avoidance / Refusal',    d:'Persistent resistance to attending school — from frequent absences to complete refusal. Driven by anxiety, depression, bullying, learning difficulties, or placement instability. Under McKinney-Vento, foster youth have the right to remain enrolled in their school of origin.' },
-    { k:'learning-dis',      n:'Learning Disability (LD)',      d:'Disorder in basic psychological processes affecting reading (dyslexia), written expression (dysgraphia), or math (dyscalculia). Distinct from intellectual disability. Requires psychoeducational evaluation and IEP or 504 accommodations. Document prior evaluations and current academic functioning.' },
-    { k:'ed-discipline',     n:'School Discipline History',     d:'Pattern of suspensions, expulsions, or alternative placements. Foster youth are disproportionately affected by exclusionary discipline. Each suspension further disrupts already-compromised educational continuity. Document pattern and advocate for supportive alternatives.' },
-    { k:'ed-gaps',           n:'Academic Gaps / Grade Retention', d:'Significant gaps in academic skills from prior school changes, chronic absenteeism, homelessness, or inadequate supports. May not be apparent from grade level alone. Evaluate actual skill level vs. enrolled grade. Critical for transition planning for older youth approaching emancipation.' },
+    { k:'suicidal',        n:'Suicidal Ideation',            tool:'ASQ',   locRec:'loc4', score_guide:'Any YES = urgent — LOC 4+',
+      d:'Any suicidal ideation or attempt requires immediate safety assessment. See full entry under Behavioral & Emotional.',
+      q:[{q:'Has the child expressed any thoughts of suicide or self-harm with intent to die?',k:'ideation'},{q:'Has there been a recent attempt or plan?',k:'attempt'}],
+    },
+    { k:'csec',            n:'CSEC / Sex Trafficking Risk',  tool:null,    locRec:'loc4',
+      d:'Commercial sexual exploitation: sexual activity involving a minor with exchange of value. Foster youth at significantly elevated risk. Requires mandatory reporting, specialized services, and urgent placement safety review.',
+      q:[{q:'Has the child gone missing for unexplained periods?',k:'missing'},{q:'Is the child in contact with significantly older peers or unknown adults?',k:'adults'},{q:'Does the child have unexplained money, gifts, or new items?',k:'gifts'},{q:'Has the child disclosed or shown signs of exploitation?',k:'disclosed'}],
+    },
   ]},
 ];
 
-// ═══════════════════════════════════════════════════════════
-// LEVEL OF CARE DATA
-// ═══════════════════════════════════════════════════════════
+// Map tool name to description and link
+const SC_TOOLS = {
+  'CANS':        {name:'Child and Adolescent Needs and Strengths (CANS)',  url:'https://praedfoundation.org/tools/the-child-and-adolescent-needs-and-strengths-cans/',  note:'Completed by trained clinician. Request from CSW or DCFS.'},
+  'CPSS-5':      {name:'Child PTSD Symptom Scale (CPSS-5)',               url:'https://www.ptsd.va.gov/professional/assessment/child/cpss.asp',                         note:'Self-report for ages 8–18. 24 items, ~10 min.'},
+  'SDQ':         {name:'Strengths and Difficulties Questionnaire (SDQ)',   url:'https://www.sdqinfo.org/py/sdqinfo/b3.py?language=Englishqv',                             note:'Caregiver version. 25 items, ~5 min. Free. Ages 2–17.'},
+  'ASQ':         {name:'Ask Suicide-Screening Questions (ASQ)',            url:'https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials',     note:'4 questions. Any YES = urgent referral immediately.'},
+  'PHQ-A':       {name:'PHQ-A — Adolescent Depression Screen',            url:'https://www.aacap.org/App_Themes/AACAP/docs/member_resources/toolbox_for_clinical_practice_and_outcomes/symptoms/GLAD-PC_PHQ-9.pdf', note:'Youth self-report. Ages 12+. 9 items, ~5 min.'},
+  'SCARED':      {name:'Screen for Child Anxiety Related Disorders (SCARED)', url:'https://www.pediatricbipolar.pitt.edu/resources/instruments',                         note:'Caregiver and youth versions. 41 items. Ages 8–18.'},
+  'Vanderbilt':  {name:'Vanderbilt ADHD Diagnostic Rating Scale',         url:'https://www.nichq.org/resource/vanderbilt-assessment-scales',                             note:'Caregiver + teacher versions. Free. Ages 6–12.'},
+  'ASQ-3':       {name:'Ages & Stages Questionnaire (ASQ-3)',             url:'https://agesandstages.com/free-asq-resources/',                                           note:'Caregiver-completed. Ages 1 month–5.5 years.'},
+  'M-CHAT-R':    {name:'Modified Checklist for Autism (M-CHAT-R)',        url:'https://mchatscreen.com/',                                                                 note:'20 yes/no questions. Ages 16–30 months. Free online scoring.'},
+};
+
 const LOC_LVLS = [
-  { k:'loc1', n:'LOC 1 — Standard Foster Care',      d:'Child can be safely maintained in a family home with standard community support services. Behavioral and emotional needs are manageable with typical resources. No specialized caregiver training required beyond licensing standards. Most placements begin here.' },
-  { k:'loc2', n:'LOC 2 — Therapeutic Foster Care',   d:'Moderate behavioral, emotional, or developmental needs require a specially trained therapeutic foster family. Caregiver provides therapeutic parenting interventions. Typically includes wraparound services, in-home behavioral support, or intensive case management.' },
-  { k:'loc3', n:'LOC 3 — Intensive TFC / Medically Fragile', d:'Significant needs require intensive TFC with enhanced caregiver training and 24/7 access to professional support. Includes medically fragile youth, intensive mental health needs, or complex dual-diagnosis presentations. Frequent clinical consultation required.' },
-  { k:'loc4', n:'LOC 4 — STRTP (Short-Term Residential)', d:'Under AB 403 (CA) and the federal Family First Act, congregate care is limited to Short-Term Residential Therapeutic Programs. Appropriate for crisis stabilization or when family-based placement cannot meet immediate safety or clinical needs. Goal is always step-down to family-based care.' },
-  { k:'loc5', n:'LOC 5 — Group Home (Legacy / Specialized)', d:'Pre-AB403 group home level; largely replaced in California by the STRTP model. May still apply in certain specialized settings (DDS, nursing facility) or other states. Documents prior congregate care history.' },
-  { k:'loc6', n:'LOC 6 — Residential Treatment (RTC)', d:'24-hour residential psychiatric and behavioral health treatment in a licensed facility. For youth whose clinical needs cannot be met in family-based or STRTP settings. Requires clinical justification and court/agency authorization. Transition planning to less restrictive setting begins at admission.' },
-  { k:'loc7', n:'LOC 7 — Psychiatric Hospital / IMD', d:'Acute inpatient psychiatric hospitalization (5150, 5585, or voluntary) or placement in an Institution for Mental Disease. Crisis stabilization only — not a long-term placement under federal Medicaid rules. Immediate discharge and step-down planning is required.' },
-  { k:'kingap',      n:'Kinship Guardianship (KinGAP)', d:'Placement with a relative or NREFM who has assumed legal guardianship. Child exits foster care but caregiver may receive an ongoing subsidy. Appropriate when reunification and adoption are not viable options and the kinship relationship provides safety and permanency.' },
-  { k:'adoptive',    n:'Adoptive Placement',           d:'Placement with prospective adoptive family following TPR or relinquishment. Child remains in foster care status until adoption is finalized. LOC needs must be matched to adoptive family capacity to reduce risk of adoption disruption.' },
-  { k:'nmd',         n:'NMD — Non-Minor Dependent (18–21)', d:'Youth who aged out or voluntarily re-entered extended foster care under AB 12. May be in a SILP, THP-Plus, or family-based setting. LOC is matched to ongoing needs and independent living goals. Youth must sign a Mutual Agreement to participate.' },
-  { k:'thp',         n:'Transitional Housing (THP / SILP)', d:'Supervised transitional housing providing independent living skills training with graduated supervision. Includes THP-NMD, THP-Plus, and Transitional Shelter Care. Appropriate for youth 16+ developing self-sufficiency skills toward emancipation or extended care.' },
+  { k:'loc1', n:'LOC 1 — Standard Foster Care',           d:'Family home with standard community support. Behavioral/emotional needs manageable with typical resources. No specialized caregiver training beyond licensing required.' },
+  { k:'loc2', n:'LOC 2 — Therapeutic Foster Care',        d:'Moderate needs require a specially trained therapeutic foster family. Caregiver provides therapeutic parenting. Includes wraparound services, in-home behavioral support, or intensive case management.' },
+  { k:'loc3', n:'LOC 3 — Intensive TFC / Medically Fragile', d:'Significant needs require intensive TFC with enhanced training and 24/7 professional access. Includes medically fragile youth, intensive MH needs, or complex dual-diagnosis presentations.' },
+  { k:'loc4', n:'LOC 4 — STRTP',                          d:'Short-Term Residential Therapeutic Program. Congregate care for crisis stabilization or when family-based placement cannot meet immediate safety or clinical needs. Goal: step-down to family-based care.' },
+  { k:'loc5', n:'LOC 5 — Group Home (Legacy)',             d:'Pre-AB403 group home level. Largely replaced by STRTP model in California. May apply in DDS, nursing facility, or other-state settings.' },
+  { k:'loc6', n:'LOC 6 — Residential Treatment (RTC)',    d:'24-hour residential psychiatric/behavioral treatment. For youth whose needs cannot be met in family-based or STRTP settings. Requires clinical justification and court/agency authorization.' },
+  { k:'loc7', n:'LOC 7 — Psychiatric Hospital / IMD',     d:'Acute inpatient hospitalization (5150, 5585, voluntary) or IMD placement. Crisis stabilization only. Requires immediate discharge and step-down planning.' },
+  { k:'kingap',    n:'Kinship Guardianship (KinGAP)',      d:'Relative or NREFM assuming legal guardianship. Child exits foster care. Ongoing subsidy may apply. Appropriate when reunification and adoption are not viable options.' },
+  { k:'adoptive',  n:'Adoptive Placement',                 d:'Placement with prospective adoptive family following TPR or relinquishment. Child remains in foster care until finalized. LOC needs must match adoptive family capacity.' },
+  { k:'nmd',       n:'NMD — Non-Minor Dependent (18–21)', d:'Youth in extended foster care under AB 12. May be in SILP, THP-Plus, or family-based. LOC matched to ongoing needs and independent living goals.' },
+  { k:'thp',       n:'Transitional Housing (THP / SILP)',  d:'Supervised transitional housing with graduated independence. Appropriate for youth 16+ developing self-sufficiency skills toward emancipation.' },
 ];
 
 // ── Screening helpers ──────────────────────────────────────────
-function scGetItem(k){ for(const cat of SC_CATS){ const it=cat.items.find(x=>x.k===k); if(it) return {...it,cat:cat.g}; } return null; }
+function scGetItem(k){
+  for(const cat of SC_CATS){ const it=cat.items.find(x=>x.k===k); if(it) return {...it,cat:cat.g}; }
+  return null;
+}
 
 function scShowDef(cid){
   const sel=document.getElementById(cid+'-sc-pick');
   const box=document.getElementById(cid+'-sc-def');
+  const toolBtn=document.getElementById(cid+'-sc-tool-btn');
   if(!sel||!box) return;
   const it=scGetItem(sel.value);
-  if(!it){ box.style.display='none'; return; }
-  box.innerHTML=`<strong style="font-size:12.5px;color:var(--ink)">${it.n}</strong> <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-left:6px">${it.cat}</span><br><span style="font-size:11.5px">${it.d}</span>`;
+  if(!it){ box.style.display='none'; if(toolBtn) toolBtn.style.display='none'; return; }
+  const toolInfo=it.tool&&SC_TOOLS[it.tool];
+  box.innerHTML=`<strong style="font-size:12.5px;color:var(--ink)">${it.n}</strong> `+
+    (it.tool?`<span style="font-size:9.5px;font-weight:700;background:rgba(42,102,73,.1);color:var(--sage);padding:1px 6px;border-radius:9px;margin-left:4px">📋 ${it.tool}</span>`:'<span style="font-size:9.5px;color:var(--muted);margin-left:4px">No linked tool</span>')+
+    `<br><span style="font-size:11.5px;line-height:1.65">${it.d}</span>`+
+    (it.score_guide?`<div style="font-size:10.5px;font-weight:700;color:var(--sage);margin-top:4px">Scoring: ${it.score_guide}</div>`:'')+
+    (toolInfo?`<div style="font-size:10.5px;color:var(--muted);margin-top:3px">${toolInfo.note}</div>`:'');
   box.style.display='';
+  if(toolBtn) toolBtn.style.display=toolInfo?'':'none';
+}
+
+function scOpenTool(pid,cid){
+  const sel=document.getElementById(cid+'-sc-pick');
+  const it=scGetItem(sel?.value); if(!it||!it.tool) return;
+  const tool=SC_TOOLS[it.tool]; if(!tool) return;
+  // Open questionnaire URL in new tab
+  window.open(tool.url,'_blank');
+  // Show score entry modal
+  scShowScoreModal(pid,cid,it,tool);
+}
+
+function scShowScoreModal(pid,cid,it,tool){
+  const existing=document.getElementById('sc-score-modal');
+  if(existing) existing.remove();
+  const modal=document.createElement('div');
+  modal.id='sc-score-modal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px';
+  const questions=(it.q||[]).map((q,i)=>`
+    <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:4px">${i+1}. ${q.q}</div>
+      <div style="display:flex;gap:8px">
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="radio" name="scq-${cid}-${q.k}" value="yes" style="accent-color:var(--gold)"> Yes</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="radio" name="scq-${cid}-${q.k}" value="no" style="accent-color:var(--gold)"> No</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer"><input type="radio" name="scq-${cid}-${q.k}" value="unknown" style="accent-color:var(--gold)"> Unknown</label>
+      </div>
+    </div>`).join('');
+  modal.innerHTML=`<div style="background:white;border-radius:10px;max-width:520px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+    <div style="padding:14px 18px;background:var(--ink);border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:13px;font-weight:700;color:white">${it.n}</div><div style="font-size:10.5px;color:rgba(255,255,255,.6)">${tool.name}</div></div>
+      <button onclick="document.getElementById('sc-score-modal').remove()" style="background:transparent;border:none;color:white;font-size:20px;cursor:pointer">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px 18px">
+      <div style="font-size:11.5px;color:var(--muted);margin-bottom:14px;line-height:1.6">Answer the questions below. When ready, open the full questionnaire at the link that just opened. Enter the score below to post results to the LOC tab.</div>
+      ${questions}
+      <div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Score / Result</label>
+          <input type="text" id="sc-modal-score" placeholder="${it.score_guide||'e.g. 14'}" style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
+        </div>
+        <div>
+          <label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Date Completed</label>
+          <input type="date" id="sc-modal-date" value="${new Date().toISOString().substring(0,10)}" style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px">
+        </div>
+      </div>
+      <div style="margin-top:10px">
+        <label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px">Observations / Notes</label>
+        <textarea id="sc-modal-notes" rows="3" style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;resize:vertical" placeholder="What you observed, context, concerns…"></textarea>
+      </div>
+    </div>
+    <div style="padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:8px">
+      <button onclick="scSubmitScore('${pid}','${cid}','${it.k}')" style="background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Post Results to LOC →</button>
+      <button onclick="scAddNoScore('${pid}','${cid}','${it.k}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">Flag without score</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+
+function scSubmitScore(pid,cid,itemKey){
+  const score=document.getElementById('sc-modal-score')?.value||'';
+  const date=document.getElementById('sc-modal-date')?.value||new Date().toISOString().substring(0,10);
+  const notes=document.getElementById('sc-modal-notes')?.value||'';
+  const it=scGetItem(itemKey); if(!it) return;
+  const dt=new Date(date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  // Add to flagged concerns
+  const list=getPlacements(); const p=list.find(x=>x.id===pid); if(!p) return;
+  if(!p.concerns) p.concerns=[];
+  const existing=p.concerns.findIndex(c=>c.k===itemKey);
+  const concern={k:it.k,n:it.n,cat:it.cat,dt,note:notes,score,locRec:it.locRec,tool:it.tool||null};
+  if(existing>-1) p.concerns[existing]=concern; else p.concerns.push(concern);
+  // Post to LOC history
+  if(!p.locHist) p.locHist=[];
+  const locLabel=LOC_LVLS.find(x=>x.k===it.locRec)?.n||it.locRec||'—';
+  p.locHist.unshift({
+    cur:p.locCur||'—',
+    rec:it.locRec||'—',
+    dt,
+    by:'Screening: '+(it.tool||it.n),
+    note:`${it.n} — Score: ${score||'see notes'}${it.score_guide?' ('+it.score_guide+')':''}. ${notes}`.trim(),
+    src:it.tool||'Screening'
+  });
+  if(!p.locRec) p.locRec=it.locRec; // auto-set recommended LOC if not already set
+  if(!p.timeline) p.timeline=[];
+  p.timeline.push({date:dt,note:`Screening completed: ${it.n} (${it.tool||'no tool'}) — Score: ${score||'—'} → Recommended LOC: ${locLabel}`,type:'screening'});
+  savePlacements(list);
+  document.getElementById('sc-score-modal')?.remove();
+  renderCasePanel(cid);
+  // Switch to LOC tab to show results
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('#'+cid+' .cp-tab');
+    tabs.forEach(t=>{ if(t.textContent.includes('LOC')) switchCpTab(cid,'loc',t); });
+  },80);
+}
+
+function scAddNoScore(pid,cid,itemKey){
+  const notes=document.getElementById('sc-modal-notes')?.value||'';
+  const it=scGetItem(itemKey); if(!it) return;
+  const dt=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  const list=getPlacements(); const p=list.find(x=>x.id===pid); if(!p) return;
+  if(!p.concerns) p.concerns=[];
+  if(!p.concerns.find(c=>c.k===it.k)) p.concerns.push({k:it.k,n:it.n,cat:it.cat,dt,note:notes,locRec:it.locRec});
+  if(!p.timeline) p.timeline=[];
+  p.timeline.push({date:dt,note:'Concern flagged: '+it.n,type:'screening'});
+  savePlacements(list);
+  document.getElementById('sc-score-modal')?.remove();
+  renderCasePanel(cid);
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('#'+cid+' .cp-tab');
+    tabs.forEach(t=>{ if(t.textContent.includes('Screening')) switchCpTab(cid,'screening',t); });
+  },80);
 }
 
 function scAdd(pid,cid){
   const sel=document.getElementById(cid+'-sc-pick');
   if(!sel||!sel.value){ alert('Select a concern first.'); return; }
   const it=scGetItem(sel.value); if(!it) return;
-  const list=getPlacements(); const p=list.find(x=>x.id===pid); if(!p) return;
-  if(!p.concerns) p.concerns=[];
-  if(p.concerns.find(c=>c.k===it.k)){ alert(it.n+' is already flagged.'); return; }
-  const dt=new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  p.concerns.push({k:it.k,n:it.n,cat:it.cat,dt,note:''});
-  if(!p.timeline) p.timeline=[];
-  p.timeline.push({date:dt,note:'Concern flagged: '+it.n,type:'screening'});
-  savePlacements(list);
-  renderCasePanel(cid);
-  setTimeout(()=>{ const tabs=document.querySelectorAll('#'+cid+' .cp-tab'); tabs.forEach(t=>{ if(t.textContent.includes('Screening')) switchCpTab(cid,'screening',t); }); },60);
+  if(it.tool&&SC_TOOLS[it.tool]){
+    scOpenTool(pid,cid); // has a questionnaire — open the full flow
+  } else {
+    // No linked tool — just flag it
+    scAddNoScore(pid,cid,it.k);
+  }
 }
 
 function scRemove(pid,idx,cid){
+  if(!confirm('Remove this flagged concern?')) return;
   const list=getPlacements(); const p=list.find(x=>x.id===pid); if(!p||!p.concerns) return;
   const removed=p.concerns[idx];
   p.concerns.splice(idx,1);
   if(removed&&p.timeline) p.timeline.push({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:'Concern removed: '+removed.n,type:'screening'});
   savePlacements(list);
   renderCasePanel(cid);
-  setTimeout(()=>{ const tabs=document.querySelectorAll('#'+cid+' .cp-tab'); tabs.forEach(t=>{ if(t.textContent.includes('Screening')) switchCpTab(cid,'screening',t); }); },60);
+  setTimeout(()=>{
+    const tabs=document.querySelectorAll('#'+cid+' .cp-tab');
+    tabs.forEach(t=>{ if(t.textContent.includes('Screening')) switchCpTab(cid,'screening',t); });
+  },80);
 }
 
-// ── LOC helpers ────────────────────────────────────────────────
+// ── LOC helpers ──────────────────────────────────────────────
 function locShowDesc(cid){
   const val=document.getElementById(cid+'-loc-cur')?.value;
   const box=document.getElementById(cid+'-loc-desc'); if(!box) return;
   const l=LOC_LVLS.find(x=>x.k===val);
-  box.innerHTML=l?`<strong>${l.n}</strong><br>${l.d}`:'Select a Current LOC above to see the definition.';
+  box.innerHTML=l?`<strong>${l.n}</strong><br>${l.d}`:'Select a Current LOC above to see its definition.';
 }
 
 function locSave(pid,cid){
   const list=getPlacements(); const p=list.find(x=>x.id===pid); if(!p) return;
-  const cur =document.getElementById(cid+'-loc-cur')?.value||'';
-  const rec =document.getElementById(cid+'-loc-rec')?.value||'';
-  const dt  =document.getElementById(cid+'-loc-dt')?.value||'';
-  const by  =document.getElementById(cid+'-loc-by')?.value||'';
+  const cur=document.getElementById(cid+'-loc-cur')?.value||'';
+  const rec=document.getElementById(cid+'-loc-rec')?.value||'';
+  const dt=document.getElementById(cid+'-loc-dt')?.value||'';
+  const by=document.getElementById(cid+'-loc-by')?.value||'';
   const noteEl=document.getElementById(cid+'-loc-text');
   const note=noteEl?.value||'';
   p.locCur=cur; p.locRec=rec; p.locDt=dt; p.locBy=by;
@@ -6846,9 +7110,12 @@ function locSave(pid,cid){
   savePlacements(list);
   const s=document.getElementById(cid+'-loc-status');
   if(s){s.textContent='✓ Saved';s.style.color='var(--sage)';setTimeout(()=>s.textContent='',2500);}
-  const box=document.getElementById(cid+'-loc-desc');
-  const l=LOC_LVLS.find(x=>x.k===cur);
-  if(box&&l) box.innerHTML=`<strong>${l.n}</strong><br>${l.d}`;
+  locShowDesc(cid);
+  // Refresh history
+  const hist=document.getElementById(cid+'-loc-hist');
+  if(hist){
+    hist.innerHTML=p.locHist.map(h=>`<div style="padding:6px 0;border-bottom:1px solid var(--cream);font-size:11.5px"><div style="font-weight:600;color:var(--ink)">${h.cur||'—'} <span style="font-weight:400;color:var(--muted)">→ Rec:</span> ${h.rec||'—'}${h.src?' <span style="font-size:9.5px;background:rgba(200,146,58,.15);color:#9a6f1f;padding:1px 6px;border-radius:9px">'+h.src+'</span>':''}</div><div style="font-size:10.5px;color:var(--muted)">${h.dt||'—'} · ${h.by||'—'}</div>${h.note?`<div style="font-size:11px;color:var(--text);margin-top:2px">${h.note}</div>`:''}</div>`).join('');
+  }
 }
 
 window.addEventListener('error',function(e){
