@@ -3658,14 +3658,42 @@ function daysInCare(dateStr){
 }
 
 function renderPlacements(){
-  const list=getPlacements();
+  // Deduplicate by ID — keep most recently updated record
+  const raw=getPlacements();
+  const seen={};
+  raw.forEach(p=>{if(!seen[p.id]||new Date(p.updated||0)>new Date(seen[p.id].updated||0))seen[p.id]=p;});
+  const deduped=Object.values(seen);
+  if(deduped.length<raw.length) savePlacements(deduped);
+  const list=deduped;
+
   const container=document.getElementById('placementList');
   if(!container) return;
   if(!list.length){
     container.innerHTML=`<div class="pl-empty"><div class="pl-empty-ico">👶</div><h3>No placements yet</h3><p>Add your first placement to start tracking documents, contacts, benefits, and key dates.</p><button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:10px 22px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">+ Add First Placement</button></div>`;
     return;
   }
-  container.innerHTML=list.map(p=>{
+
+  // Live search filter
+  const q=(document.getElementById('plSearchInput')?.value||'').toLowerCase().trim();
+  const filtered=q?list.filter(p=>
+    (p.name||'').toLowerCase().includes(q)||
+    (p.caseNum||'').toLowerCase().includes(q)||
+    (p.csw||'').toLowerCase().includes(q)||
+    (p.school||'').toLowerCase().includes(q)||
+    (p.id||'').includes(q)
+  ):list;
+
+  container.innerHTML=`
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+      <div style="flex:1;position:relative">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px">🔍</span>
+        <input type="text" id="plSearchInput" value="${q}" oninput="renderPlacements()" placeholder="Search by name, case #, CSW, school…" style="width:100%;padding:8px 12px 8px 32px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white">
+      </div>
+      <button onclick="document.getElementById('placementList').scrollIntoView({behavior:'smooth',block:'start'})" title="Scroll to top" style="background:var(--cream);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:5px;cursor:pointer;font-size:15px;flex-shrink:0">↑</button>
+      <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:7px 14px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0">+ New</button>
+    </div>
+    ${filtered.length===0&&q?`<div style="font-size:13px;color:var(--muted);text-align:center;padding:24px">No placements match "<strong>${q}</strong>"</div>`:''}
+    ${filtered.map(p=>{
     const days=daysInCare(p.date);
     const initials=p.name.charAt(0).toUpperCase();
     const missingDocs=DOCS.filter(d=>!(p.docs||[]).includes(d));
@@ -3700,9 +3728,7 @@ function renderPlacements(){
         </div>
         <div style="margin-bottom:14px">
           <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Documents Received (${(p.docs||[]).length}/${DOCS.length})</div>
-          <div class="pl-docs">
-            ${DOCS.map(d=>`<span class="pl-doc${(p.docs||[]).includes(d)?'':' missing'}">${(p.docs||[]).includes(d)?'✓':'✗'} ${DOC_LABELS[d]}</span>`).join('')}
-          </div>
+          <div class="pl-docs">${DOCS.map(d=>`<span class="pl-doc${(p.docs||[]).includes(d)?'':' missing'}">${(p.docs||[]).includes(d)?'✓':'✗'} ${DOC_LABELS[d]}</span>`).join('')}</div>
         </div>
         ${p.notes?`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Notes</div><div class="pl-notes-box">${p.notes}</div></div>`:''}
         ${p.timeline?.length?`<div style="margin-bottom:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Timeline</div><div class="pl-timeline">${p.timeline.map(t=>`<div class="pl-tl-item"><div class="pl-tl-date">${t.date}</div>${t.note}</div>`).join('')}</div></div>`:''}
@@ -3715,7 +3741,7 @@ function renderPlacements(){
         </div>
       </div>
     </div>`;
-  }).join('');
+  }).join('')}`;
 }
 
 // ══ AUNT NANCYS COMMUNITY WALL ══
