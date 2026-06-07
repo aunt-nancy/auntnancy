@@ -206,6 +206,9 @@ img{max-width:100%}
 .af label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#555;margin-bottom:5px}
 .af input,.af select{width:100%;padding:10px 13px;background:#0e0c0a;border:1px solid #2e2818;border-radius:5px;color:#ddd;font-family:'DM Sans',sans-serif;font-size:19.0px}
 .af input:focus,.af select:focus{outline:none;border-color:var(--gold)}
+/* Reports panel light-form overrides */
+#rpt-fields .af input,#rpt-fields .af select,#rpt-fields .af textarea{width:100%;padding:9px 12px;background:white;border:1px solid var(--border);border-radius:5px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:13px}
+#rpt-fields .af label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px}
 .af-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .role-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:4px}
 .role-opt{padding:9px 10px;border-radius:5px;cursor:pointer;border:1px solid #2a2418;background:#0a0806;text-align:center;transition:all .2s}
@@ -1803,6 +1806,7 @@ img{max-width:100%}
         <div class="dash-nav">
           <div class="dash-ni on" onclick="showDP('overview',this)"><span>🏠</span>Overview</div>
           <div class="dash-ni" onclick="showDP('placements',this)"><span>👶</span>Placements</div>
+          <div class="dash-ni" onclick="showDP('reports',this)"><span>🖨</span>Reports</div>
           <div class="dash-ni" onclick="showDP('templates',this)"><span>✉️</span>My Templates</div>
           <div class="dash-ni" onclick="showDP('saved',this)"><span>🔖</span>Saved Items</div>
           <div class="dash-ni" onclick="showDP('profile',this)"><span>👤</span>Profile</div>
@@ -1843,6 +1847,83 @@ img{max-width:100%}
 
           <!-- PLACEMENT LIST -->
           <div id="placementList"></div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- REPORTS PANEL                                          -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <div class="dp" id="dp-reports">
+          <h2 class="dp-title">Reports &amp; Forms</h2>
+          <p class="dp-sub">Print-ready reports, compliance forms, and monthly logs. All fields are saved to your account.</p>
+
+          <!-- Row 1: child + report type -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px">
+            <div>
+              <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Child / NMD</label>
+              <select id="rpt-child" onchange="rptChildChange()" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white">
+                <option value="">— Select placement —</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Report / Form</label>
+              <select id="rpt-type" onchange="rptTypeChange()" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white">
+                <option value="">— Select report —</option>
+                <optgroup label="The Village Family Services">
+                  <option value="village-monthly">🏘 Village Monthly Report (Foster Family Agency)</option>
+                  <option value="village-visitation">🏘 Village Birth Family Visitation Log</option>
+                  <option value="village-medlog">🏘 Village Medication Log Form</option>
+                </optgroup>
+                <optgroup label="Aunt Nancy Reports">
+                  <option value="an-monthly">💛 Aunt Nancy Monthly Foster Care Report</option>
+                  <option value="an-visitation">💛 Aunt Nancy Visitation Log</option>
+                </optgroup>
+                <optgroup label="CCLD / State Forms">
+                  <option value="lic624">📋 LIC 624 — Unusual Incident / Injury Report</option>
+                  <option value="lic622">📋 LIC 622 — Centrally Stored Medication Record</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: month + caregiver (shown contextually) -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px" id="rpt-row2" style="display:none">
+            <div id="rpt-month-wrap" style="display:none">
+              <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Report Month</label>
+              <input type="month" id="rpt-month" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px">
+            </div>
+            <div id="rpt-cg-wrap" style="display:none">
+              <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Resource Parent / Caregiver Name</label>
+              <input type="text" id="rpt-caregiver" placeholder="Full name" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px">
+            </div>
+          </div>
+
+          <!-- Dynamic form fields -->
+          <div id="rpt-fields" style="display:none"></div>
+
+          <!-- Action bar -->
+          <div id="rpt-actions" style="display:none;gap:10px;margin:18px 0;flex-wrap:wrap">
+            <button onclick="rptGenerate()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 26px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">👁 Preview Report</button>
+            <button onclick="rptPrint()" style="background:var(--ink);color:white;border:none;padding:11px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">🖨 Print / Save PDF</button>
+            <button onclick="rptSave()" style="background:var(--sage);color:white;border:none;padding:11px 22px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">💾 Save Entry</button>
+          </div>
+
+          <!-- Preview pane -->
+          <div id="rpt-preview" style="display:none;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:8px">
+            <div style="background:var(--ink);padding:11px 18px;display:flex;align-items:center;justify-content:space-between">
+              <span style="font-size:13px;font-weight:700;color:white" id="rpt-preview-label">Preview</span>
+              <div style="display:flex;gap:8px">
+                <button onclick="rptPrint()" style="background:var(--gold);color:var(--ink);border:none;padding:5px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">🖨 Print</button>
+                <button onclick="document.getElementById('rpt-preview').style.display='none'" style="background:transparent;border:1px solid rgba(255,255,255,.25);color:white;padding:5px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">✕</button>
+              </div>
+            </div>
+            <div id="rpt-preview-body" style="background:white;min-height:300px"></div>
+          </div>
+
+          <!-- DB setup hint -->
+          <div style="background:rgba(42,102,73,.06);border:1px solid rgba(42,102,73,.18);border-radius:6px;padding:12px 16px;margin-top:22px">
+            <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sage)">📊 Supabase Tables Required · </span>
+            <a onclick="rptShowSQL()" style="font-size:12px;color:var(--sage);cursor:pointer;font-weight:700;border-bottom:1px dashed rgba(42,102,73,.4)">View setup SQL →</a>
+          </div>
         </div>
           <h2 class="dp-title">My Templates</h2>
           <p class="dp-sub">Templates you've downloaded.</p>
@@ -3102,6 +3183,7 @@ function showDP(id,navEl){
   document.getElementById('dp-'+id)?.classList.add('on');
   if(navEl) navEl.classList.add('on');
   if(id==='placements') renderPlacements();
+  if(id==='reports') rptInit();
 }
 
 // ══ ASK AUNT NANCY ══
@@ -6615,6 +6697,456 @@ function saveRoleJournal(role){
 }
 
 // ══ INIT (updated) ══
+// ══════════════════════════════════════════════════════════════════
+// REPORTS & FORMS ENGINE — Village Monthly, AN Monthly, Visitation,
+// Medication Log, LIC 624, LIC 622
+// ══════════════════════════════════════════════════════════════════
+
+function rptInit(){
+  const sel=document.getElementById('rpt-child');
+  if(!sel)return;
+  const list=getPlacements();
+  sel.innerHTML='<option value="">— Select placement —</option>'+
+    list.map(p=>`<option value="${p.id}">${p.name||'Unnamed'}${p.dob?' · DOB '+new Date(p.dob+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):''}${p.age?' · Age '+p.age:''}</option>`).join('');
+  const cg=document.getElementById('rpt-caregiver');
+  if(cg&&currentUser)cg.value=[currentUser.first,currentUser.last].filter(Boolean).join(' ');
+  const mo=document.getElementById('rpt-month');
+  if(mo){const n=new Date();mo.value=n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0');}
+}
+
+function rptChildChange(){rptRenderFields();}
+
+function rptTypeChange(){
+  const type=document.getElementById('rpt-type')?.value;
+  const mw=document.getElementById('rpt-month-wrap');
+  const cw=document.getElementById('rpt-cg-wrap');
+  const r2=document.getElementById('rpt-row2');
+  const monthly=['village-monthly','an-monthly'].includes(type);
+  if(mw)mw.style.display=monthly?'':'none';
+  if(cw)cw.style.display=type?'':'none';
+  if(r2)r2.style.display=type?'grid':'none';
+  rptRenderFields();
+}
+
+function rptP(childId){return childId?getPlacements().find(x=>x.id===childId):null;}
+
+function rptRenderFields(){
+  const type=document.getElementById('rpt-type')?.value;
+  const childId=document.getElementById('rpt-child')?.value;
+  const fields=document.getElementById('rpt-fields');
+  const actions=document.getElementById('rpt-actions');
+  if(!fields||!type){if(fields)fields.style.display='none';if(actions)actions.style.display='none';return;}
+  const p=rptP(childId);
+  let html='';
+
+  if(type==='village-monthly'||type==='an-monthly'){
+    const isV=type==='village-monthly';
+    const yrow=(id,cols)=>Array.from({length:cols},(_,i)=>i).map(()=>'<td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td>').join('');
+    html=`<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px">${isV?'Village FFA':'Aunt Nancy'} — Monthly Report Fields</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px">
+<div class="af"><label>Name of Child / NMD</label><input type="text" id="rf-childname" value="${p?.name||''}"></div>
+<div class="af"><label>DOB</label><input type="date" id="rf-dob" value="${p?.dob||''}"></div>
+<div class="af"><label>DOP (Date of Placement)</label><input type="date" id="rf-dop" value="${p?.date||''}"></div>
+<div class="af"><label>Name of Resource Parent</label><input type="text" id="rf-parent" value="${document.getElementById('rpt-caregiver')?.value||''}"></div>
+<div class="af"><label>Name of FCSW</label><input type="text" id="rf-fcsw" value="${p?.csw||''}"></div>
+${!isV?'<div class="af"><label>Foster Home / Agency Name</label><input type="text" id="rf-homename" placeholder="e.g. Hollis Family Home"></div><div class="af"><label>License Number</label><input type="text" id="rf-license" placeholder="Foster home license #"></div>':''}
+</div>
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px">📏 Height &amp; Weight</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 10px;text-align:left;border:1px solid var(--border)">Date</th><th style="padding:6px 10px;text-align:left;border:1px solid var(--border)">Weight</th><th style="padding:6px 10px;text-align:left;border:1px solid var(--border)">Height</th><th style="padding:6px 10px;text-align:left;border:1px solid var(--border)">Comments</th></tr></thead>
+<tbody id="rf-hw-body"><tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="lbs" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="in" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td></tr></tbody>
+</table><button onclick="rptAddRow('rf-hw-body','hw')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">🏥 Physical Health Appointments</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Date</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Medical</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Dental</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Comments / Reason</th></tr></thead>
+<tbody id="rf-pha-body">${[0,1,2].map(()=>'<tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td></tr>').join('')}</tbody>
+</table><button onclick="rptAddRow('rf-pha-body','pha')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">💊 Medication</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Date</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Medication Given? (Yes/No — if Yes, attach form)</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Resource Parent Initials</th></tr></thead>
+<tbody id="rf-med-body">${[0,1].map(()=>'<tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes — attach form</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" maxlength="10" style="width:60px;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td></tr>').join('')}</tbody>
+</table><button onclick="rptAddRow('rf-med-body','med')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">🧠 Mental Health Appointments</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 8px;border:1px solid var(--border)">Date</th><th style="padding:6px 8px;border:1px solid var(--border)">Therapy</th><th style="padding:6px 8px;border:1px solid var(--border)">IHSC</th><th style="padding:6px 8px;border:1px solid var(--border)">Psychiatrist</th><th style="padding:6px 8px;border:1px solid var(--border);text-align:left">Other Services (Centro Regional, TBS…)</th></tr></thead>
+<tbody id="rf-mha-body">${[0,1,2,3,4].map(()=>'<tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td></tr>').join('')}</tbody>
+</table></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+<div style="border:1px solid var(--border);border-radius:6px;padding:12px">
+<div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:8px">📖 Life Book</div>
+<div style="font-size:12px;margin-bottom:6px">Was Life Book worked on this month? <em>(min. 2x/year)</em></div>
+<div style="display:flex;gap:14px;margin-bottom:8px">
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-lifebook" value="yes"> Yes</label>
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-lifebook" value="no"> No</label>
+</div>
+<div class="af"><label>What was added?</label><input type="text" id="rf-lifebook-desc" placeholder="Describe additions…"></div>
+</div>
+<div style="border:1px solid var(--border);border-radius:6px;padding:12px">
+<div style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:8px">🔒 Rights &amp; Education</div>
+<div style="font-size:12px;margin-bottom:5px">Sexual Education Information provided? <em>(min. 2x/year)</em></div>
+<div style="display:flex;gap:14px;margin-bottom:10px">
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-sexed" value="yes"> Yes</label>
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-sexed" value="no"> No</label>
+</div>
+<div style="font-size:12px;margin-bottom:5px">Personal Rights reviewed with child/NMD? <em>(min. 2x/year)</em></div>
+<div style="display:flex;gap:14px">
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-rights" value="yes"> Yes</label>
+<label style="display:flex;align-items:center;gap:5px;font-size:13px;cursor:pointer"><input type="radio" name="rf-rights" value="no"> No</label>
+</div>
+</div>
+</div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">💵 Monthly Allowance Log</div>
+<div style="background:var(--cream);border-radius:4px;padding:8px 12px;font-size:11.5px;margin-bottom:8px">Ages 5–7: $9.54/wk · Ages 8–10: $13.52/wk · Ages 11–13: $17.57/wk · Ages 14–15: $20.33/wk · Ages 16–17: $24.36/wk · Ages 18–21: $33.89/wk</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Date Given</th><th style="padding:6px 10px;border:1px solid var(--border)">Age</th><th style="padding:6px 10px;border:1px solid var(--border)">Amount</th><th style="padding:6px 10px;border:1px solid var(--border);text-align:left">Child / NMD Signature</th></tr></thead>
+<tbody id="rf-allow-body">${[0,1,2,3,4].map(()=>'<tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="number" min="5" max="21" style="width:50px;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="$" style="width:70px;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td></tr>').join('')}</tbody>
+</table></div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">🎒 Initial / Back to School Check</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:14px">
+<div class="af"><label>Issued this month?</label><select id="rf-bts-issued"><option value="">Select…</option><option>Yes — attach receipts</option><option>No</option></select></div>
+<div class="af"><label>Date</label><input type="date" id="rf-bts-date"></div>
+<div class="af"><label>Amount</label><input type="text" id="rf-bts-amount" placeholder="$"></div>
+<div class="af"><label>Youth Signature on file?</label><select id="rf-bts-sig"><option>Yes</option><option>No</option></select></div>
+</div>
+
+<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px">👗 Monthly Clothing Allowance Log</div>
+<div style="background:var(--cream);border-radius:4px;padding:8px 12px;font-size:11.5px;margin-bottom:8px">Each child/NMD should receive $95.01 worth of clothing per month. Please attach receipts.</div>
+<div style="overflow-x:auto;margin-bottom:10px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:6px 8px;border:1px solid var(--border);text-align:left">Date</th><th style="padding:6px 8px;border:1px solid var(--border)">Amount Spent</th><th style="padding:6px 8px;border:1px solid var(--border);text-align:left">Purchases / Youth Input</th><th style="padding:6px 8px;border:1px solid var(--border)">Youth Signature</th><th style="padding:6px 8px;border:1px solid var(--border)">Resource Parent Signature</th></tr></thead>
+<tbody id="rf-cloth-body"><tr><td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="$" style="width:70px;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:12px;padding:4px"></td></tr></tbody>
+</table></div>
+<div style="display:flex;align-items:center;gap:8px;font-size:12.5px">
+<input type="checkbox" id="rf-youth-involved" style="accent-color:var(--gold);width:14px;height:14px">
+<label for="rf-youth-involved">Youth was involved in selecting clothing &amp; confirms $95.01 was spent — Initials:</label>
+<input type="text" id="rf-youth-initials" maxlength="5" style="width:50px;border:none;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:12px;padding:2px 4px">
+</div>`;
+  }
+
+  else if(type==='village-visitation'||type==='an-visitation'){
+    const isV=type==='village-visitation';
+    html=`<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Monthly Birth Family Visitation Log</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px">
+<div class="af"><label>Child / NMD Name</label><input type="text" id="vl-childname" value="${p?.name||''}"></div>
+<div class="af"><label>Report Month</label><input type="month" id="vl-month"></div>
+<div class="af" style="grid-column:span 2"><label>Visitation Plan (with who and frequency)</label><input type="text" id="vl-plan" placeholder="e.g. Mother Maria R., 2x per month, supervised at DCFS office"></div>
+</div>
+<div style="overflow-x:auto;margin-bottom:12px"><table style="width:100%;border-collapse:collapse;font-size:12.5px">
+<thead><tr style="background:var(--cream)"><th style="padding:7px 10px;border:1px solid var(--border);text-align:left">Date / Time</th><th style="padding:7px 10px;border:1px solid var(--border);text-align:left">Location</th><th style="padding:7px 10px;border:1px solid var(--border);text-align:left">Persons Present</th><th style="padding:7px 10px;border:1px solid var(--border);text-align:left">Observations / Comments</th></tr></thead>
+<tbody id="vl-entries">${Array.from({length:8},()=>'<tr><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="e.g. 6/15 · 2:00pm" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"><option></option><option>DCFS Office</option><option>Foster Home</option><option>Bio Family Home</option><option>Community</option><option>Virtual / Phone</option><option>Other</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td></tr>').join('')}</tbody>
+</table><button onclick="rptAddRow('vl-entries','vl')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>
+<div class="af"><label>Visitation Notes</label><textarea id="vl-notes" style="width:100%;height:70px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical" placeholder="General observations, concerns, follow-up needed…"></textarea></div>`;
+  }
+
+  else if(type==='village-medlog'){
+    html=`<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Medication Log Form</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px">
+<div class="af"><label>Child / NMD Name</label><input type="text" id="ml-childname" value="${p?.name||''}"></div>
+<div class="af"><label>Resource Home</label><input type="text" id="ml-home" placeholder="Foster home name"></div>
+<div class="af"><label>Month / Year</label><input type="month" id="ml-month"></div>
+</div>
+<div style="overflow-x:auto;margin-bottom:10px">
+<table id="ml-grid" style="border-collapse:collapse;font-size:10.5px;min-width:900px">
+<thead><tr style="background:var(--cream)">
+<th style="padding:6px 8px;border:1px solid var(--border);min-width:140px;text-align:left">Medication / Instructions<br>Frequency &amp; Dosage</th>
+<th style="padding:6px 6px;border:1px solid var(--border);text-align:center">Hour</th>
+${Array.from({length:31},(_,i)=>`<th style="padding:5px 3px;border:1px solid var(--border);text-align:center;min-width:20px">${i+1}</th>`).join('')}
+</tr></thead>
+<tbody id="ml-body">${Array.from({length:6},()=>`<tr><td style="border:1px solid var(--border);padding:2px"><textarea style="width:100%;height:50px;border:none;font-family:'DM Sans',sans-serif;font-size:11px;resize:none;padding:3px" placeholder="Medication name, dosage…"></textarea></td><td style="border:1px solid var(--border);padding:2px"><input type="text" placeholder="8am" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:11px;text-align:center;padding:3px"></td>${Array.from({length:31},()=>'<td style="border:1px solid var(--border);padding:1px;text-align:center"><input type="text" maxlength="3" style="width:20px;border:none;font-family:\'DM Sans\',sans-serif;font-size:10px;text-align:center;padding:1px"></td>').join('')}</tr>`).join('')}</tbody>
+</table></div>
+<button onclick="rptAddMedRow()" style="background:transparent;border:1px dashed var(--border);color:var(--muted);padding:5px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;margin-bottom:12px">+ Add medication row</button>
+<div class="af"><label>Resource Parent Signature</label><input type="text" id="ml-sig" placeholder="Type name or note 'signed on file'"></div>
+<div class="af"><label>Comments</label><input type="text" id="ml-comments" placeholder="Any notes about medications this month"></div>`;
+  }
+
+  else if(type==='lic624'){
+    html=`<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">LIC 624 — Unusual Incident / Injury Report</div>
+<div style="font-size:11.5px;color:#c0392b;background:#fdf3f2;border:1px solid rgba(192,57,43,.2);border-radius:4px;padding:8px 12px;margin-bottom:12px">⚠ Submit within <strong>24 hours</strong> for death, hospitalization, missing person, law enforcement. <strong>72 hours</strong> for all other incidents.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:12px">
+<div class="af"><label>Facility / Home Name</label><input type="text" id="lic-facility"></div>
+<div class="af"><label>License Number</label><input type="text" id="lic-license"></div>
+<div class="af"><label>Address</label><input type="text" id="lic-address"></div>
+<div class="af"><label>City / ZIP</label><input type="text" id="lic-city"></div>
+<div class="af"><label>Telephone</label><input type="tel" id="lic-phone"></div>
+<div class="af"><label>Date of This Report</label><input type="date" id="lic-rptdate" value="${new Date().toISOString().substring(0,10)}"></div>
+<div class="af"><label>Date of Incident</label><input type="date" id="lic-incdate" value="${new Date().toISOString().substring(0,10)}"></div>
+<div class="af"><label>Time of Incident</label><input type="time" id="lic-inctime"></div>
+<div class="af" style="grid-column:span 2"><label>Type of Incident</label>
+<select id="lic-inctype" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white">
+<option value="">Select…</option><option value="injury-accident">Injury — Accident</option><option value="injury-unknown">Injury — Unknown Cause</option><option value="injury-self">Injury — Self-Inflicted</option><option value="illness">Serious Illness</option><option value="hospitalization">Hospitalization</option><option value="psych-hold">Psychiatric Hold (5150)</option><option value="runaway">Runaway / Elopement</option><option value="police">Police Contact / Arrest</option><option value="med-error">Medication Error</option><option value="restraint">Physical Restraint</option><option value="allegation">Allegation of Abuse / Neglect</option><option value="death">Death</option><option value="other">Other</option>
+</select></div>
+<div class="af" style="grid-column:span 2"><label>Child Full Name</label><input type="text" id="lic-childname" value="${p?.name||''}"></div>
+<div class="af"><label>Date of Birth</label><input type="date" id="lic-childdob" value="${p?.dob||''}"></div>
+<div class="af"><label>Age</label><input type="text" id="lic-childage" value="${p?.age||''}"></div>
+<div class="af"><label>Gender</label><select id="lic-gender" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option value="">Select…</option><option value="M" ${p?.gender==='Male'?'selected':''}>Male</option><option value="F" ${p?.gender==='Female'?'selected':''}>Female</option><option value="NB">Non-binary</option></select></div>
+<div class="af"><label>DCFS Case Number</label><input type="text" id="lic-casenum" value="${p?.caseNum||''}"></div>
+<div class="af" style="grid-column:span 2"><label>Location of Incident</label><select id="lic-loc" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option value="foster-home">Foster Home</option><option value="school">School</option><option value="community">Community</option><option value="medical">Medical Facility</option><option value="dcfs">DCFS Office</option><option value="bio-home">Bio Family Home</option><option value="vehicle">In Vehicle</option><option value="other">Other</option></select></div>
+<div class="af" style="grid-column:span 2"><label>Description of Incident</label><textarea id="lic-desc" style="width:100%;height:90px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical" placeholder="Who, what, when, where, how — chronological order…"></textarea></div>
+<div class="af" style="grid-column:span 2"><label>Injuries / Conditions Observed</label><textarea id="lic-injuries" style="width:100%;height:70px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical"></textarea></div>
+<div class="af" style="grid-column:span 2"><label>Immediate Action Taken</label><textarea id="lic-action" style="width:100%;height:70px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical"></textarea></div>
+<div class="af"><label>Medical Treatment</label><select id="lic-medical" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option value="none">None required</option><option value="first-aid">First aid only</option><option value="urgent-care">Urgent care</option><option value="er">Emergency room</option><option value="hospitalized">Hospitalized</option></select></div>
+<div class="af"><label>Physician / Hospital</label><input type="text" id="lic-physician"></div>
+<div class="af"><label>Persons Notified (hold Ctrl/Cmd for multiple)</label><select id="lic-notified" multiple style="height:88px;width:100%;padding:6px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px"><option value="csw" selected>CSW</option><option value="scsw">SCSW</option><option value="parents">Child's Parents</option><option value="licensing">Licensing Agency</option><option value="dcfs-er">DCFS Emergency Response</option><option value="police">Law Enforcement</option><option value="casa">CASA</option></select></div>
+<div class="af"><label>Time Notifications Made</label><input type="time" id="lic-notifytime"><div style="margin-top:8px"><label style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px">Witnesses</label><input type="text" id="lic-witnesses" placeholder="Name, relationship…"></div></div>
+<div class="af" style="grid-column:span 2"><label>Follow-Up Actions Planned</label><textarea id="lic-followup" style="width:100%;height:60px;padding:8px 10px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;resize:vertical"></textarea></div>
+<div class="af"><label>Report Prepared By</label><input type="text" id="lic-preparedby" value="${currentUser?[currentUser.first,currentUser.last].filter(Boolean).join(' '):''}"></div>
+<div class="af"><label>Role</label><select id="lic-role" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option>Foster Parent</option><option>Kinship Caregiver</option><option>CSW</option><option>Facility Staff</option><option>Other</option></select></div>
+</div>`;
+  }
+
+  else if(type==='lic622'){
+    html=`<div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px">LIC 622 — Centrally Stored Medication &amp; Destruction Record</div>
+<div style="font-size:11.5px;color:var(--muted);background:var(--cream);border-radius:4px;padding:8px 12px;margin-bottom:12px">Medications must be kept in a safe, locked place. Records maintained for at least one year.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:14px">
+<div class="af" style="grid-column:span 2"><label>Resident Name (Last, First, Middle)</label><input type="text" id="lc-name" value="${p?.name||''}"></div>
+<div class="af"><label>Admission Date</label><input type="date" id="lc-admdate" value="${p?.date||''}"></div>
+<div class="af"><label>Facility Name</label><input type="text" id="lc-facility"></div>
+<div class="af"><label>Facility Number</label><input type="text" id="lc-facilitynum"></div>
+<div class="af"><label>Administrator</label><input type="text" id="lc-admin" value="${currentUser?[currentUser.first,currentUser.last].filter(Boolean).join(' '):''}"></div>
+<div class="af"><label>Attending Physician</label><input type="text" id="lc-physician" value="${p?.doctor||''}"></div>
+</div>
+<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:7px">I. Centrally Stored Medications</div>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="border-collapse:collapse;font-size:11.5px;min-width:900px">
+<thead><tr style="background:var(--cream)"><th style="padding:5px 7px;border:1px solid var(--border);text-align:left;min-width:120px">Medication Name</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Strength/Qty</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:110px">Instructions/Control Custody</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Expiration Date</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:70px">Date Filled</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:70px">Date Started</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:110px">Prescribing Physician</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Rx Number</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:55px">No. Refills</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:90px">Pharmacy Name</th></tr></thead>
+<tbody id="lc-med-body">${Array.from({length:8},()=>`<tr>${Array.from({length:10},()=>'<td style="border:1px solid var(--border);padding:2px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:11px;padding:3px"></td>').join('')}</tr>`).join('')}</tbody>
+</table><button onclick="rptAddRow('lc-med-body','lc')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>
+<div style="font-size:12px;font-weight:700;color:var(--ink);margin:14px 0 7px">II. Medication Destruction Record</div>
+<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:11.5px;min-width:800px">
+<thead><tr style="background:var(--cream)"><th style="padding:5px 7px;border:1px solid var(--border);min-width:120px">Medication Name</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Strength/Qty</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Date Filled</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Rx Number</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:80px">Disposal Date</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:90px">Pharmacy Name</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:120px">Admin/Designated Rep Signature</th><th style="padding:5px 7px;border:1px solid var(--border);min-width:120px">Witness Signature (non-client adult)</th></tr></thead>
+<tbody id="lc-dest-body">${Array.from({length:5},()=>`<tr>${Array.from({length:8},()=>'<td style="border:1px solid var(--border);padding:2px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:11px;padding:3px"></td>').join('')}</tr>`).join('')}</tbody>
+</table><button onclick="rptAddRow('lc-dest-body','lcd')" style="margin-top:5px;background:transparent;border:1px dashed var(--border);color:var(--muted);padding:3px 10px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer">+ Add row</button></div>`;
+  }
+
+  fields.innerHTML=`<div style="background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:20px 22px">${html}</div>`;
+  fields.style.display='';
+  if(actions)actions.style.display='flex';
+}
+
+function rptAddRow(tbodyId,type){
+  const tbody=document.getElementById(tbodyId);if(!tbody)return;
+  const tr=document.createElement('tr');
+  if(type==='hw')tr.innerHTML='<td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="lbs" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" placeholder="in" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td>';
+  else if(type==='pha')tr.innerHTML='<td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td>';
+  else if(type==='med')tr.innerHTML='<td style="border:1px solid var(--border);padding:3px"><input type="date" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;width:100%"><option></option><option>Yes — attach form</option><option>No</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" maxlength="10" style="width:60px;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td>';
+  else if(type==='vl')tr.innerHTML='<td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><select style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"><option></option><option>DCFS Office</option><option>Foster Home</option><option>Bio Family Home</option><option>Community</option><option>Virtual / Phone</option><option>Other</option></select></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td><td style="border:1px solid var(--border);padding:3px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:12px;padding:4px"></td>';
+  else if(type==='lc')tr.innerHTML=Array.from({length:10},()=>'<td style="border:1px solid var(--border);padding:2px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:11px;padding:3px"></td>').join('');
+  else if(type==='lcd')tr.innerHTML=Array.from({length:8},()=>'<td style="border:1px solid var(--border);padding:2px"><input type="text" style="width:100%;border:none;font-family:\'DM Sans\',sans-serif;font-size:11px;padding:3px"></td>').join('');
+  tbody.appendChild(tr);
+}
+
+function rptAddMedRow(){
+  const tbody=document.getElementById('ml-body');if(!tbody)return;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="border:1px solid var(--border);padding:2px"><textarea style="width:100%;height:50px;border:none;font-family:'DM Sans',sans-serif;font-size:11px;resize:none;padding:3px"></textarea></td><td style="border:1px solid var(--border);padding:2px"><input type="text" style="width:100%;border:none;font-family:'DM Sans',sans-serif;font-size:11px;text-align:center;padding:3px"></td>${Array.from({length:31},()=>'<td style="border:1px solid var(--border);padding:1px"><input type="text" maxlength="3" style="width:20px;border:none;font-family:\'DM Sans\',sans-serif;font-size:10px;text-align:center;padding:1px"></td>').join('')}`;
+  tbody.appendChild(tr);
+}
+
+async function rptSave(){
+  const type=document.getElementById('rpt-type')?.value;
+  const childId=document.getElementById('rpt-child')?.value;
+  if(!type){alert('Select a report type first.');return;}
+  const data={type,childId,savedAt:new Date().toISOString()};
+  document.querySelectorAll('#rpt-fields input,#rpt-fields select,#rpt-fields textarea').forEach(el=>{
+    if(el.id)data[el.id]=el.type==='radio'?(el.checked?el.value:data[el.id]):el.value;
+    else if(el.name&&el.type==='radio'&&el.checked)data[el.name]=el.value;
+  });
+  const key='an_reports_'+(currentUser?.email||'guest');
+  const list=JSON.parse(localStorage.getItem(key)||'[]');
+  list.unshift(data);localStorage.setItem(key,JSON.stringify(list.slice(0,100)));
+  const table=['lic624','lic622'].includes(type)?'incident_reports':['village-visitation','an-visitation'].includes(type)?'visitation_logs':'monthly_reports';
+  try{await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,Prefer:'return=minimal'},body:JSON.stringify({user_email:currentUser?.email||null,placement_id:childId||null,report_type:type,report_data:data,created_at:data.savedAt})});}catch(e){}
+  const btn=event?.target;
+  if(btn){btn.textContent='✓ Saved!';btn.style.background='#27ae60';setTimeout(()=>{btn.textContent='💾 Save Entry';btn.style.background='var(--sage)';},2000);}
+}
+
+function rptGenerate(){
+  const type=document.getElementById('rpt-type')?.value;
+  if(!type){alert('Select a report type first.');return;}
+  const childId=document.getElementById('rpt-child')?.value;
+  const p=rptP(childId);
+  const caregiver=document.getElementById('rpt-caregiver')?.value||'';
+  const now=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const preview=document.getElementById('rpt-preview');
+  const previewBody=document.getElementById('rpt-preview-body');
+  const previewLabel=document.getElementById('rpt-preview-label');
+  let html='';
+  const g=id=>{const el=document.getElementById(id);return el?el.value:'';};
+  const radio=name=>{const el=document.querySelector(`input[name="${name}"]:checked`);return el?el.value:'___';};
+  const tbl=tbodyId=>{const tbody=document.getElementById(tbodyId);if(!tbody)return'';return Array.from(tbody.querySelectorAll('tr')).map(tr=>`<tr>${Array.from(tr.querySelectorAll('input,select,textarea')).map(el=>`<td style="border:1px solid #ccc;padding:5px 7px;font-size:12px;vertical-align:top">${el.value||''}</td>`).join('')}</tr>`).join('');};
+
+  if(type==='village-monthly'||type==='an-monthly'){
+    const isV=type==='village-monthly';
+    const month=document.getElementById('rpt-month')?.value;
+    const monthLabel=month?new Date(month+'-02').toLocaleDateString('en-US',{month:'long',year:'numeric'}):'—';
+    previewLabel.textContent=isV?'Village FFA Monthly Report':'Aunt Nancy Monthly Report';
+    const brand=isV
+      ?`<div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;border-bottom:2px solid #2A6649;padding-bottom:12px"><span style="font-size:36px">🏘</span><div><div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2A6649">The Village Family Services</div><div style="font-size:20px;font-weight:700;line-height:1.1">FOSTER FAMILY AGENCY<br><span style="font-size:17px">Monthly Report</span></div></div><div style="margin-left:auto;font-size:13px;color:#555">${monthLabel}</div></div>`
+      :`<div style="display:flex;align-items:center;gap:14px;margin-bottom:6px;border-bottom:2px solid #C8923A;padding-bottom:12px"><span style="font-size:36px">💛</span><div><div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C8923A">AuntNancy.org</div><div style="font-size:20px;font-weight:700">Monthly Foster Care Report</div></div><div style="margin-left:auto;font-size:13px;color:#555">${monthLabel}</div></div>`;
+    html=`<div id="printable-report" style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:36px;font-size:12.5px;line-height:1.7;color:#111">${brand}
+<table style="width:100%;margin-bottom:14px"><tr><td style="padding:4px 0;width:50%"><b>Date:</b> ${now}</td><td style="padding:4px 0"><b>Name of Child/NMD:</b> ${g('rf-childname')}</td></tr><tr><td><b>DOB:</b> ${g('rf-dob')}</td><td><b>DOP:</b> ${g('rf-dop')}</td></tr><tr><td><b>Resource Parent:</b> ${g('rf-parent')}</td><td><b>FCSW:</b> ${g('rf-fcsw')}</td></tr></table>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Monthly Child/NMD's Height and Weight Record</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:14px"><thead><tr style="background:#f5f5f5"><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Date</th><th style="padding:6px 8px;border:1px solid #ccc">Weight</th><th style="padding:6px 8px;border:1px solid #ccc">Height</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Comments</th></tr></thead><tbody>${tbl('rf-hw-body')}</tbody></table>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Physical Health Appointments</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:4px"><thead><tr style="background:#f5f5f5"><th style="padding:6px 8px;border:1px solid #ccc">Date</th><th style="padding:6px 8px;border:1px solid #ccc">Medical</th><th style="padding:6px 8px;border:1px solid #ccc">Dental</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Comments/Reason</th></tr></thead><tbody>${tbl('rf-pha-body')}</tbody></table>
+<div style="font-size:10.5px;color:#555;margin-bottom:12px;font-style:italic">Provide examination form to social worker</div>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Medication</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:14px"><thead><tr style="background:#f5f5f5"><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Date</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Medication; Yes, No; if yes attach form</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Resource Parent Initials</th></tr></thead><tbody>${tbl('rf-med-body')}</tbody></table>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Mental Health Appointments</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:4px"><thead><tr style="background:#f5f5f5"><th style="padding:6px 8px;border:1px solid #ccc">Date</th><th style="padding:6px 8px;border:1px solid #ccc">Therapy</th><th style="padding:6px 8px;border:1px solid #ccc">IHSC</th><th style="padding:6px 8px;border:1px solid #ccc">Psychiatrist</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Other Services</th></tr></thead><tbody>${tbl('rf-mha-body')}</tbody></table>
+<div style="font-size:10.5px;color:#555;margin-bottom:14px;font-style:italic">Provide examination forms to social worker</div>
+<div style="margin-bottom:10px"><b>Was Life Book worked on this month?</b> Yes___${radio('rf-lifebook')==='yes'?'✓':''}  No___${radio('rf-lifebook')==='no'?'✓':''}<br><b>What was added:</b> ${g('rf-lifebook-desc')||'_'.repeat(50)}</div>
+<div style="margin-bottom:8px"><b>Was child/NMD provided Sexual Education Information this month?</b> <em>(Needs to be done minimum of 2x per year)</em><br>Yes___${radio('rf-sexed')==='yes'?'✓':''}  No___${radio('rf-sexed')==='no'?'✓':''}</div>
+<div style="margin-bottom:16px"><b>Was Personal Rights reviewed with child/NMD this month?</b> <em>(Needs to be done minimum of 2x per year)</em><br>Yes___${radio('rf-rights')==='yes'?'✓':''}  No___${radio('rf-rights')==='no'?'✓':''}</div>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Monthly Allowance Log</div>
+<div style="font-size:10.5px;text-align:center;font-style:italic;margin:3px 0">Ages 5–7: $9.54/wk · Ages 8–10: $13.52/wk · Ages 11–13: $17.57/wk · Ages 14–15: $20.33/wk · Ages 16–17: $24.36/wk · Ages 18–21: $33.89/wk</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:14px"><thead><tr style="background:#f5f5f5"><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Date Given</th><th style="padding:6px 8px;border:1px solid #ccc">Age</th><th style="padding:6px 8px;border:1px solid #ccc">Amount</th><th style="padding:6px 8px;border:1px solid #ccc;text-align:left">Child/NMD Signature</th></tr></thead><tbody>${tbl('rf-allow-body')}</tbody></table>
+<table style="width:100%;border-collapse:collapse;margin-bottom:5px"><tr><td style="border:1px solid #ccc;padding:6px 8px" colspan="2"><b>Was Initial and/or Back to School check issued this month?</b></td><td style="border:1px solid #ccc;padding:6px 8px;width:80px">Yes: ${g('rf-bts-issued').includes('Yes')?'✓':''}</td><td style="border:1px solid #ccc;padding:6px 8px;width:80px">No: ${g('rf-bts-issued').includes('No')?'✓':''}</td></tr><tr><td colspan="4" style="border:1px solid #ccc;padding:4px;text-align:center;font-size:10.5px;font-style:italic">If Yes, Please attach receipts</td></tr></table>
+<table style="width:100%;border-collapse:collapse;margin-bottom:14px"><thead><tr style="background:#f5f5f5"><th style="border:1px solid #ccc;padding:6px 8px">Date</th><th style="border:1px solid #ccc;padding:6px 8px">Initial / Back to School $</th><th style="border:1px solid #ccc;padding:6px 8px;font-style:italic">Youth Signature</th><th style="border:1px solid #ccc;padding:6px 8px">Resource Parent Signature</th></tr></thead><tbody><tr><td style="border:1px solid #ccc;padding:6px 8px">${g('rf-bts-date')}</td><td style="border:1px solid #ccc;padding:6px 8px">$${g('rf-bts-amount')}</td><td style="border:1px solid #ccc;padding:6px 8px"></td><td style="border:1px solid #ccc;padding:6px 8px"></td></tr></tbody></table>
+<div style="text-align:center;font-weight:700;font-size:13px;border:1px solid #ccc;padding:5px">Monthly Clothing Allowance Log</div>
+<div style="text-align:center;font-weight:700;font-size:11.5px;margin:3px 0">EACH CHILD/NMD SHOULD RECEIVE $95.01 WORTH OF CLOTHING PER MONTH. PLEASE ATTACH RECEIPT(S).</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:8px"><thead><tr style="background:#f5f5f5"><th style="border:1px solid #ccc;padding:6px 8px">Date</th><th style="border:1px solid #ccc;padding:6px 8px">Amount Spent</th><th style="border:1px solid #ccc;padding:6px 8px;text-align:left">Purchases/Youth Input</th><th style="border:1px solid #ccc;padding:6px 8px;font-style:italic">Youth Signature</th><th style="border:1px solid #ccc;padding:6px 8px">Resource Parent Signature</th></tr></thead><tbody>${tbl('rf-cloth-body')}</tbody></table>
+<div style="font-size:11.5px;margin-bottom:20px">☐ Youth was involved in selecting own clothing &amp; confirms $95.01 was spent______(Youth initials)</div>
+<div style="font-size:12px;margin-bottom:12px">The information provided in this report is true and accurate to the best of my knowledge:</div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:32px;margin-bottom:14px"><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Resource Parent Signature</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Date</div></div></div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:32px"><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">FCSW Signature</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Date</div></div></div>
+<div style="text-align:center;margin-top:14px;font-size:9.5px;color:#aaa">Revised 7-23-25 · Generated via AuntNancy.org · ${now}</div>
+</div>`;
+  }
+
+  else if(type==='village-visitation'||type==='an-visitation'){
+    previewLabel.textContent='Birth Family Visitation Log';
+    const visRows=tbl('vl-entries');
+    html=`<div id="printable-report" style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:36px;font-size:12.5px;line-height:1.7;color:#111">
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:18px;border-bottom:2px solid #2A6649;padding-bottom:12px"><span style="font-size:36px">🏘</span><div><div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#2A6649">The Village Family Services</div></div></div>
+<div style="margin-bottom:12px"><b>Name:</b> ${g('vl-childname')||'_'.repeat(50)}</div>
+<div style="text-align:center;font-weight:700;font-size:14px;border:1px solid #ccc;padding:6px;margin-bottom:12px">Monthly Birth Family Visitation Log</div>
+<div style="margin-bottom:14px"><b>Visitation Plan (with who and frequency):</b> ${g('vl-plan')||'_'.repeat(60)}<div style="border-bottom:1px solid #ccc;margin-top:8px"></div></div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:18px"><thead><tr style="background:#f5f5f5"><th style="padding:7px 10px;border:1px solid #ccc;text-align:left">Date/Time</th><th style="padding:7px 10px;border:1px solid #ccc;text-align:left">Location</th><th style="padding:7px 10px;border:1px solid #ccc;text-align:left">Persons Present</th><th style="padding:7px 10px;border:1px solid #ccc;text-align:left">Observations/Comments</th></tr></thead><tbody>${visRows}</tbody></table>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:32px;margin-bottom:14px"><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Resource parent signature</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Date</div></div></div>
+<div style="display:grid;grid-template-columns:2fr 1fr;gap:32px;margin-bottom:20px"><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">FCSW signature</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10.5px">Date</div></div></div>
+<div style="font-size:13px;font-weight:700;margin-bottom:6px">Visitation Notes:</div>${['','','',''].map(()=>`<div style="border-bottom:1px solid #ccc;min-height:20px;margin-bottom:10px">${g('vl-notes')||''}</div>`).join('')}
+<div style="text-align:center;margin-top:12px;font-size:9.5px;color:#aaa">Revised 9-20-23 · Generated via AuntNancy.org · ${now}</div>
+</div>`;
+  }
+
+  else if(type==='village-medlog'){
+    previewLabel.textContent='Medication Log Form';
+    const medBody=document.getElementById('ml-body');
+    const medRows=medBody?Array.from(medBody.querySelectorAll('tr')).map(tr=>{
+      const inputs=Array.from(tr.querySelectorAll('input,textarea'));
+      const medName=inputs[0]?.value||'';const hour=inputs[1]?.value||'';
+      const days=inputs.slice(2).map(el=>`<td style="border:1px solid #ccc;padding:2px;text-align:center;font-size:10px;min-width:16px">${el.value||''}</td>`).join('');
+      return `<tr><td style="border:1px solid #ccc;padding:4px 6px;font-size:11px;white-space:pre-wrap;min-width:120px">${medName}</td><td style="border:1px solid #ccc;padding:4px 6px;text-align:center;font-size:11px;min-width:40px">${hour}</td>${days}</tr>`;
+    }).join(''):'';
+    html=`<div id="printable-report" style="font-family:Arial,sans-serif;max-width:1000px;margin:0 auto;padding:24px;font-size:11px;line-height:1.5;color:#111">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div style="font-size:28px">🏘</div><div style="text-align:right;font-size:10.5px;color:#555">File under section 4</div></div>
+<div style="text-align:right;margin-bottom:12px"><div><b>Child/NMD Name:</b> ${g('ml-childname')||'_'.repeat(40)}</div><div><b>Resource Home:</b> ${g('ml-home')||'_'.repeat(40)}</div><div><b>Month:</b> ${g('ml-month')||'_'.repeat(12)}&nbsp;&nbsp;<b>Year:</b> ${g('ml-month')?g('ml-month').substring(0,4):'_'.repeat(8)}</div></div>
+<div style="text-align:center;font-weight:700;font-size:14px;margin-bottom:8px">MEDICATION LOG FORM</div>
+<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:10.5px">
+<thead><tr style="background:#f5f5f5"><th style="padding:5px 7px;border:1px solid #ccc;min-width:120px;text-align:left">Medication/Instructions<br>Frequency &amp; dosage</th><th style="padding:5px 5px;border:1px solid #ccc;text-align:center">Hour</th>${Array.from({length:31},(_,i)=>`<th style="padding:4px 2px;border:1px solid #ccc;text-align:center;font-size:9.5px">${i+1}</th>`).join('')}</tr></thead>
+<tbody>${medRows}</tbody></table></div>
+<div style="margin-top:16px"><b>Resource Parent Signature:</b> <span style="border-bottom:1px solid #333;display:inline-block;width:55%">&nbsp;${g('ml-sig')}</span></div>
+<div style="margin-top:8px"><b>Comments:</b> ${g('ml-comments')||'_'.repeat(80)}</div>
+<div style="text-align:center;margin-top:14px;font-size:9.5px;color:#aaa">Revised 9-20-2023 · Generated via AuntNancy.org · ${now}</div>
+</div>`;
+  }
+
+  else if(type==='lic624'){
+    previewLabel.textContent='LIC 624 — Unusual Incident / Injury Report';
+    const notifiedEl=document.getElementById('lic-notified');
+    const notified=notifiedEl?Array.from(notifiedEl.selectedOptions).map(o=>o.text).join(', '):'—';
+    const incL={'injury-accident':'Injury — Accident','injury-unknown':'Injury — Unknown Cause','injury-self':'Injury — Self-Inflicted','illness':'Serious Illness','hospitalization':'Hospitalization','psych-hold':'Psychiatric Hold (5150)','runaway':'Runaway / Elopement','police':'Police Contact / Arrest','med-error':'Medication Error','restraint':'Physical Restraint','allegation':'Allegation of Abuse/Neglect','death':'Death','other':'Other'};
+    const medL={'none':'None required','first-aid':'First aid only','urgent-care':'Urgent care','er':'Emergency room','hospitalized':'Hospitalized'};
+    const locL={'foster-home':'Foster Home','school':'School','community':'Community','medical':'Medical Facility','dcfs':'DCFS Office','bio-home':'Bio Family Home','vehicle':'In Vehicle','other':'Other'};
+    html=`<div id="printable-report" style="font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:32px;font-size:12px;line-height:1.6;color:#111">
+<div style="text-align:center;margin-bottom:14px;border-bottom:2px solid #333;padding-bottom:10px"><div style="font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#555">STATE OF CALIFORNIA — DEPARTMENT OF SOCIAL SERVICES</div><div style="font-size:19px;font-weight:700;margin:3px 0">UNUSUAL INCIDENT / INJURY REPORT</div><div style="font-size:11px;color:#555">LIC 624 (Rev. 06/21) · Community Care Licensing Division</div></div>
+<div style="background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:7px 12px;margin-bottom:12px;font-size:11px;color:#856404">⚠ Submit within <b>24 hours</b> for death, hospitalization, missing person, or law enforcement. <b>72 hours</b> for all other incidents.</div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:10px"><tr><td style="padding:5px 6px;border:1px solid #ccc;width:50%"><b>Facility Name:</b> ${g('lic-facility')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>License #:</b> ${g('lic-license')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Address:</b> ${g('lic-address')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>City/ZIP:</b> ${g('lic-city')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Phone:</b> ${g('lic-phone')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>Report Date:</b> ${g('lic-rptdate')}</td></tr></table>
+<table style="width:100%;border-collapse:collapse;margin-bottom:10px"><tr style="background:#f5f5f5"><td colspan="4" style="padding:5px 6px;border:1px solid #ccc;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em">Incident Information</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc;width:25%"><b>Date:</b></td><td style="padding:5px 6px;border:1px solid #ccc;width:25%">${g('lic-incdate')}</td><td style="padding:5px 6px;border:1px solid #ccc;width:25%"><b>Time:</b></td><td style="padding:5px 6px;border:1px solid #ccc">${g('lic-inctime')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Type:</b></td><td colspan="3" style="padding:5px 6px;border:1px solid #ccc">${incL[g('lic-inctype')]||g('lic-inctype')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Location:</b></td><td colspan="3" style="padding:5px 6px;border:1px solid #ccc">${locL[g('lic-loc')]||g('lic-loc')}</td></tr></table>
+<table style="width:100%;border-collapse:collapse;margin-bottom:10px"><tr style="background:#f5f5f5"><td colspan="4" style="padding:5px 6px;border:1px solid #ccc;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em">Child Information</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc;width:25%"><b>Name:</b></td><td style="padding:5px 6px;border:1px solid #ccc;width:25%">${g('lic-childname')}</td><td style="padding:5px 6px;border:1px solid #ccc;width:25%"><b>DOB:</b></td><td style="padding:5px 6px;border:1px solid #ccc">${g('lic-childdob')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Age:</b></td><td style="padding:5px 6px;border:1px solid #ccc">${g('lic-childage')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>Gender:</b></td><td style="padding:5px 6px;border:1px solid #ccc">${g('lic-gender')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Case #:</b></td><td colspan="3" style="padding:5px 6px;border:1px solid #ccc">${g('lic-casenum')}</td></tr></table>
+${['Description of Incident|lic-desc','Injuries / Conditions Observed|lic-injuries','Immediate Action Taken|lic-action','Follow-Up Actions Planned|lic-followup'].map(s=>{const[l,id]=s.split('|');return`<table style="width:100%;border-collapse:collapse;margin-bottom:8px"><tr style="background:#f5f5f5"><td style="padding:5px 6px;border:1px solid #ccc;font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em">${l}</td></tr><tr><td style="padding:8px;border:1px solid #ccc;min-height:60px;vertical-align:top">${g(id)}</td></tr></table>`;}).join('')}
+<table style="width:100%;border-collapse:collapse;margin-bottom:10px"><tr><td style="padding:5px 6px;border:1px solid #ccc;width:50%"><b>Medical Treatment:</b> ${medL[g('lic-medical')]||g('lic-medical')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>Physician/Hospital:</b> ${g('lic-physician')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Persons Notified:</b> ${notified}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>Time:</b> ${g('lic-notifytime')}</td></tr><tr><td colspan="2" style="padding:5px 6px;border:1px solid #ccc"><b>Witnesses:</b> ${g('lic-witnesses')}</td></tr><tr><td style="padding:5px 6px;border:1px solid #ccc"><b>Prepared By:</b> ${g('lic-preparedby')}</td><td style="padding:5px 6px;border:1px solid #ccc"><b>Role:</b> ${g('lic-role')}</td></tr></table>
+<div style="margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:28px"><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10px">Signature of Person Preparing Report</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px">${now}</div><div style="font-size:10px">Date</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10px">Signature of Facility Administrator / Licensee</div></div><div><div style="border-bottom:1px solid #333;min-height:24px;margin-bottom:3px"></div><div style="font-size:10px">Date</div></div></div>
+<div style="text-align:center;margin-top:14px;font-size:9.5px;color:#aaa">LIC 624 · CDSS · Community Care Licensing · Generated via AuntNancy.org · ${now}</div>
+</div>`;
+  }
+
+  else if(type==='lic622'){
+    previewLabel.textContent='LIC 622 — Centrally Stored Medication Record';
+    const sTbody=document.getElementById('lc-med-body');
+    const dTbody=document.getElementById('lc-dest-body');
+    const sRows=sTbody?Array.from(sTbody.querySelectorAll('tr')).map(tr=>`<tr>${Array.from(tr.querySelectorAll('input')).map(el=>`<td style="border:1px solid #ccc;padding:3px 5px;font-size:10.5px">${el.value||''}</td>`).join('')}</tr>`).join(''):'';
+    const dRows=dTbody?Array.from(dTbody.querySelectorAll('tr')).map(tr=>`<tr>${Array.from(tr.querySelectorAll('input')).map(el=>`<td style="border:1px solid #ccc;padding:3px 5px;font-size:10.5px">${el.value||''}</td>`).join('')}</tr>`).join(''):'';
+    html=`<div id="printable-report" style="font-family:Arial,sans-serif;max-width:1000px;margin:0 auto;padding:28px;font-size:11.5px;line-height:1.6;color:#111">
+<div style="font-size:8.5px;text-transform:uppercase;letter-spacing:.08em;color:#555;margin-bottom:3px">STATE OF CALIFORNIA · HEALTH AND HUMAN SERVICES AGENCY · DEPARTMENT OF SOCIAL SERVICES</div>
+<div style="font-size:15px;font-weight:700;margin-bottom:4px">CENTRALLY STORED MEDICATION AND DESTRUCTION RECORD</div>
+<div style="font-size:10.5px;font-weight:700;margin-bottom:4px">I. CENTRALLY STORED MEDICATION</div>
+<div style="font-size:10.5px;margin-bottom:6px"><b>INSTRUCTIONS:</b> Centrally stored medications shall be kept in a safe and locked place that is not accessible to any person(s) except authorized individuals. <em>Medication records on each client/resident shall be maintained for at least one year.</em></div>
+<table style="width:100%;border-collapse:collapse;margin-bottom:6px"><tr><td style="border:1px solid #ccc;padding:4px 7px;width:33%"><b>NAME:</b> ${g('lc-name')}</td><td style="border:1px solid #ccc;padding:4px 7px"><b>Facility:</b> ${g('lc-facility')}</td><td style="border:1px solid #ccc;padding:4px 7px"><b>Facility #:</b> ${g('lc-facilitynum')}</td></tr><tr><td style="border:1px solid #ccc;padding:4px 7px"><b>Admission Date:</b> ${g('lc-admdate')}</td><td style="border:1px solid #ccc;padding:4px 7px"><b>Administrator:</b> ${g('lc-admin')}</td><td style="border:1px solid #ccc;padding:4px 7px"><b>Attending Physician:</b> ${g('lc-physician')}</td></tr></table>
+<div style="overflow-x:auto;margin-bottom:14px"><table style="border-collapse:collapse;font-size:10.5px;min-width:900px"><thead><tr style="background:#f5f5f5"><th style="padding:5px 6px;border:1px solid #ccc;text-align:left;min-width:110px">MEDICATION NAME</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:70px">STRENGTH/QTY</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:100px">INSTRUCTIONS CONTROL/CUSTODY</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:75px">EXPIRATION DATE</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:65px">DATE FILLED</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:65px">DATE STARTED</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:100px">PRESCRIBING PHYSICIAN</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:75px">RX NUMBER</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:50px">REFILLS</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:85px">PHARMACY</th></tr></thead><tbody>${sRows}</tbody></table></div>
+<div style="font-size:10.5px;font-weight:700;margin:12px 0 4px">II. MEDICATION DESTRUCTION RECORD</div>
+<div style="font-size:10px;margin-bottom:6px"><b>INSTRUCTIONS:</b> Prescription drugs not taken with the client/resident upon termination of services shall be destroyed in the facility by the Administrator or Designated Representative and witnessed by one other adult who is not a client/resident. <em>Retain records for at least three years.</em></div>
+<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:10.5px;min-width:800px"><thead><tr style="background:#f5f5f5"><th style="padding:5px 6px;border:1px solid #ccc;min-width:110px">MEDICATION NAME</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:70px">STRENGTH/QTY</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:65px">DATE FILLED</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:75px">RX NUMBER</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:75px">DISPOSAL DATE</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:85px">PHARMACY</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:115px">ADMIN/DESIGNATED REP SIGNATURE</th><th style="padding:5px 6px;border:1px solid #ccc;min-width:115px">WITNESS SIGNATURE (NON-CLIENT ADULT)</th></tr></thead><tbody>${dRows}</tbody></table></div>
+<div style="text-align:center;margin-top:14px;font-size:9px;color:#aaa">LIC 622 (3/99) · CONFIDENTIAL · Generated via AuntNancy.org · ${now}</div>
+</div>`;
+  }
+
+  previewBody.innerHTML=html;
+  preview.style.display='';
+  preview.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function rptPrint(){
+  const body=document.getElementById('printable-report');
+  if(!body){rptGenerate();setTimeout(rptPrint,600);return;}
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Report — AuntNancy.org</title><style>body{font-family:Arial,sans-serif;font-size:12px;line-height:1.65;color:#111;margin:0;padding:20px}table{width:100%;border-collapse:collapse}@media print{body{margin:0;padding:10px}@page{margin:12mm}}</style></head><body>${body.outerHTML}</body></html>`);
+  win.document.close();
+  setTimeout(()=>win.print(),400);
+}
+
+function rptShowSQL(){
+  const sql=`-- Run in Supabase SQL Editor (one time)
+
+CREATE TABLE IF NOT EXISTS visitation_logs (
+  id text PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  user_email text, placement_id text,
+  report_type text DEFAULT 'visitation',
+  report_data jsonb, created_at timestamptz DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS incident_reports (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_email text, placement_id text,
+  report_type text, report_data jsonb,
+  created_at timestamptz DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS monthly_reports (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_email text, placement_id text,
+  report_type text, report_data jsonb,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE visitation_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE incident_reports ENABLE ROW LEVEL SECURITY;
+ALTER TABLE monthly_reports ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "insert_own" ON visitation_logs FOR INSERT WITH CHECK (true);
+CREATE POLICY "insert_own" ON incident_reports FOR INSERT WITH CHECK (true);
+CREATE POLICY "insert_own" ON monthly_reports FOR INSERT WITH CHECK (true);
+CREATE POLICY "select_own" ON visitation_logs FOR SELECT USING (true);
+CREATE POLICY "select_own" ON incident_reports FOR SELECT USING (true);
+CREATE POLICY "select_own" ON monthly_reports FOR SELECT USING (true);`;
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML=`<div style="background:white;border-radius:10px;max-width:680px;width:100%;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.4)"><div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--ink);border-radius:10px 10px 0 0"><div style="font-size:15px;font-weight:700;color:white">📊 Supabase Setup SQL — run once</div><button onclick="this.closest('[style*=fixed]').remove()" style="background:transparent;border:none;color:white;font-size:20px;cursor:pointer">✕</button></div><div style="flex:1;overflow-y:auto;padding:18px 20px"><p style="font-size:12.5px;color:var(--muted);margin-bottom:12px">Copy and run in your <strong>Supabase dashboard → SQL Editor</strong>.</p><pre id="rptSQLpre" style="background:#0c0a08;color:#74c69d;padding:14px;border-radius:6px;font-size:11px;overflow-x:auto;line-height:1.6;white-space:pre-wrap">${sql}</pre></div><div style="padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px"><button onclick="navigator.clipboard.writeText(document.getElementById('rptSQLpre').textContent);this.textContent='✓ Copied!'" style="background:var(--gold);color:var(--ink);border:none;padding:8px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer">Copy SQL</button><button onclick="this.closest('[style*=fixed]').remove()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12.5px;cursor:pointer">Close</button></div></div>`;
+  document.body.appendChild(modal);
+}
+
+
 window.addEventListener('error',function(e){
   console.error('[GLOBAL ERROR]',e.message,'at',e.filename+':'+e.lineno+':'+e.colno,e.error);
   // Show a non-blocking error banner once, with detail, so script errors are diagnosable
