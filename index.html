@@ -3369,7 +3369,23 @@ function openPlacementForm(id){
   // Show modal
   const modal=document.getElementById('placementFormModal');
   if(modal){modal.style.display='block';document.body.style.overflow='hidden';}
+  // Show delete button only when editing an existing record
+  const delBtn=document.getElementById('pfDeleteBtn');
+  if(delBtn) delBtn.style.display=id?'block':'none';
   setTimeout(()=>{wireFormAutoSave();updatePfKey();},100);
+}
+
+function deletePlacementFromForm(){
+  if(!editingPlacementId) return;
+  const list=getPlacements();
+  const p=list.find(x=>x.id===editingPlacementId);
+  const name=p?.name||'this record';
+  if(!confirm(`Permanently delete the placement record for ${name}? This cannot be undone.`)) return;
+  const updated=list.filter(x=>x.id!==editingPlacementId);
+  savePlacements(updated);
+  if(currentUser?.email) deletePlacementFromSupabase(editingPlacementId, currentUser.email);
+  cancelPlacementForm();
+  renderPlacements();
 }
 
 function cancelPlacementForm(){
@@ -3536,6 +3552,11 @@ function doSavePlacement(fname,mname,lname,dob,name,closeAfter){
   if(closeAfter){
     cancelPlacementForm();
     renderPlacements();
+    // Scroll to placement list so user sees the saved record
+    setTimeout(()=>{
+      const el=document.getElementById('placementList');
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    },150);
   }
 }
 
@@ -3684,6 +3705,14 @@ function renderPlacements(){
   ):list;
 
   container.innerHTML=`
+    ${list.length>1?`
+    <!-- HOUSEHOLD OVERVIEW — multi-child summary -->
+    <div style="margin-bottom:18px">
+      <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">🏠 Household Overview — ${list.length} Active Placements</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:4px">
+        ${renderHouseholdOverview()||''}
+      </div>
+    </div>`:''}
     <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
       <div style="flex:1;position:relative">
         <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px">🔍</span>
@@ -3698,6 +3727,11 @@ function renderPlacements(){
     const initials=p.name.charAt(0).toUpperCase();
     const missingDocs=DOCS.filter(d=>!(p.docs||[]).includes(d));
     const hasConcerns=(p.enrolled==='pending'||p.enrolled==='no')||(p.medi==='issue'||p.medi==='pending')||(p.clothing==='not-requested')||(missingDocs.length>3);
+    const docPct=Math.round(((p.docs||[]).length/DOCS.length)*100);
+    const hearingDays=p.nextHearing?Math.ceil((new Date(p.nextHearing)-new Date())/86400000):null;
+    const alerts=getCaseAlerts(p);
+    const redCount=alerts.filter(a=>a.level==='red').length;
+    let statusColor=hasConcerns?(redCount>0?'#c0392b':'#f39c12'):'#27ae60';
     return `<div class="pl-card">
       <div class="pl-hd" onclick="togglePlacement('${p.id}')">
         <div class="pl-av">${initials}</div>
@@ -3711,6 +3745,12 @@ function renderPlacements(){
           ${hasConcerns?'<span class="pl-badge warn">⚠ Action needed</span>':'<span class="pl-badge ok">✓ On track</span>'}
         </div>
         <span style="color:var(--muted);font-size:18px;margin-left:10px">›</span>
+      </div>
+      <!-- Doc progress + court countdown — always visible on card face -->
+      <div style="padding:6px 20px 10px;border-bottom:1px solid var(--cream)">
+        <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-bottom:3px"><span>Docs collected</span><span>${(p.docs||[]).length}/${DOCS.length} (${docPct}%)</span></div>
+        <div style="height:5px;background:var(--cream);border-radius:3px;overflow:hidden;margin-bottom:${hearingDays!==null&&hearingDays>=0?'5':'0'}px"><div style="height:100%;background:${docPct>=80?'var(--sage)':docPct>=50?'var(--gold)':'#e74c3c'};border-radius:3px;width:${docPct}%;transition:width .4s"></div></div>
+        ${hearingDays!==null&&hearingDays>=0?`<div style="font-size:10px;font-weight:700;color:${hearingDays<=3?'#c0392b':hearingDays<=7?'#e67e22':'#888'}">⚖ ${hearingDays===0?'Court hearing TODAY':hearingDays===1?'Court hearing TOMORROW':'Court in '+hearingDays+' days'} — ${p.hearingType||'Hearing'}</div>`:''}
       </div>
       <div class="pl-body" id="plb-${p.id}">
         <div class="pl-grid">
@@ -3736,6 +3776,7 @@ function renderPlacements(){
           <button class="pl-act-btn" onclick="openPlacementForm('${p.id}')">✏ Edit</button>
           <button class="pl-act-btn" onclick="addNote('${p.id}')">+ Add Note</button>
           <button class="pl-act-btn" onclick="window.print()">🖨 Print</button>
+          <button class="pl-act-btn" onclick="exportPlacementPDF('${p.id}')" style="border-color:var(--navy);color:var(--navy)">📤 Export PDF</button>
           <button class="pl-act-btn" onclick="go('vault')" style="border-color:var(--gold);color:var(--gold)">✉ Letter Vault</button>
           <button class="pl-act-btn danger" onclick="deletePlacement('${p.id}')">Remove</button>
         </div>
@@ -5223,6 +5264,263 @@ function autoSavePlacement(){
   }, 800);
 }
 
+// ══ MEDICATION LOG ══
+function addMedLog(placementId, containerId){
+  const date=document.getElementById(containerId+'-med-date')?.value;
+  const time=document.getElementById(containerId+'-med-time')?.value||'';
+  const name=(document.getElementById(containerId+'-med-name')?.value||'').trim();
+  const dose=(document.getElementById(containerId+'-med-dose')?.value||'').trim();
+  const by=(document.getElementById(containerId+'-med-by')?.value||'').trim();
+  if(!date||!name){alert('Date and medication name are required.');return;}
+  const list=getPlacements();
+  const p=list.find(x=>x.id===placementId);
+  if(!p) return;
+  if(!p.medLog) p.medLog=[];
+  p.medLog.unshift({date,time,name,dose,by,logged:new Date().toISOString()});
+  // Auto-add to timeline
+  if(!p.timeline) p.timeline=[];
+  p.timeline.unshift({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:`Medication logged: ${name} ${dose}`});
+  savePlacements(list);
+  // Clear inputs
+  ['med-date','med-time','med-name','med-dose','med-by'].forEach(f=>{const el=document.getElementById(containerId+'-'+f);if(el)el.value='';});
+  renderCasePanel(containerId);
+  setTimeout(()=>switchCpTab(containerId,'medications',document.querySelector(`#${containerId} .cp-tab[onclick*="medications"]`)),50);
+}
+function deleteMedLog(placementId,idx,containerId){
+  if(!confirm('Delete this medication entry?'))return;
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);
+  if(!p||!p.medLog)return;
+  p.medLog.splice(idx,1);savePlacements(list);renderCasePanel(containerId);
+  setTimeout(()=>switchCpTab(containerId,'medications',null),50);
+}
+function exportMedLog(placementId){
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
+  const rows=(p.medLog||[]).map(m=>`<tr><td style="padding:6px 10px;border:1px solid #ccc">${m.date}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.time||'—'}</td><td style="padding:6px 10px;border:1px solid #ccc;font-weight:600">${m.name}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.dose}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.by}</td><td style="padding:6px 10px;border:1px solid #ccc"></td></tr>`).join('');
+  const html=`<!DOCTYPE html><html><head><title>LIC 9052 — Medication Log — ${p.name}</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:30px}h2{font-size:16px;margin-bottom:4px}table{width:100%;border-collapse:collapse;margin-top:16px}th{background:#eee;padding:8px 10px;border:1px solid #ccc;text-align:left;font-size:11px}@media print{body{margin:10px}}</style></head><body>
+    <div style="text-align:center;margin-bottom:20px"><strong style="font-size:14px">MEDICATION ADMINISTRATION RECORD (LIC 9052)</strong><br><span style="font-size:11px;color:#666">California Community Care Licensing Division</span></div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px">
+      <tr><td style="padding:5px;border:1px solid #ccc;width:50%"><strong>Child Name:</strong> ${p.name||'—'}</td><td style="padding:5px;border:1px solid #ccc"><strong>DOB:</strong> ${p.dob||'—'}</td></tr>
+      <tr><td style="padding:5px;border:1px solid #ccc"><strong>Case #:</strong> ${p.caseNum||'—'}</td><td style="padding:5px;border:1px solid #ccc"><strong>Home/Facility:</strong> ___________________</td></tr>
+    </table>
+    <table><thead><tr><th>Date</th><th>Time</th><th>Medication Name</th><th>Dose</th><th>Administered By</th><th>Signature</th></tr></thead><tbody>${rows||'<tr><td colspan="6" style="padding:10px;text-align:center;color:#999">No entries</td></tr>'}</tbody></table>
+    <div style="margin-top:30px;font-size:11px;color:#666">Printed: ${new Date().toLocaleString()} · AuntNancy.org Placement Tracker</div>
+  </body></html>`;
+  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+}
+
+// ══ INCIDENT LOG ══
+function addIncidentLog(placementId, containerId){
+  const date=document.getElementById(containerId+'-inc-date')?.value;
+  const sev=document.getElementById(containerId+'-inc-sev')?.value||'minor';
+  const desc=(document.getElementById(containerId+'-inc-desc')?.value||'').trim();
+  const notified=(document.getElementById(containerId+'-inc-notified')?.value||'').trim();
+  const action=(document.getElementById(containerId+'-inc-action')?.value||'').trim();
+  if(!date||!desc){alert('Date and description are required.');return;}
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
+  if(!p.incidentLog)p.incidentLog=[];
+  p.incidentLog.unshift({date,sev,desc,notified,action,logged:new Date().toISOString()});
+  if(!p.timeline)p.timeline=[];
+  p.timeline.unshift({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:`Incident logged (${sev}): ${desc.substring(0,60)}${desc.length>60?'…':''}`});
+  savePlacements(list);
+  ['inc-date','inc-desc','inc-notified','inc-action'].forEach(f=>{const el=document.getElementById(containerId+'-'+f);if(el)el.value='';});
+  renderCasePanel(containerId);
+  setTimeout(()=>switchCpTab(containerId,'incidents',null),50);
+}
+function deleteIncidentLog(placementId,idx,containerId){
+  if(!confirm('Delete this incident entry?'))return;
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);
+  if(!p||!p.incidentLog)return;p.incidentLog.splice(idx,1);savePlacements(list);
+  renderCasePanel(containerId);setTimeout(()=>switchCpTab(containerId,'incidents',null),50);
+}
+function exportIncidentLog(placementId){
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
+  const latest=(p.incidentLog||[])[0]||{};
+  const html=`<!DOCTYPE html><html><head><title>LIC 624 — Unusual Incident Report — ${p.name}</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:30px}label{font-weight:700;display:block;font-size:11px;color:#555;margin-bottom:2px}p{margin:0 0 14px}input[type=text]{border:none;border-bottom:1px solid #333;width:100%;font-size:12px;padding:2px 0}@media print{body{margin:10px}}</style></head><body>
+    <div style="text-align:center;margin-bottom:20px"><strong style="font-size:15px">UNUSUAL INCIDENT / INJURY REPORT (LIC 624)</strong><br><span style="font-size:11px;color:#666">California Community Care Licensing Division</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+      <div><label>Child Name</label><input type="text" value="${p.name||''}"></div>
+      <div><label>Date of Birth</label><input type="text" value="${p.dob||''}"></div>
+      <div><label>Date of Incident</label><input type="text" value="${latest.date||''}"></div>
+      <div><label>Severity</label><input type="text" value="${latest.sev||''}"></div>
+      <div><label>DCFS Case Number</label><input type="text" value="${p.caseNum||''}"></div>
+      <div><label>CSW Name / Phone</label><input type="text" value="${p.csw||''} ${p.cswph?'/ '+p.cswph:''}"></div>
+    </div>
+    <label>Description of Incident</label><textarea style="width:100%;height:100px;border:1px solid #ccc;padding:6px;font-family:Arial;font-size:12px;margin-bottom:12px">${latest.desc||''}</textarea>
+    <label>Actions Taken</label><textarea style="width:100%;height:60px;border:1px solid #ccc;padding:6px;font-family:Arial;font-size:12px;margin-bottom:12px">${latest.action||''}</textarea>
+    <label>Persons Notified</label><input type="text" value="${latest.notified||''}" style="border:none;border-bottom:1px solid #333;width:100%;font-size:12px;padding:2px 0;margin-bottom:20px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px">
+      <div><label>Caregiver Signature</label><div style="border-bottom:1px solid #333;height:24px"></div></div>
+      <div><label>Date Submitted</label><div style="border-bottom:1px solid #333;height:24px"></div></div>
+    </div>
+    <div style="margin-top:24px;font-size:11px;color:#666">Printed: ${new Date().toLocaleString()} · AuntNancy.org Placement Tracker · All incidents in log: ${(p.incidentLog||[]).length}</div>
+  </body></html>`;
+  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+}
+
+// ══ VISIT LOG ══
+function addVisitLog(placementId, containerId){
+  const date=document.getElementById(containerId+'-vis-date')?.value;
+  const dur=(document.getElementById(containerId+'-vis-dur')?.value||'').trim();
+  const who=(document.getElementById(containerId+'-vis-who')?.value||'').trim();
+  const type=document.getElementById(containerId+'-vis-type')?.value||'supervised';
+  const reaction=document.getElementById(containerId+'-vis-reaction')?.value||'';
+  const concerns=(document.getElementById(containerId+'-vis-concerns')?.value||'').trim();
+  if(!date||!who){alert('Date and visitor name are required.');return;}
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
+  if(!p.visitLog)p.visitLog=[];
+  p.visitLog.unshift({date,dur,who,type,reaction,concerns,logged:new Date().toISOString()});
+  if(!p.timeline)p.timeline=[];
+  p.timeline.unshift({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note:`${type} visit logged — ${who}${dur?' ('+dur+')':''}`});
+  savePlacements(list);
+  ['vis-date','vis-dur','vis-who','vis-concerns'].forEach(f=>{const el=document.getElementById(containerId+'-'+f);if(el)el.value='';});
+  renderCasePanel(containerId);
+  setTimeout(()=>switchCpTab(containerId,'visits',null),50);
+}
+function deleteVisitLog(placementId,idx,containerId){
+  if(!confirm('Delete this visit entry?'))return;
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);
+  if(!p||!p.visitLog)return;p.visitLog.splice(idx,1);savePlacements(list);
+  renderCasePanel(containerId);setTimeout(()=>switchCpTab(containerId,'visits',null),50);
+}
+
+// ══ EXPORT PLACEMENT PDF ══
+function exportPlacementPDF(placementId){
+  const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p){alert('Placement not found.');return;}
+  const days=daysInCare(p.date);
+  const docList=(p.docs||[]).map(d=>DOC_LABELS[d]||d).join(', ')||'None collected';
+  const missing=DOCS.filter(d=>!(p.docs||[]).includes(d)).map(d=>DOC_LABELS[d]||d).join(', ')||'None';
+  const timeline=(p.timeline||[]).slice(0,20).map(t=>`<tr><td style="padding:5px 10px;border:1px solid #e0e0e0;white-space:nowrap;color:#666">${t.date}</td><td style="padding:5px 10px;border:1px solid #e0e0e0">${t.note}</td></tr>`).join('');
+  const html=`<!DOCTYPE html><html><head><title>Placement Summary — ${p.name}</title>
+  <style>body{font-family:Georgia,serif;font-size:13px;margin:40px;color:#111;line-height:1.6}h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin:20px 0 10px;color:#333}table{width:100%;border-collapse:collapse;margin-bottom:16px}td,th{padding:6px 10px;border:1px solid #ddd;font-size:12px}th{background:#f5f5f5;font-weight:700;text-align:left}.label{font-weight:700;color:#555;width:35%}@media print{body{margin:20px}}</style></head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
+    <div><h1>Placement Summary</h1><div style="font-size:12px;color:#666">Generated: ${new Date().toLocaleString()} · AuntNancy.org</div></div>
+    <div style="text-align:right;font-size:11px;color:#999">CONFIDENTIAL — FOR AUTHORIZED USE ONLY<br>Record ID: ${p.id}</div>
+  </div>
+  <h2>Child Information</h2>
+  <table><tr><td class="label">Full Name</td><td>${p.name||'—'}</td><td class="label">Date of Birth</td><td>${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td></tr>
+  <tr><td class="label">Age</td><td>${p.age||'—'}</td><td class="label">Gender</td><td>${p.gender||'—'}</td></tr>
+  <tr><td class="label">Language</td><td>${p.language||'—'}</td><td class="label">ICWA Status</td><td>${p.icwa||'Unknown'}</td></tr></table>
+  <h2>Placement Details</h2>
+  <table><tr><td class="label">Placement Date</td><td>${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td><td class="label">Days in Care</td><td>${days!==null?days+' days':'—'}</td></tr>
+  <tr><td class="label">Placement Type</td><td>${STATUS_LABELS[p.placementType]||'—'}</td><td class="label">SCI Level</td><td>${p.sci?'Level '+p.sci:'None'}</td></tr>
+  <tr><td class="label">Prior Placements</td><td>${p.priorPlacements||'—'}</td><td class="label">Bio Contact</td><td>${STATUS_LABELS[p.bioContact]||'Unknown'}</td></tr>
+  <tr><td class="label">DCFS Case #</td><td>${p.caseNum||'—'}</td><td class="label">Record Created</td><td>${p.createdAt?new Date(p.createdAt).toLocaleString():'—'}</td></tr></table>
+  <h2>Case Team</h2>
+  <table><tr><td class="label">CSW</td><td>${p.csw||'—'}</td><td class="label">CSW Phone</td><td>${p.cswph||'—'}</td></tr>
+  <tr><td class="label">SCSW</td><td>${p.scsw||'—'}</td><td class="label">SCSW Phone</td><td>${p.scswph||'—'}</td></tr>
+  <tr><td class="label">CASA</td><td>${p.casa||'—'}</td><td class="label">Attorney</td><td>${p.attorney||'—'}</td></tr></table>
+  <h2>Education & Health</h2>
+  <table><tr><td class="label">School</td><td>${p.school||'—'} ${p.grade?'· Grade '+p.grade:''}</td><td class="label">Enrollment</td><td>${STATUS_LABELS[p.enrolled]||'—'}</td></tr>
+  <tr><td class="label">IEP</td><td>${p.iep||'—'}</td><td class="label">504 Plan</td><td>${p.iep504||'—'}</td></tr>
+  <tr><td class="label">Medi-Cal</td><td>${STATUS_LABELS[p.medi]||'—'}</td><td class="label">Doctor</td><td>${p.doctor||'—'} ${p.doctorph?'· '+p.doctorph:''}</td></tr>
+  <tr><td class="label">Therapist</td><td>${p.therapist||'—'} ${p.therapistph?'· '+p.therapistph:''}</td><td class="label">Medications</td><td>${p.medications||'None'}</td></tr></table>
+  <h2>Legal</h2>
+  <table><tr><td class="label">Next Hearing</td><td>${p.nextHearing?new Date(p.nextHearing).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'—'}</td><td class="label">Hearing Type</td><td>${p.hearingType||'—'}</td></tr>
+  <tr><td class="label">Judge</td><td>${p.judge||'—'}</td><td class="label">Last Court Date</td><td>${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td></tr></table>
+  <h2>Documents (${(p.docs||[]).length}/${DOCS.length} collected)</h2>
+  <table><tr><td class="label">Collected</td><td style="color:#27ae60">${docList}</td></tr><tr><td class="label">Missing</td><td style="color:#c0392b">${missing}</td></tr></table>
+  <h2>Benefits</h2>
+  <table><tr><td class="label">Clothing Allowance</td><td>${STATUS_LABELS[p.clothing]||'Not set'}</td><td class="label">Emergency Benefits</td><td>${STATUS_LABELS[p.ebenefit]||'Not set'}</td></tr></table>
+  ${p.notes?`<h2>Notes</h2><div style="background:#f9f9f9;border:1px solid #ddd;padding:12px;border-radius:4px;font-size:12px;line-height:1.7;white-space:pre-wrap">${p.notes}</div>`:''}
+  ${timeline?`<h2>Activity Timeline</h2><table><thead><tr><th>Date</th><th>Event</th></tr></thead><tbody>${timeline}</tbody></table>`:''}
+  <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ccc;font-size:11px;color:#999;display:flex;justify-content:space-between">
+    <span>Medication entries: ${(p.medLog||[]).length} · Incidents: ${(p.incidentLog||[]).length} · Visits: ${(p.visitLog||[]).length}</span>
+    <span>AuntNancy.org · Confidential</span>
+  </div>
+  </body></html>`;
+  document.getElementById('pdfTitle').textContent='Placement Summary — '+(p.name||'');
+  document.getElementById('pdfContent').innerHTML=`<div style="font-family:Georgia,serif;font-size:13px;line-height:1.6;color:#111">${html}</div>`;
+  document.getElementById('pdfViewerModal').style.display='flex';
+}
+
+// ══ MULTI-CHILD HOUSEHOLD VIEW ══
+function renderHouseholdOverview(){
+  const list=getPlacements().filter(p=>p.name);
+  const container=document.getElementById('placementList');
+  if(!container||!list.length) return;
+  const today=new Date();
+  const overview=list.map(p=>{
+    const days=daysInCare(p.date);
+    const docPct=Math.round(((p.docs||[]).length/DOCS.length)*100);
+    const alerts=getCaseAlerts(p);
+    const redCount=alerts.filter(a=>a.level==='red').length;
+    const yellowCount=alerts.filter(a=>a.level==='yellow').length;
+    const hearingDays=p.nextHearing?Math.ceil((new Date(p.nextHearing)-today)/86400000):null;
+    let statusColor='#27ae60';let statusLabel='On Track';
+    if(redCount>0){statusColor='#c0392b';statusLabel=redCount+' Urgent';}
+    else if(yellowCount>0){statusColor='#f39c12';statusLabel=yellowCount+' Pending';}
+    return `<div onclick="highlightPlacement('${p.id}')" style="background:white;border:1px solid var(--border);border-left:4px solid ${statusColor};border-radius:6px;padding:12px 14px;cursor:pointer;transition:all .15s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:var(--ink);flex-shrink:0">${p.name[0].toUpperCase()}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}${p.age?' · Age '+p.age:''}</div>
+          <div style="font-size:10px;color:var(--muted)">${days!==null?days+' days in care':'—'} ${p.sci?'· SCI '+p.sci:''}</div>
+        </div>
+        <span style="font-size:9px;font-weight:800;padding:2px 8px;border-radius:10px;background:${statusColor}18;color:${statusColor};border:1px solid ${statusColor}33;white-space:nowrap">${statusLabel}</span>
+      </div>
+      <!-- Doc progress bar -->
+      <div style="margin-bottom:6px">
+        <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--muted);margin-bottom:3px"><span>Documents</span><span>${(p.docs||[]).length}/${DOCS.length}</span></div>
+        <div style="height:5px;background:var(--cream);border-radius:3px;overflow:hidden"><div style="height:100%;background:${docPct>=80?'var(--sage)':docPct>=50?'var(--gold)':'#e74c3c'};border-radius:3px;width:${docPct}%"></div></div>
+      </div>
+      <!-- Key indicators -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${p.enrolled?`<span style="font-size:9.5px;padding:2px 7px;border-radius:3px;background:${p.enrolled==='yes'?'rgba(42,102,73,.1)':'rgba(192,57,43,.1)'};color:${p.enrolled==='yes'?'var(--sage)':'#c0392b'}">School: ${STATUS_LABELS[p.enrolled]||p.enrolled}</span>`:''}
+        ${p.medi?`<span style="font-size:9.5px;padding:2px 7px;border-radius:3px;background:${p.medi==='active'?'rgba(42,102,73,.1)':'rgba(192,57,43,.1)'};color:${p.medi==='active'?'var(--sage)':'#c0392b'}">Medi-Cal: ${STATUS_LABELS[p.medi]||p.medi}</span>`:''}
+        ${hearingDays!==null?`<span style="font-size:9.5px;padding:2px 7px;border-radius:3px;background:${hearingDays<=7?'rgba(192,57,43,.1)':hearingDays<=14?'rgba(243,156,18,.1)':'rgba(42,102,73,.1)'};color:${hearingDays<=7?'#c0392b':hearingDays<=14?'#e67e22':'var(--sage)'}">⚖ Hearing in ${hearingDays}d</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  return overview;
+}
+
+function highlightPlacement(id){
+  const el=document.getElementById('plb-'+id);
+  if(el){
+    const hd=el.previousElementSibling;if(hd) hd.click();
+    setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  }
+}
+
+// ══ ENHANCED PUSH NOTIFICATIONS ══
+function scheduleAllPlacementNotifications(){
+  if(!('Notification' in window)||Notification.permission!=='granted') return;
+  const list=getPlacements();
+  const now=Date.now();
+  list.forEach(p=>{
+    if(!p.name) return;
+    // Court date alerts at 14 days, 7 days, 1 day
+    if(p.nextHearing){
+      const hearingTime=new Date(p.nextHearing).getTime();
+      [14,7,1].forEach(daysOut=>{
+        const fireAt=hearingTime-(daysOut*24*60*60*1000);
+        const delay=fireAt-now;
+        if(delay>0&&delay<2147483647){
+          setTimeout(()=>{
+            new Notification(`⚖️ Court hearing in ${daysOut} day${daysOut>1?'s':''} — ${p.name}`,{
+              body:`${p.hearingType||'Hearing'} · ${new Date(p.nextHearing).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}`,
+              tag:`court-${p.id}-${daysOut}`,icon:'/IMG_3066.jpeg'
+            });
+          },delay);
+        }
+      });
+    }
+    // Medication reminders (daily at 8am if meds are listed)
+    if(p.medications&&p.medications!=='None'){
+      const tmr=new Date();tmr.setDate(tmr.getDate()+1);tmr.setHours(8,0,0,0);
+      const delay=tmr.getTime()-now;
+      if(delay>0&&delay<86400000*2){
+        setTimeout(()=>{
+          new Notification(`💊 Medication reminder — ${p.name}`,{
+            body:p.medications.substring(0,80),
+            tag:`med-${p.id}`,icon:'/IMG_3066.jpeg'
+          });
+        },delay);
+      }
+    }
+  });
+}
+
 function toggleLettersDrop(containerId){
   const dd=document.getElementById('lettersDrop_'+containerId);
   if(!dd) return;
@@ -6342,14 +6640,17 @@ function scheduleAppointmentNotifications(){
 
 
 const CP_TABS = [
-  {id:'medical',   label:'🏥 Medical/Dental'},
-  {id:'education', label:'📚 Education'},
-  {id:'legal',     label:'⚖️ Legal'},
-  {id:'benefits',  label:'💰 Benefits'},
-  {id:'documents', label:'📄 Documents'},
-  {id:'screening', label:'🔍 Screening'},
-  {id:'loc',       label:'📊 LOC'},
-  {id:'notes',     label:'📝 Notes'},
+  {id:'medical',     label:'🏥 Medical/Dental'},
+  {id:'education',   label:'📚 Education'},
+  {id:'legal',       label:'⚖️ Legal'},
+  {id:'benefits',    label:'💰 Benefits'},
+  {id:'documents',   label:'📄 Documents'},
+  {id:'medications', label:'💊 Medications'},
+  {id:'incidents',   label:'🚨 Incidents'},
+  {id:'visits',      label:'👨‍👩‍👧 Visits'},
+  {id:'screening',   label:'🔍 Screening'},
+  {id:'loc',         label:'📊 LOC'},
+  {id:'notes',       label:'📝 Notes'},
 ];
 const CP_TAB_PROMPTS = {
   medical: 'Allergies, conditions, medications, primary doctor, Medi-Cal status, recent appointments, blood type…',
@@ -6393,9 +6694,13 @@ function renderCasePanel(containerId){
           <div style="font-size:13px;font-weight:700;color:white">${p.name||'No placements yet'}</div>
           <div style="font-size:10px;color:rgba(255,255,255,.45)">${days!==null?days+' days in care':''} ${p.age?'· Age '+p.age:''}</div>
         </div>
-        ${list.length>1?`<select onchange="switchCasePanel('${containerId}',this.value)" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:3px 6px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10px;max-width:120px">${list.map((pl,i)=>`<option value="${i}"${i===idx?' selected':''}>${pl.name||'Child '+(i+1)}</option>`).join('')}</select>`:''}
       </div>
       <div style="display:flex;gap:5px;align-items:center;flex-shrink:0">
+        ${list.length>1?`
+        <button onclick="switchCasePanel('${containerId}',${idx>0?idx-1:list.length-1})" title="Previous record" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:white;width:26px;height:26px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center">‹</button>
+        <span style="font-size:10px;color:rgba(255,255,255,.45);min-width:32px;text-align:center">${idx+1}/${list.length}</span>
+        <button onclick="switchCasePanel('${containerId}',${idx<list.length-1?idx+1:0})" title="Next record" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:white;width:26px;height:26px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center">›</button>
+        `:''}
         <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:4px 10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer">+ New</button>
         ${p.name?`<button onclick="openPlacementForm('${p.id}')" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;padding:4px 8px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;cursor:pointer">✏ Edit</button>`:''}
         <span style="font-size:9px;color:rgba(255,255,255,.25)" title="Synced to cloud">☁</span>
@@ -6477,6 +6782,108 @@ function renderCasePanel(containerId){
       </div>
       <div style="margin-top:10px;font-size:10.5px;color:var(--muted)">${(p.docs||[]).length}/${DOCS.length} collected · Edit intake to update</div>
     </div>
+    </div>
+    <!-- MEDICATIONS TAB (LIC 9052) -->
+    <div class="cp-pane" id="${containerId}-medications">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Required for licensed foster homes. Documents every medication administered.</div>
+        <button onclick="exportMedLog('${p.id}')" style="background:var(--ink);color:white;border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">🖨 Print LIC 9052</button>
+      </div>
+      <div style="background:var(--cream);border-radius:6px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Log Medication</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Date</label><input type="date" id="${containerId}-med-date" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Time</label><input type="time" id="${containerId}-med-time" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Medication</label><input type="text" id="${containerId}-med-name" placeholder="e.g. Adderall 10mg" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Dose Given</label><input type="text" id="${containerId}-med-dose" placeholder="e.g. 10mg" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div style="grid-column:span 2"><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Administered By</label><input type="text" id="${containerId}-med-by" placeholder="Caregiver name" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+        </div>
+        <button onclick="addMedLog('${p.id}','${containerId}')" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Add Entry</button>
+      </div>
+      <div id="${containerId}-med-log">
+        ${!(p.medLog||[]).length?'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No medication entries yet.</div>':
+        `<table style="width:100%;border-collapse:collapse;font-size:11.5px">
+          <thead><tr style="background:var(--cream)">
+            <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)">Date / Time</th>
+            <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)">Medication</th>
+            <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)">Dose</th>
+            <th style="padding:6px 8px;text-align:left;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)">By</th>
+            <th style="border-bottom:1px solid var(--border)"></th>
+          </tr></thead>
+          <tbody>${(p.medLog||[]).map((m,i)=>`<tr style="border-bottom:1px solid var(--cream)">
+            <td style="padding:6px 8px;color:var(--muted);white-space:nowrap;font-size:11px">${m.date}${m.time?' '+m.time:''}</td>
+            <td style="padding:6px 8px;font-weight:600;color:var(--ink)">${m.name}</td>
+            <td style="padding:6px 8px">${m.dose}</td>
+            <td style="padding:6px 8px">${m.by}</td>
+            <td style="padding:4px 8px"><button onclick="deleteMedLog('${p.id}',${i},'${containerId}')" style="background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px" title="Delete">✕</button></td>
+          </tr>`).join('')}</tbody>
+        </table>`}
+      </div>
+    </div>
+
+    <!-- INCIDENTS TAB (LIC 624) -->
+    <div class="cp-pane" id="${containerId}-incidents">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Document unusual incidents, injuries, or events. Report within 24–72 hours per CCLD regulations.</div>
+        <button onclick="exportIncidentLog('${p.id}')" style="background:var(--ink);color:white;border:none;padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">🖨 Print LIC 624</button>
+      </div>
+      <div style="background:#fdf3f2;border:1px solid rgba(192,57,43,.15);border-radius:6px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#c0392b;margin-bottom:8px">Log Incident</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Date</label><input type="date" id="${containerId}-inc-date" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Severity</label><select id="${containerId}-inc-sev" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white"><option value="minor">Minor</option><option value="moderate">Moderate</option><option value="serious">Serious</option><option value="critical">Critical — Report within 24h</option></select></div>
+          <div style="grid-column:span 2"><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Description</label><textarea id="${containerId}-inc-desc" placeholder="What happened, where, who was involved…" style="width:100%;height:64px;resize:vertical;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></textarea></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Who Was Notified</label><input type="text" id="${containerId}-inc-notified" placeholder="CSW, SCSW, agency…" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Actions Taken</label><input type="text" id="${containerId}-inc-action" placeholder="First aid, 911, called CSW…" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+        </div>
+        <button onclick="addIncidentLog('${p.id}','${containerId}')" style="background:#c0392b;color:white;border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Log Incident</button>
+      </div>
+      <div id="${containerId}-inc-log">
+        ${!(p.incidentLog||[]).length?'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No incidents logged.</div>':
+        (p.incidentLog||[]).map((inc,i)=>`<div style="background:${inc.sev==='critical'?'#fdf3f2':inc.sev==='serious'?'#fff8ec':'white'};border:1px solid ${inc.sev==='critical'?'rgba(192,57,43,.25)':inc.sev==='serious'?'rgba(243,156,18,.25)':'var(--border)'};border-radius:6px;padding:10px 12px;margin-bottom:8px;position:relative">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+            <span style="font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;background:${inc.sev==='critical'?'#c0392b':inc.sev==='serious'?'#e67e22':inc.sev==='moderate'?'#f39c12':'#95a5a6'};color:white;padding:2px 7px;border-radius:3px">${inc.sev}</span>
+            <span style="font-size:11px;color:var(--muted)">${inc.date}</span>
+          </div>
+          <div style="font-size:12.5px;color:var(--text);margin-bottom:4px;line-height:1.5">${inc.desc}</div>
+          ${inc.notified?`<div style="font-size:11px;color:var(--muted)">📞 Notified: ${inc.notified}</div>`:''}
+          ${inc.action?`<div style="font-size:11px;color:var(--muted)">✅ Action: ${inc.action}</div>`:''}
+          <button onclick="deleteIncidentLog('${p.id}',${i},'${containerId}')" style="position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px">✕</button>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- VISITS TAB -->
+    <div class="cp-pane" id="${containerId}-visits">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.5">Document bio family visits, sibling visits, and CASA contacts for court reporting.</div>
+      <div style="background:rgba(42,102,73,.06);border:1px solid rgba(42,102,73,.15);border-radius:6px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);margin-bottom:8px">Log Visit</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Date</label><input type="date" id="${containerId}-vis-date" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Duration</label><input type="text" id="${containerId}-vis-dur" placeholder="e.g. 2 hours" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Visitor(s)</label><input type="text" id="${containerId}-vis-who" placeholder="Mom, Dad, sibling…" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Visit Type</label><select id="${containerId}-vis-type" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white"><option value="supervised">Supervised</option><option value="unsupervised">Unsupervised</option><option value="virtual">Virtual</option><option value="sibling">Sibling Visit</option><option value="casa">CASA Contact</option></select></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Child's Reaction</label><select id="${containerId}-vis-reaction" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px;background:white"><option value="">Select…</option><option value="positive">Positive / Happy</option><option value="neutral">Neutral / Calm</option><option value="anxious">Anxious / Nervous</option><option value="upset">Upset / Crying</option><option value="withdrawn">Withdrawn</option><option value="acting-out">Acting Out</option></select></div>
+          <div><label style="font-size:10px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px">Concerns</label><input type="text" id="${containerId}-vis-concerns" placeholder="None, or describe…" style="width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:4px;font-family:'DM Sans',sans-serif;font-size:12px"></div>
+        </div>
+        <button onclick="addVisitLog('${p.id}','${containerId}')" style="background:var(--sage);color:white;border:none;padding:6px 14px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;cursor:pointer">+ Log Visit</button>
+      </div>
+      <div id="${containerId}-vis-log">
+        ${!(p.visitLog||[]).length?'<div style="font-size:12px;color:var(--muted);text-align:center;padding:16px">No visits logged.</div>':
+        (p.visitLog||[]).map((v,i)=>`<div style="background:white;border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-bottom:8px;position:relative">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:700;color:var(--ink)">${v.date}</span>
+            <span style="font-size:9px;background:rgba(42,102,73,.1);color:var(--sage);padding:2px 7px;border-radius:3px;font-weight:700;text-transform:uppercase">${v.type||'visit'}</span>
+            <span style="font-size:11px;color:var(--muted)">${v.dur||''}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text);margin-bottom:3px">👥 ${v.who}</div>
+          ${v.reaction?`<div style="font-size:11px;color:var(--muted)">Child reaction: ${v.reaction}</div>`:''}
+          ${v.concerns&&v.concerns.toLowerCase()!=='none'?`<div style="font-size:11px;color:#c0392b;margin-top:3px">⚠ ${v.concerns}</div>`:''}
+          <button onclick="deleteVisitLog('${p.id}',${i},'${containerId}')" style="position:absolute;top:8px;right:8px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px">✕</button>
+        </div>`).join('')}
+      </div>
+    </div>
+
     <!-- SCREENING TOOLS -->
     <div class="cp-pane" id="${containerId}-screening">
       <div style="font-size:11.5px;font-weight:700;color:var(--ink);margin-bottom:3px">Non-Clinical Screening Tools</div>
@@ -7169,7 +7576,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   applyRoleGating();
   initANWall();
   scheduleAppointmentNotifications();
-  // Always route via go() — never rely on hardcoded 'on' class
+  scheduleAllPlacementNotifications();
   const hash=window.location.hash.replace('#','');
   // Ensure all pages start hidden
   document.querySelectorAll('.page').forEach(p=>{p.style.display='none';});
@@ -7298,9 +7705,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       <!-- NOTES -->
       <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:120px;min-height:100px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm);line-height:1.6" placeholder="Behaviors, concerns, upcoming events, anything important…"></textarea></div>
 
-      <div style="display:flex;gap:9px;margin-top:20px;flex-wrap:wrap">
+      <div style="display:flex;gap:9px;margin-top:20px;flex-wrap:wrap;align-items:center;padding-top:16px;border-top:1px solid var(--border)">
         <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
         <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
+        <button onclick="go('dashboard');showDP('placements',document.querySelector('.dash-ni:nth-child(2))'));cancelPlacementForm()" style="background:transparent;border:1px solid rgba(25,55,90,.25);color:var(--navy);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">🏠 Dashboard</button>
+        <button id="pfDeleteBtn" style="display:none;background:transparent;border:1px solid #c0392b;color:#c0392b;padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-left:auto" onclick="deletePlacementFromForm()">🗑 Delete Record</button>
       </div>
     </div>
   </div>
