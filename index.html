@@ -579,20 +579,78 @@ img{max-width:100%}
 .dash-meta{margin-left:auto;text-align:right}
 .dash-since{font-size:14.0px;color:#444;margin-bottom:3px}
 .dash-loc{font-size:15.0px;color:#a0d4b0}
-.dash-body{padding:36px 0;background:var(--warm)}
-.dash-in{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:start}
-.dash-nav{background:white;border-radius:var(--r);border:1px solid var(--border);overflow:hidden;margin-bottom:14px}
-.dash-ni{display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;border-bottom:1px solid var(--cream);font-size:19.0px;color:var(--muted);border-left:3px solid transparent;transition:all .2s}
-.dash-ni:last-child{border-bottom:none}
-.dash-ni:hover{color:var(--ink);background:var(--warm)}
-.dash-ni.on{color:var(--ink);font-weight:600;border-left-color:var(--gold);background:var(--warm)}
-.dp{display:none}.dp.on{display:block;animation:fadeIn .25s ease}
-.dp-title{font-size:26px;color:var(--ink);margin-bottom:4px}
-.dp-sub{font-size:19.0px;color:var(--muted);margin-bottom:22px;line-height:1.6}
-.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
-.ds{background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;text-align:center}
-.ds-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);line-height:1}
-.ds-lbl{font-size:14.0px;color:var(--muted);margin-top:2px}
+/* ── DASHBOARD REDESIGN ── */
+.dash-body{background:#f0ece4;min-height:calc(100vh - 72px);padding:0}
+.dash-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 72px)}
+.dash-sidebar{background:#0c0a08;display:flex;flex-direction:column;padding:0;position:sticky;top:72px;height:calc(100vh - 72px);overflow-y:auto}
+.dash-user-block{padding:24px 20px 18px;border-bottom:1px solid rgba(255,255,255,.07)}
+.dash-av-lg{width:48px;height:48px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#0c0a08;margin-bottom:10px}
+.dash-user-name{font-size:14px;font-weight:700;color:white;margin-bottom:2px}
+.dash-user-role{font-size:10.5px;color:rgba(255,255,255,.4);margin-bottom:3px}
+.dash-user-loc{font-size:10px;color:rgba(255,255,255,.3)}
+.dash-nav{padding:12px 0;flex:1}
+.dash-ni{display:flex;align-items:center;gap:10px;padding:10px 20px;cursor:pointer;font-size:12.5px;color:rgba(255,255,255,.5);transition:all .15s;border-left:3px solid transparent;user-select:none}
+.dash-ni span{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.dash-ni:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05)}
+.dash-ni.on{color:white;font-weight:600;border-left-color:var(--gold);background:rgba(200,146,58,.1)}
+.dash-sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07)}
+.dash-main{padding:28px 32px;overflow-y:auto}
+.dash-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.dash-page-title{font-size:22px;font-weight:800;color:#0c0a08;letter-spacing:-.02em}
+.dash-page-sub{font-size:12px;color:#8a7e6e;margin-top:2px}
+.dp{display:none}.dp.on{display:block}
+/* Stat cards */
+.dash-stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.dash-stat{background:white;border-radius:10px;padding:16px 18px;border:1px solid #e8e0d4}
+.dash-stat-num{font-size:28px;font-weight:800;color:#0c0a08;line-height:1;margin-bottom:3px}
+.dash-stat-lbl{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e}
+.dash-stat-delta{font-size:11px;color:var(--sage);margin-top:4px}
+/* Widget cards */
+.dash-widget{background:white;border-radius:10px;border:1px solid #e8e0d4;overflow:hidden;margin-bottom:14px}
+.dash-widget-hd{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid #f0ece4}
+.dash-widget-title{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#0c0a08;display:flex;align-items:center;gap:7px}
+.dash-widget-action{font-size:11px;color:var(--gold);font-weight:700;cursor:pointer;background:transparent;border:none;font-family:'DM Sans',sans-serif;padding:3px 8px;border-radius:4px;transition:background .15s}
+.dash-widget-action:hover{background:rgba(200,146,58,.1)}
+.dash-widget-body{padding:13px 16px}
+.dash-widget-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f8f4ec;font-size:12.5px;color:#333}
+.dash-widget-row:last-child{border-bottom:none}
+.dash-widget-row .label{color:#0c0a08;font-weight:500}
+.dash-widget-row .meta{font-size:11px;color:#8a7e6e}
+.dash-widget-badge{font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:10px}
+.badge-red{background:#fdf3f2;color:#c0392b;border:1px solid rgba(192,57,43,.2)}
+.badge-orange{background:#fff8ec;color:#e67e22;border:1px solid rgba(230,126,34,.2)}
+.badge-green{background:#edf7ee;color:#27ae60;border:1px solid rgba(39,174,96,.2)}
+.badge-gold{background:rgba(200,146,58,.1);color:#9a6f1f;border:1px solid rgba(200,146,58,.2)}
+.badge-muted{background:#f5f5f5;color:#8a7e6e;border:1px solid #e0e0e0}
+.dash-empty{font-size:12px;color:#8a7e6e;font-style:italic;padding:6px 0}
+/* Quick action buttons */
+.dash-qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.dash-qa{background:white;border:1px solid #e8e0d4;border-radius:10px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .15s;text-align:left}
+.dash-qa:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(200,146,58,.12)}
+.dash-qa-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.dash-qa-label{font-size:13px;font-weight:700;color:#0c0a08;margin-bottom:1px}
+.dash-qa-sub{font-size:11px;color:#8a7e6e}
+/* Form buttons */
+.form-btn{display:block;width:100%;text-align:left;padding:11px 14px;background:white;border:1px solid #e8e0d4;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:#0c0a08;cursor:pointer;transition:all .15s;line-height:1.3}
+.form-btn:hover{background:#fffdf7;border-color:var(--gold)}
+/* Letter type buttons */
+.letter-type-btn{background:white;border:1px solid #e8e0d4;border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;transition:all .15s;width:100%}
+.letter-type-btn:hover{border-color:var(--gold);background:#fffdf7}
+/* Policy cards */
+.policy-card{background:white;border:1px solid #e8e0d4;border-radius:10px;padding:16px 18px;margin-bottom:10px}
+/* Mobile */
+@media(max-width:768px){
+  .dash-layout{grid-template-columns:1fr}
+  .dash-sidebar{position:static;height:auto;flex-direction:row;flex-wrap:wrap;padding:8px}
+  .dash-user-block{display:none}
+  .dash-nav{display:flex;flex-wrap:wrap;padding:0;flex:unset;width:100%}
+  .dash-ni{padding:8px 12px;font-size:11.5px;border-left:none;border-bottom:2px solid transparent;flex:1;min-width:70px;justify-content:center}
+  .dash-ni.on{border-left:none;border-bottom-color:var(--gold)}
+  .dash-sidebar-footer{display:none}
+  .dash-stat-row{grid-template-columns:1fr 1fr}
+  .dash-main{padding:16px}
+  .dash-qa-grid{grid-template-columns:1fr}
+}
 .dl-list{display:flex;flex-direction:column;gap:9px}
 .dl-item{background:white;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:12px}
 .dl-ico{font-size:15.0px;flex-shrink:0}
@@ -827,11 +885,7 @@ img{max-width:100%}
   /* Dashboard */
   .dash-hero-in{flex-wrap:wrap;gap:12px;padding:0 16px}
   .dash-meta{display:none}
-  .dash-in{grid-template-columns:1fr;padding:0 16px}
-  .dash-nav{display:flex;flex-wrap:wrap;gap:0}
-  .dash-ni{padding:9px 12px;font-size:12px;flex:1;min-width:80px;justify-content:center;text-align:center;border-left:none;border-bottom:3px solid transparent}
-  .dash-ni.on{border-left:none;border-bottom-color:var(--gold)}
-  .dash-stats{grid-template-columns:repeat(2,1fr)}
+  /* mobile dash handled above */
   .prof-grid{grid-template-columns:1fr}
   /* Feedback */
   .fb-grid{grid-template-columns:1fr}
@@ -1800,122 +1854,198 @@ img{max-width:100%}
     </div>
   </div>
   <div class="dash-body">
-    <div class="dash-in">
-      <div>
-        <div class="dash-nav">
+    <div class="dash-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="dash-sidebar">
+        <div class="dash-user-block">
+          <div class="dash-av-lg" id="dashAv">?</div>
+          <div class="dash-user-name" id="dashName">—</div>
+          <div class="dash-user-role" id="dashRole">—</div>
+          <div class="dash-user-loc" id="dashLoc">—</div>
+        </div>
+        <nav class="dash-nav">
           <div class="dash-ni on" onclick="showDP('overview',this)"><span>🏠</span>Overview</div>
           <div class="dash-ni" onclick="showDP('placements',this)"><span>👶</span>Placements</div>
-          <div class="dash-ni" onclick="showDP('letters',this)"><span>✉️</span>Letters</div>
+          <div class="dash-ni" onclick="showDP('letters',this)"><span>✉️</span>Letter Builder</div>
           <div class="dash-ni" onclick="showDP('forms',this)"><span>📋</span>Forms</div>
           <div class="dash-ni" onclick="showDP('policy',this)"><span>📖</span>Policy Guide</div>
           <div class="dash-ni" onclick="showDP('templates',this)"><span>📄</span>Templates</div>
           <div class="dash-ni" onclick="showDP('saved',this)"><span>🔖</span>Saved</div>
           <div class="dash-ni" onclick="showDP('profile',this)"><span>👤</span>Profile</div>
           <div class="dash-ni" onclick="showDP('settings',this)"><span>⚙️</span>Settings</div>
+        </nav>
+        <div class="dash-sidebar-footer">
+          <a href="https://lellie.com" style="display:flex;align-items:center;gap:8px;text-decoration:none;background:rgba(200,146,58,.12);border:1px solid rgba(200,146,58,.2);border-radius:7px;padding:10px 12px">
+            <span style="font-size:18px">📓</span>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--gold)">Shop Lellie.com</div>
+              <div style="font-size:10px;color:rgba(255,255,255,.35)">Keeps this free</div>
+            </div>
+          </a>
         </div>
-        <div style="background:rgba(200,146,58,.07);border:1px solid rgba(200,146,58,.16);border-radius:var(--r);padding:14px;text-align:center">
-          <div style="font-size:20px;margin-bottom:5px">📓</div>
-          <div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:3px">Support the mission</div>
-          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5">Journal purchases keep all tools free.</div>
-          <a href="https://lellie.com" style="display:block;background:var(--gold);color:var(--ink);padding:7px;border-radius:4px;font-size:12px;font-weight:700;text-align:center">Shop Lellie.com →</a>
-        </div>
-      </div>
-      <div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="dash-main">
+
+        <!-- OVERVIEW -->
         <div class="dp on" id="dp-overview">
-          <h2 class="dp-title">Dashboard</h2>
-          <p class="dp-sub" id="dpSub">Your foster care command center.</p>
-          <div class="dash-stats" style="margin-bottom:20px">
-            <div class="ds"><div class="ds-num" id="statDl">0</div><div class="ds-lbl">Downloads</div></div>
-            <div class="ds"><div class="ds-num" id="statSv">0</div><div class="ds-lbl">Saved</div></div>
-            <div class="ds"><div class="ds-num" id="statPl">0</div><div class="ds-lbl">Placements</div></div>
-            <div class="ds"><div class="ds-num">100%</div><div class="ds-lbl">Free</div></div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid var(--sage)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--sage)">👨‍👩‍👧 Upcoming Visits</div>
-                <button onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))" style="font-size:9px;color:var(--sage);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">View all →</button>
-              </div>
-              <div id="dashUpcomingVisits" style="font-size:12px;color:var(--muted)">—</div>
+          <div class="dash-topbar">
+            <div>
+              <div class="dash-page-title">Dashboard</div>
+              <div class="dash-page-sub" id="dpSub">Your foster care command center.</div>
             </div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid var(--navy)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--navy)">📅 Follow-Up Dates</div>
-                <button onclick="openApptModal()" style="font-size:9px;color:var(--navy);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">+ Add</button>
-              </div>
-              <div id="dashFollowUps" style="font-size:12px;color:var(--muted)">—</div>
-            </div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid var(--plum)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--plum)">📚 School Tasks</div>
-              </div>
-              <div id="dashSchoolTasks" style="font-size:12px;color:var(--muted)">—</div>
-            </div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid var(--rust)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)">👗 Clothing Needs</div>
-                <button onclick="openLetterBuilder('clothing')" style="font-size:9px;color:var(--rust);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">Request →</button>
-              </div>
-              <div id="dashClothingNeeds" style="font-size:12px;color:var(--muted)">—</div>
-            </div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid #9a6f1f">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9a6f1f">💊 Medication Notes</div>
-              </div>
-              <div id="dashMedNotes" style="font-size:12px;color:var(--muted)">—</div>
-            </div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;border-top:3px solid var(--ink)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-                <div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink)">✉️ Letters</div>
-                <button onclick="openLetterBuilder()" style="font-size:9px;color:var(--ink);background:transparent;border:none;cursor:pointer;font-family:'DM Sans',sans-serif">Build →</button>
-              </div>
-              <div id="dashLetters" style="font-size:12px;color:var(--muted)">—</div>
+            <div style="display:flex;gap:8px">
+              <button onclick="openLetterBuilder()" style="background:var(--ink);color:white;border:none;padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">✉ Build Letter</button>
+              <button onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))" style="background:var(--gold);color:var(--ink);border:none;padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px">👶 Tracker</button>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px">
-            <div onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:20px">👶</span><div><div style="font-size:12px;font-weight:600;color:var(--ink)">Placement Tracker</div><div style="font-size:11px;color:var(--muted)" id="plQuickLbl">Track children in your home</div></div></div>
-            <div onclick="openLetterBuilder()" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:20px">✉️</span><div><div style="font-size:12px;font-weight:600;color:var(--ink)">Letter Builder</div><div style="font-size:11px;color:var(--muted)">Interactive · Policy-cited</div></div></div>
-            <div onclick="showDP('forms',document.querySelector('.dash-ni:nth-child(4)'))" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:20px">📋</span><div><div style="font-size:12px;font-weight:600;color:var(--ink)">Forms & Checklists</div><div style="font-size:11px;color:var(--muted)">Printable · All DCFS forms</div></div></div>
-            <div onclick="showDP('policy',document.querySelector('.dash-ni:nth-child(5)'))" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;cursor:pointer;display:flex;align-items:center;gap:10px" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'"><span style="font-size:20px">📖</span><div><div style="font-size:12px;font-weight:600;color:var(--ink)">Policy Guide</div><div style="font-size:11px;color:var(--muted)">Plain English · Your rights</div></div></div>
+
+          <!-- STAT ROW -->
+          <div class="dash-stat-row">
+            <div class="dash-stat">
+              <div class="dash-stat-num" id="statPl">0</div>
+              <div class="dash-stat-lbl">Placements</div>
+              <div class="dash-stat-delta" id="statPlDelta">Active</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num" id="statLetters">0</div>
+              <div class="dash-stat-lbl">Letters Sent</div>
+              <div class="dash-stat-delta">This session</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num" id="statDl">0</div>
+              <div class="dash-stat-lbl">Downloads</div>
+              <div class="dash-stat-delta">Total</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num">100%</div>
+              <div class="dash-stat-lbl">Always Free</div>
+              <div class="dash-stat-delta">No ads, no cost</div>
+            </div>
           </div>
-          <h4 style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:.08em;text-transform:uppercase">Recent Downloads</h4>
-          <div class="dl-list" id="recentList"></div>
+
+          <!-- WIDGET GRID -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span style="color:var(--sage)">👨‍👩‍👧</span> Upcoming Visits</div>
+                <button class="dash-widget-action" onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))">View all →</button>
+              </div>
+              <div class="dash-widget-body" id="dashUpcomingVisits"><div class="dash-empty">No visits scheduled</div></div>
+            </div>
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span style="color:var(--navy)">📅</span> Follow-Up Dates</div>
+                <button class="dash-widget-action" onclick="openApptModal()">+ Add</button>
+              </div>
+              <div class="dash-widget-body" id="dashFollowUps"><div class="dash-empty">No follow-ups scheduled</div></div>
+            </div>
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span style="color:#7c5cbf">📚</span> School Tasks</div>
+              </div>
+              <div class="dash-widget-body" id="dashSchoolTasks"><div class="dash-empty">No pending tasks</div></div>
+            </div>
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span style="color:#c0392b">👗</span> Clothing Needs</div>
+                <button class="dash-widget-action" onclick="openLetterBuilder('clothing')">Request →</button>
+              </div>
+              <div class="dash-widget-body" id="dashClothingNeeds"><div class="dash-empty">All addressed</div></div>
+            </div>
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span style="color:#9a6f1f">💊</span> Medication Notes</div>
+              </div>
+              <div class="dash-widget-body" id="dashMedNotes"><div class="dash-empty">No medications on file</div></div>
+            </div>
+
+            <div class="dash-widget">
+              <div class="dash-widget-hd">
+                <div class="dash-widget-title"><span>✉️</span> Letters</div>
+                <button class="dash-widget-action" onclick="openLetterBuilder()">Build →</button>
+              </div>
+              <div class="dash-widget-body" id="dashLetters"><div class="dash-empty">No letters yet</div></div>
+            </div>
+
+          </div>
+
+          <!-- QUICK ACCESS -->
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin-bottom:12px">Quick Access</div>
+          <div class="dash-qa-grid">
+            <div class="dash-qa" onclick="showDP('placements',document.querySelector('.dash-ni:nth-child(2)'))">
+              <div class="dash-qa-icon" style="background:rgba(200,146,58,.1)">👶</div>
+              <div><div class="dash-qa-label">Placement Tracker</div><div class="dash-qa-sub" id="plQuickLbl">Case management tool</div></div>
+            </div>
+            <div class="dash-qa" onclick="openLetterBuilder()">
+              <div class="dash-qa-icon" style="background:#0c0a08">✉️</div>
+              <div><div class="dash-qa-label">Letter Builder</div><div class="dash-qa-sub">Policy-cited · Printable</div></div>
+            </div>
+            <div class="dash-qa" onclick="showDP('forms',document.querySelector('.dash-ni:nth-child(4)'))">
+              <div class="dash-qa-icon" style="background:rgba(42,102,73,.1)">📋</div>
+              <div><div class="dash-qa-label">Forms & Checklists</div><div class="dash-qa-sub">15 printable forms</div></div>
+            </div>
+            <div class="dash-qa" onclick="showDP('policy',document.querySelector('.dash-ni:nth-child(5)'))">
+              <div class="dash-qa-icon" style="background:rgba(25,55,90,.1)">📖</div>
+              <div><div class="dash-qa-label">Policy Guide</div><div class="dash-qa-sub">Plain English · Your rights</div></div>
+            </div>
+          </div>
+
+          <div style="font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin:20px 0 12px">Recent Downloads</div>
+          <div id="recentList"></div>
         </div>
 
+        <!-- PLACEMENTS -->
         <div class="dp" id="dp-placements">
-          <div style="margin-bottom:6px"><h2 class="dp-title">Placement Tracker</h2></div>
-          <p class="dp-sub">Track each child in your home — records sync securely to your account.</p>
+          <div class="dash-topbar">
+            <div>
+              <div class="dash-page-title">Placement Tracker</div>
+              <div class="dash-page-sub">Track each child in your home — synced to your account.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onclick="openLetterBuilder()" style="background:var(--ink);color:white;border:none;padding:8px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">✉ Letters</button>
+              <button onclick="showDP('forms',document.querySelector('.dash-ni:nth-child(4)'))" style="background:white;color:var(--ink);border:1px solid #e8e0d4;padding:8px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">📋 Forms</button>
+              <button onclick="openPlacementForm()" style="background:var(--gold);color:var(--ink);border:none;padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">+ New Placement</button>
+            </div>
+          </div>
           <div id="placementList"></div>
         </div>
 
-        <!-- LETTERS DASHBOARD PANEL -->
+        <!-- LETTERS -->
         <div class="dp" id="dp-letters">
-          <h2 class="dp-title">✉️ Letter Builder</h2>
-          <p class="dp-sub">Tell us what you need — we'll generate a policy-cited, ready-to-send letter.</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
-            ${[
-              {k:'clothing',icon:'👕',label:'Clothing Allowance',cite:'DCFS 0900-506.10'},
-              {k:'transportation',icon:'🚌',label:'School Transportation',cite:'Ed. Code §48853.5'},
-              {k:'emergency',icon:'🆘',label:'Emergency Placement Supplies',cite:'WIC §11460'},
-              {k:'sci',icon:'📊',label:'SCI Assessment Request',cite:'DCFS SCM Policy'},
-              {k:'respite',icon:'🌿',label:'Respite Care Request',cite:'DCFS Placement Policy'},
-              {k:'medical',icon:'🏥',label:'Medical Appointment Help',cite:'WIC §16001.9'},
-              {k:'visitation',icon:'📋',label:'Missed Visitation Documentation',cite:'Court Order'},
-              {k:'behavior',icon:'🧠',label:'Behavior Support Request',cite:'DCFS Support Services'},
-              {k:'disruption',icon:'🛡',label:'Placement Disruption Prevention',cite:'WIC §16501'},
-              {k:'education',icon:'🎓',label:'Educational Rights Request',cite:'Ed. Code §48853'},
-            ].map(b=>`<button onclick="openLetterBuilder('${b.k}')" style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:13px;cursor:pointer;text-align:left;transition:all .15s" onmouseover="this.style.borderColor='var(--gold)';this.style.background='#fffdf7'" onmouseout="this.style.borderColor='var(--border)';this.style.background='white'"><div style="font-size:18px;margin-bottom:5px">${b.icon}</div><div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px">${b.label}</div><div style="font-size:10px;color:var(--muted);font-family:monospace">${b.cite}</div></button>`).join('')}
+          <div class="dash-topbar">
+            <div>
+              <div class="dash-page-title">Letter Builder</div>
+              <div class="dash-page-sub">Policy-cited letters, ready to send in minutes.</div>
+            </div>
           </div>
-          <div style="background:var(--cream);border-radius:6px;padding:12px 14px;font-size:12px;color:var(--muted)">💡 All letters are policy-cited, printable, and formatted for DCFS. The builder will ask a few quick questions to personalize your letter.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            ${Object.entries(typeof LETTER_TYPES!=='undefined'?LETTER_TYPES:{}).map(([k,v])=>`
+              <button class="letter-type-btn" onclick="openLetterBuilder('${k}')">
+                <div style="font-size:20px;margin-bottom:6px">${v.icon}</div>
+                <div style="font-size:13px;font-weight:700;color:#0c0a08;margin-bottom:2px">${v.title}</div>
+                <div style="font-size:10px;color:#8a7e6e;font-family:monospace">${v.cite}</div>
+              </button>`).join('')||'<div id="letterTypeGrid" style="grid-column:span 2"></div>'}
+          </div>
         </div>
 
-        <!-- FORMS DASHBOARD PANEL -->
+        <!-- FORMS -->
         <div class="dp" id="dp-forms">
-          <h2 class="dp-title">📋 Forms & Checklists</h2>
-          <p class="dp-sub">Printable forms for every stage of a placement. Click any form to open and print.</p>
-
+          <div class="dash-topbar">
+            <div>
+              <div class="dash-page-title">Forms & Checklists</div>
+              <div class="dash-page-sub">Click any form to open and print as PDF.</div>
+            </div>
+          </div>
           <div style="margin-bottom:20px">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Placement Management</div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #e8e0d4">Placement Management</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <button onclick="printForm('checklist72')" class="form-btn">✅ First 72-Hour Placement Checklist</button>
               <button onclick="printForm('monthlyObs')" class="form-btn">📓 Monthly Observation Log</button>
@@ -1930,9 +2060,8 @@ img{max-width:100%}
               <button onclick="printForm('placementBinder')" class="form-btn">📁 Placement Binder Cover Page</button>
             </div>
           </div>
-
           <div style="margin-bottom:20px">
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Youth-Centered Tools</div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #e8e0d4">Youth-Centered Tools</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <button onclick="printForm('youthRights')" class="form-btn">📜 Youth Rights Handout</button>
               <button onclick="printForm('safetyPlan')" class="form-btn">🛡 Personal Safety Plan</button>
@@ -1940,9 +2069,8 @@ img{max-width:100%}
               <button onclick="printForm('coReg')" class="form-btn">🤝 Co-Regulation Activity Cards</button>
             </div>
           </div>
-
           <div>
-            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Official DCFS Forms</div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #e8e0d4">Official DCFS Forms</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
               <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC624.pdf" target="_blank" class="form-btn" style="text-decoration:none">🚨 LIC 624 — Unusual Incident Report</a>
               <a href="https://www.cdss.ca.gov/cdssweb/entres/forms/English/LIC9052.pdf" target="_blank" class="form-btn" style="text-decoration:none">💊 LIC 9052 — Medication Log</a>
@@ -1954,77 +2082,62 @@ img{max-width:100%}
           </div>
         </div>
 
-        <!-- POLICY GUIDE PANEL -->
+        <!-- POLICY GUIDE -->
         <div class="dp" id="dp-policy">
-          <h2 class="dp-title">📖 Policy Guide</h2>
-          <p class="dp-sub">Plain English explanations of the laws and policies that protect you and the children in your care.</p>
-          <div style="display:flex;flex-direction:column;gap:10px" id="policyGuideCards">
-            ${[
-              {title:'AB 12 — Extended Foster Care',cite:'WIC §11403',icon:'🎓',color:'var(--sage)',body:'Youth can stay in foster care until age 21 in California. To qualify, they must be in school, working, or have a documented barrier to both. They receive a monthly stipend and can re-enter care if they leave before 21.'},
-              {title:'Clothing Allowance',cite:'DCFS Policy 0900-506.10',icon:'👕',color:'var(--rust)',body:'Foster parents are entitled to a clothing allowance for each child within the first 30 days of placement. This is separate from the foster care rate and must be requested in writing to your CSW.'},
-              {title:'McKinney-Vento — School Enrollment',cite:'Ed. Code §48853.5',icon:'📚',color:'var(--plum)',body:'Foster youth must be enrolled in school immediately — even without records, immunization proof, or a home address. Schools cannot delay or refuse enrollment. Transportation must be provided to maintain school of origin.'},
-              {title:'Emergency Assistance Rate (EAR)',cite:'WIC §11460',icon:'🆘',color:'#c0392b',body:'Caregivers can request emergency funds for unexpected costs in the first 30 days. This covers items like beds, car seats, food, and clothing that were not provided at placement.'},
-              {title:'SCI — Specialized Care Increment',cite:'DCFS SCM Policy',icon:'📊',color:'var(--navy)',body:'SCI is additional monthly payment for caregivers providing specialized care to children with elevated needs. Level 1, 2, and 3 have specific behavioral and clinical criteria. Request an SCI assessment in writing if you believe a child qualifies.'},
-              {title:'Prudent Parent Standard',cite:'WIC §362.05',icon:'🏠',color:'var(--sage)',body:'Foster parents have the right to make day-to-day decisions for children in their care — including school activities, sports, sleepovers, and haircuts — without prior DCFS approval. This mirrors what a typical parent would decide.'},
-              {title:'Foster Youth Rights — WIC §16001.9',cite:'WIC §16001.9',icon:'⚖️',color:'var(--gold)',body:'Every foster youth has 35+ statutory rights including the right to be safe, the right to medical care, the right to privacy, the right to an attorney, the right to contact their social worker, and the right to participate in placement decisions.'},
-              {title:'Medi-Cal — Former Foster Youth',cite:'ACA §2004',icon:'💊',color:'var(--sage)',body:'All former foster youth in California receive free Medi-Cal until age 26 — regardless of income, immigration status, or when they left care. No enrollment deadline. Covers medical, dental, mental health, and vision.'},
-              {title:'Respite Care',cite:'DCFS Foster Care Policy',icon:'🌿',color:'var(--plum)',body:'Licensed foster parents are entitled to respite care — temporary relief care while you take a break. You must request it through your foster family agency or DCFS. This is especially important for high-needs placements and to prevent placement disruption.'},
-              {title:'Placement Disruption Prevention',cite:'WIC §16501',icon:'🛡',color:'#c0392b',body:'Before disrupting a placement, DCFS must make reasonable efforts to provide services and support to keep the placement stable. You have the right to request a team meeting, additional services, and a documented case plan before disruption occurs.'},
-            ].map(p=>`<div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;border-left:4px solid ${p.color}">
-              <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
-                <span style="font-size:18px">${p.icon}</span>
-                <div>
-                  <div style="font-size:13.5px;font-weight:700;color:var(--ink)">${p.title}</div>
-                  <div style="font-size:10px;font-family:monospace;color:var(--muted)">${p.cite}</div>
-                </div>
-              </div>
-              <div style="font-size:13px;color:var(--text);line-height:1.65">${p.body}</div>
-              <button onclick="openLetterBuilder('${p.cite.includes('0900')?'clothing':p.cite.includes('48853')?'transportation':p.cite.includes('11460')?'emergency':p.cite.includes('SCM')?'sci':p.cite.includes('16501')?'disruption':''}')" ${p.cite.includes('16001')||p.cite.includes('ACA')||p.cite.includes('362')||p.cite.includes('11403')?'style="display:none"':''} style="margin-top:8px;background:transparent;border:1px solid ${p.color};color:${p.color};padding:4px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer">✉ Write Letter →</button>
-            </div>`).join('')}
+          <div class="dash-topbar">
+            <div>
+              <div class="dash-page-title">Policy Guide</div>
+              <div class="dash-page-sub">Plain English explanations of the laws that protect you and the children in your care.</div>
+            </div>
           </div>
+          <div id="policyGuideCards"></div>
         </div>
-          <h2 class="dp-title">My Templates</h2>
-          <p class="dp-sub">Templates you've downloaded.</p>
+
+        <!-- TEMPLATES -->
+        <div class="dp" id="dp-templates">
+          <div class="dash-topbar">
+            <div><div class="dash-page-title">My Templates</div><div class="dash-page-sub">Templates you've downloaded.</div></div>
+            <button onclick="go('vault')" style="background:var(--gold);color:var(--ink);border:none;padding:8px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Browse Vault →</button>
+          </div>
           <div class="dl-list" id="dlList"></div>
-          <div style="margin-top:18px"><button class="btn btn-gold" onclick="go('vault')" style="font-size:12.5px">Browse All Templates →</button></div>
         </div>
+
+        <!-- SAVED -->
         <div class="dp" id="dp-saved">
-          <h2 class="dp-title">Saved Items</h2>
-          <p class="dp-sub">Your bookmarked resources.</p>
+          <div class="dash-topbar"><div><div class="dash-page-title">Saved Items</div><div class="dash-page-sub">Your bookmarked resources.</div></div></div>
           <div class="grid-2" id="savedGrid"></div>
         </div>
+
+        <!-- PROFILE -->
         <div class="dp" id="dp-profile">
-          <h2 class="dp-title">Profile</h2>
-          <p class="dp-sub">Update your information.</p>
-          <div class="prof-grid">
-            <div class="af"><label>First Name</label><input type="text" id="pf-first"></div>
-            <div class="af"><label>Last Name</label><input type="text" id="pf-last"></div>
-            <div class="af"><label>Email</label><input type="email" id="pf-email"></div>
-            <div class="af"><label>Role</label><select id="pf-role"><option value="youth">Foster Youth</option><option value="parent">Foster Parent</option><option value="kinship">Kinship Caregiver</option><option value="worker">Social Worker</option></select></div>
-            <div class="af"><label>State</label><select id="pf-state"><option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option></select></div>
-            <div class="af"><label>City</label><input type="text" id="pf-city"></div>
+          <div class="dash-topbar"><div><div class="dash-page-title">Profile</div><div class="dash-page-sub">Your account details.</div></div></div>
+          <div style="max-width:520px;background:white;border-radius:10px;border:1px solid #e8e0d4;padding:24px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+              <div><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">First Name</label><input id="pf-first" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px"></div>
+              <div><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">Last Name</label><input id="pf-last" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px"></div>
+              <div style="grid-column:span 2"><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">Email</label><input id="pf-email" type="email" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px"></div>
+              <div><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">Role</label><select id="pf-role" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option value="parent">Foster Parent</option><option value="kinship">Kinship Caregiver</option><option value="youth">Foster Youth</option><option value="worker">Social Worker</option></select></div>
+              <div><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">State</label><select id="pf-state" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;background:white"><option value="CA">California</option><option value="TX">Texas</option><option value="NY">New York</option><option value="FL">Florida</option></select></div>
+              <div style="grid-column:span 2"><label style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;display:block;margin-bottom:5px">City</label><input id="pf-city" style="width:100%;padding:9px 12px;border:1px solid #e8e0d4;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px"></div>
+            </div>
+            <button onclick="saveProfile()" style="background:var(--gold);color:var(--ink);border:none;padding:10px 22px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Save Profile</button>
+            <span class="auth-msg" id="profMsg" style="margin-left:12px;font-size:12px"></span>
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid #f0ece4">
+              <button onclick="logOut()" style="background:transparent;border:1px solid #e8e0d4;color:#8a7e6e;padding:8px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">Sign Out</button>
+            </div>
           </div>
-          <div class="af" style="margin-top:4px"><label>Agency / Organization</label><input type="text" id="pf-org" placeholder="e.g. LA County DCFS"></div>
-          <button class="prof-save" onclick="saveProfile()">Save Changes →</button>
-          <div class="auth-msg" id="profMsg" style="margin-top:12px"></div>
         </div>
+
+        <!-- SETTINGS -->
         <div class="dp" id="dp-settings">
-          <h2 class="dp-title">Settings</h2>
-          <p class="dp-sub">Manage preferences.</p>
-          <div style="display:flex;flex-direction:column;gap:11px">
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Email notifications</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">New templates</div></div><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Policy update alerts</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">DCFS policy changes</div></div><input type="checkbox" checked style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
-            <div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:16px;display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;font-weight:600;color:var(--ink)">Research digest</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px">Monthly</div></div><input type="checkbox" style="width:16px;height:16px;accent-color:var(--gold);cursor:pointer"></div>
-          </div>
-          <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border)">
-            <h4 style="font-size:17px;color:var(--ink);margin-bottom:10px">Account</h4>
-            <button onclick="doSignOut()" style="background:transparent;border:1px solid #c0392b;color:#c0392b;padding:9px 18px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer">Sign Out</button>
+          <div class="dash-topbar"><div><div class="dash-page-title">Settings</div><div class="dash-page-sub">Manage your preferences.</div></div></div>
+          <div style="max-width:520px;background:white;border-radius:10px;border:1px solid #e8e0d4;padding:24px">
+            <div style="font-size:13px;color:#8a7e6e;line-height:1.6">Settings and preferences coming soon. Your data is stored securely in your browser and synced to your account via Supabase.</div>
           </div>
         </div>
-      </div>
+
+      </main>
     </div>
-  </div>
-</div>
 
 <!-- BLOG PAGE -->
 <div class="page" id="page-blog">
@@ -3101,7 +3214,7 @@ document.addEventListener('click',e=>{if(!e.target.closest('#langBtn'))document.
 
 // ══ AUTH ══
 let currentUser=null;let selectedRole='youth';
-function loadUser(){try{const u=localStorage.getItem('an_user');if(u){currentUser=JSON.parse(u);setTimeout(loadPlacementsFromSupabase,1500);}}catch(e){}}
+function loadUser(){try{const u=localStorage.getItem('an_user');if(u){currentUser=JSON.parse(u);setTimeout(()=>{loadPlacementsFromSupabase();loadAppointmentsFromSupabase();},1500);}}catch(e){}}
 function saveUser(){try{localStorage.setItem('an_user',JSON.stringify(currentUser));}catch(e){}}
 function clearUser(){try{localStorage.removeItem('an_user');}catch(e){}}
 
@@ -3198,17 +3311,16 @@ function populateDashboard(){
   if(!currentUser) return;
   const u=currentUser;
   const init=(u.first[0]+(u.last?.[0]||'')).toUpperCase();
-  document.getElementById('dashAv').textContent=init;
-  document.getElementById('dashName').textContent=u.first+' '+(u.last||'');
-  document.getElementById('dashRole').textContent=(RICOS[u.role]||'👤')+' '+(RLABELS[u.role]||u.role);
-  document.getElementById('dashSince').textContent='Member since '+u.joined;
-  document.getElementById('dashLoc').textContent='📍 '+(u.city?u.city+', ':'')+u.state;
-  document.getElementById('dpSub').textContent='Welcome back, '+u.first+'. Your foster care command center.';
-  document.getElementById('statDl').textContent=u.downloads?.length||0;
-  document.getElementById('statSv').textContent=u.saved?.length||0;
+  const _s=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  _s('dashAv',init);_s('dashName',u.first+' '+(u.last||''));
+  _s('dashRole',(RICOS[u.role]||'👤')+' '+(RLABELS[u.role]||u.role));
+  _s('dashSince','Since '+u.joined);_s('dashLoc','📍 '+(u.city?u.city+', ':'')+u.state);
+  _s('dpSub','Welcome back, '+u.first+'.');
+  _s('statDl',u.downloads?.length||0);_s('statSv',u.saved?.length||0);
   const plCount=getPlacements().filter(p=>p.name).length;
-  const statPl=document.getElementById('statPl');if(statPl) statPl.textContent=plCount;
-  const plLbl=document.getElementById('plQuickLbl');if(plLbl) plLbl.textContent=plCount?`${plCount} active placement${plCount>1?'s':''}`:'Track children in your home';
+  _s('statPl',plCount);_s('statPlDelta',plCount?plCount+' placement'+(plCount>1?'s':'')+' active':'None yet');
+  _s('statLetters',JSON.parse(localStorage.getItem('an_letters_sent')||'[]').length);
+  _s('plQuickLbl',plCount?plCount+' placement'+(plCount>1?'s':'')+' active':'Case management tool');
   const recent=document.getElementById('recentList');
   if(recent){const dls=(u.downloads||[]).slice(-4).reverse();recent.innerHTML=dls.length?dls.map(id=>{const t=TEMPLATES.find(t=>t.id===id);return t?`<div class="dl-item"><span class="dl-ico">${t.icon}</span><div><div class="dl-t">${t.title}</div><div class="dl-s">${t.cite}</div></div><button class="dl-btn" onclick="dlTpl('${id}','${t.title}')">↓</button></div>`:''}).join(''):`<div style="font-size:13px;color:var(--muted);padding:14px 0">No downloads yet. <a onclick="go('vault')" style="color:var(--gold);cursor:pointer">Browse the Letter Vault →</a></div>`;}
   const dlList=document.getElementById('dlList');
@@ -3216,7 +3328,24 @@ function populateDashboard(){
   const sg=document.getElementById('savedGrid');
   if(sg){const saved=u.saved||[];sg.innerHTML=saved.length?saved.map((item,i)=>`<div style="background:white;border:1px solid var(--border);border-radius:var(--r);padding:14px"><div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:3px">📌 ${item}</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px">Saved recently</div><button onclick="unsave(${i})" style="padding:5px 11px;border-radius:4px;background:transparent;border:1px solid var(--border);color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Remove</button></div>`).join(''):'<div style="font-size:13px;color:var(--muted);grid-column:1/-1">No saved items yet.</div>';}
   document.getElementById('pf-first').value=u.first||'';document.getElementById('pf-last').value=u.last||'';document.getElementById('pf-email').value=u.email||'';document.getElementById('pf-role').value=u.role||'parent';document.getElementById('pf-state').value=u.state||'CA';document.getElementById('pf-city').value=u.city||'';
-  // Populate live widgets
+  // Policy cards
+  const pg=document.getElementById('policyGuideCards');
+  if(pg&&!pg.innerHTML.trim()){pg.innerHTML=[
+    {t:'AB 12 — Extended Foster Care',c:'WIC §11403',i:'🎓',col:'#2A6649',b:'Youth can stay in foster care until age 21. Must be in school, working, or have a documented barrier. Youth can re-enter care if they leave before 21.',l:''},
+    {t:'Clothing Allowance',c:'DCFS Policy 0900-506.10',i:'👕',col:'#c0392b',b:'Entitled within the first 30 days. Separate from the foster care rate. Must be requested in writing to your CSW.',l:'clothing'},
+    {t:'McKinney-Vento — School Enrollment',c:'Ed. Code §48853.5',i:'📚',col:'#7c5cbf',b:'Foster youth must be enrolled immediately — no records or immunization proof required. Schools cannot delay. Transportation to school of origin is required.',l:'transportation'},
+    {t:'Emergency Assistance Rate (EAR)',c:'WIC §11460',i:'🆘',col:'#c0392b',b:'Request emergency funds for unexpected costs in the first 30 days — beds, car seats, food, clothing not provided at placement.',l:'emergency'},
+    {t:'SCI — Specialized Care Increment',c:'DCFS SCM Policy',i:'📊',col:'#19375A',b:'Additional monthly payment for elevated-need placements. Level 1, 2, and 3 have specific clinical criteria. Request an assessment in writing.',l:'sci'},
+    {t:'Prudent Parent Standard',c:'WIC §362.05',i:'🏠',col:'#2A6649',b:'Foster parents can make day-to-day decisions — sports, sleepovers, haircuts — without prior DCFS approval.',l:''},
+    {t:'Foster Youth Rights',c:'WIC §16001.9',i:'⚖️',col:'#9a6f1f',b:'Every foster youth has 35+ statutory rights: safety, medical care, privacy, an attorney, contacting their social worker, and participating in placement decisions.',l:''},
+    {t:'Medi-Cal — Former Foster Youth',c:'ACA §2004',i:'💊',col:'#2A6649',b:'Free Medi-Cal until age 26 — regardless of income, immigration status, or when care ended. Covers medical, dental, mental health, and vision.',l:''},
+    {t:'Respite Care',c:'DCFS Foster Care Policy',i:'🌿',col:'#7c5cbf',b:'Licensed foster parents are entitled to respite care. Request through your foster family agency or DCFS. Especially important for high-needs placements.',l:'respite'},
+    {t:'Placement Disruption Prevention',c:'WIC §16501',i:'🛡',col:'#c0392b',b:'DCFS must make reasonable efforts to prevent disruption. You have the right to request a team meeting and additional services before disruption occurs.',l:'disruption'},
+  ].map(p=>`<div class="policy-card" style="border-left:4px solid ${p.col}"><div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px"><span style="font-size:20px;flex-shrink:0">${p.i}</span><div style="flex:1"><div style="font-size:13.5px;font-weight:700;color:#0c0a08;margin-bottom:1px">${p.t}</div><div style="font-size:10px;font-family:monospace;color:#8a7e6e">${p.c}</div></div>${p.l?`<button onclick="openLetterBuilder('${p.l}')" style="background:${p.col};color:white;border:none;padding:5px 12px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:10.5px;font-weight:700;cursor:pointer;flex-shrink:0">✉ Letter</button>`:''}</div><div style="font-size:12.5px;color:#333;line-height:1.65">${p.b}</div></div>`).join('');}
+  // Letter builder grid
+  const ltg=document.getElementById('letterTypeGrid');
+  if(ltg&&typeof LETTER_TYPES!=='undefined'&&!ltg.innerHTML.trim()){ltg.innerHTML=Object.entries(LETTER_TYPES).map(([k,v])=>`<button class="letter-type-btn" onclick="openLetterBuilder('${k}')"><div style="font-size:20px;margin-bottom:6px">${v.icon}</div><div style="font-size:13px;font-weight:700;color:#0c0a08;margin-bottom:2px">${v.title}</div><div style="font-size:10px;color:#8a7e6e;font-family:monospace">${v.cite}</div></button>`).join('');}
+  // Live widgets
   populateDashboardWidgets();
 }
 
@@ -3243,7 +3372,7 @@ function showDP(id,navEl){
   const panel=document.getElementById('dp-'+id);
   if(panel) panel.classList.add('on');
   if(navEl) navEl.classList.add('on');
-  if(id==='placements') renderPlacements();
+  if(id==='placements'){renderPlacements();checkTrackerDisclaimer();}
   if(id==='overview') populateDashboardWidgets();
   if(id==='letters'){
     // refresh letter builder panel to show sent/draft counts
@@ -3680,7 +3809,13 @@ function doSavePlacement(fname,mname,lname,dob,name,closeAfter){
     doctor:document.getElementById('pf-doctor')?.value||'',
     doctorph:document.getElementById('pf-doctorph')?.value||'',
     medications:document.getElementById('pf-meds')?.value||'',
-    notes:document.getElementById('pf-notes').value,
+    notes:(()=>{
+      const raw=(document.getElementById('pf-notes').value||'').trim();
+      if(!raw) return '';
+      const ts=new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+      const existing=editingPlacementId?getPlacements().find(x=>x.id===editingPlacementId)?.notes||'':'';
+      return raw===existing?raw:`[${ts}]\n${raw}`;
+    })(),
     docs:DOCS.filter(d=>document.getElementById('doc-'+d)?.checked),
     updated:new Date().toISOString(),
     timeline:[]
@@ -3729,7 +3864,8 @@ function addNote(id){
   const p=list.find(p=>p.id===id);
   if(p){
     if(!p.timeline) p.timeline=[];
-    p.timeline.push({date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}),note});
+    const ts=new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+    p.timeline.unshift({date:ts,note});
     savePlacements(list);
     renderPlacements();
   }
@@ -6372,6 +6508,23 @@ function buildCoReg(p){
   </div>`).join('')}
   </div>`;}
 
+// ══ PLACEMENT TRACKER DISCLAIMER ══
+function showTrackerDisclaimer(){
+  const modal=document.getElementById('trackerDisclaimerModal');
+  if(modal){modal.style.display='flex';document.body.style.overflow='hidden';}
+}
+function acceptTrackerDisclaimer(){
+  const modal=document.getElementById('trackerDisclaimerModal');
+  if(modal){modal.style.display='none';document.body.style.overflow='';}
+  if(document.getElementById('trackerDisclaimerCheck')?.checked){
+    localStorage.setItem('an_tracker_disclaimer_accepted','true');
+  }
+}
+function checkTrackerDisclaimer(){
+  const accepted=localStorage.getItem('an_tracker_disclaimer_accepted');
+  if(!accepted) showTrackerDisclaimer();
+}
+
 function toggleLettersDrop(containerId){
   const dd=document.getElementById('lettersDrop_'+containerId);
   if(!dd) return;
@@ -7261,6 +7414,42 @@ function saveAppointments(list){
   const k='an_appts_'+(currentUser?.email||'guest');
   try{localStorage.setItem(k,JSON.stringify(list));}catch(e){}
   scheduleAppointmentNotifications();
+  // Sync to Supabase for cross-device access
+  if(currentUser?.email) syncAppointmentsToSupabase(list);
+}
+
+async function syncAppointmentsToSupabase(list){
+  if(!currentUser?.email) return;
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/appointments?user_email=eq.${encodeURIComponent(currentUser.email)}`,{
+      method:'DELETE',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'}
+    });
+    if(list.length){
+      await fetch(`${SUPABASE_URL}/rest/v1/appointments`,{
+        method:'POST',
+        headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({id:currentUser.email,user_email:currentUser.email,data:JSON.stringify(list),updated_at:new Date().toISOString()})
+      });
+    }
+  }catch(e){}
+}
+
+async function loadAppointmentsFromSupabase(){
+  if(!currentUser?.email) return;
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/appointments?user_email=eq.${encodeURIComponent(currentUser.email)}&limit=1`,{
+      headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY}
+    });
+    if(!r.ok) return;
+    const rows=await r.json();
+    if(rows.length&&rows[0].data){
+      const remote=JSON.parse(rows[0].data);
+      const k='an_appts_'+currentUser.email;
+      localStorage.setItem(k,JSON.stringify(remote));
+      ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{const el=document.getElementById(id);if(el)renderAppointmentsWidget(id);});
+    }
+  }catch(e){}
 }
 
 function renderAppointmentsWidget(containerId){
@@ -7347,6 +7536,41 @@ function renderCalendarHTML(containerId){
     </div>
     <!-- Day detail panel -->
     <div id="calDetail_${containerId}" style="display:none;padding:12px 14px;border-top:1px solid var(--border);background:#fafafa"></div>
+  </div>
+  <!-- UPCOMING APPOINTMENTS LIST -->
+  <div style="margin-top:14px">
+    <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+      <span>Upcoming Appointments</span>
+      <button onclick="openApptModal()" style="background:var(--gold);color:var(--ink);border:none;padding:4px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;cursor:pointer">+ Add</button>
+    </div>
+    ${(()=>{
+      const upcoming=allAppts
+        .filter(a=>new Date(a.dateTime)>=new Date())
+        .sort((a,b)=>new Date(a.dateTime)-new Date(b.dateTime))
+        .slice(0,8);
+      if(!upcoming.length) return '<div style="font-size:12px;color:var(--muted);font-style:italic;padding:10px 0">No upcoming appointments — click + Add to schedule one.</div>';
+      const now=new Date();
+      return upcoming.map(a=>{
+        const cat=APPT_CATS[a.category]||APPT_CATS.other;
+        const d=new Date(a.dateTime);
+        const days=Math.ceil((d-now)/86400000);
+        const dateStr=d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+        const timeStr=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+        const daysLabel=days===0?'Today':days===1?'Tomorrow':days+'d away';
+        const daysColor=days===0?'#c0392b':days<=3?'#e67e22':days<=7?'#9a6f1f':'var(--muted)';
+        const child=a.placementId?getPlacements().find(p=>p.id===a.placementId):null;
+        return `<div onclick="openApptModal('${a.id}')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:white;border:1px solid var(--border);border-left:3px solid ${cat.color};border-radius:7px;margin-bottom:6px;cursor:pointer;transition:all .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='white'">
+          <span style="font-size:18px;flex-shrink:0">${cat.icon}</span>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${(a.title||cat.label).replace(/</g,'&lt;')}${a.recurring?` <span style="font-size:9px;background:rgba(200,146,58,.15);color:#9a6f1f;padding:1px 5px;border-radius:3px;font-weight:700">🔁 ${a.frequency||'recurring'}</span>`:''}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:1px">${dateStr} · ${timeStr}${child?' · '+child.name:''}${a.location?' · '+a.location:''}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:10.5px;font-weight:700;color:${daysColor}">${daysLabel}</div>
+          </div>
+        </div>`;
+      }).join('');
+    })()}
   </div>`;
 }
 
@@ -7392,7 +7616,7 @@ function openApptModal(apptId){
   }
   modal.innerHTML=`<div style="background:white;border-radius:10px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,var(--ink),#252a37);color:white;border-radius:10px 10px 0 0">
-      <div><div style="font-size:18px;font-weight:700">${a?'Edit Appointment':'New Appointment'}</div><div style="font-size:11px;color:rgba(255,255,255,.55);margin-top:2px">Private · stored only on this device</div></div>
+      <div><div style="font-size:18px;font-weight:700">${a?'Edit Appointment':'New Appointment'}</div><div style="font-size:11px;color:rgba(255,255,255,.55);margin-top:2px">${currentUser?'☁ Synced to your account · cross-device':'Stored locally on this device'}</div></div>
       <button onclick="closeApptModal()" style="background:transparent;border:none;color:white;font-size:22px;cursor:pointer;line-height:1">✕</button>
     </div>
     <div style="padding:20px 22px">
@@ -7405,6 +7629,24 @@ function openApptModal(apptId){
       ${placements.length?`<label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">For Child (optional)</span><select id="apptPlacement" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white"><option value="">— Not linked to a child —</option>${placements.map(p=>`<option value="${p.id}"${a?.placementId===p.id?' selected':''}>${p.name||'Unnamed child'}</option>`).join('')}</select></label>`:''}
       <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Location (optional)</span><input type="text" id="apptLocation" value="${a?.location?.replace(/"/g,'&quot;')||''}" placeholder="Address, office name, or link" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px"></label>
       <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Notes (optional)</span><textarea id="apptNotes" placeholder="Bring insurance card, paperwork to ask about…" style="width:100%;height:60px;resize:vertical;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5">${a?.notes||''}</textarea></label>
+      <!-- RECURRING -->
+      <div style="background:var(--cream);border-radius:6px;padding:12px 14px;margin-bottom:14px">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:0" id="recurringRow">
+          <input type="checkbox" id="apptRecurring" ${a?.recurring?'checked':''} onchange="document.getElementById('recurringFreqRow').style.display=this.checked?'block':'none'" style="width:16px;height:16px;cursor:pointer;accent-color:var(--gold)">
+          <span style="font-size:13px;font-weight:600;color:var(--ink)">🔁 Recurring event</span>
+        </label>
+        <div id="recurringFreqRow" style="display:${a?.recurring?'block':'none'};margin-top:10px">
+          <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Repeats</span>
+          <select id="apptFrequency" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:white">
+            <option value="daily" ${a?.frequency==='daily'?'selected':''}>Daily</option>
+            <option value="weekly" ${a?.frequency==='weekly'?'selected':''}>Weekly</option>
+            <option value="biweekly" ${(!a?.frequency||a?.frequency==='biweekly')?'selected':''}>Every 2 weeks</option>
+            <option value="monthly" ${a?.frequency==='monthly'?'selected':''}>Monthly</option>
+            <option value="yearly" ${a?.frequency==='yearly'?'selected':''}>Yearly</option>
+          </select>
+          <div style="font-size:11px;color:var(--muted);margin-top:6px">Recurring events show on the calendar automatically for 12 months.</div>
+        </div>
+      </div>
       <div style="background:var(--cream);border-radius:6px;padding:12px 14px;margin-bottom:16px">
         <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Reminders</div>
         <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:6px"><input type="checkbox" id="apptRemind1d" ${!a||(a.reminders||[1440]).includes(1440)?'checked':''} style="accent-color:var(--gold)"> 1 day before</label>
@@ -7434,20 +7676,44 @@ function saveAppt(){
   const placementId=document.getElementById('apptPlacement')?.value||'';
   const location=document.getElementById('apptLocation').value.trim();
   const notes=document.getElementById('apptNotes').value.trim();
+  const recurring=document.getElementById('apptRecurring')?.checked||false;
+  const frequency=document.getElementById('apptFrequency')?.value||'weekly';
   const reminders=[];
   if(document.getElementById('apptRemind1d').checked) reminders.push(1440);
   if(document.getElementById('apptRemind1h').checked) reminders.push(60);
   if(document.getElementById('apptRemind15m').checked) reminders.push(15);
-  const list=getAppointments();
-  if(_editingApptId){
-    const idx=list.findIndex(x=>x.id===_editingApptId);
-    if(idx>-1){list[idx]={...list[idx],title:title||(APPT_CATS[category]?.label||'Appointment'),dateTime,category,placementId,location,notes,reminders};}
-  }else{
-    list.push({id:'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),title:title||(APPT_CATS[category]?.label||'Appointment'),dateTime,category,placementId,location,notes,reminders,done:false});
+
+  const base={
+    id:_editingApptId||('a_'+Date.now()+'_'+Math.random().toString(36).slice(2,6)),
+    title:title||(APPT_CATS[category]?.label||'Appointment'),
+    dateTime,category,placementId,location,notes,reminders,
+    recurring,frequency:recurring?frequency:null,done:false
+  };
+
+  let list=getAppointments().filter(a=>!_editingApptId||(a.id!==_editingApptId&&a.recurringParent!==_editingApptId));
+
+  if(recurring){
+    // Generate 12 months of instances
+    const instances=[base];
+    const freqDays={daily:1,weekly:7,biweekly:14,monthly:30,yearly:365};
+    const interval=freqDays[frequency]||7;
+    let d=new Date(dateTime);
+    const end=new Date(dateTime);end.setFullYear(end.getFullYear()+1);
+    for(let i=0;i<52;i++){
+      if(frequency==='monthly'){d.setMonth(d.getMonth()+1);}
+      else if(frequency==='yearly'){d.setFullYear(d.getFullYear()+1);}
+      else{d.setDate(d.getDate()+interval);}
+      if(d>end) break;
+      const iso=d.toISOString().substring(0,16);
+      instances.push({...base,id:'a_'+Date.now()+'_'+Math.random().toString(36).slice(2,8)+'_'+i,dateTime:iso,recurringParent:base.id});
+    }
+    list.push(...instances);
+  } else {
+    list.push(base);
   }
+
   saveAppointments(list);
   closeApptModal();
-  // Refresh whichever widget is on screen
   ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{const el=document.getElementById(id);if(el)renderAppointmentsWidget(id);});
 }
 
@@ -7928,10 +8194,18 @@ function saveCpTabText(placementId,tabId,containerId){
   if(!p.tabs) p.tabs={};
   const ta=document.getElementById(containerId+'-'+tabId+'-text');
   if(!ta) return;
-  p.tabs[tabId]=ta.value;
+  const rawText=ta.value.trim();
+  if(!rawText) return;
+  // Prepend timestamp if not already present
+  const ts=new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  const existing=p.tabs[tabId]||'';
+  // If the text changed, prepend a timestamp entry
+  const entry=rawText===existing?rawText:`[${ts}]\n${rawText}`;
+  p.tabs[tabId]=entry;
+  ta.value=entry;
   savePlacements(list);
   const s=document.getElementById(containerId+'-'+tabId+'-status');
-  if(s){s.textContent='✓ Saved';s.style.color='var(--sage)';setTimeout(()=>{s.textContent='';},2000);}
+  if(s){s.textContent='✓ Saved '+ts;s.style.color='var(--sage)';setTimeout(()=>{s.textContent='';},3000);}
 }
 
 // Legacy alias — keeps any existing callers working
@@ -8066,7 +8340,9 @@ function addCpNote(placementId,containerId){
   const p=list.find(x=>x.id===placementId);
   if(!p) return;
   if(!p.caseNotes) p.caseNotes=[];
-  p.caseNotes.unshift({text:input.value.trim(),date:new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})});
+  const ts=new Date().toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  p.caseNotes.unshift({text:input.value.trim(),date:ts});
+  input.value='';
   savePlacements(list);
   renderCasePanel(containerId);
   setTimeout(()=>{const last=document.querySelector('#'+containerId+' .cp-tab:last-child');if(last) switchCpTab(containerId,'notes',last);},50);
@@ -8631,7 +8907,12 @@ window.addEventListener('DOMContentLoaded',()=>{
       <!-- NOTES -->
       <div class="af"><label>Notes</label><textarea id="pf-notes" style="height:120px;min-height:100px;resize:vertical;width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;background:var(--warm);line-height:1.6" placeholder="Behaviors, concerns, upcoming events, anything important…"></textarea></div>
 
-      <div style="display:flex;gap:9px;margin-top:20px;flex-wrap:wrap;align-items:center;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="background:#fdf8f0;border:1px solid rgba(200,146,58,.2);border-radius:6px;padding:10px 14px;margin-top:16px;font-size:11px;color:#7a6040;line-height:1.65">
+        <strong>⚠ Notice:</strong> This tracker is an independent tool and is <strong>not affiliated with DCFS</strong>. Records entered here do not replace official documentation. Incident logging does not fulfill mandated reporter duties under Penal Code §11166. All information about minors is protected under WIC §827 — maintain confidentiality at all times. Generated letters are templates, not legal advice.
+        <a onclick="showTrackerDisclaimer()" style="color:var(--gold);cursor:pointer;font-weight:700;margin-left:4px">Read full disclaimers →</a>
+      </div>
+
+      <div style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap;align-items:center;padding-top:16px;border-top:1px solid var(--border)">
         <button onclick="savePlacement()" style="background:var(--gold);color:var(--ink);border:none;padding:11px 24px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer" id="pfSaveBtn">Save Placement →</button>
         <button onclick="cancelPlacementForm()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">Cancel</button>
         <button onclick="go('dashboard');showDP('placements',document.querySelector('.dash-ni:nth-child(2))'));cancelPlacementForm()" style="background:transparent;border:1px solid rgba(25,55,90,.25);color:var(--navy);padding:11px 16px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer">🏠 Dashboard</button>
@@ -8652,6 +8933,56 @@ window.addEventListener('DOMContentLoaded',()=>{
       <button onclick="closeLetterBuilder()" style="background:transparent;border:1px solid rgba(255,255,255,.2);color:white;width:30px;height:30px;border-radius:5px;cursor:pointer;font-size:16px">✕</button>
     </div>
     <div id="lbContent" style="padding:24px"></div>
+  </div>
+</div>
+
+<!-- PLACEMENT TRACKER DISCLAIMER MODAL -->
+<div id="trackerDisclaimerModal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px">
+  <div style="background:white;border-radius:12px;max-width:560px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.4);overflow:hidden">
+    <div style="background:#0c0a08;padding:18px 24px;display:flex;align-items:center;gap:12px">
+      <div style="width:36px;height:36px;border-radius:6px;background:rgba(200,146,58,.2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">⚠️</div>
+      <div>
+        <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-lt)">Before You Begin</div>
+        <div style="font-size:16px;font-weight:700;color:white">Placement Tracker — Important Notices</div>
+      </div>
+    </div>
+    <div style="padding:20px 24px;max-height:60vh;overflow-y:auto">
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <div style="background:#fdf8f0;border:1px solid rgba(200,146,58,.25);border-left:4px solid var(--gold);border-radius:6px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9a6f1f;margin-bottom:4px">📋 Not an Official DCFS Tool</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.6">AuntNancy.org is an independent resource. Records entered here are <strong>not transmitted to DCFS</strong> and do not satisfy official reporting requirements. This tool does not replace your official case documentation obligations.</div>
+        </div>
+
+        <div style="background:#fdf3f2;border:1px solid rgba(192,57,43,.2);border-left:4px solid #c0392b;border-radius:6px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#c0392b;margin-bottom:4px">🚨 Mandated Reporter Obligations</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.6">Logging an incident here <strong>does not fulfill your mandated reporter duties</strong> under California Penal Code §11166. Serious incidents must be reported directly to DCFS, law enforcement, or the CANRA hotline: <strong>1-800-540-4000</strong>.</div>
+        </div>
+
+        <div style="background:#f3f4ff;border:1px solid rgba(100,100,220,.2);border-left:4px solid #7c5cbf;border-radius:6px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#7c5cbf;margin-bottom:4px">🔒 Minor's Confidential Information</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.6">Records contain sensitive information about minors protected under <strong>WIC §827</strong> and applicable privacy laws. You are solely responsible for maintaining confidentiality. Do not share your login credentials or device access with unauthorized persons.</div>
+        </div>
+
+        <div style="background:#edf7ee;border:1px solid rgba(39,174,96,.2);border-left:4px solid var(--sage);border-radius:6px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:4px">⚖️ Not Legal Advice</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.6">Generated letters and policy guides are <strong>templates and educational information only</strong>. They do not constitute legal advice. For court proceedings or disputes with DCFS, consult a licensed attorney or your child's appointed counsel.</div>
+        </div>
+
+        <div style="background:#f9f9f9;border:1px solid #e0e0e0;border-left:4px solid #888;border-radius:6px;padding:12px 14px">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#666;margin-bottom:4px">💾 Data Storage</div>
+          <div style="font-size:12.5px;color:#333;line-height:1.6">Records are stored in your browser and synced to a secure database. <strong>Export and print important records regularly.</strong> AuntNancy.org is not liable for data loss. You are responsible for the accuracy and completeness of all information entered.</div>
+        </div>
+
+      </div>
+    </div>
+    <div style="padding:16px 24px;background:#f9f7f4;border-top:1px solid #e8e0d4;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:#555">
+        <input type="checkbox" id="trackerDisclaimerCheck" style="width:16px;height:16px;cursor:pointer">
+        Don't show this again
+      </label>
+      <button onclick="acceptTrackerDisclaimer()" style="background:var(--gold);color:var(--ink);border:none;padding:10px 28px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:800;cursor:pointer">I Understand — Continue</button>
+    </div>
   </div>
 </div>
 
