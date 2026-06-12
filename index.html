@@ -5580,17 +5580,22 @@ function deleteMedLog(placementId,idx,containerId){
 }
 function exportMedLog(placementId){
   const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
-  const rows=(p.medLog||[]).map(m=>`<tr><td style="padding:6px 10px;border:1px solid #ccc">${m.date}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.time||'—'}</td><td style="padding:6px 10px;border:1px solid #ccc;font-weight:600">${m.name}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.dose}</td><td style="padding:6px 10px;border:1px solid #ccc">${m.by}</td><td style="padding:6px 10px;border:1px solid #ccc"></td></tr>`).join('');
-  const html=`<!DOCTYPE html><html><head><title>LIC 9052 — Medication Log — ${p.name}</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:30px}h2{font-size:16px;margin-bottom:4px}table{width:100%;border-collapse:collapse;margin-top:16px}th{background:#eee;padding:8px 10px;border:1px solid #ccc;text-align:left;font-size:11px}@media print{body{margin:10px}}</style></head><body>
-    <div style="text-align:center;margin-bottom:20px"><strong style="font-size:14px">MEDICATION ADMINISTRATION RECORD (LIC 9052)</strong><br><span style="font-size:11px;color:#666">California Community Care Licensing Division</span></div>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:12px">
-      <tr><td style="padding:5px;border:1px solid #ccc;width:50%"><strong>Child Name:</strong> ${p.name||'—'}</td><td style="padding:5px;border:1px solid #ccc"><strong>DOB:</strong> ${p.dob||'—'}</td></tr>
-      <tr><td style="padding:5px;border:1px solid #ccc"><strong>Case #:</strong> ${p.caseNum||'—'}</td><td style="padding:5px;border:1px solid #ccc"><strong>Home/Facility:</strong> ___________________</td></tr>
-    </table>
-    <table><thead><tr><th>Date</th><th>Time</th><th>Medication Name</th><th>Dose</th><th>Administered By</th><th>Signature</th></tr></thead><tbody>${rows||'<tr><td colspan="6" style="padding:10px;text-align:center;color:#999">No entries</td></tr>'}</tbody></table>
-    <div style="margin-top:30px;font-size:11px;color:#666">Printed: ${new Date().toLocaleString()} · AuntNancy.org Placement Tracker</div>
-  </body></html>`;
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+  const rows=(p.medLog||[]).map(m=>`<tr><td>${m.date}${m.time?' '+m.time:''}</td><td style="font-weight:600">${m.name}</td><td>${m.dose}</td><td>${m.by}</td><td style="min-width:80px"></td></tr>`).join('');
+  const body=`
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Child Name</div><div class="field-val">${p.name||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Date of Birth</div><div class="field-val">${p.dob||'—'}</div></div>
+      <div class="field"><div class="field-lbl">DCFS Case #</div><div class="field-val">${p.caseNum||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Home / Facility</div><div class="field-val">_____________________</div></div>
+    </div>
+    <h2 class="section">Medication Administration Log</h2>
+    <table class="data"><thead><tr><th>Date / Time</th><th>Medication</th><th>Dose</th><th>Administered By</th><th>Signature</th></tr></thead>
+    <tbody>${rows||'<tr><td colspan="5" style="text-align:center;color:#aaa;padding:14px">No entries logged</td></tr>'}</tbody></table>
+    <div class="sig-row">
+      <div><div class="sig-line"></div><div class="sig-lbl">Caregiver Signature</div></div>
+      <div><div class="sig-line"></div><div class="sig-lbl">Date Submitted</div></div>
+    </div>`;
+  openBrandedReport(brandedReportHTML('Medication Administration Record (LIC 9052)',`${p.name||'—'} · ${(p.medLog||[]).length} entries · CCLD Compliant`,body));
 }
 
 // ══ INCIDENT LOG ══
@@ -5620,27 +5625,32 @@ function deleteIncidentLog(placementId,idx,containerId){
 function exportIncidentLog(placementId){
   const list=getPlacements();const p=list.find(x=>x.id===placementId);if(!p)return;
   const latest=(p.incidentLog||[])[0]||{};
-  const html=`<!DOCTYPE html><html><head><title>LIC 624 — Unusual Incident Report — ${p.name}</title><style>body{font-family:Arial,sans-serif;font-size:12px;margin:30px}label{font-weight:700;display:block;font-size:11px;color:#555;margin-bottom:2px}p{margin:0 0 14px}input[type=text]{border:none;border-bottom:1px solid #333;width:100%;font-size:12px;padding:2px 0}@media print{body{margin:10px}}</style></head><body>
-    <div style="text-align:center;margin-bottom:20px"><strong style="font-size:15px">UNUSUAL INCIDENT / INJURY REPORT (LIC 624)</strong><br><span style="font-size:11px;color:#666">California Community Care Licensing Division</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
-      <div><label>Child Name</label><input type="text" value="${p.name||''}"></div>
-      <div><label>Date of Birth</label><input type="text" value="${p.dob||''}"></div>
-      <div><label>Date of Incident</label><input type="text" value="${latest.date||''}"></div>
-      <div><label>Severity</label><input type="text" value="${latest.sev||''}"></div>
-      <div><label>DCFS Case Number</label><input type="text" value="${p.caseNum||''}"></div>
-      <div><label>CSW Name / Phone</label><input type="text" value="${p.csw||''} ${p.cswph?'/ '+p.cswph:''}"></div>
+  const allRows=(p.incidentLog||[]).map((inc,i)=>`<tr><td>${inc.date}</td><td style="font-weight:700;color:${inc.sev==='critical'?'#c0392b':inc.sev==='serious'?'#e67e22':'#333'}">${inc.sev}</td><td style="max-width:240px">${inc.desc}</td><td>${inc.notified||'—'}</td><td>${inc.action||'—'}</td></tr>`).join('');
+  const body=`
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Child Name</div><div class="field-val">${p.name||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Date of Birth</div><div class="field-val">${p.dob||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Date of Incident</div><div class="field-val">${latest.date||'_____________'}</div></div>
+      <div class="field"><div class="field-lbl">Severity</div><div class="field-val" style="color:${latest.sev==='critical'?'#c0392b':latest.sev==='serious'?'#e67e22':'inherit'}">${latest.sev||'_____________'}</div></div>
+      <div class="field"><div class="field-lbl">DCFS Case #</div><div class="field-val">${p.caseNum||'—'}</div></div>
+      <div class="field"><div class="field-lbl">CSW Name / Phone</div><div class="field-val">${p.csw||'—'} ${p.cswph?'· '+p.cswph:''}</div></div>
     </div>
-    <label>Description of Incident</label><textarea style="width:100%;height:100px;border:1px solid #ccc;padding:6px;font-family:Arial;font-size:12px;margin-bottom:12px">${latest.desc||''}</textarea>
-    <label>Actions Taken</label><textarea style="width:100%;height:60px;border:1px solid #ccc;padding:6px;font-family:Arial;font-size:12px;margin-bottom:12px">${latest.action||''}</textarea>
-    <label>Persons Notified</label><input type="text" value="${latest.notified||''}" style="border:none;border-bottom:1px solid #333;width:100%;font-size:12px;padding:2px 0;margin-bottom:20px">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px">
-      <div><label>Caregiver Signature</label><div style="border-bottom:1px solid #333;height:24px"></div></div>
-      <div><label>Date Submitted</label><div style="border-bottom:1px solid #333;height:24px"></div></div>
-    </div>
-    <div style="margin-top:24px;font-size:11px;color:#666">Printed: ${new Date().toLocaleString()} · AuntNancy.org Placement Tracker · All incidents in log: ${(p.incidentLog||[]).length}</div>
-  </body></html>`;
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+    <h2 class="section">Description of Incident</h2>
+    <div style="border:1px solid #e8e0d4;border-radius:6px;padding:12px;min-height:80px;font-size:12.5px;line-height:1.65;white-space:pre-wrap">${latest.desc||''}</div>
+    <h2 class="section">Actions Taken</h2>
+    <div style="border:1px solid #e8e0d4;border-radius:6px;padding:12px;min-height:50px;font-size:12.5px;line-height:1.65">${latest.action||''}</div>
+    <h2 class="section">Persons Notified</h2>
+    <div style="border-bottom:1px solid #333;min-height:24px;padding-bottom:4px;font-size:12.5px">${latest.notified||''}</div>
+    ${(p.incidentLog||[]).length>1?`<h2 class="section">All Incidents on Record (${(p.incidentLog||[]).length} total)</h2>
+    <table class="data"><thead><tr><th>Date</th><th>Severity</th><th>Description</th><th>Notified</th><th>Action</th></tr></thead><tbody>${allRows}</tbody></table>`:''}
+    <div class="sig-row" style="margin-top:28px">
+      <div><div class="sig-line"></div><div class="sig-lbl">Caregiver Signature</div></div>
+      <div><div class="sig-line"></div><div class="sig-lbl">Date Submitted</div></div>
+    </div>`;
+  openBrandedReport(brandedReportHTML('Unusual Incident / Injury Report (LIC 624)',`${p.name||'—'} · ${(p.incidentLog||[]).length} incident${(p.incidentLog||[]).length!==1?'s':''} on record · California CCLD`,body));
 }
+
+// ══ VISIT LOG ══
 
 // ══ VISIT LOG ══
 function addVisitLog(placementId, containerId){
@@ -5674,48 +5684,79 @@ function exportPlacementPDF(placementId){
   const days=daysInCare(p.date);
   const docList=(p.docs||[]).map(d=>DOC_LABELS[d]||d).join(', ')||'None collected';
   const missing=DOCS.filter(d=>!(p.docs||[]).includes(d)).map(d=>DOC_LABELS[d]||d).join(', ')||'None';
-  const timeline=(p.timeline||[]).slice(0,20).map(t=>`<tr><td style="padding:5px 10px;border:1px solid #e0e0e0;white-space:nowrap;color:#666">${t.date}</td><td style="padding:5px 10px;border:1px solid #e0e0e0">${t.note}</td></tr>`).join('');
-  const html=`<!DOCTYPE html><html><head><title>Placement Summary — ${p.name}</title>
-  <style>body{font-family:Georgia,serif;font-size:13px;margin:40px;color:#111;line-height:1.6}h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;border-bottom:1px solid #ccc;padding-bottom:4px;margin:20px 0 10px;color:#333}table{width:100%;border-collapse:collapse;margin-bottom:16px}td,th{padding:6px 10px;border:1px solid #ddd;font-size:12px}th{background:#f5f5f5;font-weight:700;text-align:left}.label{font-weight:700;color:#555;width:35%}@media print{body{margin:20px}}</style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px">
-    <div><h1>Placement Summary</h1><div style="font-size:12px;color:#666">Generated: ${new Date().toLocaleString()} · AuntNancy.org</div></div>
-    <div style="text-align:right;font-size:11px;color:#999">CONFIDENTIAL — FOR AUTHORIZED USE ONLY<br>Record ID: ${p.id}</div>
-  </div>
-  <h2>Child Information</h2>
-  <table><tr><td class="label">Full Name</td><td>${p.name||'—'}</td><td class="label">Date of Birth</td><td>${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td></tr>
-  <tr><td class="label">Age</td><td>${p.age||'—'}</td><td class="label">Gender</td><td>${p.gender||'—'}</td></tr>
-  <tr><td class="label">Language</td><td>${p.language||'—'}</td><td class="label">ICWA Status</td><td>${p.icwa||'Unknown'}</td></tr></table>
-  <h2>Placement Details</h2>
-  <table><tr><td class="label">Placement Date</td><td>${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td><td class="label">Days in Care</td><td>${days!==null?days+' days':'—'}</td></tr>
-  <tr><td class="label">Placement Type</td><td>${STATUS_LABELS[p.placementType]||'—'}</td><td class="label">SCI Level</td><td>${p.sci?'Level '+p.sci:'None'}</td></tr>
-  <tr><td class="label">Prior Placements</td><td>${p.priorPlacements||'—'}</td><td class="label">Bio Contact</td><td>${STATUS_LABELS[p.bioContact]||'Unknown'}</td></tr>
-  <tr><td class="label">DCFS Case #</td><td>${p.caseNum||'—'}</td><td class="label">Record Created</td><td>${p.createdAt?new Date(p.createdAt).toLocaleString():'—'}</td></tr></table>
-  <h2>Case Team</h2>
-  <table><tr><td class="label">CSW</td><td>${p.csw||'—'}</td><td class="label">CSW Phone</td><td>${p.cswph||'—'}</td></tr>
-  <tr><td class="label">SCSW</td><td>${p.scsw||'—'}</td><td class="label">SCSW Phone</td><td>${p.scswph||'—'}</td></tr>
-  <tr><td class="label">CASA</td><td>${p.casa||'—'}</td><td class="label">Attorney</td><td>${p.attorney||'—'}</td></tr></table>
-  <h2>Education & Health</h2>
-  <table><tr><td class="label">School</td><td>${p.school||'—'} ${p.grade?'· Grade '+p.grade:''}</td><td class="label">Enrollment</td><td>${STATUS_LABELS[p.enrolled]||'—'}</td></tr>
-  <tr><td class="label">IEP</td><td>${p.iep||'—'}</td><td class="label">504 Plan</td><td>${p.iep504||'—'}</td></tr>
-  <tr><td class="label">Medi-Cal</td><td>${STATUS_LABELS[p.medi]||'—'}</td><td class="label">Doctor</td><td>${p.doctor||'—'} ${p.doctorph?'· '+p.doctorph:''}</td></tr>
-  <tr><td class="label">Therapist</td><td>${p.therapist||'—'} ${p.therapistph?'· '+p.therapistph:''}</td><td class="label">Medications</td><td>${p.medications||'None'}</td></tr></table>
-  <h2>Legal</h2>
-  <table><tr><td class="label">Next Hearing</td><td>${p.nextHearing?new Date(p.nextHearing).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'—'}</td><td class="label">Hearing Type</td><td>${p.hearingType||'—'}</td></tr>
-  <tr><td class="label">Judge</td><td>${p.judge||'—'}</td><td class="label">Last Court Date</td><td>${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</td></tr></table>
-  <h2>Documents (${(p.docs||[]).length}/${DOCS.length} collected)</h2>
-  <table><tr><td class="label">Collected</td><td style="color:#27ae60">${docList}</td></tr><tr><td class="label">Missing</td><td style="color:#c0392b">${missing}</td></tr></table>
-  <h2>Benefits</h2>
-  <table><tr><td class="label">Clothing Allowance</td><td>${STATUS_LABELS[p.clothing]||'Not set'}</td><td class="label">Emergency Benefits</td><td>${STATUS_LABELS[p.ebenefit]||'Not set'}</td></tr></table>
-  ${p.notes?`<h2>Notes</h2><div style="background:#f9f9f9;border:1px solid #ddd;padding:12px;border-radius:4px;font-size:12px;line-height:1.7;white-space:pre-wrap">${p.notes}</div>`:''}
-  ${timeline?`<h2>Activity Timeline</h2><table><thead><tr><th>Date</th><th>Event</th></tr></thead><tbody>${timeline}</tbody></table>`:''}
-  <div style="margin-top:32px;padding-top:16px;border-top:1px solid #ccc;font-size:11px;color:#999;display:flex;justify-content:space-between">
-    <span>Medication entries: ${(p.medLog||[]).length} · Incidents: ${(p.incidentLog||[]).length} · Visits: ${(p.visitLog||[]).length}</span>
-    <span>AuntNancy.org · Confidential</span>
-  </div>
-  </body></html>`;
-  document.getElementById('pdfTitle').textContent='Placement Summary — '+(p.name||'');
-  document.getElementById('pdfContent').innerHTML=`<div style="font-family:Georgia,serif;font-size:13px;line-height:1.6;color:#111">${html}</div>`;
-  document.getElementById('pdfViewerModal').style.display='flex';
+  const timelineRows=(p.timeline||[]).slice(0,20).map(t=>`<tr><td style="white-space:nowrap">${t.date}</td><td>${t.note}</td></tr>`).join('');
+  const docPct=Math.round(((p.docs||[]).length/DOCS.length)*100);
+  const body=`
+    <!-- Child -->
+    <h2 class="section">Child Information</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Full Name</div><div class="field-val">${p.name||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Date of Birth</div><div class="field-val">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+      <div class="field"><div class="field-lbl">Age</div><div class="field-val">${p.age||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Gender</div><div class="field-val">${p.gender||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Language</div><div class="field-val">${p.language||'—'}</div></div>
+      <div class="field"><div class="field-lbl">ICWA Status</div><div class="field-val">${p.icwa||'Unknown'}</div></div>
+    </div>
+    <!-- Placement -->
+    <h2 class="section">Placement Details</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Placement Date</div><div class="field-val">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+      <div class="field"><div class="field-lbl">Days in Care</div><div class="field-val">${days!==null?days+' days':'—'}</div></div>
+      <div class="field"><div class="field-lbl">Type</div><div class="field-val">${STATUS_LABELS[p.placementType]||'—'}</div></div>
+      <div class="field"><div class="field-lbl">SCI Level</div><div class="field-val">${p.sci?'Level '+p.sci:'None'}</div></div>
+      <div class="field"><div class="field-lbl">Prior Placements</div><div class="field-val">${p.priorPlacements||'—'}</div></div>
+      <div class="field"><div class="field-lbl">DCFS Case #</div><div class="field-val">${p.caseNum||'—'}</div></div>
+    </div>
+    <!-- Case Team -->
+    <h2 class="section">Case Team</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">CSW</div><div class="field-val">${p.csw||'—'}</div></div>
+      <div class="field"><div class="field-lbl">CSW Phone</div><div class="field-val">${p.cswph||'—'}</div></div>
+      <div class="field"><div class="field-lbl">SCSW</div><div class="field-val">${p.scsw||'—'}</div></div>
+      <div class="field"><div class="field-lbl">SCSW Phone</div><div class="field-val">${p.scswph||'—'}</div></div>
+      <div class="field"><div class="field-lbl">CASA</div><div class="field-val">${p.casa||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Attorney</div><div class="field-val">${p.attorney||'—'}</div></div>
+    </div>
+    <!-- Education & Health -->
+    <h2 class="section">Education &amp; Health</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">School / Grade</div><div class="field-val">${p.school||'—'} ${p.grade?'· Grade '+p.grade:''}</div></div>
+      <div class="field"><div class="field-lbl">Enrollment</div><div class="field-val">${STATUS_LABELS[p.enrolled]||'—'}</div></div>
+      <div class="field"><div class="field-lbl">IEP</div><div class="field-val">${p.iep||'—'}</div></div>
+      <div class="field"><div class="field-lbl">504 Plan</div><div class="field-val">${p.iep504||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Medi-Cal</div><div class="field-val">${STATUS_LABELS[p.medi]||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Doctor</div><div class="field-val">${p.doctor||'—'} ${p.doctorph?'· '+p.doctorph:''}</div></div>
+      <div class="field"><div class="field-lbl">Therapist</div><div class="field-val">${p.therapist||'—'} ${p.therapistph?'· '+p.therapistph:''}</div></div>
+      <div class="field"><div class="field-lbl">Medications</div><div class="field-val">${p.medications||'None'}</div></div>
+    </div>
+    <!-- Legal -->
+    <h2 class="section">Legal</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Next Hearing</div><div class="field-val">${p.nextHearing?new Date(p.nextHearing).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+      <div class="field"><div class="field-lbl">Hearing Type</div><div class="field-val">${p.hearingType||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Judge</div><div class="field-val">${p.judge||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Last Court Date</div><div class="field-val">${p.court?new Date(p.court).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+    </div>
+    <!-- Documents -->
+    <h2 class="section">Documents — ${(p.docs||[]).length}/${DOCS.length} collected (${docPct}%)</h2>
+    <div style="background:#f8f4ec;border-radius:6px;padding:10px 14px;margin-bottom:12px">
+      <div style="height:8px;background:#e8e0d4;border-radius:4px;overflow:hidden;margin-bottom:6px"><div style="height:100%;background:${docPct>=80?'#27ae60':docPct>=50?'#C8923A':'#c0392b'};border-radius:4px;width:${docPct}%"></div></div>
+      <div style="font-size:11px;color:#27ae60;margin-bottom:4px"><strong>Collected:</strong> ${docList}</div>
+      <div style="font-size:11px;color:#c0392b"><strong>Missing:</strong> ${missing}</div>
+    </div>
+    <!-- Benefits -->
+    <h2 class="section">Benefits</h2>
+    <div class="field-row">
+      <div class="field"><div class="field-lbl">Clothing Allowance</div><div class="field-val">${STATUS_LABELS[p.clothing]||'Not set'}</div></div>
+      <div class="field"><div class="field-lbl">Emergency Benefits</div><div class="field-val">${STATUS_LABELS[p.ebenefit]||'Not set'}</div></div>
+    </div>
+    ${p.notes?`<h2 class="section">Notes</h2><div style="background:#f9f9f9;border:1px solid #e8e0d4;border-radius:6px;padding:14px;font-size:12.5px;line-height:1.7;white-space:pre-wrap">${p.notes}</div>`:''}
+    ${timelineRows?`<h2 class="section">Activity Timeline</h2>
+    <table class="data"><thead><tr><th>Date / Time</th><th>Event</th></tr></thead><tbody>${timelineRows}</tbody></table>`:''}
+    <div style="margin-top:16px;padding:10px 14px;background:#f8f4ec;border-radius:6px;font-size:11px;color:#8a7e6e">
+      Medication entries: ${(p.medLog||[]).length} · Incidents: ${(p.incidentLog||[]).length} · Visits: ${(p.visitLog||[]).length} · Record ID: ${p.id}
+    </div>`;
+  openBrandedReport(brandedReportHTML('Full Placement Export',`${p.name||'—'} · ${days!==null?days+' days in care':'—'} · Case #${p.caseNum||'—'}`,body,`Full Placement Export · ${p.name||'—'} · AuntNancy.org · Confidential`));
 }
 
 // ══ MULTI-CHILD HOUSEHOLD VIEW ══
@@ -5871,15 +5912,9 @@ function generateVillageMonthlyReport(){
     <td style="padding:6px 10px;border:1px solid #e0e0e0">${i.action||'—'}</td>
   </tr>`).join(''):'<tr><td colspan="6" style="padding:10px;text-align:center;color:#999">No incidents this month</td></tr>';
 
-  const html=`<!DOCTYPE html><html><head><title>Village Monthly Report — ${monthName}</title>
-  <style>body{font-family:Arial,sans-serif;font-size:12px;margin:36px;color:#111;line-height:1.5}h1{font-size:20px;margin:0}h2{font-size:14px;border-bottom:2px solid #333;padding-bottom:4px;margin:22px 0 10px}table{width:100%;border-collapse:collapse;margin-bottom:16px}th{background:#f0f0f0;padding:8px 10px;border:1px solid #ddd;text-align:left;font-size:11px;white-space:nowrap}.sig{display:inline-block;width:220px;border-bottom:1px solid #333;height:22px;margin-right:40px}@media print{body{margin:20px}}</style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #333;padding-bottom:16px;margin-bottom:20px">
-    <div><h1>Village Monthly Report</h1><div style="font-size:13px;margin-top:4px;color:#555">${monthName}</div></div>
-    <div style="text-align:right;font-size:11px;color:#666">Caregiver: ${caregiver}<br>Household placements: ${list.length}<br>Generated: ${now.toLocaleDateString()}</div>
-  </div>
-
-  <h2>Placement Status Summary</h2>
-  <table>
+  const body=`
+  <h2 class="section">Placement Status Summary</h2>
+  <table class="data">
     <thead><tr>
       <th>Child Name</th><th>Age</th><th>Days in Care</th><th>SCI</th><th>School</th><th>Medi-Cal</th>
       <th>Visits</th><th>Medications</th><th>Incidents</th><th>Docs</th><th>Open Alerts</th>
@@ -5887,21 +5922,18 @@ function generateVillageMonthlyReport(){
     <tbody>${rows}</tbody>
   </table>
 
-  <h2>Bio Family & Sibling Visits — ${monthName}</h2>
-  <table>
-    <thead><tr><th>Child</th><th>Date</th><th>Visitor(s)</th><th>Type</th><th>Duration</th><th>Child Reaction</th><th>Concerns</th></tr></thead>
+  <h2 class="section">Bio Family & Sibling Visits — ${monthName}</h2>
+  <table class="data"><thead><tr><th>Child</th><th>Date</th><th>Visitor(s)</th><th>Type</th><th>Duration</th><th>Child Reaction</th><th>Concerns</th></tr></thead>
     <tbody>${visitRows}</tbody>
   </table>
 
-  <h2>Incidents — ${monthName}</h2>
-  <table>
-    <thead><tr><th>Child</th><th>Date</th><th>Severity</th><th>Description</th><th>Notified</th><th>Action Taken</th></tr></thead>
+  <h2 class="section">Incidents — ${monthName}</h2>
+  <table class="data"><thead><tr><th>Child</th><th>Date</th><th>Severity</th><th>Description</th><th>Notified</th><th>Action Taken</th></tr></thead>
     <tbody>${incRows}</tbody>
   </table>
 
-  <h2>Upcoming Court Dates</h2>
-  <table>
-    <thead><tr><th>Child</th><th>Next Hearing</th><th>Hearing Type</th><th>Judge</th><th>Days Away</th></tr></thead>
+  <h2 class="section">Upcoming Court Dates</h2>
+  <table class="data"><thead><tr><th>Child</th><th>Next Hearing</th><th>Hearing Type</th><th>Judge</th><th>Days Away</th></tr></thead>
     <tbody>${list.filter(p=>p.nextHearing).map(p=>{
       const d=Math.ceil((new Date(p.nextHearing)-now)/86400000);
       return `<tr><td style="padding:6px 10px;border:1px solid #e0e0e0">${p.name}</td><td style="padding:6px 10px;border:1px solid #e0e0e0">${new Date(p.nextHearing).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</td><td style="padding:6px 10px;border:1px solid #e0e0e0">${p.hearingType||'—'}</td><td style="padding:6px 10px;border:1px solid #e0e0e0">${p.judge||'—'}</td><td style="padding:6px 10px;border:1px solid #e0e0e0;color:${d<=7?'#c0392b':d<=14?'#e67e22':'inherit'};font-weight:${d<=14?'700':'400'}">${d} days</td></tr>`;
@@ -5909,14 +5941,19 @@ function generateVillageMonthlyReport(){
     </tbody>
   </table>
 
-  <h2>Caregiver Certification</h2>
-  <p style="margin-bottom:16px">I certify that the information contained in this monthly report is accurate and complete to the best of my knowledge. All incidents have been or will be reported to the appropriate licensing agency within required timeframes.</p>
-  <div style="margin-top:20px"><span class="sig"></span><span class="sig"></span></div>
-  <div style="display:flex;gap:40px;margin-top:4px;font-size:11px;color:#555"><span>Caregiver Signature &amp; Date</span><span>Agency Representative (if applicable)</span></div>
-  <div style="margin-top:32px;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:10px">Generated by AuntNancy.org Placement Tracker · ${now.toLocaleString()} · Confidential — for authorized use only</div>
-  </body></html>`;
+  <h2 class="section" style="margin-top:24px">Caregiver Certification</h2>
+  <p style="font-size:12.5px;color:#333;line-height:1.65;margin-bottom:16px">I certify that the information in this monthly report is accurate and complete to the best of my knowledge. All incidents have been or will be reported to the appropriate licensing agency within required timeframes.</p>
+  <div class="sig-row">
+    <div><div class="sig-line"></div><div class="sig-lbl">Caregiver Signature &amp; Date</div></div>
+    <div><div class="sig-line"></div><div class="sig-lbl">Agency Representative (if applicable)</div></div>
+  </div>`;
 
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+  openBrandedReport(brandedReportHTML(
+    'Village Monthly Report',
+    monthName+' · '+list.length+' placement'+(list.length!==1?'s':'')+' · AuntNancy.org',
+    body,
+    'Village Monthly Report · '+monthName+' · AuntNancy.org Placement Tracker · Confidential'
+  ));
 }
 
 // ══ AUNTNANCY BRANDED REPORT ══
@@ -6196,12 +6233,10 @@ function renderLetterBuilderStep(step){
 function printBuiltLetter(){
   if(!window._currentBuiltLetter) return;
   const {title,cite,text} = window._currentBuiltLetter;
-  const html=`<!DOCTYPE html><html><head><title>${title}</title><style>body{font-family:Georgia,serif;font-size:13.5px;line-height:1.85;margin:48px;color:#111;max-width:700px}p{margin-bottom:16px}.header{text-align:center;border-bottom:2px solid #c8923a;padding-bottom:12px;margin-bottom:24px}.brand{font-size:14px;font-weight:800;letter-spacing:.1em;color:#c8923a}.cite{font-size:10px;font-family:monospace;color:#888;margin-top:4px}@media print{body{margin:20px}}</style></head><body>
-  <div class="header"><div class="brand">AUNTNANCY.ORG</div><div class="cite">${cite}</div></div>
-  <div style="white-space:pre-wrap">${text.replace(/</g,'&lt;')}</div>
-  <div style="margin-top:40px;padding-top:12px;border-top:1px solid #eee;font-size:10px;color:#aaa">Generated by AuntNancy.org Letter Builder · ${new Date().toLocaleString()}</div>
-  </body></html>`;
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+  const body=`
+    <div style="background:#f8f4ec;border-left:4px solid #C8923A;border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:22px;font-size:11px;font-family:monospace;color:#8a7e6e;letter-spacing:.06em">${cite}</div>
+    <div style="font-family:Georgia,serif;font-size:13.5px;line-height:1.85;color:#111;white-space:pre-wrap">${text.replace(/</g,'&lt;')}</div>`;
+  openBrandedReport(brandedReportHTML(title, cite+' · AuntNancy.org Letter Builder', body, 'Generated by AuntNancy.org Letter Builder · '+new Date().toLocaleString()));
 }
 
 function markLetterSent(type){
@@ -6288,34 +6323,25 @@ function populateDashboardWidgets(){
 // ══ PRINTABLE FORMS ══
 function printForm(formId){
   const forms = {
-    checklist72:{title:'First 72-Hour Placement Checklist',content:buildChecklist72},
-    monthlyObs:{title:'Monthly Observation Log',content:buildMonthlyObs},
-    clothingInv:{title:'Clothing Inventory Form',content:buildClothingInv},
-    medLog:{title:'Medication Log',content:buildMedLogForm},
-    schoolContact:{title:'School Contact Sheet',content:buildSchoolContact},
-    incidentDoc:{title:'Incident Documentation Form',content:buildIncidentDoc},
-    behaviorTrack:{title:'Behavior Tracking Sheet',content:buildBehaviorTrack},
-    therapyNotes:{title:'Therapy Appointment Notes',content:buildTherapyNotes},
-    courtTracker:{title:'Court Date Tracker',content:buildCourtTracker},
-    childPref:{title:'Child Preference Sheet',content:buildChildPref},
-    placementBinder:{title:'Placement Binder Cover Page',content:buildPlacementBinder},
-    youthRights:{title:'Youth Rights Handout',content:buildYouthRights},
-    safetyPlan:{title:'Personal Safety Plan',content:buildSafetyPlan},
-    calmDown:{title:'Calm-Down Plan',content:buildCalmDown},
-    coReg:{title:'Co-Regulation Activity Cards',content:buildCoReg},
+    checklist72:{title:'First 72-Hour Placement Checklist',sub:'Complete within 72 hours of placement',content:buildChecklist72},
+    monthlyObs:{title:'Monthly Observation Log',sub:'Complete one per child per month',content:buildMonthlyObs},
+    clothingInv:{title:'Clothing Inventory Form',sub:'Document clothing at placement and quarterly',content:buildClothingInv},
+    medLog:{title:'Medication Log',sub:'LIC 9052 format · Required for all licensed homes',content:buildMedLogForm},
+    schoolContact:{title:'School Contact Sheet',sub:'Keep current · Update with every school change',content:buildSchoolContact},
+    incidentDoc:{title:'Incident Documentation Form',sub:'Complete within 24–72 hours per CCLD regulations',content:buildIncidentDoc},
+    behaviorTrack:{title:'Behavior Tracking Sheet',sub:'Track patterns weekly · Share with therapist',content:buildBehaviorTrack},
+    therapyNotes:{title:'Therapy Appointment Notes',sub:'Document each session for case file',content:buildTherapyNotes},
+    courtTracker:{title:'Court Date Tracker',sub:'Record all hearings and outcomes',content:buildCourtTracker},
+    childPref:{title:'Child Preference Sheet',sub:'Complete on day of placement · Update regularly',content:buildChildPref},
+    placementBinder:{title:'Placement Binder Cover Page',sub:'Print and place at front of placement binder',content:buildPlacementBinder},
+    youthRights:{title:'Youth Rights Handout',sub:'WIC §16001.9 · Give to youth at placement',content:buildYouthRights},
+    safetyPlan:{title:'Personal Safety Plan',sub:'Complete with youth together',content:buildSafetyPlan},
+    calmDown:{title:'Calm-Down Plan',sub:'Complete with youth · Post in visible location',content:buildCalmDown},
+    coReg:{title:'Co-Regulation Activity Cards',sub:'Use when youth is dysregulated · Practice daily',content:buildCoReg},
   };
   const form=forms[formId];if(!form)return;
   const p=getPlacements()[0]||{};
-  const html=`<!DOCTYPE html><html><head><title>${form.title}</title>
-  <style>*{box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;margin:36px;color:#111;line-height:1.5}h1{font-size:16px;margin-bottom:2px}h2{font-size:13px;border-bottom:1px solid #ccc;padding-bottom:4px;margin:18px 0 8px;color:#333}table{width:100%;border-collapse:collapse;margin-bottom:12px}td,th{padding:6px 8px;border:1px solid #ddd}th{background:#f5f5f5;font-size:11px;font-weight:700;text-align:left}.field{border-bottom:1px solid #333;min-height:22px;display:inline-block;width:100%;margin-bottom:10px}.check{display:inline-flex;align-items:center;gap:6px;margin:3px 8px 3px 0;font-size:12px}.box{width:14px;height:14px;border:1px solid #333;display:inline-block;flex-shrink:0}.brand{font-size:10px;color:#c8923a;font-weight:700;letter-spacing:.1em}@media print{body{margin:16px}}</style></head><body>
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #c8923a;padding-bottom:10px;margin-bottom:16px">
-    <div><h1>${form.title}</h1><div class="brand">AUNTNANCY.ORG</div></div>
-    <div style="text-align:right;font-size:10px;color:#888">Date: ___/___/______<br>Child: ${p.name||'_________________'}<br>Case #: ${p.caseNum||'_______________'}</div>
-  </div>
-  ${form.content(p)}
-  <div style="margin-top:28px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:8px">Generated by AuntNancy.org · auntnancy.org · ${new Date().toLocaleDateString()}</div>
-  </body></html>`;
-  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+  openBrandedReport(brandedReportHTML(form.title, form.sub+' · '+new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}), form.content(p)));
 }
 
 function buildChecklist72(p){return `
@@ -6523,6 +6549,134 @@ function acceptTrackerDisclaimer(){
 function checkTrackerDisclaimer(){
   const accepted=localStorage.getItem('an_tracker_disclaimer_accepted');
   if(!accepted) showTrackerDisclaimer();
+}
+
+// ══ PRINT PLACEMENT APPOINTMENTS ══
+function printPlacementAppts(placementId, range){
+  const all = getAppointments();
+  const placements = getPlacements();
+  const p = placements.find(x=>x.id===placementId);
+  if(!p) return;
+
+  const now = new Date();
+  let rangeEnd, rangeLabel;
+  if(range==='today'){
+    rangeEnd = new Date(now); rangeEnd.setHours(23,59,59,999);
+    rangeLabel = 'Today — '+now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  } else if(range==='week'){
+    rangeEnd = new Date(now); rangeEnd.setDate(rangeEnd.getDate()+7);
+    rangeLabel = 'This Week ('+now.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' – '+rangeEnd.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+')';
+  } else if(range==='month'){
+    rangeEnd = new Date(now.getFullYear(),now.getMonth()+1,0,23,59,59);
+    rangeLabel = now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+  } else {
+    rangeEnd = new Date(now); rangeEnd.setFullYear(rangeEnd.getFullYear()+2);
+    rangeLabel = 'All Upcoming';
+  }
+
+  const appts = all
+    .filter(a => a.placementId===placementId && new Date(a.dateTime)>=now && new Date(a.dateTime)<=rangeEnd)
+    .sort((a,b)=>new Date(a.dateTime)-new Date(b.dateTime));
+
+  const rows = appts.length ? appts.map(a=>{
+    const cat = APPT_CATS[a.category]||APPT_CATS.other;
+    const d = new Date(a.dateTime);
+    return `<tr>
+      <td style="padding:8px 10px;border:1px solid #ddd">${d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd">${d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd">${cat.icon} ${cat.label}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd;font-weight:600">${(a.title||cat.label).replace(/</g,'&lt;')}${a.recurring?' 🔁':''}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd">${a.location||'—'}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd">${a.notes||'—'}</td>
+      <td style="padding:8px 10px;border:1px solid #ddd"></td>
+    </tr>`;
+  }).join('') : `<tr><td colspan="7" style="padding:14px;text-align:center;color:#aaa">No appointments in this range.</td></tr>`;
+
+  const body=`
+    <div class="field-row" style="margin-bottom:16px">
+      <div class="field"><div class="field-lbl">Child Name</div><div class="field-val">${p.name||'—'}</div></div>
+      <div class="field"><div class="field-lbl">Date of Birth</div><div class="field-val">${p.dob||'—'}</div></div>
+      <div class="field"><div class="field-lbl">DCFS Case #</div><div class="field-val">${p.caseNum||'—'}</div></div>
+      <div class="field"><div class="field-lbl">CSW</div><div class="field-val">${p.csw||'—'} ${p.cswph?'· '+p.cswph:''}</div></div>
+    </div>
+    <h2 class="section">${rangeLabel} — ${appts.length} Appointment${appts.length!==1?'s':''}</h2>
+    <table class="data">
+      <thead><tr><th>Date</th><th>Time</th><th>Type</th><th>Title</th><th>Location</th><th>Notes</th><th>✓</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="margin-top:16px;font-size:11px;color:#8a7e6e">Total: ${appts.length} appointment${appts.length!==1?'s':''} · 🔁 = recurring</div>`;
+  openBrandedReport(brandedReportHTML(`Appointment Schedule — ${p.name||'—'}`, rangeLabel+' · AuntNancy.org Placement Tracker', body));
+}
+
+// ══ SHARED BRANDED REPORT SHELL ══
+function brandedReportHTML(title, subtitle, bodyHTML, footerNote=''){
+  const now = new Date();
+  const caregiver = currentUser ? `${currentUser.first||''} ${currentUser.last||''}`.trim() : '';
+  const dateLine = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  return `<!DOCTYPE html><html><head><title>${title} — AuntNancy.org</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Arial',sans-serif;font-size:12px;color:#111;background:#f0ece4;min-height:100vh}
+    .page{max-width:900px;margin:0 auto;background:white;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.12)}
+    .brand-header{background:#0c0a08;padding:20px 32px;display:flex;align-items:center;justify-content:space-between}
+    .brand-wordmark{font-size:18px;font-weight:800;color:white;letter-spacing:.06em}
+    .brand-wordmark span{color:#C8923A}
+    .brand-meta{text-align:right;font-size:10.5px;color:rgba(255,255,255,.45);line-height:1.6}
+    .brand-stripe{height:3px;background:linear-gradient(90deg,#C8923A,#E4BE78,#C8923A)}
+    .report-hero{padding:22px 32px 18px;border-bottom:1px solid #f0ece4;background:white}
+    .report-title{font-size:22px;font-weight:800;color:#0c0a08;letter-spacing:-.02em;margin-bottom:3px}
+    .report-subtitle{font-size:13px;color:#8a7e6e}
+    .report-body{padding:24px 32px;background:white}
+    h2.section{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8a7e6e;margin:22px 0 10px;padding-bottom:6px;border-bottom:2px solid #f0ece4}
+    table.data{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:11.5px}
+    table.data th{background:#f8f4ec;padding:7px 10px;border:1px solid #e8e0d4;text-align:left;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a7e6e;white-space:nowrap}
+    table.data td{padding:7px 10px;border:1px solid #e8e0d4;vertical-align:top;line-height:1.5}
+    table.data tr:nth-child(even) td{background:#fdfcfa}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:12px}
+    .field{padding:8px 12px;border:1px solid #e8e0d4;border-right:none}
+    .field:last-child{border-right:1px solid #e8e0d4}
+    .field-lbl{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8a7e6e;margin-bottom:2px}
+    .field-val{font-size:12.5px;color:#0c0a08;font-weight:500}
+    .status-green{color:#27ae60;font-weight:700}
+    .status-red{color:#c0392b;font-weight:700}
+    .status-gold{color:#9a6f1f;font-weight:700}
+    .sig-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px}
+    .sig-line{border-bottom:1px solid #333;height:28px;margin-bottom:4px}
+    .sig-lbl{font-size:10px;color:#8a7e6e}
+    .brand-footer{background:#0c0a08;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+    .brand-footer-text{font-size:10px;color:rgba(255,255,255,.35)}
+    .confidential{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+    @media print{body{background:white}.page{box-shadow:none}button{display:none!important}}
+  </style></head><body>
+  <div class="page">
+    <div class="brand-header">
+      <div class="brand-wordmark">AUNT<span>NANCY</span>.ORG</div>
+      <div class="brand-meta">
+        ${caregiver?caregiver+'<br>':''}${dateLine}<br>
+        <span class="confidential">Confidential</span>
+      </div>
+    </div>
+    <div class="brand-stripe"></div>
+    <div class="report-hero">
+      <div class="report-title">${title}</div>
+      <div class="report-subtitle">${subtitle}</div>
+    </div>
+    <div class="report-body">
+      ${bodyHTML}
+    </div>
+    <div class="brand-footer">
+      <div class="brand-footer-text">${footerNote||'Generated by AuntNancy.org Placement Tracker · '+now.toLocaleString()}</div>
+      <div class="brand-footer-text">auntnancy.org</div>
+    </div>
+  </div>
+  </body></html>`;
+}
+
+function openBrandedReport(html){
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>w.print(),500);
 }
 
 function toggleLettersDrop(containerId){
@@ -7602,11 +7756,12 @@ function calDayClick(day,containerId){
     </div>`;
   }).join('')}<button onclick="openApptModal()" style="background:transparent;border:1px dashed var(--border);color:var(--muted);padding:5px 12px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;cursor:pointer;width:100%;margin-top:4px">+ Add another</button>`;
 }
-function openApptModal(apptId){
+function openApptModal(apptId, preselectedPlacementId){
   _editingApptId=apptId||null;
   const list=getAppointments();
   const a=apptId?list.find(x=>x.id===apptId):null;
   const placements=getPlacements();
+  const linkedPlacementId = a?.placementId || preselectedPlacementId || '';
   let modal=document.getElementById('apptModal');
   if(!modal){
     modal=document.createElement('div');
@@ -7626,7 +7781,7 @@ function openApptModal(apptId){
         <label><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Time</span><input type="time" id="apptTime" value="${a?.dateTime?a.dateTime.substring(11,16):'09:00'}" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px"></label>
       </div>
       <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Category</span><select id="apptCategory" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white">${Object.entries(APPT_CATS).map(([k,v])=>`<option value="${k}"${a?.category===k?' selected':''}>${v.icon} ${v.label}</option>`).join('')}</select></label>
-      ${placements.length?`<label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">For Child (optional)</span><select id="apptPlacement" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white"><option value="">— Not linked to a child —</option>${placements.map(p=>`<option value="${p.id}"${a?.placementId===p.id?' selected':''}>${p.name||'Unnamed child'}</option>`).join('')}</select></label>`:''}
+      ${placements.length?`<label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">For Child (optional)</span><select id="apptPlacement" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px;background:white"><option value="">— Not linked to a child —</option>${placements.map(p=>`<option value="${p.id}"${linkedPlacementId===p.id?' selected':''}>${p.name||'Unnamed child'}</option>`).join('')}</select></label>`:''}
       <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Location (optional)</span><input type="text" id="apptLocation" value="${a?.location?.replace(/"/g,'&quot;')||''}" placeholder="Address, office name, or link" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13.5px"></label>
       <label style="display:block;margin-bottom:14px"><span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">Notes (optional)</span><textarea id="apptNotes" placeholder="Bring insurance card, paperwork to ask about…" style="width:100%;height:60px;resize:vertical;padding:9px 12px;border:1px solid var(--border);border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5">${a?.notes||''}</textarea></label>
       <!-- RECURRING -->
@@ -7715,6 +7870,8 @@ function saveAppt(){
   saveAppointments(list);
   closeApptModal();
   ['apptWidgetParent','apptWidgetKinship'].forEach(id=>{const el=document.getElementById(id);if(el)renderAppointmentsWidget(id);});
+  // Refresh case panels so Appointments tab updates
+  ['casePanelParent','casePanelKinship'].forEach(id=>{const el=document.getElementById(id);if(el)renderCasePanel(id);});
 }
 
 function deleteAppt(id){
@@ -7757,18 +7914,19 @@ function scheduleAppointmentNotifications(){
 
 
 const CP_TABS = [
-  {id:'medical',     label:'🏥 Medical/Dental'},
-  {id:'education',   label:'📚 Education'},
-  {id:'legal',       label:'⚖️ Legal'},
-  {id:'benefits',    label:'💰 Benefits'},
-  {id:'documents',   label:'📄 Documents'},
-  {id:'medications', label:'💊 Medications'},
-  {id:'incidents',   label:'🚨 Incidents'},
-  {id:'visits',      label:'👨‍👩‍👧 Visits'},
-  {id:'reports',     label:'📊 Reports'},
-  {id:'screening',   label:'🔍 Screening'},
-  {id:'loc',         label:'📊 LOC'},
-  {id:'notes',       label:'📝 Notes'},
+  {id:'medical',      label:'🏥 Medical/Dental'},
+  {id:'education',    label:'📚 Education'},
+  {id:'legal',        label:'⚖️ Legal'},
+  {id:'benefits',     label:'💰 Benefits'},
+  {id:'documents',    label:'📄 Documents'},
+  {id:'appointments', label:'📅 Appointments'},
+  {id:'medications',  label:'💊 Medications'},
+  {id:'incidents',    label:'🚨 Incidents'},
+  {id:'visits',       label:'👨‍👩‍👧 Visits'},
+  {id:'reports',      label:'📊 Reports'},
+  {id:'screening',    label:'🔍 Screening'},
+  {id:'loc',          label:'📊 LOC'},
+  {id:'notes',        label:'📝 Notes'},
 ];
 const CP_TAB_PROMPTS = {
   medical: 'Allergies, conditions, medications, primary doctor, Medi-Cal status, recent appointments, blood type…',
@@ -7901,6 +8059,70 @@ function renderCasePanel(containerId){
       <div style="margin-top:10px;font-size:10.5px;color:var(--muted)">${(p.docs||[]).length}/${DOCS.length} collected · Edit intake to update</div>
     </div>
     </div>
+    <!-- APPOINTMENTS TAB -->
+    <div class="cp-pane" id="${containerId}-appointments">
+      ${(()=>{
+        const now = new Date();
+        const allAppts = getAppointments();
+        const childAppts = allAppts
+          .filter(a => a.placementId === p.id && new Date(a.dateTime) >= now)
+          .sort((a,b) => new Date(a.dateTime) - new Date(b.dateTime));
+
+        // Print bar
+        const printBar = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+          <button onclick="openApptModal(null,'${p.id}')" style="background:var(--gold);color:var(--ink);border:none;padding:6px 14px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer">+ Add Appointment</button>
+          <div style="margin-left:auto;display:flex;gap:6px;align-items:center">
+            <span style="font-size:10.5px;color:var(--muted);font-weight:700">Print:</span>
+            <button onclick="printPlacementAppts('${p.id}','today')" style="background:white;border:1px solid var(--border);color:var(--ink);padding:5px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer">Today</button>
+            <button onclick="printPlacementAppts('${p.id}','week')" style="background:white;border:1px solid var(--border);color:var(--ink);padding:5px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer">This Week</button>
+            <button onclick="printPlacementAppts('${p.id}','month')" style="background:white;border:1px solid var(--border);color:var(--ink);padding:5px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer">This Month</button>
+            <button onclick="printPlacementAppts('${p.id}','all')" style="background:var(--ink);color:white;border:none;padding:5px 11px;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer">All Upcoming</button>
+          </div>
+        </div>`;
+
+        if(!childAppts.length) return printBar + `<div style="background:var(--cream);border-radius:8px;padding:20px;text-align:center"><div style="font-size:18px;margin-bottom:6px">📅</div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px">No pending appointments</div><div style="font-size:12px;color:var(--muted)">Click + Add Appointment to schedule one for ${p.name}.</div></div>`;
+
+        // Group by month
+        const grouped = {};
+        childAppts.forEach(a => {
+          const d = new Date(a.dateTime);
+          const key = d.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+          if(!grouped[key]) grouped[key] = [];
+          grouped[key].push(a);
+        });
+
+        const rows = Object.entries(grouped).map(([month, appts]) => {
+          const items = appts.map(a => {
+            const cat = APPT_CATS[a.category]||APPT_CATS.other;
+            const d = new Date(a.dateTime);
+            const dayStr = d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+            const timeStr = d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+            const daysOut = Math.ceil((d-now)/86400000);
+            const urgColor = daysOut===0?'#c0392b':daysOut<=3?'#e67e22':daysOut<=7?'#9a6f1f':'var(--muted)';
+            const urgLabel = daysOut===0?'TODAY':daysOut===1?'TOMORROW':daysOut+'d';
+            return `<div onclick="openApptModal('${a.id}')" style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:white;border:1px solid var(--border);border-left:4px solid ${cat.color};border-radius:7px;margin-bottom:6px;cursor:pointer;transition:background .15s" onmouseover="this.style.background='var(--cream)'" onmouseout="this.style.background='white'">
+              <span style="font-size:18px;flex-shrink:0">${cat.icon}</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:13px;font-weight:600;color:var(--ink)">${(a.title||cat.label).replace(/</g,'&lt;')}${a.recurring?` <span style="font-size:9px;background:rgba(200,146,58,.15);color:#9a6f1f;padding:1px 5px;border-radius:3px">🔁</span>`:''}</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:1px">${dayStr} · ${timeStr}${a.location?' · '+a.location:''}</div>
+                ${a.notes?`<div style="font-size:11px;color:#555;margin-top:2px;font-style:italic">${a.notes.substring(0,80)}${a.notes.length>80?'…':''}</div>`:''}
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:10px;font-weight:800;color:${urgColor};letter-spacing:.04em">${urgLabel}</div>
+                <div style="font-size:9.5px;color:var(--muted);margin-top:2px">›</div>
+              </div>
+            </div>`;
+          }).join('');
+          return `<div style="margin-bottom:16px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--cream)">${month}</div>
+            ${items}
+          </div>`;
+        }).join('');
+
+        return printBar + rows;
+      })()}
+    </div>
+
     <!-- MEDICATIONS TAB (LIC 9052) -->
     <div class="cp-pane" id="${containerId}-medications">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
