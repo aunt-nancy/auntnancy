@@ -3372,7 +3372,13 @@ function showDP(id,navEl){
   const panel=document.getElementById('dp-'+id);
   if(panel) panel.classList.add('on');
   if(navEl) navEl.classList.add('on');
-  if(id==='placements'){renderPlacements();checkTrackerDisclaimer();}
+  if(id==='placements'){
+    renderPlacements();
+    checkTrackerDisclaimer();
+    // If no placements yet, open blank form immediately
+    const existing=getPlacements().filter(p=>p.name);
+    if(!existing.length) setTimeout(()=>openPlacementForm(),400);
+  }
   if(id==='overview') populateDashboardWidgets();
   if(id==='letters'){
     // refresh letter builder panel to show sent/draft counts
@@ -3631,14 +3637,14 @@ function openPlacementForm(id){
   document.getElementById('pfTitle').textContent=id?'Edit Placement':'New Placement';
   document.getElementById('pfSaveBtn').textContent=id?'Save Changes →':'Save Placement →';
   // Clear form
-  ['pf-fname','pf-mname','pf-lname','pf-dob','pf-date','pf-age','pf-gender','pf-lang','pf-prior','pf-school','pf-grade','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-case','pf-court','pf-judge','pf-notes','pf-casa','pf-attorney','pf-therapist','pf-therapistph','pf-doctor','pf-doctorph','pf-meds'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
+  ['pf-fname','pf-mname','pf-lname','pf-dob','pf-date','pf-enddate','pf-age','pf-gender','pf-lang','pf-prior','pf-school','pf-grade','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-case','pf-court','pf-judge','pf-notes','pf-casa','pf-attorney','pf-therapist','pf-therapistph','pf-doctor','pf-doctorph','pf-meds'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
   ['pf-enrolled','pf-clothing','pf-ebenefit','pf-medi','pf-placetype','pf-icwa','pf-iep','pf-504','pf-sci','pf-biocontact','pf-hearingtype','pf-nexthearing'].forEach(fid=>{const el=document.getElementById(fid);if(el) el.value='';});
   DOCS.forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=false;});
   if(id){
     const list=getPlacements();
     const p=list.find(p=>p.id===id);
     if(p){
-      const fmap={'pf-fname':'fname','pf-mname':'mname','pf-lname':'lname','pf-dob':'dob','pf-date':'date','pf-age':'age','pf-gender':'gender','pf-lang':'language','pf-prior':'priorPlacements','pf-school':'school','pf-grade':'grade','pf-csw':'csw','pf-cswph':'cswph','pf-scsw':'scsw','pf-scswph':'scswph','pf-case':'caseNum','pf-court':'court','pf-judge':'judge','pf-notes':'notes','pf-casa':'casa','pf-attorney':'attorney','pf-therapist':'therapist','pf-therapistph':'therapistph','pf-doctor':'doctor','pf-doctorph':'doctorph','pf-meds':'medications','pf-enrolled':'enrolled','pf-clothing':'clothing','pf-ebenefit':'ebenefit','pf-medi':'medi','pf-placetype':'placementType','pf-icwa':'icwa','pf-iep':'iep','pf-504':'iep504','pf-sci':'sci','pf-biocontact':'bioContact','pf-hearingtype':'hearingType','pf-nexthearing':'nextHearing'};
+      const fmap={'pf-fname':'fname','pf-mname':'mname','pf-lname':'lname','pf-dob':'dob','pf-date':'date','pf-enddate':'endDate','pf-age':'age','pf-gender':'gender','pf-lang':'language','pf-prior':'priorPlacements','pf-school':'school','pf-grade':'grade','pf-csw':'csw','pf-cswph':'cswph','pf-scsw':'scsw','pf-scswph':'scswph','pf-case':'caseNum','pf-court':'court','pf-judge':'judge','pf-notes':'notes','pf-casa':'casa','pf-attorney':'attorney','pf-therapist':'therapist','pf-therapistph':'therapistph','pf-doctor':'doctor','pf-doctorph':'doctorph','pf-meds':'medications','pf-enrolled':'enrolled','pf-clothing':'clothing','pf-ebenefit':'ebenefit','pf-medi':'medi','pf-placetype':'placementType','pf-icwa':'icwa','pf-iep':'iep','pf-504':'iep504','pf-sci':'sci','pf-biocontact':'bioContact','pf-hearingtype':'hearingType','pf-nexthearing':'nextHearing'};
       Object.entries(fmap).forEach(([fid,key])=>{const el=document.getElementById(fid);if(el&&p[key]) el.value=p[key];});
       (p.docs||[]).forEach(d=>{const el=document.getElementById('doc-'+d);if(el) el.checked=true;});
     }
@@ -3777,6 +3783,7 @@ function doSavePlacement(fname,mname,lname,dob,name,closeAfter){
     fname, mname, lname, name,
     dob,
     date:document.getElementById('pf-date').value,
+    endDate:document.getElementById('pf-enddate')?.value||'',
     age:document.getElementById('pf-age').value,
     gender:document.getElementById('pf-gender')?.value||'',
     placementType:document.getElementById('pf-placetype')?.value||'',
@@ -4008,6 +4015,7 @@ function renderPlacements(){
     ${filtered.length===0&&q?`<div style="font-size:13px;color:var(--muted);text-align:center;padding:24px">No placements match "<strong>${q}</strong>"</div>`:''}
     ${filtered.map(p=>{
     const days=daysInCare(p.date);
+    const isEnded = p.endDate && new Date(p.endDate) < new Date();
     const initials=p.name.charAt(0).toUpperCase();
     const missingDocs=DOCS.filter(d=>!(p.docs||[]).includes(d));
     const hasConcerns=(p.enrolled==='pending'||p.enrolled==='no')||(p.medi==='issue'||p.medi==='pending')||(p.clothing==='not-requested')||(missingDocs.length>3);
@@ -4016,12 +4024,12 @@ function renderPlacements(){
     const alerts=getCaseAlerts(p);
     const redCount=alerts.filter(a=>a.level==='red').length;
     let statusColor=hasConcerns?(redCount>0?'#c0392b':'#f39c12'):'#27ae60';
-    return `<div class="pl-card">
+    return `<div class="pl-card" style="${isEnded?'opacity:.7;border-left:4px solid #8a7e6e':''}">
       <div class="pl-hd" onclick="togglePlacement('${p.id}')">
-        <div class="pl-av">${initials}</div>
+        <div class="pl-av" style="${isEnded?'background:#8a7e6e':''}">${initials}</div>
         <div>
-          <div class="pl-name">${p.name}${p.age?' · Age '+p.age:''}</div>
-          <div class="pl-since">${p.date?'In care since '+new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'Placement date not set'}${days!==null?' · '+days+' days':''}</div>
+          <div class="pl-name">${p.name}${p.age?' · Age '+p.age:''}${isEnded?` <span style="font-size:10px;background:#f5f5f5;color:#8a7e6e;padding:1px 7px;border-radius:10px;font-weight:700">Ended</span>`:''}</div>
+          <div class="pl-since">${isEnded?'Placement ended '+new Date(p.endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):p.date?'In care since '+new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'Placement date not set'}${days!==null&&!isEnded?' · '+days+' days':''}</div>
         </div>
         <div class="pl-badges">
           ${p.enrolled?getStatusBadge('School',p.enrolled):'<span class="pl-badge warn">School: Not set</span>'}
@@ -5304,6 +5312,416 @@ const SCREENING_TOOLS = [
       {letter:'S', name:'Safety', color:'#7f8c8d', questions:['Do you feel safe in your neighborhood?','Have you ever been bullied, threatened, or hurt by someone?','Have you ever carried a weapon for protection?','Have you ever been in trouble with the law?']},
     ],
   },
+
+  // ── NEW TOOLS ──────────────────────────────────────────────────────────────
+
+  {
+    id:'aces', name:'ACEs', full:'Adverse Childhood Experiences Questionnaire',
+    icon:'🧠', color:'#8e44ad', audience:'Ages 18+ self-report · Caregiver-proxy for minors',
+    desc:'10-item questionnaire measuring exposure to adverse childhood experiences across abuse, neglect, and household dysfunction. ACE score directly informs SCI justification, therapy referrals, and school accommodation requests. Foundational for every foster placement.',
+    source:'Felitti et al., 1998 · CDC-Kaiser ACE Study · Public domain',
+    type:'yesno',
+    note:'For children under 18, this is completed by the caregiver based on known history. Answer "Yes" only for documented or disclosed experiences. This is not an exhaustive list — a score of 0 does not mean no adverse experiences.',
+    items:[
+      'Did a parent or other adult in the household often swear at, insult, humiliate, or threaten the child?',
+      'Did a parent or other adult in the household often push, grab, slap, or throw something at the child? Or ever hit the child so hard that marks were left?',
+      'Did an adult or person at least 5 years older ever touch or fondle the child in a sexual way, or attempt or actually have oral, anal, or vaginal intercourse?',
+      'Did the child often feel that no one in the family loved them, thought they were important, or looked out for each other?',
+      'Did the child often feel that they didn\'t have enough to eat, had to wear dirty clothes, or had no one to protect them?',
+      'Was a biological parent ever lost to the child through divorce, abandonment, or other reason?',
+      'Was the child\'s mother (or stepmother) often pushed, grabbed, slapped, or threatened? Or sometimes, often, or very often kicked, bitten, hit with a fist, or hit with something hard?',
+      'Did the child live with anyone who had a problem with drinking or using street drugs or prescription drugs?',
+      'Was a household member depressed or mentally ill, or did a household member attempt suicide?',
+      'Did a household member ever go to prison?',
+    ],
+    scoring:[
+      {max:0, label:'No ACEs Identified', color:'#27ae60', action:'Document. Note that disclosure may be incomplete. Maintain trauma-informed caregiving practices.'},
+      {max:1, label:'Low ACE Score (1)', color:'#f39c12', action:'Document. Provide stable, nurturing environment. Monitor for trauma symptoms. Consider preventive mental health support.'},
+      {max:3, label:'Moderate ACE Score (2–3)', color:'#e67e22', action:'Recommend mental health screening and referral. Discuss with CSW. Document in case notes for SCI consideration.'},
+      {max:6, label:'High ACE Score (4–6)', color:'#c0392b', action:'Prioritize trauma-informed mental health services. Request SCI assessment. Document for court report. Notify therapy team.'},
+      {max:10, label:'Very High ACE Score (7–10)', color:'#922b21', action:'Urgent mental health referral. Request comprehensive SCI evaluation. Coordinate with CSW on specialized placement supports. Consider trauma-specific therapy (TF-CBT).'},
+    ],
+  },
+
+  {
+    id:'sdq', name:'SDQ', full:'Strengths and Difficulties Questionnaire — Caregiver Report',
+    icon:'⚖️', color:'#2980b9', audience:'Ages 4–17 · Caregiver-completed',
+    desc:'25-item caregiver-completed behavioral screening tool. Identifies strengths and difficulties across five domains. One of the most widely validated tools for use in child welfare and foster care settings.',
+    source:'Goodman, 1997 · Youthinmind.net · Free for non-commercial use',
+    type:'likert3',
+    scale:['Not True','Somewhat True','Certainly True'],
+    note:'Complete based on observations over the past 6 months. There are no right or wrong answers — honest responses produce the most useful results.',
+    items:[
+      'Considerate of other people\'s feelings',
+      'Restless, overactive, cannot stay still for long',
+      'Often complains of headaches, stomach-aches or sickness',
+      'Shares readily with other children (treats, toys, pencils)',
+      'Often has temper tantrums or hot tempers',
+      'Rather solitary, tends to play alone',
+      'Generally obedient, usually does what adults request',
+      'Many worries, often seems worried',
+      'Helpful if someone is hurt, upset or feeling ill',
+      'Constantly fidgeting or squirming',
+      'Has at least one good friend',
+      'Often fights with other children or bullies them',
+      'Often unhappy, downhearted or tearful',
+      'Generally liked by other children',
+      'Easily distracted, concentration wanders',
+      'Nervous or clingy in new situations, easily loses confidence',
+      'Kind to younger children',
+      'Often lies or cheats',
+      'Picked on or bullied by other children',
+      'Often volunteers to help others (parents, teachers, other children)',
+      'Thinks before doing things',
+      'Steals from home, school or elsewhere',
+      'Gets on better with adults than with other children',
+      'Many fears, easily scared',
+      'Sees tasks through to the end, good attention span',
+    ],
+    subscales:{
+      emotional:[2,7,12,15,23],
+      conduct:[4,11,17,21],
+      hyperactivity:[1,9,14,24],
+      peer:[5,10,18,22],
+      prosocial:[0,3,8,16,19],
+    },
+    scoring:[
+      {max:14, label:'Close to Average', color:'#27ae60', action:'Continue monitoring. No immediate concerns.'},
+      {max:16, label:'Slightly Raised', color:'#f39c12', action:'Monitor closely. Discuss with school and CSW. Consider mental health consultation.'},
+      {max:19, label:'High', color:'#e67e22', action:'Recommend mental health evaluation. Document for case plan. Consider support services referral.'},
+      {max:40, label:'Very High', color:'#c0392b', action:'Urgent referral for mental health services. Notify CSW. Document for court report and SCI assessment.'},
+    ],
+  },
+
+  {
+    id:'vanderbilt', name:'Vanderbilt ADHD', full:'Vanderbilt ADHD Diagnostic Parent Rating Scale — Abbreviated',
+    icon:'⚡', color:'#d35400', audience:'Ages 6–12 · Caregiver-completed',
+    desc:'Abbreviated version of the validated Vanderbilt ADHD Parent Rating Scale. Screens for inattentive, hyperactive-impulsive, and combined presentations. ADHD is significantly overrepresented in foster youth and often undiagnosed. Results generate clinical language for IEP evaluation requests.',
+    source:'Wolraich et al., 1998 · Vanderbilt University · NICHQ',
+    type:'likert4',
+    scale:['Never','Occasionally','Often','Very Often'],
+    note:'Score each item based on the past 6 months. A pattern of 2 or more items rated "Often" or "Very Often" in either category warrants a referral for full evaluation.',
+    items:[
+      'Fails to give close attention to details or makes careless mistakes in schoolwork',
+      'Has difficulty sustaining attention in tasks or play activities',
+      'Does not seem to listen when spoken to directly',
+      'Does not follow through on instructions and fails to finish schoolwork',
+      'Has difficulty organizing tasks and activities',
+      'Avoids, dislikes, or is reluctant to engage in tasks requiring sustained mental effort',
+      'Loses things necessary for tasks or activities',
+      'Is easily distracted by extraneous stimuli',
+      'Is forgetful in daily activities',
+      'Fidgets with hands or feet or squirms in seat',
+      'Leaves seat in situations when remaining seated is expected',
+      'Runs or climbs excessively in situations where it is inappropriate',
+      'Has difficulty playing or engaging in leisure activities quietly',
+      'Is "on the go" or acts as if "driven by a motor"',
+      'Talks excessively',
+      'Blurts out answers before questions have been completed',
+      'Has difficulty waiting his/her turn',
+      'Interrupts or intrudes on others',
+    ],
+    scoring:[
+      {max:6, label:'Unlikely ADHD', color:'#27ae60', action:'Monitor. If concerns persist, reassess in 3 months.'},
+      {max:12, label:'Possible ADHD — Inattentive Presentation', color:'#f39c12', action:'Consider referral for full evaluation. Request IEP or 504 meeting. Document for CSW.'},
+      {max:24, label:'Possible ADHD — Combined/Hyperactive Presentation', color:'#e67e22', action:'Recommend evaluation by pediatrician or psychologist. Request school evaluation under IDEA. Document for court report.'},
+      {max:72, label:'Significant Concerns', color:'#c0392b', action:'Prioritize referral. Contact school for immediate IEP evaluation. Notify CSW. Document all observable behaviors.'},
+    ],
+  },
+
+  {
+    id:'ils', name:'ILS Assessment', full:'Independent Living Skills Assessment — Youth Self-Report',
+    icon:'🏡', color:'#27ae60', audience:'Ages 14–21 · Youth self-report',
+    desc:'Screens readiness across 8 domains critical for transition from foster care. Required for AB 12/NMD transition planning. Generates a gap analysis for case plan goals and identifies where skills training is needed before a youth ages out.',
+    source:'Adapted from Casey Life Skills · NYTD · California ILP Framework',
+    type:'likert4',
+    scale:['Cannot do this','Can do with help','Can do sometimes','Can always do this'],
+    note:'Complete with the youth, not for them. Their honest self-assessment identifies where they want help. Score 0–3 per item.',
+    items:[
+      'I know how to open and manage a bank account',
+      'I can make and stick to a monthly budget',
+      'I know how to apply for CalFresh, Medi-Cal, and other benefits',
+      'I can read and understand a lease or rental agreement',
+      'I know what my rights are as a renter',
+      'I can do laundry, cook basic meals, and keep a living space clean',
+      'I have a valid ID, Social Security card, and birth certificate',
+      'I know how to access Medi-Cal and make medical appointments',
+      'I can fill out a job application and interview confidently',
+      'I know about ETV (Education and Training Voucher) and how to apply',
+      'I have at least one trusted adult I can call in a crisis',
+      'I can use public transit to get to school or work independently',
+      'I know about AB 12 extended foster care and my options',
+      'I feel ready to live on my own or with roommates',
+      'I know what to do if I am evicted or lose housing',
+    ],
+    scoring:[
+      {max:15, label:'High Support Needed', color:'#c0392b', action:'Prioritize ILP services immediately. Enroll in life skills program. Do not transition without extended support plan. Notify CSW.'},
+      {max:25, label:'Moderate Support Needed', color:'#e67e22', action:'Develop targeted skills training plan. Connect with ILP coordinator. Review AB 12 eligibility.'},
+      {max:35, label:'Developing Readiness', color:'#f39c12', action:'Focus training on gap areas. Connect with mentor or transitional housing program. Review ETV eligibility.'},
+      {max:45, label:'Strong Readiness', color:'#27ae60', action:'Affirm strengths. Plan for transition supports. Ensure documents and benefits are in place.'},
+    ],
+  },
+
+  {
+    id:'edu', name:'Education Screener', full:'Foster Youth Educational Needs Screener',
+    icon:'📚', color:'#7c5cbf', audience:'All ages · Caregiver-completed at placement',
+    desc:'Comprehensive one-page educational assessment. Covers enrollment status, school stability, IEP/504 status, academic functioning, McKinney-Vento eligibility, and tutoring needs. Generates an educational snapshot for court reports, school meetings, and CSW communications.',
+    source:'Adapted from McKinney-Vento Act · Ed. Code §48853.5 · LAUSD Foster Youth Services',
+    type:'yesno',
+    note:'Complete as soon as possible after placement. Many of these rights are time-sensitive. A "No" answer often means immediate action is needed.',
+    items:[
+      'The child is currently enrolled in school',
+      'The child is attending their school of origin (prior to placement)',
+      'Transportation to school of origin has been arranged or is not needed',
+      'School enrollment was completed without delay or barriers',
+      'The child has a current IEP (Individualized Education Program)',
+      'The child has a current 504 plan',
+      'The child is identified as an English Language Learner (ELL)',
+      'The child is performing at or near grade level',
+      'The child has access to tutoring or academic support',
+      'The CSW has been notified of the child\'s school placement',
+      'The McKinney-Vento liaison at the school has been contacted',
+      'The child has the school supplies they need',
+      'The child\'s school is aware of their foster youth status (for supports)',
+      'The child has participated in extracurricular activities in the past year',
+      'College or vocational planning has been discussed (ages 14+)',
+    ],
+    scoring:[
+      {max:0, label:'Critical — Multiple Educational Needs', color:'#c0392b', action:'Contact school immediately. Invoke McKinney-Vento rights. Notify CSW in writing. Request transportation authorization.'},
+      {max:6, label:'Significant Gaps Identified', color:'#e67e22', action:'Prioritize enrollment and IEP follow-up. Contact school McKinney-Vento liaison. Document in case notes.'},
+      {max:11, label:'Some Needs Present', color:'#f39c12', action:'Address remaining gaps. Schedule school meeting within 30 days. Ensure CSW is informed.'},
+      {max:15, label:'Educational Needs Addressed', color:'#27ae60', action:'Continue monitoring. Update at each placement change.'},
+    ],
+  },
+
+  {
+    id:'physical', name:'Physical Health Screener', full:'Foster Youth Physical Health Needs Assessment',
+    icon:'🏥', color:'#1abc9c', audience:'All ages · Caregiver-completed at placement',
+    desc:'Flags immediate physical health needs at placement entry. Many foster children arrive without current health records. This generates documentation to request Medi-Cal authorizations, specialist referrals, and emergency medical services.',
+    source:'DCFS Health and Education Passport · EPSDT / Medi-Cal · AAP Guidelines',
+    type:'yesno',
+    note:'"Yes" answers indicate need is met. "No" answers indicate action is required. Document specific findings in the Medical tab.',
+    items:[
+      'Child has had a physical exam within the past 12 months',
+      'Child has had a dental exam within the past 6 months',
+      'Child has had a vision screening within the past year',
+      'Child has had a hearing screening within the past year',
+      'Child\'s Medi-Cal is active and confirmed',
+      'Child\'s immunizations are current',
+      'Child\'s medications (if any) were provided at placement with instructions',
+      'Child has no known untreated injuries or medical concerns',
+      'Child\'s known allergies are documented',
+      'Child has access to a primary care doctor (assigned PCP)',
+      'Child has a dental provider',
+      'Child has a mental health therapist or psychiatrist (if needed)',
+      'Child\'s Health and Education Passport (HEP) has been received or requested',
+      'Child appears well-nourished and at appropriate weight',
+      'Child shows no signs of pain, illness, or physical distress at placement',
+    ],
+    scoring:[
+      {max:5, label:'Urgent Health Needs', color:'#c0392b', action:'Schedule medical appointment within 72 hours. Contact Medi-Cal for urgent authorization. Notify CSW immediately. Document all concerns.'},
+      {max:9, label:'Several Health Gaps', color:'#e67e22', action:'Schedule medical, dental, and vision appointments within 30 days. Request HEP from prior CSW.'},
+      {max:12, label:'Some Gaps Present', color:'#f39c12', action:'Address remaining gaps within 60 days. Document follow-up plan.'},
+      {max:15, label:'Health Needs Addressed', color:'#27ae60', action:'Continue regular monitoring. Update at each annual placement review.'},
+    ],
+  },
+
+  {
+    id:'sleep', name:'Sleep & Regulation', full:'Sleep and Emotional Regulation Screener',
+    icon:'🌙', color:'#2c3e50', audience:'Ages 4–21 · Caregiver-completed',
+    desc:'Sleep disruption is one of the most reliable indicators of untreated trauma in foster youth. This tool screens for sleep problems and emotional dysregulation patterns that support behavior service requests and therapy referrals.',
+    source:'Adapted from CSHQ · Sleep in Foster Care Research · Trauma-Informed Care Framework',
+    type:'yesno',
+    note:'Answer based on a typical week over the past month. One "Yes" may warrant attention; three or more "Yes" answers in any section suggests a need for clinical support.',
+    items:[
+      'Child has difficulty falling asleep at bedtime',
+      'Child wakes multiple times during the night',
+      'Child has frequent nightmares or night terrors',
+      'Child refuses to sleep alone or requires adult presence to fall asleep',
+      'Child sleeps significantly more or less than expected for their age',
+      'Child is very tired during the day despite adequate time in bed',
+      'Child has difficulty waking in the morning for school',
+      'Child becomes very dysregulated (meltdowns, aggression) when tired',
+      'Child shows extreme emotional reactions that seem disproportionate to the situation',
+      'Child has difficulty returning to calm after becoming upset (takes 30+ minutes)',
+      'Child has sensory sensitivities (textures, sounds, lights, touch) that affect daily life',
+      'Child engages in self-soothing behaviors (rocking, head-banging, hair-pulling)',
+      'Child has difficulty transitions between activities or locations',
+      'Child shows hypervigilance (always scanning the room, startles easily)',
+      'Child shows signs of emotional numbing or disconnection',
+    ],
+    scoring:[
+      {max:2, label:'Minimal Concerns', color:'#27ae60', action:'Monitor. Use co-regulation strategies. Maintain consistent bedtime routine.'},
+      {max:5, label:'Moderate Sleep/Regulation Concerns', color:'#f39c12', action:'Implement structured bedtime routine. Request behavior support services. Discuss with therapist.'},
+      {max:9, label:'Significant Concerns', color:'#e67e22', action:'Refer for sleep evaluation and mental health services. Document for SCI consideration. Notify CSW.'},
+      {max:15, label:'Severe Disruption', color:'#c0392b', action:'Urgent therapy referral. Document for court report and SCI assessment. Request 1:1 behavior support. Consider trauma-specific intervention (TF-CBT).'},
+    ],
+  },
+
+  {
+    id:'cultural', name:'Cultural Identity', full:'Cultural Identity & Connection Assessment',
+    icon:'🌍', color:'#e67e22', audience:'All ages · Caregiver-completed with youth input',
+    desc:'Documents cultural continuity obligations, ICWA compliance indicators, and the child\'s cultural connections. Supports court reporting on cultural practice maintenance and informs placement matching decisions.',
+    source:'ICWA 25 U.S.C. §1901 · WIC §16002 · DCFS Cultural Continuity Policy',
+    type:'yesno',
+    note:'Answer "Yes" only for items that are known or actively in place. Use the Screening notes tab to document specific details.',
+    items:[
+      'Child\'s tribal affiliation (if any) has been identified and documented',
+      'ICWA notice has been sent to applicable tribe(s)',
+      'ICWA compliance is documented in the case file',
+      'Child\'s primary language has been identified',
+      'An interpreter is available if the child\'s primary language is not English',
+      'Child\'s cultural and religious practices have been documented',
+      'Caregiver is making efforts to support cultural practices (food, holidays, traditions)',
+      'Child has contact with community members who share their cultural background',
+      'Child\'s cultural identity and heritage have been discussed openly',
+      'Child\'s country of origin is documented (if applicable)',
+      'Bio family cultural preferences have been documented',
+      'Cultural resources or community organizations have been identified for this child',
+    ],
+    scoring:[
+      {max:3, label:'Critical Gaps in Cultural Documentation', color:'#c0392b', action:'ICWA compliance may be at risk. Contact CSW immediately. Document tribal affiliation status in case file.'},
+      {max:6, label:'Significant Gaps', color:'#e67e22', action:'Prioritize ICWA documentation and cultural connection activities. Notify CSW of gaps.'},
+      {max:9, label:'Some Gaps Present', color:'#f39c12', action:'Identify cultural resources. Document plan for cultural continuity in monthly observation log.'},
+      {max:12, label:'Cultural Needs Being Met', color:'#27ae60', action:'Continue supporting cultural connections. Document in monthly reports.'},
+    ],
+  },
+
+  {
+    id:'transition', name:'Transition Readiness', full:'Transition Readiness Screener — Aging Out Assessment',
+    icon:'🎓', color:'#16a085', audience:'Ages 16–21 · Youth self-report with caregiver',
+    desc:'Assesses readiness for independent living across housing, employment, finances, social support, and benefit awareness. Generates a gap analysis for 90-day transition plans and AB 12 case goals. Should be completed annually from age 16.',
+    source:'Adapted from Casey Life Skills · NYTD · California ILP Standards · AB 12 Framework',
+    type:'yesno',
+    note:'This is for the youth to answer honestly — there are no wrong answers. Every "No" is just a place to focus next.',
+    items:[
+      'I have a valid photo ID (driver\'s license or state ID)',
+      'I have my birth certificate in my possession',
+      'I have my Social Security card in my possession',
+      'I know how to apply for CalFresh (food stamps)',
+      'I know how to maintain my Medi-Cal coverage after 18',
+      'I have a bank account (checking or savings)',
+      'I can create and stick to a monthly budget',
+      'I understand what a lease is and what I would be agreeing to',
+      'I have visited or am enrolled in college, vocational training, or have a job',
+      'I know what ETV (Education Training Voucher) is and if I qualify',
+      'I know what AB 12 is and whether I want to participate',
+      'I have at least 2 adults I trust who I could call in an emergency',
+      'I know how to cook at least 5 meals from scratch',
+      'I know how to do laundry and basic household tasks',
+      'I have a plan for where I will live after I leave foster care',
+    ],
+    scoring:[
+      {max:4, label:'High Risk of Instability at Transition', color:'#c0392b', action:'Immediate ILP enrollment. Prioritize document recovery. Connect with transitional housing. Extend foster care under AB 12. Notify CSW urgently.'},
+      {max:8, label:'Significant Gaps — Active Planning Needed', color:'#e67e22', action:'Enroll in life skills program. Secure all documents. Connect with ETV coordinator. Develop 90-day transition plan.'},
+      {max:11, label:'Moderate Readiness', color:'#f39c12', action:'Fill specific gaps with targeted coaching. Connect with mentor. Ensure AB 12 and ETV applications are in progress.'},
+      {max:15, label:'Strong Readiness', color:'#27ae60', action:'Affirm strengths. Finalize transition plan. Ensure documents, benefits, and housing are secured before exit.'},
+    ],
+  },
+
+  {
+    id:'dualdiag', name:'Dual Diagnosis', full:'Co-Occurring Mental Health & Substance Use Screener',
+    icon:'🔬', color:'#8e44ad', audience:'Ages 13–21 · Youth self-report · Confidential',
+    desc:'Screens simultaneously for mental health symptoms and substance use that may be functionally related. Co-occurring disorders are extremely common in foster youth — trauma drives both. Identifies youth who need dual-diagnosis services rather than treatment for one condition alone. This tool is not a diagnosis. Results should be shared with a clinician.',
+    source:'Adapted from GAIN-SS · CANS-MH · DAST-10 · SAMHSA Co-Occurring Disorders Framework',
+    type:'yesno',
+    note:'All answers are confidential between the youth and caregiver. There are no wrong answers. Being honest helps us get you the right help.',
+    items:[
+      '── MENTAL HEALTH ──',
+      'I often feel very sad, empty, or hopeless for days at a time',
+      'I have thoughts of hurting myself or not wanting to be alive',
+      'I feel very anxious, scared, or panicked — even when nothing seems wrong',
+      'I have flashbacks, nightmares, or strong memories of things that happened to me',
+      'I hear or see things that other people don\'t seem to hear or see',
+      'I have extreme mood swings — feeling very high or very low in short periods',
+      'I have trouble controlling my anger or have rage episodes that scare me or others',
+      'I sometimes feel like I\'m watching myself from outside my body, or that things around me don\'t feel real',
+      '── SUBSTANCE USE ──',
+      'I use alcohol, marijuana, pills, or other drugs regularly (more than a few times per month)',
+      'I use substances to cope with stress, trauma memories, or difficult emotions',
+      'I have tried to cut down or stop using and couldn\'t',
+      'My substance use has caused problems at school, home, or with the law',
+      'I have used substances alone, at night, or in ways I feel I need to hide',
+      'Someone has expressed concern about my substance use',
+      '── CONNECTION ──',
+      'I believe my substance use and my mental health symptoms are related',
+      'I have previously been in treatment for mental health or substance use',
+      'I have a trusted adult or professional I talk to about these things',
+    ],
+    scoring:[
+      {max:2, label:'Low Indicators', color:'#27ae60', action:'Continue monitoring. Maintain open, non-judgmental communication. Use HEEADSSS guide for ongoing check-ins.'},
+      {max:5, label:'Moderate Co-Occurring Indicators', color:'#f39c12', action:'Refer for dual-diagnosis evaluation. Do not treat mental health and substance use as separate issues. Discuss CRAFT family engagement model with therapist.'},
+      {max:9, label:'Significant Co-Occurring Concerns', color:'#e67e22', action:'Refer to dual-diagnosis capable outpatient program. Notify CSW. Document for LOC assessment. Request trauma-informed substance use evaluation.'},
+      {max:18, label:'High Risk — Dual Diagnosis Likely', color:'#c0392b', action:'Urgent dual-diagnosis evaluation required. Do not place in standalone mental health OR substance use program — must be integrated. Contact DCFS for wraparound services. Consider residential dual-diagnosis program if outpatient has failed.'},
+    ],
+  },
+
+  {
+    id:'csec', name:'CSEC Screener', full:'Commercial Sexual Exploitation of Children — Identification Tool',
+    icon:'🛡', color:'#c0392b', audience:'Ages 10–21 · Caregiver-observed · Highly sensitive',
+    desc:'Identifies indicators of commercial sexual exploitation (sex trafficking) in foster youth. CSEC is significantly overrepresented in foster care — California DCFS reports that up to 50–60% of CSEC-identified youth were in the foster care system at the time. Early identification is critical. This tool does not confirm exploitation — it identifies youth who need immediate trauma-specialized assessment and services.',
+    source:'California CSEC Action Alliance · DCFS CSEC Policy 0070-548.10 · DHHS ACF · WIC §300',
+    type:'observed',
+    note:'⚠ MANDATORY REPORTING: If you believe a child is being trafficked, you are a mandated reporter under Penal Code §11166. Contact DCFS immediately at 1-800-540-4000. Do NOT confront suspected traffickers or attempt to investigate independently. This tool is for caregiver observation only — do not administer questions directly to the child without CSEC-trained professional support.',
+    categories:[
+      {
+        name:'Behavioral Indicators',
+        color:'#c0392b',
+        items:[
+          'Unexplained or frequent absences from placement (running away)',
+          'Returning from runaway with new items — phone, cash, jewelry, clothing — they cannot explain',
+          'Reluctance or refusal to discuss whereabouts or activities',
+          'Presence of older "boyfriend" or adult "friend" who provides gifts, money, or housing',
+          'Sexualized language, dress, or behavior beyond what is age-appropriate',
+          'Signs of physical abuse — bruising, marks in non-accidental patterns',
+          'Evidence of branding or tattoos that may be possessive (names, phrases, symbols)',
+          'References to "the life," "the game," "my daddy," "track," or other trafficking-specific language',
+          'Multiple cell phones or SIM cards found in possession',
+          'Possession of unexplained cash, hotel key cards, or prepaid debit cards',
+        ]
+      },
+      {
+        name:'Health & Social Indicators',
+        color:'#e67e22',
+        items:[
+          'Positive STI test or request for repeated STI testing',
+          'Pregnancy or history of abortion, particularly without known partner',
+          'Signs of malnutrition, drug use, or significant sleep deprivation',
+          'Extreme distrust of law enforcement, DCFS workers, or authority figures',
+          'Fear of speaking in front of certain adults or appearing controlled',
+          'Reports of having a "job" with vague or inconsistent details',
+          'Changes in peer group — sudden association with older individuals, unknown adults',
+          'Evidence of social isolation from prior friends, family, or placement community',
+          'Involvement in online sex work or sharing of sexually explicit images',
+          'History of prior commercial sexual exploitation or trafficking',
+        ]
+      },
+      {
+        name:'Protective Factors Present',
+        color:'#27ae60',
+        items:[
+          'Youth has at least one trusted adult relationship',
+          'Youth is engaged in school or employment',
+          'Youth is aware of CSEC resources and willing to discuss concerns',
+          'Youth is currently connected to a therapist or mental health services',
+          'Caregiver has received CSEC training or awareness education',
+        ]
+      },
+    ],
+    scoring:[
+      {max:1, label:'Low Indicators — Monitor', color:'#27ae60', action:'Maintain open, non-judgmental communication. Educate youth about healthy relationships and exploitation. Review CSEC awareness resources. Monitor for additional indicators.'},
+      {max:4, label:'Moderate Indicators — Engage Supports', color:'#f39c12', action:'Contact CSW to discuss concerns. Request CSEC-trained therapist. Ensure youth has CSEC hotline number (1-888-539-SAFE). Document all observations. Do not confront suspected traffickers.'},
+      {max:9, label:'Significant Indicators — Urgent Response', color:'#e67e22', action:'Contact CSW and SCSW immediately. Report to DCFS CSEC Unit if available in your county. Request specialized placement assessment. Connect youth with CSEC survivor services. Ensure immediate safety.'},
+      {max:20, label:'High Risk — Mandated Report Required', color:'#c0392b', action:'File mandated reporter report NOW — call 1-800-540-4000. Contact local CSEC task force or law enforcement (non-confrontational). Do NOT send youth back to environment where exploitation occurred. Request emergency services through DCFS. Hotline: 1-888-373-7888 (National Human Trafficking Hotline).'},
+    ],
+    resources:[
+      {name:'National Human Trafficking Hotline', contact:'1-888-373-7888 · Text "HELP" to 233733'},
+      {name:'DCFS CSEC Hotline (LA County)', contact:'1-800-540-4000'},
+      {name:'CSEC Safe House Referral (CA)', contact:'1-888-539-SAFE (7233)'},
+      {name:'SFVCC — San Fernando Valley CSEC Coalition', contact:'sfvcc.org'},
+      {name:'MISSSEY — Oakland CSEC Program', contact:'misssey.org'},
+    ],
+  },
 ];
 
 let _activeTool = null;
@@ -5398,6 +5816,36 @@ function loadScreeningTool(id) {
     html += `<div id="cssrsResult" style="margin-top:20px"></div>`;
     html += `<div style="margin-top:16px"><button onclick="printScreeningTool('${id}')" style="background:var(--ink);color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🖨️ Print</button></div>`;
 
+  } else if (tool.type === 'observed') {
+    // CSEC and similar multi-category observed tools
+    if (tool.note) {
+      html += `<div style="background:#fdf3f2;border:1px solid rgba(192,57,43,.3);border-left:4px solid #c0392b;border-radius:6px;padding:12px 14px;margin-bottom:18px;font-size:12.5px;color:#5a0a0a;line-height:1.65"><strong>⚠ IMPORTANT:</strong> ${tool.note}</div>`;
+    }
+    let obsScore = 0;
+    let catIdx = 0;
+    html += tool.categories.map((cat, ci) => {
+      const catItems = cat.items.map((q, qi) => {
+        const isProtective = cat.name.includes('Protective');
+        const globalIdx = catIdx++;
+        return `<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border-bottom:1px solid var(--cream);background:white">
+          <span style="font-size:13px;color:var(--text);flex:1;line-height:1.5">${q}</span>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="obs_${globalIdx}" value="${isProtective?0:1}" onchange="scoreObserved('${id}')"> Yes</label>
+            <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="obs_${globalIdx}" value="${isProtective?1:0}" onchange="scoreObserved('${id}')"> No</label>
+          </div>
+        </div>`;
+      }).join('');
+      return `<div style="margin-bottom:14px;border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="background:${cat.color};padding:10px 14px"><div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:white">${cat.name}</div></div>
+        ${catItems}
+      </div>`;
+    }).join('');
+    html += `<div id="score_${id}" style="margin-top:20px"></div>`;
+    if (tool.resources) {
+      html += `<div style="background:#0c0a08;border-radius:8px;padding:14px 16px;margin-top:16px"><div style="font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:10px">Emergency Resources</div>${tool.resources.map(r=>`<div style="margin-bottom:7px"><div style="font-size:12px;font-weight:700;color:#C8923A">${r.name}</div><div style="font-size:11.5px;color:rgba(255,255,255,.7)">${r.contact}</div></div>`).join('')}</div>`;
+    }
+    html += `<div style="margin-top:14px;display:flex;gap:10px"><button onclick="scoreObserved('${id}')" style="background:${tool.color};color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Review Indicators</button><button onclick="printScreeningTool('${id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">🖨️ Print</button></div>`;
+
   } else if (tool.type === 'yesno') {
     if (tool.partA) {
       html += `<div style="background:var(--cream);border-radius:8px;padding:16px 18px;margin-bottom:20px"><div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">${tool.partA.label}</div>`;
@@ -5409,23 +5857,33 @@ function loadScreeningTool(id) {
       html += `<div style="font-size:11px;color:var(--muted);margin-top:10px;font-style:italic">${tool.partA.note}</div></div>`;
       html += `<div id="partBSection" style="display:none">`;
     }
-    html += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px">${tool.partA ? 'Part B:' : ''} Answer Yes or No:</div>`;
+    if (tool.note && !tool.partA) {
+      html += `<div style="background:var(--cream);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:16px;font-size:12.5px;color:var(--ink);line-height:1.6">${tool.note}</div>`;
+    }
+    html += `<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px">${tool.partA ? 'Part B:' : ''} Answer Yes or No for each item:</div>`;
     html += `<div style="display:flex;flex-direction:column;gap:8px">`;
-    html += tool.items.map((q, i) => `
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:7px;background:white">
+    // Render items — handle section headers (items starting with ──)
+    let displayIdx = 0;
+    html += tool.items.map((q, i) => {
+      if (q.startsWith('──')) {
+        return `<div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:12px 4px 4px;border-bottom:2px solid var(--cream);margin-top:4px">${q.replace(/──/g,'').trim()}</div>`;
+      }
+      const idx = displayIdx++;
+      return `<div style="display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1px solid var(--border);border-radius:7px;background:white">
         <span style="font-size:13px;color:var(--text);flex:1;line-height:1.5">${q}</span>
         <div style="display:flex;gap:8px;flex-shrink:0">
-          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${i}" value="1" onchange="scoreScreening('${id}')"> Yes</label>
-          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${i}" value="0" onchange="scoreScreening('${id}')"> No</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${idx}" value="1" onchange="scoreScreening('${id}')"> Yes</label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer"><input type="radio" name="${id}_${idx}" value="0" onchange="scoreScreening('${id}')"> No</label>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
     html += `</div>`;
     if (tool.partA) html += `</div>`;
     html += `<div id="score_${id}" style="margin-top:24px"></div>`;
     html += `<div style="margin-top:12px;display:flex;gap:10px"><button onclick="scoreScreening('${id}')" style="background:${tool.color};color:white;border:none;padding:10px 20px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Calculate Score</button><button onclick="printScreeningTool('${id}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:10px 16px;border-radius:5px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer">🖨️ Print</button></div>`;
 
   } else {
-    // likert or likert3
+    // likert, likert3, likert4 — table format
     const scale = tool.scale;
     html += `<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px">`;
     html += `<thead><tr><td style="padding:8px;font-weight:700;color:var(--ink);border-bottom:2px solid var(--ink);min-width:200px">Question</td>`;
@@ -5444,32 +5902,62 @@ function loadScreeningTool(id) {
   content.innerHTML = html;
 }
 
-function scoreScreening(id) {
+function scoreObserved(id) {
   const tool = SCREENING_TOOLS.find(t => t.id === id);
-  if (!tool) return;
+  if (!tool || !tool.categories) return;
   let score = 0;
-  const n = tool.items.length;
-  for (let i = 0; i < n; i++) {
-    const sel = document.querySelector(`input[name="${id}_${i}"]:checked`);
-    if (sel) score += parseInt(sel.value);
-  }
-  const answered = document.querySelectorAll(`input[name^="${id}_"]:checked`).length;
-  if (answered < n) return; // Not all answered
+  let totalScored = 0;
+  let catIdx = 0;
+  tool.categories.forEach((cat, ci) => {
+    const isProtective = cat.name.includes('Protective');
+    cat.items.forEach((q, qi) => {
+      const sel = document.querySelector(`input[name="obs_${catIdx}"]:checked`);
+      if (sel) {
+        score += parseInt(sel.value);
+        totalScored++;
+      }
+      catIdx++;
+    });
+  });
   const div = document.getElementById('score_' + id);
   if (!div) return;
   const level = tool.scoring?.find(s => score <= s.max) || tool.scoring?.[tool.scoring.length - 1];
   if (!level) return;
   div.innerHTML = `
-    <div style="background:${level.color}18;border:2px solid ${level.color};border-radius:10px;padding:20px 24px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-        <div style="font-size:32px;font-weight:900;color:${level.color};font-family:'Cormorant Garamond',serif">${score}</div>
-        <div><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${level.color}">${tool.name} Score</div><div style="font-size:16px;font-weight:700;color:var(--ink)">${level.label}</div></div>
-      </div>
-      <div style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:12px"><strong>Recommended Action:</strong> ${level.action}</div>
-      ${id==='phqa'&&score>=2?'<div style="font-size:12px;color:#c0392b;font-weight:600;padding:8px 12px;background:rgba(192,57,43,.08);border-radius:5px">⚠️ If item 9 (self-harm) was answered anything other than "Not at all," follow your agency\'s suicide risk protocol immediately.</div>':''}
-      <div style="font-size:11px;color:var(--muted);margin-top:10px;font-style:italic">This screening tool does not replace clinical judgment or diagnosis. All results should be reviewed with a qualified professional.</div>
+    <div style="background:${level.color}18;border:2px solid ${level.color};border-radius:10px;padding:16px 20px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:${level.color};margin-bottom:4px">Indicators Identified: ${score}</div>
+      <div style="font-size:18px;font-weight:800;color:${level.color};margin-bottom:8px">${level.label}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.65">${level.action}</div>
+      ${score >= 5 ? `<div style="margin-top:12px;padding:10px 14px;background:#0c0a08;border-radius:6px;font-size:12px;font-weight:700;color:#C8923A">⚠ MANDATED REPORTER REMINDER: If you believe this child is being actively exploited, you must report immediately. Call 1-800-540-4000 (DCFS) or 1-888-373-7888 (National Trafficking Hotline).</div>` : ''}
     </div>`;
-  div.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function scoreScreening(id) {
+  const tool = SCREENING_TOOLS.find(t => t.id === id);
+  if (!tool) return;
+  let score = 0;
+  // Count only scoreable items (exclude section headers)
+  const scoreableItems = (tool.items||[]).filter(q => !q.startsWith('──'));
+  const n = scoreableItems.length;
+  // Use display indices for radio names
+  let radioIdx = 0;
+  (tool.items||[]).forEach((q,i) => {
+    if (q.startsWith('──')) return;
+    const sel = document.querySelector(`input[name="${id}_${radioIdx}"]:checked`);
+    if (sel) score += parseInt(sel.value);
+    radioIdx++;
+  });
+  const answered = document.querySelectorAll(`input[name^="${id}_"]:checked`).length;
+  const div = document.getElementById('score_' + id);
+  if (!div) return;
+  const level = tool.scoring?.find(s => score <= s.max) || tool.scoring?.[tool.scoring.length - 1];
+  if (!level) return;
+  div.innerHTML = `
+    <div style="background:${level.color}18;border:2px solid ${level.color};border-radius:10px;padding:16px 20px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:${level.color};margin-bottom:4px">Score: ${score} / ${n} · ${answered} answered</div>
+      <div style="font-size:18px;font-weight:800;color:${level.color};margin-bottom:8px">${level.label}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.65">${level.action}</div>
+    </div>`;
 }
 
 function cssrsCheck() {
@@ -5519,7 +6007,7 @@ function updatePfKey(){
 
 // Wire all non-key fields to auto-save on change
 function wireFormAutoSave(){
-  const ids=['pf-age','pf-gender','pf-lang','pf-icwa','pf-date','pf-placetype','pf-prior','pf-sci','pf-biocontact','pf-school','pf-grade','pf-enrolled','pf-iep','pf-504','pf-medi','pf-doctor','pf-doctorph','pf-therapist','pf-therapistph','pf-meds','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-casa','pf-attorney','pf-case','pf-judge','pf-court','pf-nexthearing','pf-hearingtype','pf-clothing','pf-ebenefit','pf-notes'];
+  const ids=['pf-age','pf-gender','pf-lang','pf-icwa','pf-date','pf-enddate','pf-placetype','pf-prior','pf-sci','pf-biocontact','pf-school','pf-grade','pf-enrolled','pf-iep','pf-504','pf-medi','pf-doctor','pf-doctorph','pf-therapist','pf-therapistph','pf-meds','pf-csw','pf-cswph','pf-scsw','pf-scswph','pf-casa','pf-attorney','pf-case','pf-judge','pf-court','pf-nexthearing','pf-hearingtype','pf-clothing','pf-ebenefit','pf-notes'];
   ids.forEach(id=>{
     const el=document.getElementById(id);
     if(el) el.addEventListener('change',autoSavePlacement);
@@ -5701,6 +6189,7 @@ function exportPlacementPDF(placementId){
     <h2 class="section">Placement Details</h2>
     <div class="field-row">
       <div class="field"><div class="field-lbl">Placement Date</div><div class="field-val">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}):'—'}</div></div>
+      <div class="field"><div class="field-lbl">Placement End Date</div><div class="field-val" style="${p.endDate&&new Date(p.endDate)<new Date()?'color:#c0392b;font-weight:700':''}">${p.endDate?new Date(p.endDate).toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})+(new Date(p.endDate)<new Date()?' — Ended':''):'Active'}</div></div>
       <div class="field"><div class="field-lbl">Days in Care</div><div class="field-val">${days!==null?days+' days':'—'}</div></div>
       <div class="field"><div class="field-lbl">Type</div><div class="field-val">${STATUS_LABELS[p.placementType]||'—'}</div></div>
       <div class="field"><div class="field-lbl">SCI Level</div><div class="field-val">${p.sci?'Level '+p.sci:'None'}</div></div>
@@ -5767,12 +6256,13 @@ function renderHouseholdOverview(){
   const today=new Date();
   const overview=list.map(p=>{
     const days=daysInCare(p.date);
+    const isEnded = p.endDate && new Date(p.endDate) < new Date();
     const docPct=Math.round(((p.docs||[]).length/DOCS.length)*100);
     const alerts=getCaseAlerts(p);
     const redCount=alerts.filter(a=>a.level==='red').length;
     const yellowCount=alerts.filter(a=>a.level==='yellow').length;
     const hearingDays=p.nextHearing?Math.ceil((new Date(p.nextHearing)-today)/86400000):null;
-    let statusColor='#27ae60';let statusLabel='On Track';
+    let statusColor=isEnded?'#8a7e6e':'#27ae60';let statusLabel=isEnded?'Ended':'On Track';
     if(redCount>0){statusColor='#c0392b';statusLabel=redCount+' Urgent';}
     else if(yellowCount>0){statusColor='#f39c12';statusLabel=yellowCount+' Pending';}
     return `<div onclick="highlightPlacement('${p.id}')" style="background:white;border:1px solid var(--border);border-left:4px solid ${statusColor};border-radius:6px;padding:12px 14px;cursor:pointer;transition:all .15s" onmouseover="this.style.boxShadow='0 4px 14px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''">
@@ -5869,8 +6359,8 @@ function generateVillageMonthlyReport(){
       const d=new Date(i.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
     }).length;
 
-    return `<tr>
-      <td style="padding:8px 10px;border:1px solid #ddd;font-weight:600">${p.name}</td>
+    return `<tr${isEnded?' style="opacity:.6;background:#fafafa"':''}>
+      <td style="padding:8px 10px;border:1px solid #ddd;font-weight:600">${p.name}${isEnded?' <span style="font-size:9px;background:#f0f0f0;color:#888;padding:1px 5px;border-radius:3px">ENDED</span>':''}</td>
       <td style="padding:8px 10px;border:1px solid #ddd;text-align:center">${p.age||'—'}</td>
       <td style="padding:8px 10px;border:1px solid #ddd;text-align:center">${days!==null?days:'—'}</td>
       <td style="padding:8px 10px;border:1px solid #ddd;text-align:center">${p.sci?'Level '+p.sci:'—'}</td>
@@ -7989,6 +8479,7 @@ function renderCasePanel(containerId){
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">DOB</span><span class="cp-fv">${p.dob?new Date(p.dob).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—'}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">ID</span><span class="cp-fv" style="font-family:monospace;font-size:10px;color:var(--muted)">${p.id}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Placed</span><span class="cp-fv">${p.date?new Date(p.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+(days!==null?' ('+days+'d)':''):'—'}</span></div>
+        <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">End Date</span><span class="cp-fv">${p.endDate?`<span style="color:${new Date(p.endDate)<new Date()?'#c0392b':'var(--sage)'}">` + new Date(p.endDate).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + (new Date(p.endDate)<new Date()?' · Ended':'') + '</span>':'<span style="color:var(--muted);font-style:italic">Active</span>'}</span></div>
         <div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">Type</span><span class="cp-fv">${STATUS_LABELS[p.placementType]||'—'}</span></div>
         ${p.createdAt?`<div class="cp-field" style="padding:3px 0;border:none;grid-column:span 2"><span class="cp-fl">Record Created</span><span class="cp-fv" style="font-size:11px;color:var(--muted)">${new Date(p.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} at ${new Date(p.createdAt).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</span></div>`:''}
         ${p.sci?`<div class="cp-field" style="padding:3px 0;border:none"><span class="cp-fl">SCI</span><span class="cp-fv"><span style="background:rgba(200,146,58,.12);color:#9a6f1f;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700">Level ${p.sci}</span></span></div>`:''}
@@ -8745,24 +9236,71 @@ const SC_CATS = [
       d:'Any suicidal ideation or attempt requires immediate safety assessment. See full entry under Behavioral & Emotional.',
       q:[{q:'Has the child expressed any thoughts of suicide or self-harm with intent to die?',k:'ideation'},{q:'Has there been a recent attempt or plan?',k:'attempt'}],
     },
-    { k:'csec',            n:'CSEC / Sex Trafficking Risk',  tool:null,    locRec:'loc4',
-      d:'Commercial sexual exploitation: sexual activity involving a minor with exchange of value. Foster youth at significantly elevated risk. Requires mandatory reporting, specialized services, and urgent placement safety review.',
-      q:[{q:'Has the child gone missing for unexplained periods?',k:'missing'},{q:'Is the child in contact with significantly older peers or unknown adults?',k:'adults'},{q:'Does the child have unexplained money, gifts, or new items?',k:'gifts'},{q:'Has the child disclosed or shown signs of exploitation?',k:'disclosed'}],
+    { k:'csec',            n:'CSEC / Sex Trafficking Risk',  tool:'CSEC Screener', locRec:'loc4', score_guide:'4+ indicators = urgent — LOC 4+',
+      d:'Commercial sexual exploitation: sexual activity involving a minor with exchange of value. Foster youth at significantly elevated risk. Use the full CSEC Screener tool in the Screening tab. Requires mandatory reporting, specialized services, and urgent placement safety review.',
+      q:[{q:'Has the child gone missing for unexplained periods?',k:'missing'},{q:'Is the child in contact with significantly older peers or unknown adults?',k:'adults'},{q:'Does the child have unexplained money, gifts, phone, or hotel key cards?',k:'gifts'},{q:'Has the child disclosed, shown branding/tattoos, or referenced trafficking language?',k:'disclosed'},{q:'Does the child have positive STI test, unexplained pregnancy, or signs of physical abuse?',k:'health'}],
+    },
+    { k:'dualdiag',        n:'Dual Diagnosis — MH + Substance Use', tool:'Dual Diagnosis', locRec:'loc3', score_guide:'Score ≥6 = LOC 3+; ≥10 = residential dual-dx program',
+      d:'Co-occurring mental health and substance use disorders. Extremely common in foster youth — trauma drives both. Integrated dual-diagnosis treatment required; do not treat conditions separately. Use the Dual Diagnosis Screener tool in the Screening tab.',
+      q:[{q:'Does the child use substances regularly (more than a few times per month)?',k:'use'},{q:'Does the child use substances to cope with trauma, anxiety, or depression?',k:'coping'},{q:'Is there evidence of both active mental health symptoms AND substance use?',k:'co_occurring'},{q:'Has the child had prior treatment for either MH or substance use that was unsuccessful?',k:'treatment_hx'},{q:'Is the child willing to engage in dual-diagnosis treatment?',k:'engagement'}],
+    },
+  ]},
+  { g:'Needs & Functioning', items:[
+    { k:'aces',            n:'ACEs Score',                   tool:'ACEs',  locRec:'loc1', score_guide:'ACEs 0–3 = LOC 1; 4–6 = LOC 2; 7+ = LOC 3+',
+      d:'Adverse Childhood Experiences score measuring cumulative trauma burden. Directly informs SCI justification and treatment intensity. Higher ACE scores correlate with increased need for therapeutic placement support.',
+      q:[{q:'Has the ACEs questionnaire been completed for this child?',k:'completed'},{q:'Is the ACEs score 4 or higher?',k:'elevated'},{q:'Are trauma-informed services in place to address identified ACEs?',k:'services'}],
+    },
+    { k:'ils',             n:'Independent Living Skills',    tool:'ILS Assessment', locRec:'nmd', score_guide:'Score <20 = high support needed before transition',
+      d:'Assessment of readiness for independent living. Required for AB 12/NMD transition planning. Identifies skill gaps in money management, housing, employment, health self-care, and social support.',
+      q:[{q:'Is the youth 14 or older?',k:'age'},{q:'Has the ILS Assessment been completed?',k:'completed'},{q:'Is the youth enrolled in Independent Living Program (ILP) services?',k:'ilp'},{q:'Does the youth have all critical documents (ID, SS card, birth certificate)?',k:'documents'}],
+    },
+    { k:'edu_needs',       n:'Educational Needs',            tool:'Education Screener', locRec:'loc1', score_guide:'3+ gaps = LOC 2 (educational advocacy needed)',
+      d:'Screening for enrollment barriers, IEP/504 needs, school stability, and McKinney-Vento eligibility. All foster youth are entitled to immediate enrollment and school of origin transportation under CA Ed. Code §48853.5.',
+      q:[{q:'Is the child currently enrolled in school?',k:'enrolled'},{q:'Are there active IEP or 504 needs that require advocacy?',k:'iep'},{q:'Has McKinney-Vento eligibility been assessed?',k:'mckinney'},{q:'Is the child performing at grade level?',k:'academic'}],
+    },
+    { k:'physical_needs',  n:'Physical Health Needs',        tool:'Physical Health Screener', locRec:'loc1', score_guide:'3+ gaps = urgent medical coordination needed',
+      d:'Assessment of immediate physical health needs at placement entry — medical, dental, vision, and medication status. Many foster children arrive without current health records or active Medi-Cal.',
+      q:[{q:'Has the child had a physical exam in the past 12 months?',k:'physical'},{q:'Is Medi-Cal active and confirmed?',k:'medicaid'},{q:'Are medications provided with instructions?',k:'meds'},{q:'Are there untreated injuries or medical concerns?',k:'injuries'}],
+    },
+    { k:'sleep_reg',       n:'Sleep & Regulation',           tool:'Sleep & Regulation', locRec:'loc2', score_guide:'Score ≥6 = LOC 2 (supports needed); ≥10 = LOC 3',
+      d:'Screening for sleep disruption and emotional dysregulation — both are reliable indicators of untreated trauma. Results directly support behavior support service requests and SCI documentation.',
+      q:[{q:'Does the child have significant sleep difficulties (falling asleep, nightmares, night waking)?',k:'sleep'},{q:'Does the child take 30+ minutes to calm after becoming upset?',k:'dysreg'},{q:'Are sensory sensitivities or hypervigilance present?',k:'sensory'}],
+    },
+    { k:'transition_read', n:'Transition Readiness (16+)',   tool:'Transition Readiness', locRec:'nmd', score_guide:'Score <10 = high risk at transition; requires ILP',
+      d:'Assessment of readiness for independent living for youth approaching 18. Identifies gaps across housing, employment, finances, documents, and social support. Essential for AB 12 and 90-day transition planning.',
+      q:[{q:'Does the youth have all critical documents (ID, SS, birth certificate)?',k:'docs'},{q:'Does the youth have a plan for housing after care?',k:'housing'},{q:'Is the youth enrolled in school, training, or employment?',k:'employment'},{q:'Does the youth know how to access AB 12, ETV, CalFresh, and Medi-Cal?',k:'benefits'}],
+    },
+    { k:'cultural_con',    n:'Cultural Identity & ICWA',     tool:'Cultural Identity', locRec:'loc1', score_guide:'ICWA non-compliance = critical documentation gap',
+      d:'Assessment of cultural continuity, ICWA compliance, and connection to cultural identity. Required for all foster youth — ICWA documentation gaps can affect placement legality and court proceedings.',
+      q:[{q:'Has tribal affiliation been identified and documented?',k:'tribal'},{q:'Has ICWA notice been sent to applicable tribes?',k:'icwa_notice'},{q:'Is the caregiver actively supporting cultural practices?',k:'cultural_support'},{q:'Does the child have connections to their cultural community?',k:'community'}],
+    },
+    { k:'sdq_screen',      n:'SDQ — Behavioral Profile',     tool:'SDQ', locRec:'loc2', score_guide:'SDQ Total ≥17 = high; subscale ≥5 emotional or conduct = LOC 2+',
+      d:'Strengths and Difficulties Questionnaire — caregiver-completed behavioral screening across emotional symptoms, conduct, hyperactivity, peer problems, and prosocial behavior.',
+      q:[{q:'Is the SDQ Total Score in the High range (≥17)?',k:'total_high'},{q:'Is the Emotional Symptoms subscale elevated (≥5)?',k:'emotional'},{q:'Is the Conduct Problems subscale elevated (≥4)?',k:'conduct'},{q:'Is the Hyperactivity subscale elevated (≥6)?',k:'hyperactivity'}],
     },
   ]},
 ];
 
 // Map tool name to description and link
 const SC_TOOLS = {
-  'CANS':        {name:'Child and Adolescent Needs and Strengths (CANS)',  url:'https://praedfoundation.org/tools/the-child-and-adolescent-needs-and-strengths-cans/',  note:'Completed by trained clinician. Request from CSW or DCFS.'},
-  'CPSS-5':      {name:'Child PTSD Symptom Scale (CPSS-5)',               url:'https://www.ptsd.va.gov/professional/assessment/child/cpss.asp',                         note:'Self-report for ages 8–18. 24 items, ~10 min.'},
-  'SDQ':         {name:'Strengths and Difficulties Questionnaire (SDQ)',   url:'https://www.sdqinfo.org/py/sdqinfo/b3.py?language=Englishqv',                             note:'Caregiver version. 25 items, ~5 min. Free. Ages 2–17.'},
-  'ASQ':         {name:'Ask Suicide-Screening Questions (ASQ)',            url:'https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials',     note:'4 questions. Any YES = urgent referral immediately.'},
-  'PHQ-A':       {name:'PHQ-A — Adolescent Depression Screen',            url:'https://www.aacap.org/App_Themes/AACAP/docs/member_resources/toolbox_for_clinical_practice_and_outcomes/symptoms/GLAD-PC_PHQ-9.pdf', note:'Youth self-report. Ages 12+. 9 items, ~5 min.'},
-  'SCARED':      {name:'Screen for Child Anxiety Related Disorders (SCARED)', url:'https://www.pediatricbipolar.pitt.edu/resources/instruments',                         note:'Caregiver and youth versions. 41 items. Ages 8–18.'},
-  'Vanderbilt':  {name:'Vanderbilt ADHD Diagnostic Rating Scale',         url:'https://www.nichq.org/resource/vanderbilt-assessment-scales',                             note:'Caregiver + teacher versions. Free. Ages 6–12.'},
-  'ASQ-3':       {name:'Ages & Stages Questionnaire (ASQ-3)',             url:'https://agesandstages.com/free-asq-resources/',                                           note:'Caregiver-completed. Ages 1 month–5.5 years.'},
-  'M-CHAT-R':    {name:'Modified Checklist for Autism (M-CHAT-R)',        url:'https://mchatscreen.com/',                                                                 note:'20 yes/no questions. Ages 16–30 months. Free online scoring.'},
+  'CANS':               {name:'Child and Adolescent Needs and Strengths (CANS)',  url:'https://praedfoundation.org/tools/the-child-and-adolescent-needs-and-strengths-cans/',  note:'Completed by trained clinician. Request from CSW or DCFS.'},
+  'CPSS-5':             {name:'Child PTSD Symptom Scale (CPSS-5)',               url:'https://www.ptsd.va.gov/professional/assessment/child/cpss.asp',                         note:'Self-report for ages 8–18. 24 items, ~10 min.'},
+  'SDQ':                {name:'Strengths and Difficulties Questionnaire (SDQ)',   url:'https://www.sdqinfo.org/py/sdqinfo/b3.py?language=Englishqv',                             note:'Caregiver version. 25 items, ~5 min. Free. Ages 2–17.'},
+  'ASQ':                {name:'Ask Suicide-Screening Questions (ASQ)',            url:'https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials',     note:'4 questions. Any YES = urgent referral immediately.'},
+  'PHQ-A':              {name:'PHQ-A — Adolescent Depression Screen',            url:'https://www.aacap.org/App_Themes/AACAP/docs/member_resources/toolbox_for_clinical_practice_and_outcomes/symptoms/GLAD-PC_PHQ-9.pdf', note:'Youth self-report. Ages 12+. 9 items, ~5 min.'},
+  'SCARED':             {name:'Screen for Child Anxiety Related Disorders (SCARED)', url:'https://www.pediatricbipolar.pitt.edu/resources/instruments',                         note:'Caregiver and youth versions. 41 items. Ages 8–18.'},
+  'Vanderbilt':         {name:'Vanderbilt ADHD Diagnostic Rating Scale',         url:'https://www.nichq.org/resource/vanderbilt-assessment-scales',                             note:'Caregiver + teacher versions. Free. Ages 6–12.'},
+  'ASQ-3':              {name:'Ages & Stages Questionnaire (ASQ-3)',             url:'https://agesandstages.com/free-asq-resources/',                                           note:'Caregiver-completed. Ages 1 month–5.5 years.'},
+  'M-CHAT-R':           {name:'Modified Checklist for Autism (M-CHAT-R)',        url:'https://mchatscreen.com/',                                                                 note:'20 yes/no questions. Ages 16–30 months. Free online scoring.'},
+  'ACEs':               {name:'ACEs Questionnaire — Built into AuntNancy.org',   url:'',  note:'Open the Screening tab → ACEs to complete and score.', internal:'aces'},
+  'ILS Assessment':     {name:'ILS Assessment — Built into AuntNancy.org',       url:'',  note:'Open the Screening tab → ILS Assessment (ages 14+).', internal:'ils'},
+  'Education Screener': {name:'Education Screener — Built into AuntNancy.org',   url:'',  note:'Open the Screening tab → Education Screener at placement.', internal:'edu'},
+  'Physical Health Screener':{name:'Physical Health Screener — Built into AuntNancy.org', url:'', note:'Open the Screening tab → Physical Health Screener.', internal:'physical'},
+  'Sleep & Regulation': {name:'Sleep & Regulation Screener — Built into AuntNancy.org', url:'', note:'Open the Screening tab → Sleep & Regulation Screener.', internal:'sleep'},
+  'Cultural Identity':  {name:'Cultural Identity Assessment — Built into AuntNancy.org', url:'', note:'Open the Screening tab → Cultural Identity & Connection.', internal:'cultural'},
+  'Transition Readiness':{name:'Transition Readiness Screener — Built into AuntNancy.org', url:'', note:'Open the Screening tab → Transition Readiness (ages 16+).', internal:'transition'},
+  'Dual Diagnosis':     {name:'Dual Diagnosis Screener — Built into AuntNancy.org', url:'', note:'Open the Screening tab → Dual Diagnosis co-occurring screener.', internal:'dualdiag'},
+  'CSEC Screener':      {name:'CSEC Identification Tool — Built into AuntNancy.org', url:'', note:'Open the Screening tab → CSEC Screener. ⚠ Mandatory reporting may apply.', internal:'csec'},
 };
 
 const LOC_LVLS = [
@@ -8806,9 +9344,15 @@ function scOpenTool(pid,cid){
   const sel=document.getElementById(cid+'-sc-pick');
   const it=scGetItem(sel?.value); if(!it||!it.tool) return;
   const tool=SC_TOOLS[it.tool]; if(!tool) return;
-  // Open questionnaire URL in new tab
-  window.open(tool.url,'_blank');
-  // Show score entry modal
+  // Internal tool — open the screening modal and load the correct tool
+  if(tool.internal){
+    openScreeningTools();
+    setTimeout(()=>loadScreeningTool(tool.internal),200);
+    scShowScoreModal(pid,cid,it,tool);
+    return;
+  }
+  // External tool — open URL in new tab
+  if(tool.url) window.open(tool.url,'_blank');
   scShowScoreModal(pid,cid,it,tool);
 }
 
@@ -9051,6 +9595,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       <div style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)">Placement Details</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
         <div class="af"><label>Placement Date</label><input type="date" id="pf-date"></div>
+        <div class="af"><label>Placement End Date <span style="font-size:10px;color:var(--muted);font-weight:400">(if applicable)</span></label><input type="date" id="pf-enddate"></div>
         <div class="af"><label>Placement Type</label><select id="pf-placetype"><option value="">Select…</option><option value="foster">Foster Family Home</option><option value="kinship">Kinship / Relative</option><option value="nrefm">NREFM</option><option value="group">Group Home / STRTP</option><option value="thp">THP-Plus</option><option value="rfa">RFA Home</option></select></div>
         <div class="af"><label>Prior Placements (count)</label><input type="number" id="pf-prior" placeholder="Number of prior placements" min="0"></div>
         <div class="af"><label>SCI Level</label><select id="pf-sci"><option value="">None</option><option value="1">Level 1</option><option value="2">Level 2</option><option value="3">Level 3</option></select></div>
